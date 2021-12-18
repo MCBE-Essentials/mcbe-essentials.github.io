@@ -1,0 +1,61 @@
+THE FOLLOWING MUST BE FINISHED BEFORE THE PROGRAM IS CONSIDRED OUT OF BETA
+==========================================================================
+ X Auto-select the first trade item
+ X Fix drag-n-drop issue
+ X Icons will show empty shield texture when they don't have a texture for the identifier you typed in
+ X Remove disclaimer
+ X Creating a new item will autoselect the last one on the list
+ X Duplicate trade item
+ X Block / item picker
+ X Autoselect replacement / last item after delete
+ X Add "new item here" button to toolbar
+ X Tooltips for trade items (title attribute)
+ X Sync the "filename" textbox with the imported project's actual file name
+ X Max Uses, Price Multiplyer
+ % Save progress to Localstorage every minute
+   - Save indicator
+   - Save progress every minute
+   - Load autosave when page load
+   - "New" project button that doesn't just reload page
+   X "Changed may not be saved" popup before leaving
+ % Special Item editor (enchantments, item lore, item name & item damage)
+   - Edit item damage
+   - Edit item data values
+   - Doesn't wipe imported functions
+ X Dictionary "datalist": A text-based autofill for items
+ X Support for custom suffixes (The program must be able to correctly interpret "minecraft:dye:3" as an accepted item)
+   X BUG: Program will save the identifier without the suffixes instead of displaying it with the suffixes.
+   X If there is no prefix, use `minecraft:`? This could eliminate above issue.
+ - Item "empty" displays as an empty input with the "empty" placeholder in the editor (fixes the datalist problem);
+ X BUG: Duplicating an item won't transfer Max Uses or Saves XP.
+ X BUG: Grid won't autosearch properly for new created items; will keep the searchhistory of the last one.
+ X BUG: Saving to file / Exporting to file will export a ".txt" file if the user accpets the name prompt without typing anything in.
+ - BUG: Grid won't close after clicking off it (may require extensive testing and fixing)
+ X BUG: Leaving a quantity value empty and then editing something else will result in a display error on the tradeButton.
+ X BUG: Importing undefined items doesn't work properly
+ X BUG: Importing enchanted items won't show the glint automatically
+ X BUG: Enchantments (?)
+ - BUG: Hammer doesn't close attribute editor
+ - BUG: Importing doesn't wipe old data
+  
+THE FOLLOWING MUST BE COMPLETED FOR THE ICON UPDATE
+===================================================
+ - Add image icons for blocks / items with specific data values
+   - Wool
+   - Carpet
+   - Banner
+   - Planks
+   - Stained Glass
+   - Stained Glass Pane
+ - A background purple tint for enchanted items
+ - Durability bar for damaged items (toggleable)
+ - Full sprites for buttons, anvil, stairs, slabs, ect
+ - Fix skull sprite
+ - Fix scaffolding sprite
+ - Fix shield sprite
+
+THE FOLLOWING ARE RECOMMENDED TO HAVE DONE IN SPARE TIME, AFTER THE PROGRAM IS OUT OF BETA
+==========================================================================================
+ - Minecraft font hover text
+ - Downloadable .html file with base64 images, JS imported and CSS imported for use with this program offline (after texture update)
+ X Ability to read .JSON trade table files ("import")

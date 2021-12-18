@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382">
+    <title>Loopr</title>
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/loopr/style.css">
+    <style>
+    ul li{display: inline; outline: 2px dotted black; padding: 5px; background-color:lightgrey;}
+    li + li {margin-left: 2px;}
+    </style>
+    
+    <!-- import the webpage's javascript file -->
+    <script src="/loopr/old/script.js" defer></script>
+  </head>  
+  <body onload="init(location.href)">
+    <div id="looprEditor" style="display:none;">
+<h1>Loopr</h1>
+      
+<button onclick="saveProj()">Save</button> <input id="filename" placeholder="filename"> ||   <label><input type="button" value="Load" onclick="document.getElementById('input-file').click();"><input type="file" id="input-file" style="display:none;" accept=".lpr" oninput=""></label>
+      
+      
+    <p>Loopr is a simple app that will generate walls of text quickly and efficiently for you! Perfect for coders who want to write thousands of repetitive lines of text in seconds, not hours. <a href="javascript:void(0)" onclick="init('http://mcbe-essentials.glitch.me/loopr/?mode=1&list=SGVsbG8hClRoYW5rcwpGb3IKVXNpbmcKTG9vcHI=&command=TGluZTogPDxsaW5lPj4gfHwgSW5jIGJ5IDI6IDw8KGxpbmUrMSkqMj4+IHx8IFJlbWFpbmluZyBsb29wczogPDxsZW5ndGgtKGxpbmUrMSk+PiB8fCBSYW5kb206IDw8TWF0aC5mbG9vciggKCBNYXRoLnJhbmRvbSgpICogMTAwICkgKyAxICkgPj4gfHwgIFZhbHVlOiA8PHZhbHVlPj4=&encoded=true&edit-allowed=true'); runLoop();" style="color:blue;">Demo</a></p>
+    <h2>
+      Input
+    </h2>
+    <div id="options" class="Options" oninput="checkRadios()">
+      <label><input type="radio" name="type" value="a" checked id="mode1">Loop through a list</label><br>
+      <label><input type="radio" name="type" value="b" id="mode2">Loop <input type="number" id="repeatTimes" style="width: 64px;" placeholder="total"> times</label><br>
+      <label><input type="radio" name="type" disabled><i>Coming soon...</i></label><br>
+    </div>
+    <br>
+    <div id="loopList" style="hide">
+      <textarea placeholder="Paste your list here. Separate values by line breaks." cols="74" rows="7" id="inval"></textarea>
+    </div>
+    <div id="wantedOutputContainer">
+    <p>Write what you want your output to look like here. Remember, what you write here will show up in every loop! <b>This text box supports multi-line outputs.</b>
+          <details>
+    <summary>Advanced Notation</summary>
+      You can include math and variables in your code with <input type="text" disabled value="<<  >>" style="width: 38px;">. The following variables are available:<br>
+            <b>line</b> - A number that starts at 0 and increases with each cycle.<br>
+            <b>length</b> - The maximum amount of times that the code cycles (the length of the list, or, the amount defined in "Loop __ times").<br>
+            <b>value</b> - ("Loop through a list" only) The current item in your list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Use <input type="text" disabled value="parseInt(value,10)" style="width: 110px;"> in place of "value" if you want to subject the value to math.</i>
+    </details>
+      </p>
+
+      <textarea placeholder="<<line + 1>>" cols="74" rows="1" id="wantedOutput"></textarea>
+    </div>
+    <button onclick="runLoop()">
+      Loop
+    </button><button onclick="exportUrl ()">
+      Share
+    </button>
+    <div id="share" style="display: none;">
+      <b>Share: </b> The following link will automatically load in your settings: <input id="shareOutput" disabled /><br>
+      <label><input type="checkbox" id="editallowed" checked oninput="exportUrl()"/> Preview mode</label>
+    </div>
+    
+    <hr>
+    <h2>
+      Output
+    </h2>
+      </div>
+    <div id="viewOnly" style="display:none;"><br>
+      <hr>
+      <b>This loop is in preview mode.</b> Preview mode alows you to instantly display an output without the editor view.<br>If you were sent this link / file by someone else and want to see the instructions that went with it, <a style="color:blue" href="javascript:void(0)" onclick="document.getElementById('looprEditor').style.display='block';
+      document.getElementById('viewOnly').style.display='none';">click here</a>.<hr><br>
+    </div>
+    <textarea cols="74" rows="20" disabled placeholder="Your wall of text will show up here" id="output"></textarea><br>
+    <b>Quick tip:</b> Select one line in the output, and press <u>Ctrl + A</u>. It'll select the whole output for you. Then you can do <u>Ctrl + C</u> to copy it to your clipboard.
+  </body>
+</html>

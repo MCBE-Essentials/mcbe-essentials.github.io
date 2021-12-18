@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2e3148" />
+    <link
+      rel="icon"
+      href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+    />
+    
+    <title>Log to Graph [BETA] - MCBE Essentials</title>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- import the webpage's javascript file -->
+    <script src="/apps.js" defer></script>
+    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="chartconfig.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body style="">
+    <!--<div id="menu-button">
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+    </div>-->
+    <div id="head" class="header">
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <span class="imgicontext">MCBE Essentials</span>
+    </div>
+    <div id="body" class="main-content">
+      <div id="left" class="main-left">
+        <br>
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
+        <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">Minecraft Bedrock Essentials</h2>
+        <i style="margin-left:15px; margin-right: 15px; display: none;">A collection of tools for Minecraft Bedrock Edition coding!<br></i><br>
+        <button onclick="window.location.href='//discord.gg/Maeq5ZtpVk'">Discord</button><br>
+        <ul class="main-left-select" id="left-tools">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
+          <h1>Server Log to Graph</h1>
+          <table class="app-main" id="app-main">
+            <thead>
+              <tr>
+                <td>Data</td>
+                <td>Players</td>
+                <td>Player Stats</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <table class="app-inner" style="display:inline-block">
+                    <tr>
+                      <td class="app-inner-inner">
+                        <textarea class="ta2" rows="3" placeholder="Paste your server log here" id="input"></textarea>
+                        <div class="generate-button gb-blue">Upload log file</div>
+                        <div class="generate-button gb-blue">Upload whitelist.json</div>
+                        <div class="generate-button gb-blue">Upload permissions.json</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="app-inner-inner">Activity<br>
+                        <div style="text-align:left;">
+                          World Name: <b id="worldname">My World</b><br>
+                          Gamemode: <b id="gamemode">Survival</b><br>
+                          Difficulty: <b id="difficulty">Normal</b><br>
+                          Started at <input type="date" id="date" class="app-input" style="width:unset"><input type="time" id="time" class="app-input" style="width:unset"><br>
+                          Minecraft version <b id="mcversion">0.0.0.0</b><br>
+                          <br>
+                          <b id="connections">0</b> connections<br>
+                          <b id="uniqueusers">0</b> unique users connected<br>
+                          A high of <b id="connecttop">0</b> people were on together at once<br>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="generate-button" onclick="analyze()">Analyze</td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="app-inner" id="player-container"></td>
+                <td class="app-inner">
+                  <u id="playername">Name</u><br>
+                  <b id="playerxuid">XUID</b><br>
+                  <b id="playerconnections">0</b> connections<br><br>
+                  
+                  <br>
+                  <div>
+                    <canvas id="playerChart" style="background-color:white;"></canvas>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="app-inner" colspan="3">
+                   <div style="width:100%;margin-left:auto;margin-right:auto;">
+                      <canvas id="totalConnected" style="background-color:white;"></canvas>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table><br>
+      Note: This is for Bedrock Dedicated Server, which does not support timestamps for user connection activity in the server logs. This means we won't be able to tell how long a player was on for, only who they were on with.
+      <br><br>
+      </div>
+    </div>
+    <div class="menu-button2"
+         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
+         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+         onclick="toggleMenu(this)"
+         >
+      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
+    </div>
+  </body>
+</html>
