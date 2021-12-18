@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2e3148" />
+    <link
+      rel="icon"
+      href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+    />
+    
+    <title>MCBE Essentials</title>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- import the webpage's javascript file -->
+    <script src="/apps.js" defer></script>
+    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body style="" onload="init(location.href)">
+    <!--<div id="menu-button">
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+    </div>-->
+    <div id="head" class="header">
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <span class="imgicontext">MCBE Essentials</span>
+    </div>
+    <div id="body" class="main-content">
+      <div id="left" class="main-left">
+        <br>
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
+        <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">Minecraft Bedrock Essentials</h2>
+        <i style="margin-left:15px; margin-right: 15px; display: none;">A collection of tools for Minecraft Bedrock Edition coding!<br></i><br>
+        <button onclick="window.location.href='//discord.gg/Maeq5ZtpVk'">Discord</button><br>
+        <ul class="main-left-select" id="left-tools">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
+          <h1>Loopr</h1>
+          <table class="app-main" id="app-main">
+            <thead>
+              <tr>
+                <td>Loop</td>
+                <td class="edit-only">Options</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <table class="app-inner" style="display:inline-block">
+                    <tr>
+                      <td class="app-inner-inner edit-only">
+                        <div id="options" class="Options" oninput="checkRadios()">
+                          <label><input type="radio" name="type" value="a" checked id="mode1">Loop through a list</label><br>
+                          <label><input type="radio" name="type" value="b" id="mode2">Loop <input type="number" id="repeatTimes" style="width: 64px;" placeholder="total" class="app-input"> times</label><br>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr id="loopList" class="edit-only">
+                      <td class="app-inner-inner">
+                        <textarea class="ta2" rows="3" placeholder="Paste your list here" id="inval"></textarea>
+                      </td>
+                    </tr>
+                    <tr class="edit-only">
+                      <td class="app-inner-inner">
+                        <textarea class="ta2" rows="3" placeholder="Write what you want your output to look like here." id="wantedOutput"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="app-inner-inner">
+                      <textarea class="ta2" rows="10" placeholder="Your finished loop will appear here." id="output" disabled></textarea>
+                      </td>
+                    </tr>
+                    <tr class="edit-only">
+                      <td colspan="2">
+                                                <div class="generate-button" onclick="runLoop()" style="display:inline-block;width:calc(50% - 10px);border-radius:10px 0px 0px 10px;">Generate</div><div class="gb-blue generate-button" onclick="copyText()" style="display:inline-block;width:calc(50% - 10px);border-radius:0px 10px 10px 0px;">Copy Output</div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="app-inner edit-only">
+                  <div class="generate-button" onclick="saveProj()" style="display:inline-block;width:5vw;margin-top:5px;">Save</div><br>
+                  <label><!-- onclick="document.getElementById('input-file').click();" --><div class="generate-button" style="display:inline-block;width:5vw;margin-top:5px;">Load</div><input type="file" id="input-file" style="display:none;" accept=".lpr" oninput=""></label><br>
+                  <div class="gb-blue generate-button" onclick="exportUrl()" style="display:inline-block;width:5vw;margin-top:5px;">Share</div><br>
+                </td>
+              </tr>
+              <tr>
+                <td class="app-inner" colspan="2" style="display:none;" id="share">
+                  <u>Share</u><br>
+                  <label><input id="editallowed" type="checkbox" checked oninput="exportUrl()"> View-Only</label><br><br>
+                  
+                  Copy this URL to share it!<br>
+                  <textarea id="shareOutput" disabled class="ta2"></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table><br>
+      <!--text goes here-->
+      <div id="readonly"></div>
+      <details class="edit-only">
+    <summary>Advanced Notation</summary>
+      You can include math and variables in your code with <input type="text" disabled value="<<  >>" style="width: 38px;">. The following variables are available:<br>
+            <b>line</b> - A number that starts at 0 and increases with each cycle.<br>
+            <b>length</b> - The maximum amount of times that the code cycles (the length of the list, or, the amount defined in "Loop __ times").<br>
+            <b>value</b> - ("Loop through a list" only) The current item in your list<br>
+<i>Use <input type="text" disabled value="parseInt(value,10)" style="width: 110px;"> in place of "value" if you want to subject the value to math.</i>
+      </details>
+      <br><br>
+      </div>
+    </div>
+    <div class="menu-button2"
+         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
+         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+         onclick="toggleMenu(this)"
+         >
+      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1102 @@
+[
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "?",
+    "description": "An alias of /help. Provides help for commands.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "ability",
+    "description": "Grants or revokes a player ability.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "advancement",
+    "description": "Gives, removes, or checks player advancements.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "alwaysday",
+    "description": "An alias of /daylock. Locks and unlocks the day-night cycle.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "attribute",
+    "description": "Queries, adds, removes or sets an entity attribute.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "ban",
+    "description": "Adds player to banlist.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "ban-ip",
+    "description": "Adds IP address to banlist.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "banlist",
+    "description": "Displays banlist.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "bossbar",
+    "description": "Creates and modifies bossbars.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "camerashake",
+    "description": "Used to enable a camera shaking effect.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "changesetting",
+    "description": "Changes a setting on the dedicated server while it's running.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "clear",
+    "description": "Clears items from player inventory.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "clearspawnpoint",
+    "description": "Remove spawnpoints in the world.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "clone",
+    "description": "Copies blocks from one place to another.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "connect",
+    "description": "An alias of /wsserver. Attempts to connect to the websocket server.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "data",
+    "description": "Gets, merges, modifies and removes block entity and entity NBT data.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "datapack",
+    "description": "Controls loaded data packs.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "daylock",
+    "description": "An alias of /alwaysday. Locks and unlocks the day-night cycle.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "debug",
+    "description": "Starts or stops a debugging session.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "dedicatedwsserver",
+    "description": "Attempts to connect to the websocket server.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "defaultgamemode",
+    "description": "Sets the default game mode.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "deop",
+    "description": "Revokes operator status from a player.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "dialogue",
+    "description": "Opens NPC dialogue for a player.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "difficulty",
+    "description": "Sets the difficulty level.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "effect",
+    "description": "Add or remove status effects.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "enchant",
+    "description": "Adds an enchantment to a player's selected item.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "event",
+    "description": "Used to trigger an event on an entity.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "execute",
+    "description": "Executes another command.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "experience",
+    "description": "An alias of /xp. Adds or removes player experience.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "fill",
+    "description": "Fills a region with a specific block.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "fog",
+    "description": "Used for managing active fog settings for players.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "forceload",
+    "description": "Forces chunks to constantly be loaded or not.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "function",
+    "description": "Runs a function.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "gamemode",
+    "description": "Sets a player's game mode.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "gamerule",
+    "description": "Sets or queries a game rule value.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "gametest",
+    "description": "To test the GameTest features.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "give",
+    "description": "Gives an item to a player.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "help",
+    "description": "An alias of /?. Provides help for commands.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "immutableworld",
+    "description": "Allows setting immutable state of a world.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "item",
+    "description": "Manipulates items in inventories.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "jfr",
+    "description": "Starts or stops a JFR profiling.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "kick",
+    "description": "Kicks a player off a server.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "kill",
+    "description": "Kills entities (players, mobs, items, etc.).\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "list",
+    "description": "Lists players on the server.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "locate",
+    "description": "Locates closest structure.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "locatebiome",
+    "description": "Locates closest biome.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "loot",
+    "description": "Drops items from an inventory slot onto the ground.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "me",
+    "description": "Displays a message about the sender.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "mobevent",
+    "description": "Enables/disables a specified mob event.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "msg",
+    "description": "An alias of /tell and /w. Displays a private message to other players.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "music",
+    "description": "Allows the player to control playing music tracks.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "op",
+    "description": "Grants operator status to a player.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "ops",
+    "description": "An alias of /permission. Reloads and applies permissions.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "pardon",
+    "description": "Removes entries from the banlist.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "pardon-ip",
+    "description": "Removes entries from the banlist.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "particle",
+    "description": "Creates particles.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "perf",
+    "description": "Captures info and metrics about the game for 10 seconds.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "permission",
+    "description": "An alias of /ops. Reloads and applies permissions.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "playanimation",
+    "description": "Used to run a one-off animation.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "playsound",
+    "description": "Plays a sound.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "publish",
+    "description": "Opens single-player world to local network.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "recipe",
+    "description": "Gives or takes player recipes.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "reload",
+    "description": "Reloads loot tables, advancements, and functions from disk.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": false,
+    "name": "remove",
+    "description": "Removing agent.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "replaceitem",
+    "description": "Replaces items in inventories.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "ride",
+    "description": "Used to make entities ride other entities, stop entities from riding, make rides evict their riders, or summon rides or riders.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "save",
+    "description": "Prepares a backup, queries its status, or resumes.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "save-all",
+    "description": "Saves the server to disk.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "save-off",
+    "description": "Disables automatic server saves.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "save-on",
+    "description": "Enables automatic server saves.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "say",
+    "description": "Displays a message to multiple players.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "schedule",
+    "description": "Delays the execution of a function.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "scoreboard",
+    "description": "Manages scoreboard objectives and players.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "seed",
+    "description": "Displays the world seed.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "setblock",
+    "description": "Changes a block to another block.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "setidletimeout",
+    "description": "Sets the time before idle players are kicked.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "setmaxplayers",
+    "description": "Sets the maximum number of players allowed to join.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "setworldspawn",
+    "description": "Sets the world spawn.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "spawnpoint",
+    "description": "Sets the spawn point for a player.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "spectate",
+    "description": "Make one player in spectator mode spectate an entity.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "spreadplayers",
+    "description": "Teleports entities to random locations.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "stop",
+    "description": "Stops a server.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "stopsound",
+    "description": "Stops a sound.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "structure",
+    "description": "Used to save and load structures without having to use structure blocks items in inventories.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "summon",
+    "description": "Summons an entity.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "tag",
+    "description": "Controls entity tags.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "team",
+    "description": "Controls teams.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "teammsg",
+    "description": "An alias of /tm. Specifies the message to send to team.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "teleport",
+    "description": "An alias of /tp. Teleports entities.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "tell",
+    "description": "An alias of /msg and /w. Displays a private message to other players.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "tellraw",
+    "description": "Displays a JSON message to players.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "testfor",
+    "description": "Counts entities matching specified conditions.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "testforblock",
+    "description": "Tests whether a block is in a location.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "testforblocks",
+    "description": "Tests whether the blocks in two regions match.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "tickingarea",
+    "description": "Add, remove, or list ticking areas.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "time",
+    "description": "Changes or queries the world's game time.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "title",
+    "description": "Manages screen titles.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "titleraw",
+    "description": "Controls screen titles with JSON messages.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "tm",
+    "description": "An alias of /teammsg. Specifies the message to send to team.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "toggledownfall",
+    "description": "Toggles the weather.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "tp",
+    "description": "An alias of /teleport. Teleports entities.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "trigger",
+    "description": "Sets a trigger to be activated.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "w",
+    "description": "An alias of /tell and /msg. Displays a private message to other players.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "wb",
+    "description": "An alias of /worldbuilder. Ability to edit restricted blocks.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "weather",
+    "description": "Sets the weather.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "whitelist",
+    "description": "Manages server whitelist.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": false,
+    "java": true,
+    "name": "worldborder",
+    "description": "Manages the world border.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "worldbuilder",
+    "description": "An alias of /wb. Ability to edit restricted blocks.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": false,
+    "name": "wsserver",
+    "description": "An alias of /connect. Attempts to connect to the websocket server.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  },
+  {
+    "bedrock": true,
+    "java": true,
+    "name": "xp",
+    "description": "An alias of /experience‌[Java Edition only]. Adds or removes player experience.\n",
+    "conversionOptions": {
+      "toJava": "",
+      "toBedrock": ""
+    }
+  }
+]

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--<script>alert("Caves & Cliffs: Part 2 is here! Hooray!\nI haven't had time to update all the mobs yet. Post-1.17 mobs do NOT currently show up in the program by default. This will be fixed sometime later this month.\n~Rebb");</script>-->
+    <style>
+      body {
+        background-color: powderblue;
+        text-align: center;
+      }
+    </style>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382">
+    <title>Selector Generator</title>
+  </head>
+  <body onload="compileData();">
+    <h1>Selector Generator</h1>
+
+    <h2>Edit</h2>
+    
+    <details>
+    <summary>Presets</summary>
+      Coming soon!
+    </details>
+    <br>    
+    <details open
+      ><summary><i>Edit list of entity IDs to select</i></summary>
+      <br />Separate each identifier by a space. Each of the entity identifiers
+      in this list will be targeted by your selector.<br />
+      <textarea id="entitieskeep" rows="5" cols="100" oninput="compileData();">
+minecraft:agent minecraft:balloon minecraft:chalkboard minecraft:ice_bomb minecraft:npc minecraft:tripod_camera</textarea
+      > </details
+    ><br />
+    <details>
+      <summary><i>Edit list of entity IDs to ignore</i></summary>
+      <br />
+      Separate each identifier by a space. This is what the program recognizes
+      as "all entities in Minecraft" The default list was last updated in
+      version 1.17.0. If you want to add your custom entity into the list,
+      simply type out its identifier in the end and it will be immediately added
+      into the system.<br />
+      <textarea id="entities" rows="15" cols="100" oninput="compileData();">
+minecraft:agent minecraft:area_effect_cloud minecraft:armor_stand minecraft:arrow minecraft:axolotl minecraft:balloon minecraft:bat minecraft:bee minecraft:blaze minecraft:boat minecraft:cat minecraft:cave_spider minecraft:chalkboard minecraft:chest_minecart minecraft:chicken minecraft:cod minecraft:command_block_minecart minecraft:cow minecraft:creeper minecraft:dolphin minecraft:donkey minecraft:dragon_fireball minecraft:drowned minecraft:egg minecraft:elder_guardian minecraft:elder_guardian_ghost minecraft:ender_crystal minecraft:ender_dragon minecraft:ender_pearl minecraft:enderman minecraft:endermite minecraft:evocation_fang minecraft:evocation_illager minecraft:eye_of_ender_signal minecraft:falling_block minecraft:fireball minecraft:fireworks_rocket minecraft:fishing_hook minecraft:fox minecraft:ghast minecraft:glow_squid minecraft:goat minecraft:guardian minecraft:hoglin minecraft:hopper_minecart minecraft:horse minecraft:husk minecraft:ice_bomb minecraft:iron_golem minecraft:item minecraft:leash_knot minecraft:lightning_bolt minecraft:lingering_potion minecraft:llama minecraft:llama_spit minecraft:magma_cube minecraft:minecart minecraft:mooshroom minecraft:moving_block minecraft:mule minecraft:npc minecraft:ocelot minecraft:painting minecraft:panda minecraft:parrot minecraft:phantom minecraft:pig minecraft:piglin minecraft:piglin_brute minecraft:pillager minecraft:player minecraft:polar_bear minecraft:pufferfish minecraft:rabbit minecraft:ravager minecraft:salmon minecraft:sheep minecraft:shield minecraft:shulker minecraft:shulker_bullet minecraft:silverfish minecraft:skeleton minecraft:skeleton_horse minecraft:slime minecraft:small_fireball minecraft:snow_golem minecraft:snowball minecraft:spider minecraft:splash_potion minecraft:squid minecraft:stray minecraft:strider minecraft:thrown_trident minecraft:tnt minecraft:tnt_minecart minecraft:tripod_camera minecraft:tropicalfish minecraft:turtle minecraft:vex minecraft:villager minecraft:villager_v2 minecraft:vindicator minecraft:wandering_trader minecraft:witch minecraft:wither minecraft:wither_skeleton minecraft:wither_skull minecraft:wither_skull_dangerous minecraft:wolf minecraft:xp_bottle minecraft:xp_orb minecraft:zoglin minecraft:zombie minecraft:zombie_horse minecraft:zombie_pigman minecraft:zombie_villager minecraft:zombie_villager_v2</textarea>
+    </details>
+    <br />
+    <details>
+      <summary><i>Add additional arguments to your selector</i></summary>
+      &nbsp;&nbsp;&nbsp;<label onclick="compileData();"
+        ><input id="addarg" type="checkbox" /><b
+          >Use additional arguments?</b
+        ></label
+      ><br /><br />
+      You can add arguments to your identifier. Make sure to enable additional
+      arguments if you want this in your output selector!<br /><br />
+      <i>@e[type=!entity:list,</i
+      ><b contenteditable="true" id="addargdata" oninput="compileData();"
+        >hello=world</b
+      ><i>]</i>
+    </details>
+
+    <br />
+    <hr />
+    <h2>Your Selector</h2>
+    <textarea id="editor" rows="25" cols="100" disabled></textarea>
+  </body>
+</html>
+<script>
+  var celement = document.getElementById("entities");
+  var cignoreelement = document.getElementById("entitieskeep");
+  var cdata;
+  var cignoredata;
+  var i;
+  var len;
+  var iglen;
+  var index;
+
+  function compileData() {
+    cdata = celement.value.split(" ");
+
+    cignoredata = cignoreelement.value.split(" ");
+    iglen = cignoredata.length;
+
+    for (i = 0; i < iglen; i++) {
+      index = cdata.indexOf(cignoredata[i]);
+      if (index > -1) {
+        cdata.splice(index, 1);
+      }
+    }
+    len = cdata.length;
+    document.getElementById("editor").innerHTML = "";
+    document.getElementById("editor").innerHTML = "@e[";
+    for (i = 0; i < len; i++) {
+      if (i != 0) {
+        document.getElementById("editor").innerHTML += ",";
+      }
+      var val = "type=!" + cdata[i];
+      document.getElementById("editor").innerHTML += val;
+    }
+
+    if (document.getElementById("addarg").checked) {
+      document.getElementById("editor").innerHTML += ",";
+      document.getElementById("editor").innerHTML += document.getElementById(
+        "addargdata"
+      ).textContent;
+    }
+    document.getElementById("editor").innerHTML += "]";
+  }
+</script>

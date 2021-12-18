@@ -1,0 +1,16 @@
+@media only screen and (max-width: 800px) {
+  /*Square*/
+  .main-left {
+    display:none;
+    position:unset;
+    width:inherit;
+    z-index:unset;
+  }
+}
+
+@media only screen and (max-height: 680px) {
+  /*Phone Landscape*/
+  .main-left {
+    display: none;
+  }
+}
