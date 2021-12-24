@@ -1,3 +1,13 @@
+.minibutton { height:18px;image-rendering:pixelated;cursor:pointer; }
+
+.minibutton.black { filter: brightness(0); }
+
+.minibutton:hover {
+  filter: brightness(150%) drop-shadow(2px 4px 6px black);
+}
+
+.minibutton.black:hover { filter: brightness(0.8) drop-shadow(2px 4px 6px black); }
+
 .overlay {
   position:fixed;
   top:0;
@@ -35,8 +45,8 @@
 
 .trade {
   border-radius:5px;
-  color: #dad9dc;
-  background-color: #5f5e70;
+  background-color: #1a1a2c;
+  color: white;
   cursor:pointer;
   vertical-align:middle;
   font-size: 20pt;
@@ -45,11 +55,13 @@
   padding:3px 8px;
   margin-bottom:2px;
   width:185px;
+  /*width: 250px;*/
+  /*margin-left:14px;*/
 }
 
 .trade.selected {
-  background-color: #1a1a2c;
-  color: white;
+  color: #dad9dc;
+  background-color: #5f5e70;
 }
 
 .tradeitemcount {
@@ -64,12 +76,13 @@
 
 .trade:hover {
   padding:0px 5px;
-  border:3px solid #1a1a2c;
+  border:3px solid #5f5e70;
+  /*border:3px solid #1a1a2c;*/
 }
 
 .trade.selected:hover {
   padding:0px 5px;
-  border:3px solid #5f5e70;
+  /*border:3px solid #5f5e70;*/
 }
 
 .trade:hover .tradeitemcount {
@@ -87,6 +100,14 @@
   min-width: 2vw;
   overflow-y:scroll;
   height:40vh;
+}
+
+details {
+  width:215px;
+}
+
+details summary {
+  text-align:left;
 }
 
 .app-inner-inner {
