@@ -1,3 +1,7 @@
+if(window.location.href.includes("glitch.me")){
+  window.location.href = window.location.href.replace("glitch.me", "github.io");
+}
+
 if(location.protocol != "https:"){
 window.location.href= (window.location.href).replaceAll("http:", "https:")
 }
@@ -18,7 +22,6 @@ if(window.location.pathname == "/home" || window.location.pathname == "/"){
     loadApp(apps[i], 'list', list.children[i]);
   }
 }
-
 function loadApp(path, type, elem){
   //main;list
   var svg = '<svg viewBox="0 0 24 24" class="' + path.icon.class[type] + '">' + path.icon.data + "</svg>";

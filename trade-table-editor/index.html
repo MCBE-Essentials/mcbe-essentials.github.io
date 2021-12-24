@@ -14,12 +14,15 @@
 
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/item/style.css">
     <link rel="stylesheet" href="style.css">
 
     <!-- import the webpage's javascript file -->
     <script src="/apps.js" defer></script>
-    <script src="/script.js" defer></script>
+    <!--<script src="/script.js" defer></script>-->
     <script src="script.js" defer></script>
+    
+    <script src="/item/script.js"></script>
   </head>
   <body style="">
     <!--<div id="menu-button">
@@ -51,109 +54,79 @@
         </ul>
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>Trade Table Editor</h1>
-          <table class="app-main" id="app-main">
+          <table class="app-main" id="app-main" style="user-select:none;">
             <thead>
               <tr>
-                <td>Tiers</td>
+                <td colspan="2" class="app-inner-inner" style="letter-spacing: 2px; font-family: Helvetica;">
+                  <select class="app-input" style="height:25px;font-size:8pt;width:100px;line-height:20px">
+                      <option value="lol">Tier 0</option>
+                      <option value="lol">Tier 1</option>
+                  </select> 
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveItemUp();" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">            
+            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveItemDown();" class="minibutton">
+                  <img src="https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/pencil_edit_icon.png?v=1640287262683" onclick="editTier();" class="minibutton black">
+                  
+                </td>
+              </tr>
+              <tr>
                 <td>Trades</td>
                 <td>Trade Settings</td>
-                <td>Edit Item</td>
-                <td>Tools</td>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="app-inner">
-                  <input class="app-input-tiers" value="+" type="button">
-                </td>
                 <td class="app-inner" id="tradelist-container" style="padding:5px;">
                   <div id="tradelist">
-                    <div class="trade" onclick="selectTrade(this)">
-                    <img src="https://cdn.glitch.com/d28d8954-15cb-47a1-b9d3-c7e70ece9961%2Fboat_oak.png?v=1623602373764"><span class="tradeitemcount">1</span> + <img src="https://cdn.glitch.com/d28d8954-15cb-47a1-b9d3-c7e70ece9961%2Fboat_oak.png?v=1623602373764"><span class="tradeitemcount">1</span> = <img src="https://cdn.glitch.com/d28d8954-15cb-47a1-b9d3-c7e70ece9961%2Fboat_oak.png?v=1623602373764"><span class="tradeitemcount">2</span>
-                  </div>
+                    <!--<details><summary>Tier 0</summary>-->
+                      <div class="trade" onclick="selectTrade(this)">
+                        <mcitem identifier="minecraft:oak_boat" count="2" onclick="editItem(this)"></mcitem> 
+                          + 
+                        <mcitem identifier="minecraft:oak_boat" count="2"></mcitem>
+                          = 
+                        <mcitem identifier="minecraft:oak_boat" count="4"></mcitem>
+                      </div>
+                    <!--</details>
+                    <details><summary>Tier 1</summary>-->
+                      <div class="trade" onclick="selectTrade(this)">
+                        <mcitem identifier="minecraft:emerald" count="1"></mcitem> 
+                          + 
+                        <mcitem identifier="minecraft:emerald" count="1"></mcitem>
+                          = 
+                        <mcitem identifier="minecraft:emerald" count="2"></mcitem>
+                      </div>
+                    <!--</details>-->
                   </div>
                   
                 </td>
-                <td style="height:40vh;">
-                  <table class="app-inner" style="display:inline-block;height:100%;">
-                    
-                    <tr>
-                      <td class="app-inner-inner" colspan="3">
-                        Max Uses: <input type="number" class="app-input" placeholder="-1"><br>
-                        Trader XP: <input type="number" class="app-input" placeholder="0"><br>
-                        Tier: <input type="number" class="app-input" placeholder="0"><br>
-                        <label>Rewards XP: <input type="checkbox"></label><br>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <td class="app-inner">
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td colspan="2" style="position:relative;"><img class="itempreview" id="itempreview" src="https://cdn.glitch.com/d28d8954-15cb-47a1-b9d3-c7e70ece9961%2Fboat_oak.png" height="64" style="image-rendering:pixelated;"><span class="tradeitemcount itempreviewcount" id="itempreviewcount" style="font-size:16pt;">2</span></td>
-                      </tr>
-                      <tr>
-                        <td>
-                      Select Item:
-                      <div class="app-inner-inner" style="text-align:left;">
-                        <label>
-                          <input type="radio" name="selecteditem">
-                          <b>Wants 1</b>
-                        </label><br>
-
-                        <label>
-                          <input type="radio" name="selecteditem">
-                          <b>Wants 2</b>
-                        </label><br>
-
-                        <label>
-                          <input type="radio" name="selecteditem">
-                          <b>Gives</b>
-                        </label><br>
-                      </div>
-                  <input class="app-input" type="text" placeholder="minecraft:identifer" style="width:160px"><br>
-                  Count: <input type="number" class="app-input" placeholder="64"><br>
-                  Data: <input type="number" class="app-input" placeholder="0"><br>
-                  Price Mult: <input type="number" class="app-input" placeholder="0"><br>
-                        </td>
-                        <td>               
-                  <input class="app-input" type="text" placeholder="Custom Name" style="width:160px"><br>
-                  <textarea class="app-input" type="text" placeholder="Item Lore" style="width:160px;height:60px;"></textarea><br>
-                  <textarea class="app-input" type="text" placeholder="Enchantments
-ench:1
-ench:5" style="width:160px;height:60px;"></textarea><br>
-                  <textarea placeholder='{additional JSON properties}' style="width:160px;height:60px;"></textarea><br>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </td>
-                <td class="app-inner">
-                  Save<br>
-                  Load
+                <td style="height:40vh;" class="app-inner">
+                  Max Uses: <input type="number" class="app-input" placeholder="-1"><br>
+                  Trader XP: <input type="number" class="app-input" placeholder="0"><br>
+                  Tier: <input type="number" class="app-input" placeholder="0"><br>
+                  <label>Rewards XP: <input type="checkbox"></label><br><br>
+                                   <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">            
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" class="minibutton">
                 </td>
               </tr>
               <tr>
-                <td colspan="4">Tiers</td>
-              </tr>
-              <tr>
-                <td class="app-inner" colspan="4" style="margin-top: 10px; text-align:left;">
-                  <ol start="0">
-                    <li>Needs <input type="number" class="app-input" placeholder="0"> Trader XP to unlock. Randomly select <input type="number" class="app-input" placeholder="0"> trades when unlocked</li>
-                  </ol>
+                <td colspan="2">
+                  <div class="generate-button">Import</div><div class="generate-button">Export</div><div class="generate-button gb-blue">Custom Items</div>
                 </td>
               </tr>
             </tbody>
           </table><br>
-      Text
+      Thanks to <a href="https://thedestruc7i0n.ca/" style="background-color:rgba(255,255,255,0.3);padding:3px;border-radius:5px;color:#82f782;">TheDestruc7i0n</a> for the item data!
       <br><br>
       </div>
     </div>
     
-    <div class="overlay" id="overlay" style="cursor:pointer;display:none;" onclick="closeTierEditor()"></div>
-    <div class="tier-editor" id="tier-editor" style="display:none;">
+    <div class="overlay" id="overlay" style="cursor:pointer;display:none;" onclick="closeTierEditor(); closeItemEditor()"></div>
+    <div class="tier-editor" id="tier-editor" style="display:none;user-select:none;">
       <div style="position:relative;height:100%;text-align:left;">
           <div class="tier-editor-close-button" onclick="closeTierEditor(); closeItemEditor();">x</div>
           <h2 style="text-align:center;user-select:none;" class="lefttitle">Tier Editor</h2>
@@ -163,14 +136,33 @@ ench:5" style="width:160px;height:60px;"></textarea><br>
           Randomly select <input class="app-input" type="number"> trades when unlocked
       </div>
     </div>
-    <div class="tier-editor" id="item-editor" style="display:none;">
+    <div class="tier-editor" id="item-editor" style="display:none;user-select:none;">
       <div style="position:relative;height:100%;text-align:left;">
         <div class="tier-editor-close-button" onclick="closeItemEditor()">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Item Editor</h2>
         <table>
           <tbody>
             <tr>
-              <td style="position:relative;"><img class="itempreview" id="itempreview" src="https://cdn.glitch.com/d28d8954-15cb-47a1-b9d3-c7e70ece9961%2Fboat_oak.png" height="64" style="image-rendering:pixelated;"><span class="tradeitemcount itempreviewcount" id="itempreviewcount" style="font-size:16pt;">2</span></td>
+              <td style="position:relative;">
+                <mcitem identifier="minecraft:chest" count="2" style="width:64px;height:64px;font-size:18pt;"></mcitem>
+              </td>
+              <td style="width:25px;"></td>
+              <td>
+                 <input class="app-input" type="text" placeholder="minecraft:identifer" style="width:160px"><br>
+                  Count: <input type="number" class="app-input" placeholder="64"><br>
+                  Damage: <input type="number" class="app-input" placeholder="0"><br>
+                  Price Mult: <input type="number" class="app-input" placeholder="0"><br>
+              </td>
+              <td>
+                  <input class="app-input" type="text" placeholder="Custom Name" style="width:160px"><br>
+                  <textarea class="app-input" type="text" placeholder="Item Lore" style="width:160px;height:60px;"></textarea><br>
+              </td>
+              <td>
+                  <textarea class="app-input" type="text" placeholder="Enchantments" style="width:160px;height:60px;"></textarea>
+              </td>
+              <td>
+                  <textarea placeholder='{additional JSON properties}' style="width:160px;height:60px;"></textarea>
+              </td>
             </tr>
           </tbody>
         </table>

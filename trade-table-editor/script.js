@@ -1,6 +1,6 @@
 function selectTrade(el){
   var els = document.getElementsByClassName("trade");
-  var has = getSelectedTrade() == el;
+  var has = false//getSelectedTrade() == el;
   for(var i = 0; i < els.length; i++){
     els[i].setAttribute('class', els[i].getAttribute('class').replaceAll(' selected', ''));
   }
@@ -21,4 +21,16 @@ function closeTierEditor(ignoreUpdating){
 function closeItemEditor(ignoreUpdating){
   document.getElementById("overlay").style.display = "none";
   document.getElementById("item-editor").style.display = "none";
+}
+
+function editItem(element){
+  if(element.parentNode == getSelectedTrade()){
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("item-editor").style.display = "block"; 
+  }
+}
+
+function editTier(){
+  document.getElementById("overlay").style.display = "block";
+  document.getElementById("tier-editor").style.display = "block"; 
 }
