@@ -108,16 +108,65 @@
                     </tr>
                   </table>
                 </td>
-                <td class="app-inner">
-                  <select>
+                <td class="app-inner" style="">
+                  <select id="facingMode" oninput="facingMode(this)">
                     <optgroup label="Facing mode">
+                      <option value="0">Don't specify a facing position</option>
                       <option value="1">Focus on a specific point</option>
                       <option value="2">Focus in a consistant direction</option>
                       <option value="3">Rotate head by a consistant amount</option>
                       <option value="4">Start facing a point and rotate to another point gradually</option>
                     </optgroup>
                   </select><br>
-                  Settings coming soon!
+                  <div class="facing-settings" style="display:block;" id="facing-0">
+                    Your entity will<br>simply face the direction<br>they were facing when the<br>camera sequence started.
+                  </div>
+                  <div class="facing-settings" id="facing-1">
+                    X: <input class="app-input facing-step0" type="number" placeholder="0"><br>
+                    Y: <input class="app-input facing-step1" type="number" placeholder="0"><br>
+                    Z: <input class="app-input facing-step2" type="number" placeholder="0"><br>
+                    Your entity will always<br>be looking towards these<br>coordinates.
+                  </div>
+                  <div class="facing-settings" id="facing-2">
+                    X Rotation: <input class="app-input facing-step0" type="number" placeholder="0"><br>
+                    Y Rotation: <input class="app-input facing-step1" type="number" placeholder="0"><br><br>
+                    This is the entity's<br>head / facing rotation as<br>direction coordinates.
+                  </div>
+                  <div class="facing-settings" id="facing-3">
+                    X Rotation: <input class="app-input facing-step0" type="number" placeholder="0"><br>
+                    Y Rotation: <input class="app-input facing-step1" type="number" placeholder="0"><br><br>
+                    The entity's head / facing<br>rotation will change<br>this much every step.
+                  </div>
+                  <div class="facing-settings" id="facing-4">
+                    <table style="margin-left:auto;margin-right:auto;">
+                          <tbody>
+                            <tr>
+                              <td>
+                                Start X: <input class="app-input facing-step0" type="number" placeholder="0">
+                              </td> 
+                              <td>
+                                End X: <input class="app-input facing-step3" type="number" placeholder="0">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Start Y: <input class="app-input facing-step1" type="number" placeholder="0">
+                              </td> 
+                              <td>
+                                End Y: <input class="app-input facing-step4" type="number" placeholder="0">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Start Z: <input class="app-input facing-step2" type="number" placeholder="0">
+                              </td> 
+                              <td>
+                                End Z: <input class="app-input facing-step5" type="number" placeholder="0">
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
                 </td>
               </tr>
               <tr>
