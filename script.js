@@ -1,4 +1,4 @@
-if(window.location.href.includes("glitch.me")){
+if(window.location.href.includes("glitch.me") && window.localStorage.isDev != "true"){
   window.location.href = window.location.href.replace("glitch.me", "github.io");
 }
 
