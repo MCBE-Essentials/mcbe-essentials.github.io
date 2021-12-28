@@ -385,7 +385,7 @@
   * int x = reader.int();
   * int y = reader[3]();
   * int z = reader[nbt.tagTypes.int](); */
-  nbt.Reader = function(buffer) {
+  nbt.Reader = function(buffer, foffset) {
     if (!buffer) {
       throw new Error('Argument "buffer" is falsy');
     }
@@ -397,14 +397,18 @@
     * within the bounds of the buffer.
     *
     * @type number */
-    this.offset = 0;
+    if(foffset){
+      this.offset = foffset;
+    } else {
+      this.offset = 0;
+    }
 
     var arrayView = new Uint8Array(buffer);
     var dataView = new DataView(arrayView.buffer);
     function read(dataType, size) {
-      console.log(dataType);
+      /*console.log(dataType);
       console.log(size);
-      console.log(self.offset);
+      console.log(self.offset);*/
       var val = dataView['get' + dataType](self.offset, true);
       self.offset += size;
       return val;
@@ -605,16 +609,23 @@
   * // -> { name: 'My Level',
   * //      value: { foo: { type: int, value: 42 },
   * //               bar: { type: string, value: 'Hi!' }}} */
-  nbt.parseUncompressed = function(data) {
+  nbt.parseUncompressed = function(data, offset) {
     if (!data) {
       throw new Error('Argument "data" is falsy');
     }
+    if (!offset) {
+      offset = 0;
+    }
 
-    var reader = new nbt.Reader(data);
+    var reader = new nbt.Reader(data, offset);
 
     var type = reader.byte();
     if (type !== nbt.tagTypes.compound) {
-      throw new Error('Top tag should be a compound');
+      if(type == 8){
+        return nbt.parseUncompressed(data, 8);
+      } else {
+        throw new Error('Top tag should be a compound, is ' + type);
+      }
     }
 
     return {

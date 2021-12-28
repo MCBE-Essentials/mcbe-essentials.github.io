@@ -9,6 +9,16 @@ function selectTrade(el){
   el.setAttribute('class', el.getAttribute('class') + ' selected');
 }
 
+function snackbar(message, delay) {
+  var x = document.getElementById("snackbar");
+  x.innerHTML = message;
+  if(!delay){
+    var delay = 3000;
+  }
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, delay);
+}
+
 function getSelectedTrade(){
   return document.getElementsByClassName("selected")[0];
 }
