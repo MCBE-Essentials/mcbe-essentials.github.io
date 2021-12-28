@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2e3148" />
+    <link
+      rel="icon"
+      href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+    />
+    
+    <title>MCBE Essentials</title>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- import the webpage's javascript file -->
+    <script src="/apps.js" defer></script>
+    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body style="">
+    <!--<div id="menu-button">
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+    </div>-->
+    <div id="head" class="header">
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <span class="imgicontext">MCBE Essentials</span>
+    </div>
+    <div id="body" class="main-content">
+      <div id="left" class="main-left">
+        <br>
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
+        <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">Minecraft Bedrock Essentials</h2>
+        <i style="margin-left:15px; margin-right: 15px; display: none;">A collection of tools for Minecraft Bedrock Edition coding!<br></i><br>
+        <button onclick="window.location.href='//discord.gg/Maeq5ZtpVk'">Discord</button><br>
+        <ul class="main-left-select" id="left-tools">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
+          <h1>Camera Movement Generator</h1>
+          <table class="app-main" id="app-main">
+            <thead>
+              <tr>
+                <td>Shape</td>
+                <td>Head Facing</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <table class="app-inner" style="display:inline-block">
+                    <tr>
+                      <td class="app-inner-inner">
+                        <!--<textarea class="ta2" rows="3" placeholder="Param1" id="customentities" onblur="doIdentifiers()"></textarea>-->
+                        <table style="margin-left:auto;margin-right:auto;">
+                          <tbody>
+                            <tr>
+                              <td>
+                                Start X: <input class="app-input" type="number" placeholder="0" id="x">
+                              </td> 
+                              <td>
+                                End X: <input class="app-input" type="number" placeholder="0" id="x2">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Start Y: <input class="app-input" type="number" placeholder="0" id="y">
+                              </td> 
+                              <td>
+                                End Y: <input class="app-input" type="number" placeholder="0" id="y2">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Start Z: <input class="app-input" type="number" placeholder="0" id="z">
+                              </td> 
+                              <td>
+                                End Z: <input class="app-input" type="number" placeholder="0" id="z2">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="2">
+                                Steps: <input class="app-input" type="number" placeholder="0" id="steps">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="2">
+                                Name: <input class="app-input" type="text" placeholder="NAME" id="name">
+                              </td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="app-inner">
+                  <select>
+                    <optgroup label="Facing mode">
+                      <option value="1">Focus on a specific point</option>
+                      <option value="2">Focus in a consistant direction</option>
+                      <option value="3">Rotate head by a consistant amount</option>
+                      <option value="4">Start facing a point and rotate to another point gradually</option>
+                    </optgroup>
+                  </select><br>
+                  Settings coming soon!
+                </td>
+              </tr>
+              <tr>
+                <td class="app-inner" style="padding:0;" colspan="2">
+                  <textarea class="app-inner ta2" style="width:calc(100% - 25px);display: table-cell;background-color: #4b4a5c;padding: 4px;border-radius: 10px;height: 100%;" placeholder="execute @e[tag=NAME,scores={NAME=1}] ~ ~ ~ /tp @s 0 0 0" id="output" rows="11" disabled></textarea><br>
+                  Make sure you do<br>"/scoreboard objectives add NAME dummy"<br>beforehand!
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div class="generate-button" onclick="doOutput()" style="display:inline-block;width:calc(50% - 10px);border-radius:10px 0px 0px 10px;">Generate</div><div class="gb-blue generate-button" onclick="copyText()" style="display:inline-block;width:calc(50% - 10px);border-radius:0px 10px 10px 0px;">Copy Output</div>
+                </td>
+              </tr>
+            </tbody>
+          </table><br>
+      This program generates a straight line of coordinates in which a player or entity can teleport for a smooth view.<br>Put the output in a function and run it every tick. Add the value you put in NAME as a tag to whichever entity you want to go through the process, and apply them to the scoreboard.
+      <br><br><br>
+      </div>
+    </div>
+    <div class="menu-button2"
+         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
+         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+         onclick="toggleMenu(this)"
+         >
+      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
+    </div>
+  </body>
+</html>

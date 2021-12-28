@@ -19,6 +19,7 @@
     <!-- import the webpage's javascript file -->
     <script src="/apps.js" defer></script>
     <script src="/script.js" defer></script>
+    <script src="/nbt.js" defer></script>
     <script src="script.js" defer></script>
     <script src="chartconfig.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -68,24 +69,35 @@
                     <tr>
                       <td class="app-inner-inner">
                         <textarea class="ta2" rows="3" placeholder="Paste your server log here" id="input"></textarea>
-                        <div class="generate-button gb-blue">Upload log file</div>
-                        <div class="generate-button gb-blue">Upload whitelist.json</div>
-                        <div class="generate-button gb-blue">Upload permissions.json</div>
+                        <label style="display:block;" class="generate-button gb-blue" id="btn-log" for="file-log">Upload log file</label>
+                        <label style="display:block;" class="generate-button gb-blue" id="btn-level" for="file-level">Upload level.dat</label>
+                        <label style="display:block;" class="generate-button gb-blue" id="btn-whitelist" for="file-whitelist">Upload whitelist.json</label>
+                        <label style="display:block;" class="generate-button gb-blue" id="btn-permissions" for="file-permissions">Upload permissions.json</label>
+                        <input type="file" style="display:none;" id="file-log" accept=".txt">
+                        <input type="file" style="display:none;" id="file-level" accept=".dat">
+                        <input type="file" style="display:none;" id="file-whitelist" accept=".json">
+                        <input type="file" style="display:none;" id="file-permissions" accept=".json">
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="1" class="app-inner-inner">Activity<br>
+                      <td colspan="1" class="app-inner-inner">
                         <div style="text-align:left;">
                           World Name: <b id="worldname">My World</b><br>
                           Gamemode: <b id="gamemode">Survival</b><br>
                           Difficulty: <b id="difficulty">Normal</b><br>
-                          Started at <input type="date" id="date" class="app-input" style="width:unset"><input type="time" id="time" class="app-input" style="width:unset"><br>
                           Minecraft version <b id="mcversion">0.0.0.0</b><br>
-                          <br>
-                          <b id="connections">0</b> connections<br>
-                          <b id="uniqueusers">0</b> unique users connected<br>
-                          A high of <b id="connecttop">0</b> people were on together at once<br>
+                          World Seed: <b id="seed">(unknown)</b><br>
+                          World Spawn Coords: <b id="worldspawn">0, 0, 0</b>
                         </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="app-inner-inner" style="text-align:left;">
+                        Server started at <input type="date" id="date" class="app-input" style="width:unset"><input type="time" id="time" class="app-input" style="width:unset"><br>
+                        Last played at <input type="date" id="date2" class="app-input" style="width:unset"><input type="time" id="time2" class="app-input" style="width:unset"><br>
+                        <b id="connections">0</b> connections<br>
+                        <b id="uniqueusers">0</b> unique users connected<br>
+                        A high of <b id="connecttop">0</b> people were on together at once<br>
                       </td>
                     </tr>
                     <tr>
@@ -97,6 +109,8 @@
                 <td class="app-inner">
                   <u id="playername">Name</u><br>
                   <b id="playerxuid">XUID</b><br>
+                  Permissions: <b id="playerperm">Unknown</b><br>
+                  Whitelisted: <b id="playerwlst">Unknown</b><br>
                   <b id="playerconnections">0</b> connections<br><br>
                   
                   <br>

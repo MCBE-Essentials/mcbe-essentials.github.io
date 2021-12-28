@@ -18,6 +18,11 @@
   z-index:1002
 }
 
+#item-editor td {
+  display:inline-block;
+  text-align:left;
+}
+
 .tier-editor {
   position:fixed;
   right:50%;
@@ -32,6 +37,10 @@
   text-align:center;
   z-index:1003;
   font-family:Minecraftia;
+}
+
+#item-editor {
+  height: unset;
 }
 
 .tier-editor-close-button {
@@ -57,6 +66,17 @@
   width:185px;
   /*width: 250px;*/
   /*margin-left:14px;*/
+}
+
+.trade .tiereditor2 { display: none; }
+
+#tradelist.tierview .trade {
+  width: 250px;
+}
+
+#tradelist.tierview .trade .tiereditor2 {
+  display: unset;
+  margin: auto;
 }
 
 .trade.selected {
@@ -188,13 +208,33 @@ details summary {
 }
 
 .app-input {
-    width: 50px;
-    border: 3px solid #4a4a4e;
-    border-radius: 15px;
-    height: 20px;
-    text-indent: 4px;
-    font-family: 'Minecraftia';
-    background-color: #acacc1;
+  width: 50px;
+  border: 3px solid #4a4a4e;
+  border-radius: 15px;
+  height: 20px;
+  text-indent: 4px;
+  font-family: 'Minecraftia';
+  background-color: #acacc1;
+  resize:none;
+}
+
+textarea.app-input {
+  text-indent:unset;
+  padding: 2px 7px;
+}
+
+textarea::-webkit-scrollbar {
+    width: 5px;
+}
+
+textarea::-webkit-scrollbar-track {
+    -webkit-box-shadow: unset;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  border-radius: 5px;
 }
 
 .app-input-tiers {
@@ -258,6 +298,10 @@ input[type=text].app-input {
 }
 
 @media only screen and (max-width: 920px) {
+  /*#item-editor {
+    height: 75%;
+  }*/
+  
   .id-prefix {
     display:none;
   }
@@ -285,6 +329,7 @@ input[type=text].app-input {
 }
 
 @media only screen and (max-width: 670px) {
+  
   /*Phone portrait*/
   .hidesmall {
     /*display: none;*/
@@ -338,4 +383,50 @@ input[type=text].app-input {
   .id-prefix {
     display:unset;
   }
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1005; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.35s, fadeout 0.5s 2.5s;
+  animation: fadein 0.35s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }

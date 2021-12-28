@@ -106,16 +106,16 @@ var apps = [
     beta: true
   },
   {
-    name: "TBA",
+    name: "Camera Movement",
     icon: {
       class: {
         main: "hidesmall svgicon", 
         list: "svgiconlist"
       },
-      data: '<path fill="currentColor" d="M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z" />'
+      data: '<path fill="currentColor" d="M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z" />'
     },
-    link: "",    
+    link: "https://mcbe-essentials.github.io/camera-movement/",    
     tba: true,
-    beta: false
+    beta: true
   }
 ];

@@ -1,8 +1,102 @@
 var logdata = {};
 var playerdata = {};
+var filedata = {};
+
+document.getElementById("file-log").addEventListener("change", function(){
+  var file = this.files[0];
+  var reader = new FileReader();
+  reader.addEventListener("load",function() {
+    filedata.log = reader.result;
+    document.getElementById("btn-log").classList.toggle("gb-gray", true);
+  });
+  reader.readAsText(file);
+});
+
+document.getElementById("file-level").addEventListener('change', function() {
+  var file = this.files[0];
+  var reader = new FileReader();
+  reader.addEventListener("load",function() {
+    var data = reader.result;
+    nbt.parse(data, function(error, d) {
+      if (error) {
+        throw error;
+      }
+      filedata.dat = d;
+      document.getElementById("btn-level").classList.toggle("gb-gray", true);
+    });
+  });
+  
+  reader.readAsArrayBuffer(file);
+});
+
+document.getElementById("file-whitelist").addEventListener("change", function(){
+  var file = this.files[0];
+  var reader = new FileReader();
+  reader.addEventListener("load",function() {
+    try{filedata.whitelist = JSON.parse(reader.result);}catch(e){alert(e);}
+    document.getElementById("btn-whitelist").classList.toggle("gb-gray", true);
+  });
+  if(file.name == "whitelist.json"){
+    reader.readAsText(file);
+  } else {
+    alert("Oops! Make sure you upload a whitelist.json file.");
+  }
+});
+
+document.getElementById("file-permissions").addEventListener("change", function(){
+  var file = this.files[0];
+  var reader = new FileReader();
+  reader.addEventListener("load",function() {
+    try{filedata.permissions = JSON.parse(reader.result);}catch(e){alert(e);}
+    document.getElementById("btn-permissions").classList.toggle("gb-gray", true);
+  });
+  if(file.name == "permissions.json"){
+    reader.readAsText(file);
+  } else {
+    alert("Oops! Make sure you upload a permissions.json file.");
+  }
+});
 
 function analyze(){
-  var input = document.getElementById("input").value.split("\n");  
+  if(document.getElementById("input").value != ""){
+    analyzeLog(document.getElementById("input").value.split("\n"));
+  } else {
+    if(filedata.log){
+      analyzeLog(filedata.log.split("\n"));
+    } else {
+      //No log file
+      alert("We're missing a server log file. Please upload a TXT or paste your server log in the text box.");
+      return;
+    }
+  }
+  
+  if(filedata.dat){
+    //Make sure log world name matches filedata world name
+    if(filedata.dat.value.LevelName.value != logdata.levelName.replaceAll("\r", "")){
+      if(!confirm("Looks like your level.dat world and server log's world have a different name.\n\nLevel.dat name:" + filedata.dat.value.LevelName.value + "\nLog name:" + logdata.levelName.replaceAll("\r", "") + "\n\nAre you sure these are the same world?")){
+        return;
+      }
+    }
+    analyzeGamerules(filedata.dat);
+  }
+  
+  if(filedata.whitelist && filedata.whitelist.length > 0){
+    //Make sure whitelist is indeed a whitelist file
+    if(!Object.keys(filedata.whitelist[0]).includes("ignoresPlayerLimit")){
+      alert("Your uploaded whitelist.json file doesn't appear to be a whitelist file.");
+    }
+  }
+  
+  if(filedata.permissions && filedata.permissions.length > 0){
+    //Make sure permissions is indeed a permissions file
+    if(!Object.keys(filedata.permissions[0]).includes("permission")){
+      alert("Your uploaded permissions.json file doesn't appear to be a permission file.");
+    }
+  }
+}
+
+function analyzeLog(log){
+  var input = log;  
   //Reset data
   logdata = {
     date: "",
@@ -134,9 +228,36 @@ function analyze(){
   document.getElementById("connecttop").innerHTML = logdata.activerecord;
   
   var playercontainer = document.getElementById("player-container");
+  playercontainer.innerHTML = "";
   for(var i = 0; i < logdata.players.length; i++){
     var el = document.createElement("div");
-    el.innerHTML = "<a class='preset' onclick='loadPlayer(logdata.players["+ i +"])'>" + logdata.players[i].name + "</a>";
+    var name = logdata.players[i].name;
+    if(filedata.permissions){
+      var addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/permissions_member_star.png?v=1640636000793'>";
+      for(var a = 0; a < filedata.permissions.length; a++){
+        if(filedata.permissions[a].xuid == logdata.players[i].xuid){
+          if(filedata.permissions[a].permission == "operator"){
+            addon = "<img src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fop.png?v=1617471878244'>";
+          }
+        }
+      }
+      name += addon;
+    }
+    
+    if(filedata.whitelist){
+      var addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/friend_glyph_desaturated.png?v=1640636148423' height='10'>";
+      for(var a = 0; a < filedata.whitelist.length; a++){
+        if(filedata.whitelist[a].xuid == logdata.players[i].xuid){
+          addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/Friend2.png?v=1640636105523'>";
+          if(filedata.whitelist[a].ignoresPlayerLimit){
+            addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/FriendsIcon.png?v=1640636103384'>";
+          }
+        }
+      }
+      name += addon;
+    }
+    
+    el.innerHTML = "<a class='preset' onclick='loadPlayer(logdata.players["+ i +"])'>" + name + "</a>";
     playercontainer.appendChild(el);
   }
   
@@ -158,10 +279,46 @@ function analyze(){
   totalChart.update();
 }
 
+function analyzeGamerules(dat){
+  var lastPlayed = new Date(dat.value.LastPlayed.value[0] * 1000);
+  var worldSeed = dat.value.RandomSeed.value[0];
+  if(dat.value.Generator.value == 2){
+    worldSeed = "FLAT ("+ worldSeed +")";
+  }
+  var spawnCoords = [dat.value.SpawnX.value, dat.value.SpawnY.value, dat.value.SpawnZ.value].join(", ");
+  
+  //Output to program
+  document.getElementById("date2").value = lastPlayed.getFullYear()+"-"+(("0" + (lastPlayed.getMonth() + 1)).slice(-2))+"-"+(("0" + (lastPlayed.getDate() + 1)).slice(-2));
+  document.getElementById("time2").value = lastPlayed.toTimeString().split(" ")[0];
+  document.getElementById("seed").innerHTML = worldSeed;
+  document.getElementById("worldspawn").innerHTML = spawnCoords;
+}
+
 function loadPlayer(data){
   document.getElementById("playername").innerHTML = data.name;
   document.getElementById("playerxuid").innerHTML = data.xuid;
   document.getElementById("playerconnections").innerHTML = playerdata[data.name][data.name];
+  document.getElementById("playerperm").innerHTML = "Unknown/Default";
+  document.getElementById("playerwlst").innerHTML = "Unknown";
+  if(filedata.permissions){
+    for(var i = 0; i < filedata.permissions.length; i++){
+      if(filedata.permissions[i].xuid == data.xuid){
+        var string = filedata.permissions[i].permission;
+        document.getElementById("playerperm").innerHTML = string.charAt(0).toUpperCase() + string.slice(1);
+      }
+    }
+  }
+  
+  if(filedata.whitelist){
+    for(var i = 0; i < filedata.whitelist.length; i++){
+      if(filedata.whitelist[i].xuid == data.xuid){
+        document.getElementById("playerwlst").innerHTML = "Yes";
+        if(filedata.whitelist[i].ignoresPlayerLimit){
+          document.getElementById("playerwlst").innerHTML += "<br>(ignores player limit)<br>";
+        }
+      }
+    }
+  }
   
   //Chart
   

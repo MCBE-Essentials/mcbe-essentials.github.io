@@ -1,6 +1,5 @@
-MCBE Essentials
-=================
+# MCBE Essentials
 
 **MCBE Essentials** is a collection of Web Tools built for Minecraft Bedrock Edition.
 
-\ ゜o゜)ノ
+\ ゜ o ゜)ノ
