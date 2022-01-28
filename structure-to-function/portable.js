@@ -1,51 +1,6 @@
 var armor = ["slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet"];
 
-var inputfile = document.getElementById('file');
-
-//alert('js loaded4');
-var structure = {};
-inputfile.addEventListener('change', function(e) {
-  document.getElementById("upload").children[0].children[0].innerHTML = "Uploading...";
-  var file = e.target.files[0];
-  var reader = new FileReader();
-  reader.addEventListener("load",function() {
-    var data = reader.result
-    nbt.parse(data, function(error, data) {
-      if (error) {
-        throw error;
-      }
-      structure = data;
-      document.getElementById("upload").style.display="none";
-      document.getElementById("download").style.display="table-row";
-    });
-  });
-  
-  reader.readAsArrayBuffer(file);
-});
-
-//https://wiki.bedrock.dev/concepts/mcstructure.html
-/*
- *   //Root
- *   structure.value;
- *
- *   //Size (add [0] for X)
- *   structure.value.size.value
- *
- *   //Block identifiers (base layer)
- *   structure.value.structure.value.block_indices.value.value[0].value
- *   //Block identifiers (waterlog layer)
- *   structure.value.structure.value.block_indices.value.value[1].value
- *
- *   //Block palette for individual block types (replace [0] with [index])
- *   structure.value.structure.value.palette.value.default.value.block_palette.value[0]
- *   //Block palette for individual block types : identifier
- *   structure.value.structure.value.palette.value.default.value.block_palette.value[0].name.value
- *
- *   //Entities
- *   structure.value.structure.value.entities.value
- *
- */
-function getBlockCoords([distX, distY, distZ], index){
+function getFunctionBlockCoords([distX, distY, distZ], index){
   var x = 0; var y = 0; var z = 0;
   for(var i = 0; i < index; i++){
     z++;
@@ -63,7 +18,7 @@ function getRelativeCoords([x,y,z]){
   return "~"+x+"~"+y+"~"+z;
 }
 
-function getEntityCoords([worldX, worldY, worldZ], [x, y, z]){
+function getFunctionEntityCoords([worldX, worldY, worldZ], [x, y, z]){
   x -= worldX;
   y -= worldY;
   z -= worldZ;
@@ -73,21 +28,21 @@ function getEntityCoords([worldX, worldY, worldZ], [x, y, z]){
   return [x,y,z];
 }
 
-function convert(){
-  var output = ["#Generated with ReBrainer's Structure File to MCFunction Converter on https://mcbe-essentials.glitch.me/structure-to-function/ on " + new Date()];
+function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, tileContainerItems, includeEntities, entityRotation, entityEquiptment){
+  var output = ["#Generated with ReBrainer's Structure Editor at https://mcbe-essentials.glitch.me/structure-editor/ on " + new Date()];
   var size = structure.value.size.value.value;
   //Blocks (waterlog layer)
-  if(document.getElementById("waterlog").checked){
-    output.push("#Blocks (water layer)");
+  if(keepWaterlog){
+    output.push("#Blocks (blocklog layer)");
     var wblockIdentifiers = structure.value.structure.value.block_indices.value.value[1].value;
     for(var i = 0; i < wblockIdentifiers.length; i++){
       if(wblockIdentifiers[i] != -1){
-        var coords = getBlockCoords(size, i);
+        var coords = getFunctionBlockCoords(size, i);
         var id = structure.value.structure.value.palette.value.default.value.block_palette.value.value[wblockIdentifiers[i]].name.value;
         var states = parseStates(structure.value.structure.value.palette.value.default.value.block_palette.value.value[wblockIdentifiers[i]].states.value);
         if(whitelistStates(structure.value.structure.value.palette.value.default.value.block_palette.value.value[wblockIdentifiers[i]].states.value)){
-          if(document.getElementById("air").checked || (!document.getElementById("air").checked && id != "minecraft:air")){
-            output.push("setblock " + getRelativeCoords(coords) + " " + id + (document.getElementById("blockstates").checked ? states : ""));
+          if(placeAir || (!placeAir && id != "minecraft:air")){
+            output.push("setblock " + getRelativeCoords(coords) + " " + id + (keepStates ? states : ""));
           }
         }
       }
@@ -95,16 +50,18 @@ function convert(){
   }
   
   //Blocks (main layer)
-  if(document.getElementById("tiles").checked){
-    output.push("#Blocks (main layer)");
+  if(includeBlocks){
+    output.push("#Blocks (default layer)");
     var blockIdentifiers = structure.value.structure.value.block_indices.value.value[0].value;
     for(var i = 0; i < blockIdentifiers.length; i++){
-      var coords = getBlockCoords(size, i);
-      var id = structure.value.structure.value.palette.value.default.value.block_palette.value.value[blockIdentifiers[i]].name.value;
-      var states = parseStates(structure.value.structure.value.palette.value.default.value.block_palette.value.value[blockIdentifiers[i]].states.value);
-      if(whitelistStates(structure.value.structure.value.palette.value.default.value.block_palette.value.value[blockIdentifiers[i]].states.value)){
-        if(document.getElementById("air").checked || (!document.getElementById("air").checked && id != "minecraft:air")){
-          output.push("setblock " + getRelativeCoords(coords) + " " + id + (document.getElementById("blockstates").checked ? states : ""));
+      if(blockIdentifiers[i] != -1){
+        var coords = getFunctionBlockCoords(size, i);
+        var id = structure.value.structure.value.palette.value.default.value.block_palette.value.value[blockIdentifiers[i]].name.value;
+        var states = parseStates(structure.value.structure.value.palette.value.default.value.block_palette.value.value[blockIdentifiers[i]].states.value);
+        if(whitelistStates(structure.value.structure.value.palette.value.default.value.block_palette.value.value[blockIdentifiers[i]].states.value)){
+          if(placeAir || (!placeAir && id != "minecraft:air")){
+            output.push("setblock " + getRelativeCoords(coords) + " " + id + (keepStates ? states : ""));
+          }
         }
       }
     }
@@ -112,15 +69,15 @@ function convert(){
   
   //Entities
   var entities = structure.value.structure.value.entities.value.value;
-  if(structure.value.structure.value.entities.value.type != "end" && document.getElementById("entities").checked){
+  if(structure.value.structure.value.entities.value.type != "end" && includeEntities){
     output.push("#Entities");
     for(var i = 0; i < entities.length; i++){
       //Entities
-      var coords = getEntityCoords(structure.value.structure_world_origin.value.value, entities[i].Pos.value.value);
-      output.push("summon " + entities[i].identifier.value + " " + getRelativeCoords(getEntityCoords(structure.value.structure_world_origin.value.value, entities[i].Pos.value.value)) + " none " + (entities[i].CustomName ? entities[i].CustomName.value : ""));
+      var coords = getFunctionEntityCoords(structure.value.structure_world_origin.value.value, entities[i].Pos.value.value);
+      output.push("summon " + entities[i].identifier.value + " " + getRelativeCoords(getFunctionEntityCoords(structure.value.structure_world_origin.value.value, entities[i].Pos.value.value)) + " none " + (entities[i].CustomName ? entities[i].CustomName.value : ""));
       
       //Entity loot
-      if(document.getElementById("entityloot").checked){
+      if(entityEquiptment){
         if(entities[i].Armor){
           for(var a = 0; a < entities[i].Armor.value.value.length; a++){
             if(entities[i].Armor.value.value[a].Name.value != ""){
@@ -151,20 +108,20 @@ function convert(){
         }
       }
       
-      if(document.getElementById("entityrot").checked){
+      if(entityRotation){
         output.push("execute @e[type="+entities[i].identifier.value+",x=~"+coords[0]+",y=~"+coords[1]+",z=~"+coords[2]+",r=1,c=1] ~~~ /tp @s ~ ~ ~ " + entities[i].Rotation.value.value.join(" "));
       }
     }
   }
   
   //Tile Entities
-  if(document.getElementById("tilecontainerloot").checked){
+  if(tileContainerItems){
     output.push("#Tile Entities");
     var tileEntityData = structure.value.structure.value.palette.value.default.value.block_position_data.value;
     var tileentities = Object.keys(tileEntityData);
     for(var i = 0; i < tileentities.length; i++){
       var tile = tileEntityData[tileentities[i]].value.block_entity_data.value;
-      var tilecoords = getEntityCoords(structure.value.structure_world_origin.value.value, [tile.x.value, tile.y.value, tile.z.value]);
+      var tilecoords = getFunctionEntityCoords(structure.value.structure_world_origin.value.value, [tile.x.value, tile.y.value, tile.z.value]);
       if(tile.Items){
         var tileitems = tile.Items.value.value;
         for(var a = 0; a < tileitems.length; a++){
@@ -176,7 +133,7 @@ function convert(){
     }
   }
   
-  return output;
+  return output.join("\n");
 }
 
 function parseStates(data){
@@ -221,45 +178,3 @@ function whitelistStates(data){
   }
   return output;
 }
-
-function convertAndDownload(){
-  if(!document.getElementById("file").files[0]){
-    alert("Please upload a MCSTRUCTURE file first!");
-    return;
-  }
-  var input = convert();
-  input = input.join("\n");
-  var filename = document.getElementById("file").files[0].name.replaceAll(".mcstructure", ".mcfunction") || "structure.mcfunction";
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(input));
-  element.setAttribute('download', filename);
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-}
-
-for(var i = 0; i < document.getElementsByTagName("label").length; i++){
-  document.getElementsByTagName("label")[i].onmouseleave = function(){
-    document.getElementById("tooltip").innerHTML = "Hover over an option to see what it does!";
-  }
-}
-
-function tooltip(val){
-  document.getElementById("tooltip").innerHTML = val;
-}
-
-var t = {
-  air: "If this option is off, all air blocks will act like structure voids, otherwise, air blocks will be placed.",
-  waterlog: "Whether to keep the water in waterlogged blocks",
-  blockstates: "Keep attributes such as block facing direction, block color variant, whether doors are open, ect",
-  entities: "Scan entities and include them in the strucure. Only works with entities that can be spawned with /summon.",
-  entityrot: "Keep the direction that respawned entities are facing.",
-  entityloot: "Keep the armor, main hand, off hand, and chest item slots of respawned entities",
-  tiles: "Whether to place the blocks saved in the structure",
-  tilecontainerloot: "Keep items contained in chests, hoppers and other containers",
-  usefill: "Detects repeated block patterns and uses one /fill command instead of multiple /setblocks. Not developed yet."
-};

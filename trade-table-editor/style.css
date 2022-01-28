@@ -65,18 +65,17 @@
   margin-bottom:2px;
   width:185px;
   /*width: 250px;*/
-  /*margin-left:14px;*/
+  margin-left:14px;
 }
 
-.trade .tiereditor2 { display: none; }
+.trade .tiereditor2 { display: none; width: 70px; margin-bottom: 5px; }
 
-#tradelist.tierview .trade {
-  width: 250px;
+#tradelist.groupview .trade {
+  width: 185px;
 }
 
-#tradelist.tierview .trade .tiereditor2 {
+#tradelist.groupview .trade .tiereditor2 {
   display: unset;
-  margin: auto;
 }
 
 .trade.selected {

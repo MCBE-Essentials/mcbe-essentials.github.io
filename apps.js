@@ -93,19 +93,6 @@ var apps = [
     beta: false
   },
   {
-    name: "Structure to Function",
-    icon: {
-      class: {
-        main: "hidesmall svgicon", 
-        list: "svgiconlist"
-      },
-      data: ' <path fill="currentColor" d="M2,13H4V15H6V13H8V15H10V13H12V15H14V10L17,7V1H19L23,3L19,5V7L22,10V22H11V19A2,2 0 0,0 9,17A2,2 0 0,0 7,19V22H2V13M18,10C17.45,10 17,10.54 17,11.2V13H19V11.2C19,10.54 18.55,10 18,10Z" />'
-    },
-    link: "https://mcbe-essentials.github.io/structure-to-function/",    
-    tba: false,
-    beta: true
-  },
-  {
     name: "Camera Movement",
     icon: {
       class: {
@@ -117,5 +104,57 @@ var apps = [
     link: "https://mcbe-essentials.github.io/camera-movement/",    
     tba: false,
     beta: true
+  },
+  {
+    name: "Tellraw Generator",
+    icon: {
+      class: {
+        main: "hidesmall svgicon", 
+        list: "svgiconlist"
+      },
+      data: '<path fill="currentColor" d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9M10,16V19.08L13.08,16H20V4H4V16H10M6,7H18V9H6V7M6,11H15V13H6V11Z" />'
+    },
+    link: "https://mcbe-essentials.github.io/tellraw-generator/",    
+    tba: false,
+    beta: true
+  },
+  {
+    name: "Structure Editor",
+    icon: {
+      class: {
+        main: "hidesmall svgicon", 
+        list: "svgiconlist"
+      },
+      data: ' <path fill="currentColor" d="M2,13H4V15H6V13H8V15H10V13H12V15H14V10L17,7V1H19L23,3L19,5V7L22,10V22H11V19A2,2 0 0,0 9,17A2,2 0 0,0 7,19V22H2V13M18,10C17.45,10 17,10.54 17,11.2V13H19V11.2C19,10.54 18.55,10 18,10Z" />'
+    },
+    link: "https://mcbe-essentials.github.io/structure-editor/",    
+    tba: false,
+    beta: true
+  },
+  {
+    name: "TBA",
+    icon: {
+      class: {
+        main: "hidesmall svgicon", 
+        list: "svgiconlist"
+      },
+      data: '<path fill="currentColor" d="M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z" />'
+    },
+    link: "",    
+    tba: true,
+    beta: false
+  },
+  {
+    name: "TBA",
+    icon: {
+      class: {
+        main: "hidesmall svgicon", 
+        list: "svgiconlist"
+      },
+      data: '<path fill="currentColor" d="M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z" />'
+    },
+    link: "",    
+    tba: true,
+    beta: false
   }
 ];

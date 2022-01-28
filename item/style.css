@@ -1,3 +1,9 @@
+mcitem {
+  display: inline-block;
+  padding:0px;
+  cursor: pointer;
+}
+
 mcitem:hover {
  filter: drop-shadow(2px 4px 6px black);
 }
@@ -6,18 +12,13 @@ mcitem.nohover:hover {
   filter: unset;
 }
 
-mcitem {
-  padding:1px;
-  cursor: pointer;
-}
-
 .mcitemcount {
   font-size:10pt;
   letter-spacing:0px;
   margin-left: -20px;
   min-width:20px;
   position:absolute;
-  bottom:5px;
+  bottom:0px;
   text-align:right;
   font-family: Minecraftia;
   color:white;
