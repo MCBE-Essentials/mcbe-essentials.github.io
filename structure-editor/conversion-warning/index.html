@@ -1,0 +1,17 @@
+<h1>
+  Structure Conversion Warning
+</h1>
+Bedrock Edition structure files are able to store different amounts of data than other types of files which we can convert to. This means that some data will likely be lost when converting to a format that will store less types of data than a .mcstructure file.
+
+<h2 id="function">MCFUNCTION Files</h2>
+The structure converter, in this case, is turning your structure into a series of Bedrock Edition commands that will produce more or less the same result.<br>
+This means anything that is not possible with commands cannot work in the structure file.<br><br>
+
+The following data will be lost:
+<ul>
+  <li>Signs will not keep their text</li>
+  <li>Item frames, flower pots, jukeboxes and lecterns will not keep their contents</li>
+  <li>Entities will not keep most attributes</li>
+  <li>Door hinges may not be accurate</li>
+  <li>Command, structure, jigsaw, ect blocks will not keep their data.</li>
+</ul>

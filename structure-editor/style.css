@@ -1,3 +1,85 @@
+button[type=button]{
+    appearance: auto;
+    -webkit-writing-mode: horizontal-tb !important;
+    font-style: ;
+    font-variant-ligatures: ;
+    font-variant-caps: ;
+    font-variant-numeric: ;
+    font-variant-east-asian: ;
+    font-weight: ;
+    font-stretch: ;
+    font-size: ;
+    font-family: ;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    box-sizing: border-box;
+    background-color: -internal-light-dark(rgb(239, 239, 239), rgb(59, 59, 59));
+    margin: 0em;
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+}
+
+.itemgrid td {
+  height: 15px;
+  width: 15px; 
+  background-color: #8b8b8b;
+  border:1px solid #cacaca;
+  border-top-color: black;
+  border-left-color: black;
+  cursor:pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display:inline-block;
+}
+
+.itemgrid td:hover {
+  background-color: #bdbdbd;
+}
+
+.itemgrid td.selected {
+  background-color: rgb(214,214,214);
+}
+
+.itemgrid td.selected:hover {
+  /*background-color: #777777;*/
+}
+
+.itemgrid {
+  border-collapse: separate;
+  border-spacing: 0px;
+  user-select: none;
+}
+
+.itemgrid.large td {
+  height: 25px;
+  width:25px;
+  border:2px solid #cacaca;
+  border-top-color: black;
+  border-left-color: black;
+}
+
+
+#mcfunction-warning{
+  padding: 5px 15px;
+  background-color: #ff9494;
+  border: 2px solid red;
+  color: black;
+  font-size: 10pt;
+}
+
 .app-inner-inner {
   background-color: #5f5e70;
   padding: 5px;
@@ -14,6 +96,45 @@ details {
   min-height:10vh;
   text-align:left;
   font-family: monospace;
+}
+
+.overlay {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:rgba(0, 0, 0, 0.8);
+  z-index:1002
+}
+
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+.tier-editor {
+  position:fixed;
+  right:50%;
+  top:50%;
+  width:50%;
+  height:25%;
+  min-height:230px;
+  transform: translate(50%, -50%); 
+  background-color:#4a4a5c; 
+  border-radius: 15px;
+  padding:15px; 
+  text-align:center;
+  z-index:1003;
+  font-family:Minecraftia;
+}
+
+.tier-editor-close-button {
+  position:absolute; top:-20px; right:0px; font-family:Minecraftia; padding: 6px 15px 9px 15px; cursor:pointer; border-radius:5px;
+  user-select:none;
+}
+
+.tier-editor-close-button:hover {
+  background-color: rgba(255,255,255,0.5);
 }
 
 .generate-button {
@@ -75,26 +196,41 @@ background-color:#82c1f7;
   white-space:nowrap;
   /*width:90%;*/
   display:block;
-  padding: 5px 3px;
+  padding: 2px 3px;
   border-radius:25px;
+  text-overflow:clip;
+  cursor:pointer;
+  border: 1px solid transparent;
 }
 
 .idlabel:hover {
   background-color:#ffffff24;
 }
 
-.idlabel {
-text-overflow:clip;
+.idlabel.selected {
+  border: 1px solid white;
 }
 
-input.app-input {
-  width: 50px;
+.app-input {
   border: 3px solid #4a4a4e;
   border-radius: 100px;
   height: 20px;
   text-indent: 4px;
   font-family: 'Minecraftia';
   background-color: #acacc1;
+}
+
+input.app-input {
+  width: 50px;
+}
+
+input.app-input[type=text] {
+  width: 100px;
+}
+
+select.app-input {
+  font-size:9pt;
+  height:25px;
 }
 
 @media only screen and (max-width: 1475px) {
@@ -170,11 +306,11 @@ width:15vw;
   width: 35%;
 }
 
-.app-inner tr td {
+/*.app-inner tr td {
   display:block;
   width: 100%;
   margin-top: 15px;
-}
+}*/
 
 .app-inner {
   border-spacing: 0px;
@@ -217,4 +353,50 @@ body {
 .id-prefix {
   display:unset;
 }
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #3333339B; /* Black background color */
+  color: #ffffff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1005; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.35s, fadeout 0.5s 2.5s;
+  animation: fadein 0.35s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }

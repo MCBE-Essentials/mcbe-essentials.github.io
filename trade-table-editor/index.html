@@ -51,6 +51,9 @@
           <li></li>
           <li></li>
           <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
         </ul>
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>Trade Table Editor</h1>
@@ -78,19 +81,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="app-inner" id="tradelist-container" style="padding:5px;">
-                  <div id="tradelist" class="tierview">
-                    <!--<details><summary>Tier 0</summary>-->
+                <td class="app-inner" id="tradelist-container" style="padding:5px;" rowspan="3">
+                  <div id="tradelist" class="groupview">
+                    <details><summary>Group 0</summary>
                       <div class="trade" onclick="selectTrade(this)">
-                        <input type="number" class="app-input tiereditor2" placeholder="0">
+                        
                         <mcitem identifier="minecraft:oak_boat" count="2" onclick="editItem(this)"></mcitem> 
                           + 
                         <mcitem identifier="minecraft:oak_boat" count="2"></mcitem>
                           = 
                         <mcitem identifier="minecraft:oak_boat" count="4"></mcitem>
                       </div>
-                    <!--</details>
-                    <details><summary>Tier 1</summary>-->
+                    </details>
+                    <details><summary>Group 1</summary>
                       <div class="trade" onclick="selectTrade(this)">
                         <mcitem identifier="minecraft:emerald" count="1"></mcitem> 
                           + 
@@ -98,15 +101,27 @@
                           = 
                         <mcitem identifier="minecraft:emerald" count="2"></mcitem>
                       </div>
-                    <!--</details>-->
+                    </details>
                   </div>
                   
                 </td>
-                <td style="height:40vh;" class="app-inner">
+                <td class="app-inner">
                   Max Uses: <input type="number" class="app-input" placeholder="-1"><br>
                   Trader XP: <input type="number" class="app-input" placeholder="0"><br>
-                  Tier: <input type="number" class="app-input" placeholder="0"><br>
                   <label>Rewards XP: <input type="checkbox"></label><br><br>
+                                   <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">            
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" class="minibutton">
+                </td>
+              </tr>
+              <tr>
+                <td>Group Settings</td>
+              </tr>
+              <tr>
+               <td class="app-inner">
+                  Randomly select<br> <input type="number" class="app-input" placeholder="0"> trades<br>
                                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton">
                   <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton">
                   <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton">
@@ -133,8 +148,7 @@
           <h2 style="text-align:center;user-select:none;" class="lefttitle">Tier Editor</h2>
           <u>Tier 0</u><br>
           Contains <b>0</b> trades<br><br>
-          Requires <input class="app-input" type="number"> Trader XP to unlock<br><br>
-          Randomly select <input class="app-input" type="number"> trades when unlocked
+          Requires <input class="app-input" type="number"> Trader XP to unlock<br>
       </div>
     </div>
     <div class="tier-editor" id="item-editor" style="display:none;user-select:none;">
