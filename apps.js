@@ -63,7 +63,7 @@ var apps = [
     },
     link: "https://mcbe-essentials.github.io/trade-table-editor/",    
     tba: false,
-    beta: true
+    beta: false
   },
   {
     name: "Dialogue Editor",
