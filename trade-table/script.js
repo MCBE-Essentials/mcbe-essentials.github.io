@@ -1,3 +1,7 @@
+if(confirm("This version of the editor is heavily outdated and will be removed soon. Would you like to go to the new one?")){
+  window.location.href = "/trade-table-editor/"
+}
+
 var focusedTextElement;
 var contentframe = '<div w3-include-html="/trade-table/fullgriddump2.html" style="overflow-y:scroll;overflow-x:hidden;width:245px;background-color:white;text-indent:0;padding:5px;"></div><span id="iddisplay" style="background-color:white;" class="iddisplay">identifier</span>';
 var saveLastMouseover = "";

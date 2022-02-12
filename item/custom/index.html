@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Custom Items</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
+    
+  </head>
+  <body style="text-align:center;">
+
+    <table style="margin-left:auto;margin-right:auto;">
+      <thead>
+        <tr>
+          <td>Icon</td>
+          <td>Identifier</td>
+          <td>Display Name</td>
+          <td>Delete</td>
+        </tr>
+      </thead>
+      <tbody id="displays"></tbody>
+      <tbody>
+        <tr>
+          <td>
+            <input type="file" id="file" accept=".png" /><img
+              id="preview"
+              height="32"
+              width="32"
+              style="image-rendering: pixelated; display: none"
+            />
+          </td>
+          <td><input type="text" id="identifier" placeholder="my:item" /></td>
+          <td><input type="text" id="displayas" placeholder="My Item" /></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div onclick="upload()" class="generate-button" style="display:inline-block;padding:5px 60px;">Upload</div>
+    
+        <h1>Custom Items</h1>
+
+    MCBE Essentials uses a custom-coded item rendering system with item data
+    from <a href="https://thedestruc7i0n.ca/">Thedestruc7i0n</a> and identifiers
+    from <a href="https://bridge-core.app">bridge</a>. You can force this
+    website to recognize custom items by uploading them here.
+
+    <h2>Is this global?</h2>
+    Yes, it's global. This means that every app on this website will recognize
+    your custom items.
+
+    <h2>What do I do?</h2>
+    Simply click "upload file" down below and type in an identifier in the box
+    beside it. When you're done, click "Upload".
+    <br />Note: once you've uploaded an asset, you can't edit it. <br /><br />
+  </body>
+</html>
