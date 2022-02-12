@@ -82,3 +82,7 @@ document.getElementById("head").addEventListener("click", function(e){
     window.location.href="/";
   }
 });
+
+if(window.localStorage.lastSavedData){
+  delete window.localStorage.lastSavedData;
+}

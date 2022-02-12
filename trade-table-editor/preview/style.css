@@ -1,0 +1,130 @@
+body {
+  font-family: Minecraftia;
+  color: white;
+  height: 100%;
+}
+::-webkit-scrollbar {
+  width: 12px;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #d5d5d5;
+  border: 3px solid black;
+  border-color: white #363636 #363636 white;
+}
+#preview {
+  background-image: url(/assets/tradebg.png);
+  width: 948px;
+  height: 498px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  margin: auto;
+  user-select: none;
+}
+#list {
+  position: absolute;
+  height: 453px;
+  width: 348px;
+  top: 18px;
+  left: 22px;
+  padding: 5px 10px;
+  overflow-y: auto;
+}
+span {
+  font-size: 14pt
+}
+div.trade {
+  width: 311px;
+  height: 55px;
+  border: 2px solid black;
+  background-color: #c6c6c6;
+  position: relative;
+  padding:2px 6px;
+  color: black;
+  cursor: pointer;
+  margin-top: -1px;
+}
+.trade:after {
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  height: 55px;
+  width: 319px;
+  border: 2px solid #616161;
+  border-color: #f7f7f7 #616161 #616161 #f7f7f7;
+}
+.trade:hover {
+  background-color: #208306;
+  border-color: white;
+}
+.trade:hover:after {
+  border-color: #2fbb22 #005000 #005000 #2fbb22;
+}
+.trade[disabled] {
+  background-color: #d64847;
+  /*border-color: black;*/
+}
+.trade[disabled]:after {
+  border-color: #e66968 #571c1e #571c1e #e66968;
+}
+
+.trade-arrow {
+  margin-right: 25px;
+  margin-top: 8px;
+  height: 37px;
+  image-rendering: pixelated;
+}
+
+.trade-inner {
+  margin-left: 25px;
+}
+
+mcitem {
+  margin-right: 25px;
+}
+
+.mcitemcount {
+  margin-bottom: -3px;
+  margin-left: -16px;
+  font-size: 16pt;
+}
+
+.import {
+  position:absolute;
+  top:120px;
+  left:746px;
+  padding:5px 20px;
+  border: 2px solid black;
+  background-color: #c6c6c6;
+  position: relative;
+  color: black;
+  cursor: pointer;
+}
+
+.import:after {
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  height: 30px;
+  width: calc(100% - 4px);
+  border: 2px solid #616161;
+  border-color: #f7f7f7 #616161 #616161 #f7f7f7;
+}
+
+.import:hover:after {
+  border-color: #2fbb22 #005000 #005000 #2fbb22;
+}
+
+.import:hover {
+  background-color: #208306;
+  border-color: white;
+  color:white;
+}

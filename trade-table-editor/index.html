@@ -19,7 +19,7 @@
 
     <!-- import the webpage's javascript file -->
     <script src="/apps.js" defer></script>
-    <!--<script src="/script.js" defer></script>-->
+    <script src="/script.js" defer></script>
     <script src="script.js" defer></script>
     
     <script src="/item/script.js"></script>
@@ -61,15 +61,15 @@
             <thead>
               <tr>
                 <td colspan="2" class="app-inner-inner" style="letter-spacing: 2px; font-family: Helvetica;">
-                  <select class="app-input" style="height:25px;font-size:8pt;width:100px;line-height:20px">
+                  <select class="app-input" style="height:25px;font-size:8pt;width:100px;line-height:20px" id="tierslist" oninput="selectTier(this.value)">
                       <option value="lol">Tier 0</option>
                       <option value="lol">Tier 1</option>
                   </select> 
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveItemUp();" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">            
-            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveItemDown();" class="minibutton">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="addTier()">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton" onclick="addTier(tradetable.tiers[currentTier])">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton" onclick="deleteTier()">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveTier(-1);" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">            
+            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveTier(1);" class="minibutton">
                   <img src="https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/pencil_edit_icon.png?v=1640287262683" onclick="editTier();" class="minibutton black">
                   
                 </td>
@@ -82,38 +82,18 @@
             <tbody>
               <tr>
                 <td class="app-inner" id="tradelist-container" style="padding:5px;" rowspan="3">
-                  <div id="tradelist" class="groupview">
-                    <details><summary>Group 0</summary>
-                      <div class="trade" onclick="selectTrade(this)">
-                        
-                        <mcitem identifier="minecraft:oak_boat" count="2" onclick="editItem(this)"></mcitem> 
-                          + 
-                        <mcitem identifier="minecraft:oak_boat" count="2"></mcitem>
-                          = 
-                        <mcitem identifier="minecraft:oak_boat" count="4"></mcitem>
-                      </div>
-                    </details>
-                    <details><summary>Group 1</summary>
-                      <div class="trade" onclick="selectTrade(this)">
-                        <mcitem identifier="minecraft:emerald" count="1"></mcitem> 
-                          + 
-                        <mcitem identifier="minecraft:emerald" count="1"></mcitem>
-                          = 
-                        <mcitem identifier="minecraft:emerald" count="2"></mcitem>
-                      </div>
-                    </details>
-                  </div>
+                  <div id="grouplist" class="groupview">Loading new...</div>
                   
                 </td>
                 <td class="app-inner">
-                  Max Uses: <input type="number" class="app-input" placeholder="-1"><br>
-                  Trader XP: <input type="number" class="app-input" placeholder="0"><br>
-                  <label>Rewards XP: <input type="checkbox"></label><br><br>
-                                   <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">            
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" class="minibutton">
+                  <label>Max Uses: <input type="number" class="app-input" placeholder="-1" id="trade-uses" min="-1" oninput="updateTrade()"></label><br>
+                  <label>Trader XP: <input type="number" class="app-input" placeholder="0" id="trade-trader-xp" oninput="updateTrade()"></label><br>
+                  <label>Rewards XP: <input type="checkbox" id="trade-rewards-xp"></label><br><br>
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="addTrade()">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton" onclick="if(currentTradeElement) addTrade(currentTrade)">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton" onclick="deleteTrade()">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton" onclick="moveTrade(-1)">            
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" class="minibutton" onclick="moveTrade(1)">
                 </td>
               </tr>
               <tr>
@@ -121,17 +101,17 @@
               </tr>
               <tr>
                <td class="app-inner">
-                  Randomly select<br> <input type="number" class="app-input" placeholder="0"> trades<br>
-                                   <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton">
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">            
-                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" class="minibutton">
+                  Randomly select<br> <input type="number" class="app-input" placeholder="all" id="group-select" oninput="updateGroup()"> trades<br><br>
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="addGroup()">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton" onclick="if(currentGroupElement) addGroup(currentGroup)">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton" onclick="deleteGroup()">
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton" onclick="moveGroup(-1)">            
+                  <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" class="minibutton"  onclick="moveGroup(1)">
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <div class="generate-button">Import</div><div class="generate-button">Export</div><div class="generate-button gb-blue">Custom Items</div>
+                  <label class="generate-button" style="display: block; border-radius: 10px 10px 0px 0px;" for="file">Import</label><div class="generate-button"  style="border-radius: unset;" onclick="exportTable()">Export</div><div class="generate-button gb-blue"  style="border-radius: unset;" onclick="window.open('preview/');">Preview Trade Table</div><div class="generate-button gb-blue" style="border-radius: 0px 0px 10px 10px;" onclick="window.open('/item/custom/')">Custom Items</div>
                 </td>
               </tr>
             </tbody>
@@ -140,15 +120,15 @@
       <br><br>
       </div>
     </div>
-    
+    <input type="file" style="display:none" id="file" accept=".json">
     <div class="overlay" id="overlay" style="cursor:pointer;display:none;" onclick="closeTierEditor(); closeItemEditor()"></div>
     <div class="tier-editor" id="tier-editor" style="display:none;user-select:none;height:unset;">
       <div style="position:relative;height:100%;text-align:left;">
           <div class="tier-editor-close-button" onclick="closeTierEditor(); closeItemEditor();">x</div>
           <h2 style="text-align:center;user-select:none;" class="lefttitle">Tier Editor</h2>
-          <u>Tier 0</u><br>
-          Contains <b>0</b> trades<br><br>
-          Requires <input class="app-input" type="number"> Trader XP to unlock<br>
+          <u id="tier-view">Tier 0</u><br>
+          Contains <b id="tier-trade-view">0</b> trades and <b id="tier-group-view">0</b> groups in total<br><br>
+          Requires <input class="app-input" type="number" min="-1" id="tier-xp" oninput="updateTier()"> Trader XP to unlock<br>
       </div>
     </div>
     <div class="tier-editor" id="item-editor" style="display:none;user-select:none;">
@@ -158,28 +138,28 @@
         <table style="overflow:scroll;text-align:center;margin-left:auto;margin-right:auto;">
           <tbody>
             <tr>
-              <td style="position:relative;" rowspan="2">
+              <td style="position:relative;" rowspan="2" id="item-preview">
                 <mcitem identifier="minecraft:chest" count="2" style="width:64px;height:64px;font-size:18pt;" onclick="snackbar('Copied item JSON to clipboard')"></mcitem>
               </td>
               <td style="width:25px;"></td>
               <td>
-                 <input class="app-input" type="text" placeholder="minecraft:identifer" style="width:160px;font-size:10px"><br>
-                  Count: <input type="number" class="app-input" placeholder="64"><br>
-                  Damage: <input type="number" class="app-input" placeholder="0"><br>
-                  Price Mult: <input type="number" class="app-input" placeholder="0"><br>
+                 <input class="app-input" type="text" placeholder="minecraft:identifer" style="width:160px;font-size:10px" list="item_identifiers" id="item-identifier" oninput="updateItem()"><br>
+                  Count: <input type="number" class="app-input" placeholder="64" id="item-count" oninput="updateItem()" min="1"><br>
+                  <span id="item-dmg-data">Damage:</span> <input type="number" class="app-input" placeholder="0" id="item-damage" oninput="updateItem()" min="0"><br>
+                  Price Mult: <input type="number" class="app-input" placeholder="0" id="item-pricemult" oninput="updateItem()" min="0"><br>
               </td>
               <td>
-                  <input class="app-input" type="text" placeholder="Custom Name" style="width:160px"><br>
-                  <textarea class="app-input" type="text" placeholder="Item Lore" style="width:150px;height:60px;"></textarea><br>
+                  <input class="app-input" type="text" placeholder="Custom Name" style="width:160px;font-size: 8pt;" id="item-name" oninput="updateItem()"><br>
+                  <textarea class="app-input" type="text" placeholder="Item Lore" style="width:150px;height:60px;font-size: 8pt;" id="item-lore" oninput="updateItem()"></textarea><br>
               </td>
               <td>
-                  <textarea class="app-input" placeholder="Enchantments" style="width:160px;height:90px;font-size:10px"></textarea>
+                  <textarea class="app-input" placeholder="Enchantments
+enchant:level" style="width:160px;height:90px;font-size:10px" id="item-enchantments" oninput="updateItem()"></textarea>
               </td>
               </tr><tr>
-              <td style="width:100%;">
-                  <textarea placeholder='"additional": "properties",
-"go": "here"' style="width:100%;height:70px;resize:none;"></textarea>
-              </td>
+              <!--<td style="width:100%;">
+                  <textarea placeholder="Item JSON goes here" style="width:100%;height:70px;resize:none;" id="item-json" onblur="updateItemJSON()"></textarea>
+              </td>-->
             </tr>
           </tbody>
         </table>
@@ -199,3 +179,4 @@
     </div>
   </body>
 </html>
+<datalist id="item_identifiers"></datalist>

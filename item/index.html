@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test</title>
+    <script src="/script.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body onload="fetchData();">
+    <div id="items">
+      
+    </div>
+  </body>
+</html>
+<script>
+var identifiers = {};
+async function fetchData(){
+  var ids = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(data => data.json());
+  identifiers = ids.definitions;
+  
+  doIdentifiers();
+}
+
+function doIdentifiers(){
+  document.getElementById("items").innerHTML = "";
+  for(var i = 0; i < identifiers.item_identifiers.enum.length; i++){
+    document.getElementById("items").innerHTML += '<mcitem identifier="'+ identifiers.item_identifiers.enum[i] +'" count="3"></mcitem>';
+  }
+  mcitems.init();
+}
+
+</script>

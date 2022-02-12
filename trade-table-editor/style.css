@@ -39,6 +39,10 @@
   font-family:Minecraftia;
 }
 
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
 #item-editor {
   height: unset;
 }
@@ -70,11 +74,11 @@
 
 .trade .tiereditor2 { display: none; width: 70px; margin-bottom: 5px; }
 
-#tradelist.groupview .trade {
+#grouplist.groupview .trade {
   width: 185px;
 }
 
-#tradelist.groupview .trade .tiereditor2 {
+#grouplist.groupview .trade .tiereditor2 {
   display: unset;
 }
 
@@ -114,7 +118,7 @@
   height:32px;
 }
 
-#tradelist {
+#grouplist {
   vertical-align:top;
   min-width: 2vw;
   overflow-y:scroll;
@@ -224,16 +228,36 @@ textarea.app-input {
 
 textarea::-webkit-scrollbar {
     width: 5px;
+  cursor: pointer;
 }
 
 textarea::-webkit-scrollbar-track {
     -webkit-box-shadow: unset;
+  cursor: pointer;
 }
 
 textarea::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+#grouplist::-webkit-scrollbar {
+  width: 5px;
+  cursor: pointer;
+}
+
+#grouplist::-webkit-scrollbar-track {
+    -webkit-box-shadow: unset;
+  cursor: pointer;
+}
+
+#grouplist::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .app-input-tiers {
