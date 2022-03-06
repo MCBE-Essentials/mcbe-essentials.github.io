@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2e3148" />
+    <link
+      rel="icon"
+      href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+    />
+    
+    <title>MCBE Essentials</title>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- import the webpage's javascript file -->
+    <script src="/apps.js" defer></script>
+    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body style="">
+    <!--<div id="menu-button">
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+    </div>-->
+    <div id="head" class="header">
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <span class="imgicontext">MCBE Essentials</span>
+    </div>
+    <div id="body" class="main-content">
+      <div id="left" class="main-left">
+        <br>
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
+        <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">Minecraft Bedrock Essentials</h2>
+        <i style="margin-left:15px; margin-right: 15px; display: none;">A collection of tools for Minecraft Bedrock Edition coding!<br></i><br>
+        <button onclick="window.location.href='//discord.gg/Maeq5ZtpVk'">Discord</button><br>
+        <ul class="main-left-select" id="left-tools">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
+          <h1>Dialogue Editor</h1>
+      <p>
+        Right-click on a button containing a /dialogue open command to jump to the scene it points to.
+      </p>
+          <table class="app-main" id="app-main" style="border-spacing:5px;">
+            <thead>
+              <tr>
+                <td colspan="3" style="cursor:default;">
+                  <select id="selectscene" oninput="loadScene(this.value)" class="app-input" style="height:25px;font-size:8pt;width:200px;line-height:20px"></select>
+                  <div style="display:inline-block;" onclick="addScene()"><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_picker.png?v=1617471101709" style="height:18px;image-rendering:pixelated;" class="minibutton"></div>
+                  <!--<div style="display:inline-block;" onclick="addScene(currentScene)"><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" style="height:18px;image-rendering:pixelated;" class="minibutton"></div>-->
+                  <div style="display:inline-block;" onclick="removeScene()"><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" style="height:18px;image-rendering:pixelated;" class="minibutton"></div>
+                  
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="app-inner" colspan="3">
+                  Scene Tag: <input class="app-input" style="width:200px" placeholder="scene_id" id="id" oninput="updateScene()"><br>
+                  NPC Name: <input class="app-input" style="width:200px" placeholder="Scene Title" id="title" oninput="updateScene()"><br>
+</td>
+              </tr>
+              <tr>
+                <td>
+                  <table class="app-inner" style="display:inline-block">
+                    <tr>
+                      <td colspan="1" class="app-inner-inner">
+                      <textarea class="ta2" style="border:1px solid #a3acb1; font-family:Minecraftia;" rows="15" placeholder="NPC Dialogue" id="text" oninput="updateScene()"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                  <table id="buttons">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="generate-button dialogue-button" onclick="editButton(this,0)" oncontextmenu="previewAction(this,0); return false;" tabindex="0" index="0">&nbsp;</div>
+                        </td>
+                        <td>
+                          <div class="generate-button dialogue-button" onclick="editButton(this,1)" oncontextmenu="previewAction(this,1); return false;" tabindex="0" index="1">&nbsp;</div>
+                        </td>
+                        <td>
+                          <div class="generate-button dialogue-button" onclick="editButton(this,2)" oncontextmenu="previewAction(this,2); return false;" tabindex="0" index="2">&nbsp;</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <div class="generate-button dialogue-button" onclick="editButton(this,3)" oncontextmenu="previewAction(this,3); return false;" tabindex="0" index="3">&nbsp;</div>
+                      </tr>
+                      <tr>
+                        <div class="generate-button dialogue-button" onclick="editButton(this,4)" oncontextmenu="previewAction(this,4); return false;" tabindex="0" index="4">&nbsp;</div>
+                      </tr>
+                      <tr>
+                        <div class="generate-button dialogue-button" onclick="editButton(this,5)" oncontextmenu="previewAction(this,5); return false;" tabindex="0" index="5">&nbsp;</div>
+                      </tr>
+                    </tbody>
+                    
+
+                  </table>
+                      </td>
+                    </tr>
+                  </table>
+                  
+                </td>
+
+              </tr>
+
+              <tr>
+                <td colspan="3" class="app-inner">
+                  <textarea style="width:calc(50% - 15px)" rows="5" id="onopen" oninput="updateScene()"
+placeholder="Commands that execute when this scene is opened"></textarea><textarea placeholder="Commands that execute when this scene is closed" style="width:calc(50% - 15px)" rows="5" id="onclose" oninput="updateScene()"></textarea>
+
+                </td>
+              </tr>
+                            <tr>
+                <td colspan="3" class="app-inner">
+                 
+                  <label>
+                  <div class="generate-button gb-green" style="width:calc(50% - 20px);display:inline-block;">Import</div><input style="display:none;" type="file" id="input-file" accept=".json"></label><div class="generate-button gb-green" style="width:calc(50% - 20px); display:inline-block;" onclick="saveProj()">Export</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+        <div class="overlay" id="overlay" style="cursor:pointer;display:none;" onclick="closeButtonEditor()"></div>
+          <div class="button-editor" id="button-editor" style="display:none;">
+            <div style="position:relative;height:100%;">
+                <div class="button-editor-close-button" onclick="closeButtonEditor()">x</div>
+                <div class="button-editor-delete-button" id="button-delete" onclick="deleteButton()"><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png" style="height: 32px;image-rendering: pixelated;"></div>
+              <h2 style="text-align:center;user-select:none;" class="lefttitle">Button Editor</h2>
+              <input placeholder="Button Name" class="app-input" style="width:100%;" maxlength="16" id="button-name"><br>
+              <textarea style="width:100%; height:calc(100% - 110px);" id="button-commands" placeholder="Button Commands
+
+/say hi"></textarea>
+            </div>
+          </div>
+    <div class="menu-button2"
+         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
+         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+         onclick="toggleMenu(this)"
+         >
+      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
+    </div>
+  </body>
+</html>

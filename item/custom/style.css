@@ -1,12 +1,26 @@
-table tr td {
-  border: 1px solid black;
-}
 table thead td {
   font-weight: bold;
 }
 
 body {
   font-family: Minecraftia;
+}
+
+.customimg {
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+.deleteimg {
+  height: 32px;
+  image-rendering: pixelated;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+.deleteimg:hover {
+  padding: 0px 4px;
+  border: 2px dotted black;
 }
 
 .app-inner-inner {
@@ -33,9 +47,10 @@ body {
 }
 
 .app-inner {
-  background-color: #4b4a5c;
-  padding: 15px;
+  background-color: #acacc2;
+  padding: 9px;
   border-radius: 10px;
+  color: black;
 }
 
 .app-main {
@@ -43,7 +58,24 @@ body {
   background-color: #2d2a3b;
   border-radius: 10px;
   padding: 15px;
-  border-spacing: 15px 0px;
+  border-spacing: 0px 0px;
+}
+
+.app-main tbody tr td:nth-child(1){
+  border-radius: 10px 0px 0px 10px;
+  border-right: 2px solid black;
+}
+
+.app-main tbody tr td:nth-child(2){
+  border-radius: 0px 0px 0px 0px;
+}
+
+.app-main tbody tr td:nth-child(3){
+  border-radius: 0px 0px 0px 0px;
+}
+
+.app-main tbody tr td:nth-child(4){
+  border-radius: 0px 10px 10px 0px;
 }
 
 .textarea {
@@ -97,7 +129,7 @@ body {
 }
 
 input.app-input {
-  width: 50px;
+  /*width: 50px;*/
   border: 3px solid #4a4a4e;
   border-radius: 100px;
   height: 20px;

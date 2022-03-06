@@ -1,94 +1,130 @@
-/*@font-face {
-  font-family: 'Minecraft';
-  src: url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.eot');
-  src: url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.eot?#iefix') format('embedded-opentype'),
-       url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.woff') format('woff'),
-       url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.ttf')  format('truetype'),
-       url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.svg#svgFontName') format('svg');
+.minibutton {
+  height: 18px;
+  image-rendering: pixelated;
+  cursor: pointer;
 }
 
-.button {
-  height: 40px;
-  width: 400px;
-  outline: 2px solid black;
-  position: relative;
-  margin: 0;
-  display: inline-block;
-  background-image: url('http://charliecowan.co.uk/mcbuttongenerator/button_center.png');
-  background-repeat: repeat;
-  padding: 0;
-  font-family: Minecraft;
-  text-align: center;
-  color: white;
-  text-shadow: 3px 3px #4C4C4C;
-  border-bottom: 4px solid #565656;
-  border-right: 2px solid #565656;
-  border-left: 2px solid #AAA;
-  border-top: 2px solid #AAA;
-  box-sizing: border-box;
-  font-size: 16px;
+.minibutton.black {
+  filter: brightness(0);
 }
-
-.button span {
-  position: relative;
-  line-height: 40px;
-  bottom: 3px;
-}
-
-.button:hover {
-  border-bottom: 4px solid #59639A;
-  border-right: 2px solid #59639A;
-  border-left: 2px solid #BDC6FF;
-  border-top: 2px solid #BDC6FF;
-  background-image: url('http://charliecowan.co.uk/mcbuttongenerator/button_active_center.png');
-  color: #FFFFA0;
-}*/
 
 .minibutton:hover {
-  filter: brightness(150%);
+  filter: brightness(150%) drop-shadow(2px 4px 6px black);
+}
+
+.minibutton.black:hover {
+  filter: brightness(0.8) drop-shadow(2px 4px 6px black);
 }
 
 .overlay {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:rgba(0, 0, 0, 0.8);
-  z-index:1002
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1002;
 }
 
-.button-editor {
-  position:fixed;
-  right:50%;
-  top:50%;
-  width:50%;
-  height:25%;
-  min-height:230px;
-  transform: translate(50%, -50%); 
-  background-color:#4a4a5c; 
+#item-editor td {
+  display: inline-block;
+  text-align: left;
+}
+
+.tier-editor {
+  position: fixed;
+  right: 50%;
+  top: 50%;
+  width: 50%;
+  height: 25%;
+  min-height: 230px;
+  transform: translate(50%, -50%);
+  background-color: #4a4a5c;
   border-radius: 15px;
-  padding:15px; 
-  text-align:center;
-  z-index:1003
+  padding: 15px;
+  text-align: center;
+  z-index: 1003;
+  font-family: Minecraftia;
 }
 
-.button-editor-close-button {
-  position:absolute; top:-20px; right:0px; font-family:Minecraftia; padding: 6px 15px 9px 15px; cursor:pointer; border-radius:5px;
-  user-select:none;
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
 }
 
-.button-editor-delete-button {
-  position:absolute; top:-20px; left:0px; font-family:Minecraftia; padding: 6px 11px; cursor:pointer; border-radius:5px;
-  user-select:none;
+#item-editor {
+  height: unset;
 }
 
-.button-editor-close-button:hover {
-  background-color: rgba(255,255,255,0.5);
+.tier-editor-close-button {
+  position: absolute;
+  top: -20px;
+  right: 0px;
+  font-family: Minecraftia;
+  padding: 6px 15px 9px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
 }
 
-.button-editor-delete-button:hover {
-  background-color: rgba(255,255,255,0.5);
+.tier-editor-close-button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tier-editor-delete-button {
+  position: absolute;
+  top: -20px;
+  left: 0px;
+  font-family: Minecraftia;
+  padding: 6px 11px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.tier-editor-delete-button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dialogue-button {
+  border: 2px solid black;
+  background-color: #c6c6c6;
+  position: relative;
+  padding: 2px 6px;
+  color: black;
+  cursor: pointer;
+  margin-top: -1px;
+  width: 33%;
+  min-width: 180px;
+}
+.dialogue-button:after {
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  border: 2px solid #616161;
+  border-color: #f7f7f7 #616161 #616161 #f7f7f7;
+}
+
+.dialogue-button:hover {
+  background-color: #208306;
+  border-color: white;
+  color: white;
+}
+
+.dialogue-button:hover:after {
+  border-color: #2fbb22 #005000 #005000 #2fbb22;
+}
+
+.dialogue-button[disabled] {
+  visibility: hidden; /* experimental */
+  background-color: #d64847;
+  /*border-color: black;*/
+}
+.dialogue-button[disabled]:after {
+  border-color: #e66968 #571c1e #571c1e #e66968;
 }
 
 .app-inner-inner {
@@ -98,107 +134,117 @@
 }
 
 .generate-button {
-  background-color: #a7a7a7;
-  color:black;
+  background-color: #82f782;
+  color: black;
   padding: 5px;
   border-radius: 10px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .gb-blue {
-  background-color:#82c1f7;
+  background-color: #82c1f7;
 }
 
-.gb-green {
-  background-color:#82f782;
-}
-  
 .generate-button:hover {
   background-color: #cdcbce;
 }
 
-.disabled {
-  background-color: gray;
+.app-inner {
+  background-color: #4b4a5c;
+  padding: 15px;
+  border-radius: 10px;
 }
 
-.disabledHalf {
-  border: 4px solid gray;
-  padding: 1px;
+.app-main {
+  margin: auto;
+  background-color: #2d2a3b;
+  border-radius: 10px;
+  padding: 15px;
+  border-spacing: 15px 0px;
+  user-select: none;
+  min-width: 40vw;
 }
 
-.disabled:hover {
-  background-color: gray;
+.textarea {
+  width: 40vw;
+  height: 30vh;
+  background-color: unset;
+  color: white;
+  border: none;
+  resize: none;
 }
 
-.disabledHalf:hover {
-  border: 4px solid gray;
-  padding: 1px;
+.ta2 {
+  width: 30vw;
+  background-color: unset;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  resize: none;
 }
-  
-  .app-inner {
-    background-color: #4b4a5c;
-    padding: 15px;
-    border-radius: 10px;
-    
-  }
-  
-  .app-main {
-    margin:auto;
-    background-color: #2d2a3b;
-    border-radius: 10px;
-    padding:15px;
-    border-spacing:15px 0px;
-  }
-  
-  .textarea {
-    width:40vw; height: 30vh;background-color: unset;color: white; border: none;resize:none;
-  }
-  
-  .ta2 {
-    width:40vw; background-color: unset; color: white; border-radius:10px; border: none; resize:none;
-  }
-  
 
-  .ta2::placeholder {
-    color:#dcdcdc;
-  }
-  
-  .textarea-container {
-    position: relative;
-  }
-  
-  .preset {
-    color: #82f782;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  
-  .idlabel {
-    text-overflow: clip;
-    font-size:9pt;
-    white-space:nowrap;
-    /*width:90%;*/
-    display:block;
-    padding: 5px 3px;
-    border-radius:25px;
-  }
-  
-  .idlabel:hover {
-    background-color:#ffffff24;
-  }
+.ta2::placeholder {
+  color: #dcdcdc;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.textarea-container {
+  position: relative;
+}
+
+.preset {
+  color: #82f782;
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 .idlabel {
-  text-overflow:clip;
+  text-overflow: clip;
+  font-size: 9pt;
+  white-space: nowrap;
+  /*width:90%;*/
+  display: block;
+  padding: 5px 3px;
+  border-radius: 25px;
+}
+
+.idlabel:hover {
+  background-color: #ffffff24;
+}
+
+.idlabel {
+  text-overflow: clip;
 }
 
 .app-input {
-    width: 50px;
-    border: 3px solid #4a4a4e;
-    border-radius: 100px;
-    height: 20px;
-    text-indent: 4px;
-    font-family: 'Minecraftia';
-    background-color: #acacc1;
+  width: 50px;
+  border: 3px solid #4a4a4e;
+  border-radius: 100px;
+  height: 20px;
+  text-indent: 4px;
+  font-family: "Minecraftia";
+  background-color: #acacc1;
+}
+
+.main-left {
+  height: 150%;
+}
+
+textarea {
+  resize: none;
+}
+
+.button-table tr {
+  height: 36px;
+}
+
+.app-inner details {
+  text-align: left;
+}
+
+.app-inner details summary {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1475px) {
@@ -206,14 +252,17 @@
   /*.main-left {
     display: none;
   }*/
+  .app-main {
+    width: 60vw;
+  }
   .main-left {
-    display:none;
-    position:absolute;
-    width:100%;
-    z-index:1000;
+    display: none;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
   }
   .leftimg {
-    width:25%;
+    width: 25%;
   }
   .main-right {
     overflow-x: hidden;
@@ -221,48 +270,44 @@
   .discordbutton {
     display: table-cell;
   }
-    .menu-button2 {
-    display:block;
+  .menu-button2 {
+    display: block;
   }
 }
 
 .selectlist {
-  width:10vw;
-  height:58vh;
+  width: 10vw;
+  height: 58vh;
 }
 
 #identifiers_list {
-  height:calc(100% - 45px);
-  overflow-y:scroll;
-  text-align:left;
-  overflow-x:hidden;
-  text-overflow:clip;
-  width:15vw;
+  height: calc(100% - 45px);
+  overflow-y: scroll;
+  text-align: left;
+  overflow-x: hidden;
+  text-overflow: clip;
+  width: 15vw;
 }
 
 @media only screen and (max-width: 920px) {
   .id-prefix {
-    display:none;
+    display: none;
   }
   .presets-desktop {
     width: 11vw;
   }
   .app-main {
-    padding:unset;
+    padding: unset;
   }
-  .preset {
-    font-size: 0.8em;
+  .dialogue-button {
+    font-size: 8pt;
   }
-  
-  .preset-shortenable {
-    display:none;
-  }
-  
+
   .idlabel {
     font-size: 0.6em;
   }
-  
-  .idlabel input[type=checkbox]{
+
+  .idlabel input[type="checkbox"] {
     width: 10px;
   }
 }
@@ -273,17 +318,23 @@
     /*display: none;*/
     width: 35%;
   }
-  
+
   .app-inner tr td {
-    display:block;
+    display: block;
     width: 100%;
-    margin-top: 15px;
+    margin-left: -8px;
+    height: 25px;
+    /*margin-top: 15px;*/
   }
-  
+
+  .app-main {
+    width: 85vw;
+  }
+
   .app-inner {
     border-spacing: 0px;
   }
-  
+
   .discordbutton {
     display: block;
   }
@@ -291,34 +342,38 @@
     overflow: auto;
   }
   .selectlist {
-    width:100%;
-    height:200px;
+    width: 100%;
+    height: 200px;
   }
   #identifiers_list {
-    width:unset;
+    width: unset;
   }
-  
+
   .textarea {
-    width:100%;
+    width: 100%;
   }
-  
+
   .ta2 {
     width: 100%;
   }
-  
-  .presets-desktop{
-    display:none;
+
+  .presets-desktop {
+    display: none;
   }
-  
-    .idlabel {
+
+  .idlabel {
     font-size: 12px;
   }
-  
-  .idlabel input[type=checkbox]{
+
+  .idlabel input[type="checkbox"] {
     width: unset;
   }
-  
+
   .id-prefix {
-    display:unset;
+    display: unset;
+  }
+
+  .dialogue-button {
+    font-size: unset;
   }
 }

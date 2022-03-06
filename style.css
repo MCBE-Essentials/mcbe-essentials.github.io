@@ -81,18 +81,27 @@ html {
 button {
   background-color: #1a1c2c;
   color: #dad9dc;
-  padding: 18px 25%;
   font-size: 15pt;
   cursor: pointer;
   border: none;
   outline: none;
   font-family: 'Minecraftia';
   font-size: medium;
+  width: 100%;
+  padding: 18px 0px;
 }
 
 button:hover {
   color: black;
   background-color: #dad9dc;
+}
+
+.discord-button {
+  background-color: #5865F2;
+}
+
+.discord-button:hover {
+  background-color: #8f98ff;
 }
 
 .table {
