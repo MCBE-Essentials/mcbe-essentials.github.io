@@ -2,14 +2,19 @@
 <html>
   <head>
     <title>Custom Items</title>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
+    <script src="/script.js" defer></script>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="style.css">
     
   </head>
-  <body style="text-align:center;">
-
-    <table style="margin-left:auto;margin-right:auto;">
+  <body style="text-align:center; padding: 20px; max-width: 1000px; margin: auto;">
+    <a onclick="window.close();" href="javascript:void(0)" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_self">Close</a>
+    <br><br>
+    <h1>
+      Custom Items
+    </h1>
+    <table class="app-main" id="app-main">
       <thead>
         <tr>
           <td>Icon</td>
@@ -18,30 +23,17 @@
           <td>Delete</td>
         </tr>
       </thead>
-      <tbody id="displays"></tbody>
-      <tbody>
-        <tr>
-          <td>
-            <input type="file" id="file" accept=".png" /><img
-              id="preview"
-              height="32"
-              width="32"
-              style="image-rendering: pixelated; display: none"
-            />
-          </td>
-          <td><input type="text" id="identifier" placeholder="my:item" /></td>
-          <td><input type="text" id="displayas" placeholder="My Item" /></td>
-          
-        </tr>
+      <tbody id="displays">
       </tbody>
-    </table>
-    <div onclick="upload()" class="generate-button" style="display:inline-block;padding:5px 60px;">Upload</div>
+    </table><br>
+    <label class="generate-button" style="display:inline-block;padding:5px 60px;" for="file">Upload</label>
+    <input type="file" id="file" accept=".png" style="display:none;">
     
-        <h1>Custom Items</h1>
+    <h1>About</h1>
 
     MCBE Essentials uses a custom-coded item rendering system with item data
-    from <a href="https://thedestruc7i0n.ca/">Thedestruc7i0n</a> and identifiers
-    from <a href="https://bridge-core.app">bridge</a>. You can force this
+    from <a href="https://thedestruc7i0n.ca/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">TheDestruc7i0n</a> and identifiers
+    from <a href="https://bridge-core.app/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">bridge</a>. You can force this
     website to recognize custom items by uploading them here.
 
     <h2>Is this global?</h2>
@@ -49,8 +41,7 @@
     your custom items.
 
     <h2>What do I do?</h2>
-    Simply click "upload file" down below and type in an identifier in the box
-    beside it. When you're done, click "Upload".
+    Simply click "Upload" and select your PNG file that you use to display the item in-game. Type in the identifier of your item, and it should now display across the website as a custom item. Please limit your uploads to 8x8, 16x16, 32x32 or 64x64 PNGs to avoid issues in the website.
     <br />Note: once you've uploaded an asset, you can't edit it. <br /><br />
   </body>
 </html>

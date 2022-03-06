@@ -1,96 +1,105 @@
 .facing-settings {
-  display:none;
+  display: none;
 }
 
-  .app-inner-inner {
-    background-color: #5f5e70;
-    padding: 5px;
-    border-radius: 10px;
-  }
-  
-  .generate-button {
-    background-color: #82f782;
-    color:black;
-    padding: 5px;
-    border-radius: 10px;
-    cursor:pointer;
-  }
+.app-inner-inner {
+  background-color: #5f5e70;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.generate-button {
+  background-color: #82f782;
+  color: black;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
 .gb-blue {
-  background-color:#82c1f7;
+  background-color: #82c1f7;
 }
-  
-  .generate-button:hover {
-    background-color: #cdcbce;
-  }
-  
-  .app-inner {
-    background-color: #4b4a5c;
-    padding: 15px;
-    border-radius: 10px;
-    
-  }
-  
-  .app-main {
-    margin:auto;
-    background-color: #2d2a3b;
-    border-radius: 10px;
-    padding:15px;
-    border-spacing:15px 0px;
-  }
-  
-  .textarea {
-    width:40vw; height: 30vh;background-color: unset;color: white; border: none;resize:none;
-  }
-  
-  .ta2 {
-    width:30vw; background-color: unset; color: white; border-radius:10px; border: none; resize:none;
-  }
-  
-  .ta2::placeholder {
-    color:#dcdcdc;
-  }
-  
-  .textarea-container {
-    position: relative;
-  }
-  
-  .preset {
-    color: #82f782;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  
-  .idlabel {
-    text-overflow: clip;
-    font-size:9pt;
-    white-space:nowrap;
-    /*width:90%;*/
-    display:block;
-    padding: 5px 3px;
-    border-radius:25px;
-  }
-  
-  .idlabel:hover {
-    background-color:#ffffff24;
-  }
+
+.generate-button:hover {
+  background-color: #cdcbce;
+}
+
+.app-inner {
+  background-color: #4b4a5c;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.app-main {
+  margin: auto;
+  background-color: #2d2a3b;
+  border-radius: 10px;
+  padding: 15px;
+  border-spacing: 15px 0px;
+}
+
+.textarea {
+  width: 40vw;
+  height: 30vh;
+  background-color: unset;
+  color: white;
+  border: none;
+  resize: none;
+}
+
+.ta2 {
+  width: 30vw;
+  background-color: unset;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  resize: none;
+}
+
+.ta2::placeholder {
+  color: #dcdcdc;
+}
+
+.textarea-container {
+  position: relative;
+}
+
+.preset {
+  color: #82f782;
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 .idlabel {
-  text-overflow:clip;
+  text-overflow: clip;
+  font-size: 9pt;
+  white-space: nowrap;
+  /*width:90%;*/
+  display: block;
+  padding: 5px 3px;
+  border-radius: 25px;
+}
+
+.idlabel:hover {
+  background-color: #ffffff24;
+}
+
+.idlabel {
+  text-overflow: clip;
 }
 
 input.app-input {
-    width: 50px;
-    border: 3px solid #4a4a4e;
-    border-radius: 100px;
-    height: 20px;
-    text-indent: 4px;
-    font-family: 'Minecraftia';
-    background-color: #acacc1;
+  width: 50px;
+  border: 3px solid #4a4a4e;
+  border-radius: 100px;
+  height: 20px;
+  text-indent: 4px;
+  font-family: "Minecraftia";
+  background-color: #acacc1;
 }
 
-input.app-input[type=text] {
-    width: 150px;
+input.app-input[type="text"] {
+  width: 150px;
 }
 
 @media only screen and (max-width: 1475px) {
@@ -99,13 +108,13 @@ input.app-input[type=text] {
     display: none;
   }*/
   .main-left {
-    display:none;
-    position:absolute;
-    width:100%;
-    z-index:1000;
+    display: none;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
   }
   .leftimg {
-    width:25%;
+    width: 25%;
   }
   .main-right {
     overflow-x: hidden;
@@ -113,48 +122,48 @@ input.app-input[type=text] {
   .discordbutton {
     display: table-cell;
   }
-    .menu-button2 {
-    display:block;
+  .menu-button2 {
+    display: block;
   }
 }
 
 .selectlist {
-  width:10vw;
-  height:58vh;
+  width: 10vw;
+  height: 58vh;
 }
 
 #identifiers_list {
-  height:calc(100% - 45px);
-  overflow-y:scroll;
-  text-align:left;
-  overflow-x:hidden;
-  text-overflow:clip;
-  width:15vw;
+  height: calc(100% - 45px);
+  overflow-y: scroll;
+  text-align: left;
+  overflow-x: hidden;
+  text-overflow: clip;
+  width: 15vw;
 }
 
 @media only screen and (max-width: 920px) {
   .id-prefix {
-    display:none;
+    display: none;
   }
   .presets-desktop {
     width: 11vw;
   }
   .app-main {
-    padding:unset;
+    padding: unset;
   }
   .preset {
     font-size: 0.8em;
   }
-  
+
   .preset-shortenable {
-    display:none;
+    display: none;
   }
-  
+
   .idlabel {
     font-size: 0.6em;
   }
-  
-  .idlabel input[type=checkbox]{
+
+  .idlabel input[type="checkbox"] {
     width: 10px;
   }
 }
@@ -165,17 +174,17 @@ input.app-input[type=text] {
     /*display: none;*/
     width: 35%;
   }
-  
+
   .app-inner tr td {
-    display:block;
+    display: block;
     width: 100%;
     margin-top: 15px;
   }
-  
+
   .app-inner {
     border-spacing: 0px;
   }
-  
+
   .discordbutton {
     display: block;
   }
@@ -183,34 +192,34 @@ input.app-input[type=text] {
     overflow: auto;
   }
   .selectlist {
-    width:100%;
-    height:200px;
+    width: 100%;
+    height: 200px;
   }
   #identifiers_list {
-    width:unset;
+    width: unset;
   }
-  
+
   .textarea {
-    width:100%;
+    width: 100%;
   }
-  
+
   .ta2 {
     width: 100%;
   }
-  
-  .presets-desktop{
-    display:none;
+
+  .presets-desktop {
+    display: none;
   }
-  
-    .idlabel {
+
+  .idlabel {
     font-size: 12px;
   }
-  
-  .idlabel input[type=checkbox]{
+
+  .idlabel input[type="checkbox"] {
     width: unset;
   }
-  
+
   .id-prefix {
-    display:unset;
+    display: unset;
   }
 }

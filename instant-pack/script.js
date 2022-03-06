@@ -114,6 +114,7 @@ function generateLabels(){
 var labels = {
   bp: [
     "animation_controllers",
+    "blocks",
     "entities",
     "functions",
     "items",
@@ -126,7 +127,7 @@ var labels = {
   rp: [
     "animation_controllers",
     "animations",
-    "attackables",
+    "attachables",
     "entity",
     "fogs",
     "models",
@@ -144,7 +145,7 @@ function readFile() {
   if (this.files && this.files[0]) {
     var FR= new FileReader();
     FR.addEventListener("load", function(e) {
-      document.getElementById("icon").src       = e.target.result;
+      document.getElementById("icon").src = e.target.result;
       icon = e.target.result;
     }); 
     FR.readAsDataURL( this.files[0] );
