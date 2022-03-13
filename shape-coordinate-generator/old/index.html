@@ -1,204 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2e3148" />
+    <link
+      rel="icon"
+      href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+    />
+    
+    <title>MCBE Essentials</title>
 
-    <title>Shape Coordinate generator</title>
-    <link rel="icon" href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382">
     <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/shape-coordinate-generator/style.css">
-    
-    <style>
-      body {
-        background-color: lightpink;
-        text-align: center;
-      }
-      .center {
-  margin-left: auto;
-  margin-right: auto;
-}
-    </style>
-    
-    <!-- Snackbar -->
-    <style>
-    /* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar {
-  visibility: hidden; /* Hidden by default. Visible on click */
-  min-width: 250px; /* Set a default minimum width */
-  margin-left: -125px; /* Divide value of min-width by 2 */
-  background-color: #333; /* Black background color */
-  color: #fff; /* White text color */
-  text-align: center; /* Centered text */
-  border-radius: 2px; /* Rounded borders */
-  padding: 16px; /* Padding */
-  position: fixed; /* Sit on top of the screen */
-  z-index: 1; /* Add a z-index if needed */
-  left: 50%; /* Center the snackbar */
-  bottom: 30px; /* 30px from the bottom */
-}
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar.show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
-}
-    </style>
-    
     <!-- import the webpage's javascript file -->
-    <script src="/shape-coordinate-generator/old/v002.js" defer></script>
-    
-    <!-- Changeable Text -->
-    <style>
-.topline {margin: auto; border: 1px solid black; padding: 2px;}
-.center {margin: auto; border: 1.8px solid black; padding: 3px;}
-.textbox {font-family: Courier New,Courier,Courier New,Courier,monospace;}
-</style>
-<script>
-function deleteLine(currentElement){
-var intendedDelete = currentElement.parentElement;
-document.getElementById("editor").removeChild(intendedDelete);
-}
-</script>
-  </head>  
-  <body>
-    <div id="app">
-    <h1>Shape Coordinate Generator</h1>
-    <p>
-    This app will allow you to get the coordinates of each and every block inside a rectangular prism of any kind.<br>(Lines, cubes, walls, ect)
-      <br>
-      <label><input type="checkbox" id="isHollow">Use hollow shape</label>
-    </p>
-    <table class="center">
-      <tr>
-        <td>
-    <form style="background-color:lightgrey;padding:100px 100px;" action="javascript:doOutput();">
-      <label>Start X <input value="0" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:16px;" id="x"></label><br>
-      <label>Start Y <input value="0" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:16px;" id="y"></label><br>
-      <label>Start Z <input value="0" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:16px;" id="z"></label><br>
-      <label>Length (X) <input value="3" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:16px;" id="l"></label><br>
-      <label>Height (Y) <input value="3" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:16px;" id="h"></label><br>
-      <label>Width (Z) <input value="3" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:16px;" id="w"></label><br>
-      <input type="submit" value="Submit">
-    </form>
-        </td><td>
-    <b>Output:</b><br>
-    <textarea rows="19" cols="25" id="output" disabled>0, 0, 0</textarea>
-        <br><button onclick="copyText();">Copy Output</button>
-        </td>
-      </tr>
-    </table><br>
-    <label><input type="checkbox" id="useA">Use &&& and %%% before and after each coordinate for use with Find and Replace so that you can insert commands before and after each item.</label><br>
-    <label><input type="checkbox" id="useB">Use Relative coordinates (For Minecraft, adds a ~ before each coordiante)</label><br>
-    <label><input type="checkbox" id="useC" checked>Separate coordinates with a comma</label><br>
-    
-    <!-- Snackbar message -->
-    <div id="snackbar">Copied to Clipboard</div>
+    <script src="/apps.js" defer></script>
+    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body style="">
+    <!--<div id="menu-button">
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+      <div class="menu-button-dot"></div>
+    </div>-->
+    <div id="head" class="header">
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <span class="imgicontext">MCBE Essentials</span>
     </div>
-    <div id="commandbuilder" style="display:none;">
-    <h1>Function Builder</h1>
-    <p>The Command Builder allows you to use the above items to easily create a function. Make functions in seconds, not minutes!</p>
-    <table class="center">
-    <tr id="builderHome">
-      <td><b>Command:</b></td><td><input value="setblock" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:70px;"></td>
-      <td><input value="(x,y,z)" class="textbox" disabled style="width:55px"></td>
-      <td><input value="redstone_block" oninput="this.style.width = (((this.value.length * 8)+8).toString() + 'px');" class="textbox" style="width:120px;"></td>
-    </tr>
-    </table>
-<button onclick="addInput()">Add Input</button>
-
+    <div id="body" class="main-content">
+      <div id="left" class="main-left">
+        <br>
+        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
+        <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">Minecraft Bedrock Essentials</h2>
+        <i style="margin-left:15px; margin-right: 15px; display: none;">A collection of tools for Minecraft Bedrock Edition coding!<br></i><br>
+        <button onclick="window.location.href='//discord.gg/Maeq5ZtpVk'">Discord</button><br>
+        <ul class="main-left-select" id="left-tools">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
+          <h1>Shape Coordinate Generator</h1>
+          <table class="app-main" id="app-main">
+            <thead>
+              <tr>
+                <td>Shape</td>
+                <td>Coordinates</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <table class="app-inner" style="display:inline-block">
+                    <tr>
+                      <td class="app-inner-inner">
+                        <!--<textarea class="ta2" rows="3" placeholder="Param1" id="customentities" onblur="doIdentifiers()"></textarea>-->
+                        <table style="margin-left:auto;margin-right:auto;">
+                          <tbody>
+                            <tr>
+                              <td>
+                                Start X: <input class="app-input" type="number" placeholder="0" id="x">
+                              </td> 
+                              <td>
+                                Width (X): <input class="app-input" type="number" placeholder="0" id="l">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Start Y: <input class="app-input" type="number" placeholder="0" id="y">
+                              </td> 
+                              <td>
+                                Height (Y): <input class="app-input" type="number" placeholder="0" id="h">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Start Z: <input class="app-input" type="number" placeholder="0" id="z">
+                              </td> 
+                              <td>
+                                Depth (Z): <input class="app-input" type="number" placeholder="0" id="w">
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="app-inner-inner">
+                        <label><input type="checkbox" id="useB" oninput="doIdentifiers()"> Use Relative ~ coordinates</label><br>
+                        <label><input type="checkbox" id="isHollow" oninput="doIdentifiers()"> Hollow Shape</label><br>
+                        <label><input type="checkbox" id="useC" oninput="doIdentifiers()"> Separate coordinates with a comma</label><br>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="generate-button" onclick="doOutput()" style="display:inline-block;width:calc(50% - 10px);border-radius:10px 0px 0px 10px;">Generate</div><div class="gb-blue generate-button" onclick="copyText()" style="display:inline-block;width:calc(50% - 10px);border-radius:0px 10px 10px 0px;">Copy Output</div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="app-inner" style="padding:0;">
+                  <textarea class="app-inner ta2" style="width:20vw;display: table-cell;background-color: #4b4a5c;padding: 4px;border-radius: 10px;height: 100%;" placeholder="0 0 0" id="output" rows="18" disabled></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table><br>
+      <!--This is also available as a custom command in the <a href="https://bridge-core.app/" style="background-color:rgba(255,255,255,0.3);padding:3px;border-radius:5px;color:#82f782;">bridge.</a> add-on editor on the extension store!-->
+      <br><br><br>
+      </div>
+    </div>
+    <div class="menu-button2"
+         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
+         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+         onclick="toggleMenu(this)"
+         >
+      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
     </div>
   </body>
 </html>
-<!-- Generation Scripts -->
-<script>
-function doOutput(){
-  if(!document.getElementById("isHollow").checked){
-document.getElementById("output").value =  outputItems(
-  parseInt(document.getElementById("x").value, 10),
-  parseInt(document.getElementById("y").value, 10),
-  parseInt(document.getElementById("z").value, 10),
-  parseInt(document.getElementById("l").value, 10),
-  parseInt(document.getElementById("h").value, 10),
-  parseInt(document.getElementById("w").value, 10)
-);
-  }else{
-    document.getElementById("output").value =  hOutputItems(
-  parseInt(document.getElementById("x").value, 10),
-  parseInt(document.getElementById("y").value, 10),
-  parseInt(document.getElementById("z").value, 10),
-  parseInt(document.getElementById("l").value, 10),
-  parseInt(document.getElementById("h").value, 10),
-  parseInt(document.getElementById("w").value, 10)
-);
-  }
-}
-  
-function copyText() {
-  /* Get the text field */
-  var copyText = document.getElementById("output");
-  
-  /* Enable the text field */
-  copyText.disabled = false;
-  
-  /* Select the text field */
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-  /* Copy the text inside the text field */
-  document.execCommand("copy");
-
-  /* Alert the copied text */
-  //alert("Copied the text: " + copyText.value);
-  
-  /* Disable the text field */
-  copyText.disabled = true;
-  snackbar();
-}
-  
-  //snackbar
-  function snackbar() {
-  // Get the snackbar DIV
-  var x = document.getElementById("snackbar");
-
-  // Add the "show" class to DIV
-  x.className = "show";
-
-  // After 3 seconds, remove the show class from DIV
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-</script>
-<!-- Command Builder scripts -->
-<script>
-function addInput(){
-  var text = '<input value="value" oninput="this.style.width = (((this.value.length * 8)+8).toString() + \'px\');" class="textbox" style="width:48px;">';
-  var number = '<input type="number" value="0" class="textbox" style="width:32px;">';
-  var addition = "<td>" + number + "</td>";
-  document.getElementById("builderHome").innerHTML += addition;
-}
-</script>

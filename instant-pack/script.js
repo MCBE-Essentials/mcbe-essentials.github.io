@@ -31,6 +31,21 @@ var manifest = {
 	]
 };
 
+function randomArray(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function generateDetails(){
+  document.getElementById("title").value = capitalizeFirstLetter(randomArray(adjectives)) + " " + randomArray(adjectives) + " " + randomArray(nouns);
+  document.getElementById("desc").value = "A " + randomArray(adjectives) + " project that does " + randomArray(adjectives) + " things";
+}
+
+generateDetails();
+
 function start(){
   setVersion();
   manifest.header.uuid = generateUUID();
