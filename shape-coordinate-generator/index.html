@@ -22,11 +22,6 @@
     <script src="script.js" defer></script>
   </head>
   <body style="">
-    <!--<div id="menu-button">
-      <div class="menu-button-dot"></div>
-      <div class="menu-button-dot"></div>
-      <div class="menu-button-dot"></div>
-    </div>-->
     <div id="head" class="header">
         <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
       <span class="imgicontext">MCBE Essentials</span>
@@ -54,72 +49,52 @@
         </ul>
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>Shape Coordinate Generator</h1>
-          <table class="app-main" id="app-main">
+          <table class="app-main" id="app-main" style="width:50%">
             <thead>
               <tr>
-                <td>Shape</td>
-                <td>Coordinates</td>
+                <td>Import</td>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <table class="app-inner" style="display:inline-block">
-                    <tr>
-                      <td class="app-inner-inner">
-                        <!--<textarea class="ta2" rows="3" placeholder="Param1" id="customentities" onblur="doIdentifiers()"></textarea>-->
-                        <table style="margin-left:auto;margin-right:auto;">
-                          <tbody>
-                            <tr>
-                              <td>
-                                Start X: <input class="app-input" type="number" placeholder="0" id="x">
-                              </td> 
-                              <td>
-                                Width (X): <input class="app-input" type="number" placeholder="0" id="l">
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                Start Y: <input class="app-input" type="number" placeholder="0" id="y">
-                              </td> 
-                              <td>
-                                Height (Y): <input class="app-input" type="number" placeholder="0" id="h">
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                Start Z: <input class="app-input" type="number" placeholder="0" id="z">
-                              </td> 
-                              <td>
-                                Depth (Z): <input class="app-input" type="number" placeholder="0" id="w">
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="1" class="app-inner-inner">
-                        <label><input type="checkbox" id="useB" oninput="doIdentifiers()"> Use Relative ~ coordinates</label><br>
-                        <label><input type="checkbox" id="isHollow" oninput="doIdentifiers()"> Hollow Shape</label><br>
-                        <label><input type="checkbox" id="useC" oninput="doIdentifiers()"> Separate coordinates with a comma</label><br>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="generate-button" onclick="doOutput()" style="display:inline-block;width:calc(50% - 10px);border-radius:10px 0px 0px 10px;">Generate</div><div class="gb-blue generate-button" onclick="copyText()" style="display:inline-block;width:calc(50% - 10px);border-radius:0px 10px 10px 0px;">Copy Output</div>
-                      </td>
-                    </tr>
-                  </table>
+                <td class="app-inner">
+                  <textarea class="ta2" rows="3" placeholder="Paste a /fill command here to import its parameters!" style="width:100%;" oninput="importFill(this.value)"></textarea>
                 </td>
-                <td class="app-inner" style="padding:0;">
-                  <textarea class="app-inner ta2" style="width:20vw;display: table-cell;background-color: #4b4a5c;padding: 4px;border-radius: 10px;height: 100%;" placeholder="0 0 0" id="output" rows="18" disabled></textarea>
+              </tr>
+              <tr>
+                <td>Parameters</td>
+              </tr>
+              <tr>
+                <td class="app-inner">
+                  From: <input class="app-input" style="width:150px" placeholder="0 0 0" id="from"><br>
+                  To: <input class="app-input" style="width:150px" placeholder="0 0 0" id="to"><br>
+                  Modifier:
+                  <select class="app-input" style="height:unset;width:100px;" id="modifier">
+                    <option value="">(none)</option>
+                    <option value="~">~</option>
+                    <option value="^">^</option>
+                  </select><br>
+                  <label><input type="checkbox" id="hollow"> Outline mode</label>
+                </td>
+              </tr>
+              <tr>
+                <td>Coordinates</td>
+              </tr>
+              <tr>
+                <td class="app-inner" style="padding:8px;">
+                  <textarea class="ta2" rows="12" placeholder="0 0 0" style="width:100%;" id="output"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="generate-button" style="border-radius: 10px 10px 0px 0px;" onclick="doGeneration()">Generate</div>
+                  <div class="generate-button gb-blue" style="border-radius: 0px 0px 10px 10px;">Copy Output</div>
                 </td>
               </tr>
             </tbody>
           </table><br>
-      <!--This is also available as a custom command in the <a href="https://bridge-core.app/" style="background-color:rgba(255,255,255,0.3);padding:3px;border-radius:5px;color:#82f782;">bridge.</a> add-on editor on the extension store!-->
-      <br><br><br>
+      Text
+      <br><br>
       </div>
     </div>
     <div class="menu-button2"

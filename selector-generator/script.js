@@ -120,16 +120,20 @@ function checkSAll(){
       unchecked++;
     }
   }
-  if(unchecked != 0){
-    elem.checked = false;
-  } else {
+  if(unchecked == 0){
+    elem.indeterminate = false;
     elem.checked = true;
+  } else if (unchecked < identifierList.length){
+    elem.indeterminate = true;
+  } else {
+    elem.indeterminate = false;
+    elem.checked = false;
   }
-  if(elem.checked){
+  /*if(elem.checked){
      document.getElementById("selectAll").innerHTML = "Deselect All";
   } else {
     document.getElementById("selectAll").innerHTML = "Select All";
-  }
+  }*/
 }
 
 function generateSelector(){
