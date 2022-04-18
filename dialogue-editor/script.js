@@ -324,7 +324,8 @@ function deleteScene(){
 function deleteButton(){
   closeEditors();
   currentScene.buttons.splice(currentScene.buttons.indexOf(currentButton), 1);
-  readProject();
+  //readProject();
+  openScene(currentScene);
 }
 
 function toggleButtonRawtext(el){

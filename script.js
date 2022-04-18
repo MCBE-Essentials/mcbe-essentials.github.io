@@ -56,7 +56,18 @@ function loadApp(path, type, elem){
   //main;list
   var svg = '<svg viewBox="0 0 24 24" class="' + path.icon.class[type] + '">' + path.icon.data + "</svg>";
   elem.innerHTML += svg;
-  if(window.location.href == path.link){
+  
+  var link = path.link;
+  if(location.host == "mcbe-essentials.glitch.me"){
+    link = link.replaceAll("github.io", "glitch.me");
+    if(path.subapps){
+      for(var a = 0; a < path.subapps.length; a++){
+        path.subapps[a] = path.subapps[a].replaceAll("github.io", "glitch.me");
+      }
+    }
+  }
+  
+  if(window.location.href == link){
     elem.setAttribute("class", "selected");
     document.title = path.name + " - MCBE Essentials";
     if(path.confirmUnload){
@@ -64,7 +75,13 @@ function loadApp(path, type, elem){
     }
   } else {
     if(!path.tba){
-      elem.setAttribute("onclick", "window.location.href='"+ path.link +"'");
+      elem.setAttribute("onclick", "window.location.href='"+ link +"'");
+    }
+  }
+  
+  if(path.subapps){
+    if(path.subapps.includes(window.location.href)){
+      elem.setAttribute("class", "selected");
     }
   }
   

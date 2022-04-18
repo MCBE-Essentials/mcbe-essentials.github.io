@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <input type="file" accept=".zip" id="file" />
+    <input id="extension">
+  </body>
+</html>
+<script src="/jszip.js"></script>
+<script>
+  var jszip = new JSZip();
+  var masterzip = {};
+  var lines = [];
+  document.getElementById("file").addEventListener("change", function () {
+    if (this.files && this.files[0]) {
+      jszip.loadAsync(this.files[0]).then(function (zip) {
+        masterzip = zip;
+        countZip();
+      });
+    }
+  });
+  
+  function countZip(){
+    for(var i = 0; i < Object.keys(masterzip.files).length; i++){
+      if(masterzip.file(Object.keys(masterzip.files)[i]) && Object.keys(masterzip.files)[i].includes(document.getElementById("extension").value)){
+        masterzip.file(Object.keys(masterzip.files)[i]).async("text").then(function(r){
+          lines = lines.concat(r.split("\n"));
+          console.log(r.split("\n"))
+        })
+      }
+    }
+  }
+</script>

@@ -14,6 +14,7 @@
 
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="style.css">
 
     <!-- import the webpage's javascript file -->
@@ -48,52 +49,42 @@
           <li></li>
         </ul>
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
-          <h1>Shape Coordinate Generator</h1>
-          <table class="app-main" id="app-main" style="width:50%">
+          <h1>Loot Tabler</h1>
+          <table class="app-main" id="app-main">
             <thead>
               <tr>
-                <td>Import</td>
+                <td>Containers</td>
+                <td>Options</td>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="app-inner">
-                  <textarea class="ta2" rows="3" placeholder="Paste a /fill command here to import its parameters!" style="width:100%;" oninput="importFill(this.value)"></textarea>
-                </td>
-              </tr>
-              <tr>
-                <td>Parameters</td>
-              </tr>
-              <tr>
-                <td class="app-inner">
-                  From: <input class="app-input" style="width:150px" placeholder="0 0 0" id="from"><br>
-                  To: <input class="app-input" style="width:150px" placeholder="0 0 0" id="to"><br>
-                  Modifier:
-                  <select class="app-input" style="height:unset;width:100px;" id="modifier">
-                    <option value="">(none)</option>
-                    <option value="~">~</option>
-                    <option value="^">^</option>
-                  </select><br>
-                  <label><input type="checkbox" id="hollow"> Outline mode</label>
-                </td>
-              </tr>
-              <tr>
-                <td>Coordinates</td>
-              </tr>
-              <tr>
-                <td class="app-inner" style="padding:8px;">
-                  <textarea class="ta2" rows="12" placeholder="0 0 0" style="width:100%;" id="output" disabled></textarea>
-                </td>
-              </tr>
-              <tr>
                 <td>
-                  <div class="generate-button" style="border-radius: 10px 10px 0px 0px;" onclick="doGeneration()">Generate</div>
-                  <div class="generate-button gb-blue" style="border-radius: 0px 0px 10px 10px;" onclick="copyText()">Copy Output</div>
+                  <table class="app-inner" style="display:inline-block">
+                    <tr>
+                      <td class="app-inner-inner">
+                        
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="1" class="app-inner-inner">
+                        <u>Container Info</u><br>
+                        <b>Position:</b> ~0 ~0 ~0<br>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="app-inner">
+                  <label><input type="checkbox"> Wipe item contents</label><br>
+                  Loot Table:<br>
+                  <input style="width:100%;font-family:monospace;font-size:8pt;" placeholder="loot_tables/chests/spawn_bonus_chest.json"><br>
+                  Loot Table Seed: <input type="number" placeholder="0000000000">
                 </td>
               </tr>
             </tbody>
           </table><br>
-      The Shape Coordinate Generator simulates a /fill command by outputting all the individual coordinates within a shape. It's used in particle fields, greater /execute detect fields and more.
+      This app is a modfied verison of the Structure Editor, created to quickly and easily apply loot tables to containers within structures.<br><br>
+      Leave the "Loot Table Seed" field blank if you want the loot table to generate randomly each time the structure is loaded, otherwise put a number in.
       <br><br>
       </div>
     </div>

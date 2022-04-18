@@ -135,3 +135,24 @@ function generateShape([x1, y1, z1], [x2, y2, z2], modifier, hollow){
   
   return coordslist;
 }
+
+function copyText() {
+  /* Get the text field */
+  var copyText = document.getElementById("output");
+  
+  /* Enable the text field */
+  copyText.disabled = false;
+  
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  //alert("Copied the text: " + copyText.value);
+  
+  /* Disable the text field */
+  copyText.disabled = true;
+}
