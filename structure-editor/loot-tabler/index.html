@@ -49,7 +49,7 @@
           <li></li>
         </ul>
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
-          <h1>Loot Tabler</h1>
+          <h1>Structure Editor - Loot Tabler</h1>
           <table class="app-main" id="app-main">
             <thead>
               <tr>
@@ -63,7 +63,11 @@
                   <table class="app-inner" style="display:inline-block">
                     <tr>
                       <td class="app-inner-inner">
-                        
+                        <div style="width:calc(100%-10px);height:200px;overflow-y:auto;" id="tile-list">
+                          <span class="idlabel selected">Chest</span>
+                          <span class="idlabel">Sign</span>
+                          <span class="idlabel">Command Block</span>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -80,11 +84,14 @@
                   <input style="width:100%;font-family:monospace;font-size:8pt;" placeholder="loot_tables/chests/spawn_bonus_chest.json"><br>
                   Loot Table Seed: <input type="number" placeholder="0000000000">
                 </td>
-              </tr>
+                </tr>
+                <tr>
+                  <td class="generate-button gb-blue" colspan="2">Download Structure</td>
+                </tr>
             </tbody>
           </table><br>
       This app is a modfied verison of the Structure Editor, created to quickly and easily apply loot tables to containers within structures.<br><br>
-      Leave the "Loot Table Seed" field blank if you want the loot table to generate randomly each time the structure is loaded, otherwise put a number in.
+      Leave the "Loot Table Seed" field blank if you want the loot table to generate randomly each time the structure is loaded, otherwise put a number in to generate the contents consistently
       <br><br>
       </div>
     </div>

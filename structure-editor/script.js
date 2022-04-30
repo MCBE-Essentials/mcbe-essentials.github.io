@@ -433,6 +433,11 @@ function download(){
 }
 
 function fillBlocks(){
+  if(!structure.value.structure.value.palette.value.default){
+    snackbar("This structure does not support blocks.");
+    return;
+  }
+  
   var disallowedValues = [
     //If any of these values are entered, the program considers the user response "omitted"
     "",
@@ -445,13 +450,13 @@ function fillBlocks(){
   var layer = parseFloat(document.getElementById("fill-layer").value);
   var from = [
     parseFloat(document.getElementById("fill-f-1").value), // X
-    parseFloat(document.getElementById("fill-f-3").value), // Y
-    parseFloat(document.getElementById("fill-f-2").value)  // Z
+    parseFloat(document.getElementById("fill-f-2").value), // Y
+    parseFloat(document.getElementById("fill-f-3").value)  // Z
   ];
   var to = [
-    parseFloat(document.getElementById("fill-t-1").value), // X
-    parseFloat(document.getElementById("fill-t-3").value), // Y
-    parseFloat(document.getElementById("fill-t-2").value)  // Z
+    parseFloat(document.getElementById("fill-t-1").value) + 1, // X
+    parseFloat(document.getElementById("fill-t-2").value) + 1, // Y
+    parseFloat(document.getElementById("fill-t-3").value) + 1  // Z
   ];
   var target = document.getElementById("fill-target").value;
   if(disallowedValues.includes(target)){
@@ -529,9 +534,9 @@ function fillBlocks(){
   var structureSize = structure.value.size.value.value;
   var blocks = structure.value.structure.value.block_indices.value.value[layer].value;
   var blockFilled = 0;
-  for(var z = pointA[2]; z < pointB[2]; z++){
-    for(var y = pointA[1]; y < pointB[1]; y++){
-      for(var x = pointA[0]; x < pointB[0]; x++){
+  for(var z = pointA[2]; z < pointB[2] + 1; z++){
+    for(var y = pointA[1]; y < pointB[1] + 1; y++){
+      for(var x = pointA[0]; x < pointB[0] + 1; x++){
         if(blocks[getStructureBlockIndex(structureSize, [x,y,z])] != paletteIndex){
           if(!target || palette[blocks[getStructureBlockIndex(structureSize, [x,y,z])]].name.value == target){
             blocks[getStructureBlockIndex(structureSize, [x,y,z])] = paletteIndex;

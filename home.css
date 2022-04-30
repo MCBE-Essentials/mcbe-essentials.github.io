@@ -1,3 +1,49 @@
+html {
+  /*overflow: hidden;*/
+}
+
+.header {
+  width: 100%;
+  height: 40px;
+  position:absolute;
+  top:0;
+  background-color: #2b2b3a;
+  text-indent: 10px;
+  vertical-align: 10px;
+}
+
+.main-content {
+  height: calc(100% - 40px);
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  background-color: #2e3148;
+  display: unset;
+}
+
+.main-left {
+  background-color: #4a4a5c;
+  height: 100%;
+  width: 25%;
+  float: left;
+  text-align: center;
+  height:auto;
+  min-height:100%;
+  min-width: unset;
+  display: unset;
+}
+
+.left-inner {
+  min-width: unset;
+}
+
+.main-right {
+  background-color: #2e3148;
+  height: 100%;
+  width: 100%;
+  display: unset;
+}
+
 @media only screen and (max-width: 800px) {
   /*Square*/
   .main-left {
@@ -15,9 +61,16 @@
   }
 }
 
+@media only screen and (max-width: 560px) {
+  /*Phone portrait*/
+  html {
+    overflow-y: scroll;
+  }
+}
+
 button {
   width: 100%;
-  padding: 18px 0px;
+  padding: 12px 0px;
 }
 
 button:hover {
