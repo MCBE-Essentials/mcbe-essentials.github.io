@@ -37,7 +37,7 @@ var mcitems = {
       "minecraft:sapling": "minecraft:oak_sapling",
       "minecraft:dye": "minecraft:white_dye",
       "minecraft:coral_block": "minecraft:brain_coral_block",
-      //Java -> Bedrock
+      //Bedrock -> Java
       "minecraft:small_dripleaf_block": "minecraft:small_dripleaf",
       "minecraft:acacia_standing_sign": "minecraft:acacia_sign",
       "minecraft:acacia_wall_sign": "minecraft:acacia_sign",
@@ -55,7 +55,13 @@ var mcitems = {
       "minecraft:fish": "minecraft:cod",
       "minecraft:cooked_fish": "minecraft:cooked_cod",
       "minecraft:clownfish": "minecraft:tropical_fish",
-      "minecraft:boat": "minecraft:oak_boat"
+      "minecraft:boat": "minecraft:oak_boat",
+      "minecraft:grass": "minecraft:grass_block",
+      "minecraft:grass_path": "minecraft:dirt_path",
+      "minecraft:stained_glass_pane": "minecraft:white_stained_glass_pane",
+      "minecraft:bed": "minecraft:white_bed",
+      "minecraft:water": "minecraft:water_bucket",
+      "minecraft:lava": "minecraft:lava_bucket",
     },
     durabilities: {
       //Armor
@@ -133,16 +139,12 @@ var mcitems = {
 
   init: function() {
     for (var i = 0; i < document.getElementsByTagName("mcitem").length; i++) {
-      if(Object.keys(mcitems.data.mapping).includes(document.getElementsByTagName("mcitem")[i].getAttribute("identifier"))){
-        document.getElementsByTagName("mcitem")[i].setAttribute("identifier",
-          mcitems.data.mapping[document.getElementsByTagName("mcitem")[i].getAttribute("identifier")]
-        )
-      }
     
       document.getElementsByTagName("mcitem")[i].innerHTML =
         '<img class="mcitemdisplay" src="' +
         mcitems.getData(
-          document.getElementsByTagName("mcitem")[i].getAttribute("identifier")
+          document.getElementsByTagName("mcitem")[i].getAttribute("identifier"),
+          (document.getElementsByTagName("mcitem")[i].hasAttribute("allowlist") ? document.getElementsByTagName("mcitem")[i].getAttribute("allowlist") : false)
         ).texture +
         '" title="' +
         mcitems.getData(
@@ -172,7 +174,7 @@ var mcitems = {
       document.getElementsByTagName("mcitem")[i].style.position = "relative";
     }
   },
-  getData: function(identifier) {
+  getData: function(identifier, allowlist) {
     identifier = identifier;
     var items = Object.keys(mcitems.data.items.items);
     var customitems = Object.keys(mcitems.data.customitems);
@@ -182,6 +184,18 @@ var mcitems = {
       readable: "Unknown"
     };
 
+    try{
+      if(allowlist && eval(allowlist)){
+        if(!eval(allowlist).includes(identifier)){
+          return output;
+        }
+      }
+    }catch(e){}
+    
+    if(Object.keys(mcitems.data.mapping).includes(identifier)){
+      identifier = mcitems.data.mapping[identifier];
+    }
+    
     if (items.includes(identifier)) {
       output = mcitems.data.items.items[identifier];
     } else if (customitems.includes(identifier)) {

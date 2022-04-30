@@ -139,6 +139,10 @@ details summary {
   border-radius: 10px;
 }
   
+#tradelist-container {
+  padding: 5px;
+}
+
 .generate-button {
   background-color: #82f782;
   color:black;
@@ -271,6 +275,10 @@ textarea::-webkit-scrollbar-thumb {
   color: black;
 }
 
+.trade-settings-2 {
+  display: none;
+}
+
 .app-input-tiers.selected {
     border: 3px solid #1d1d25;
     background-color: #40404c;
@@ -325,6 +333,10 @@ input[type=text].app-input {
     height: 75%;
   }*/
   
+  h1 {
+    font-size: 2em;
+  }
+  
   .id-prefix {
     display:none;
   }
@@ -333,6 +345,7 @@ input[type=text].app-input {
   }
   .app-main {
     padding:unset;
+    font-size: 8pt;
   }
   .preset {
     font-size: 0.8em;
@@ -348,6 +361,35 @@ input[type=text].app-input {
   
   .idlabel input[type=checkbox]{
     width: 10px;
+  }
+  
+  input.app-input {
+    font-size: 6pt;
+    height: 10pt;
+    width: 30px;
+  }
+  
+  .minibutton {
+    height: 14px;
+    margin-right: -2px;
+  }
+  
+  .app-inner {
+    padding: 0;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .trade-settings-1 {
+    display: none;
+  }
+  
+  .trade-settings-2 {
+    display: block;
+  }
+  
+  #tradelist-container {
+    padding: 0;
   }
 }
 

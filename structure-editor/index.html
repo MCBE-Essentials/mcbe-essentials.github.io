@@ -40,14 +40,14 @@
       <div id="left" class="main-left">
         <br>
         <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
-        <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">Minecraft Bedrock Essentials</h2>
+        <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">MCBE Essentials</h2>
       </div>
       <div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>Structure Editor</h1>
           <table class="app-main" id="app-main">
             <tbody>
               <tr>
-                <td>Fill Blocks (EXPERIMENTAL)</td>
+                <td>Fill Blocks</td>
                 <td>Entity Editor</td>
                 <td>Tile Entity Editor</td>
               </tr>
@@ -61,7 +61,7 @@
                   To: <input type="number" placeholder="x" class="app-input" id="fill-t-1">,<input type="number" placeholder="y" class="app-input" id="fill-t-2">,<input type="number" placeholder="z" class="app-input" id="fill-t-3"><br>
                   Target: <input type="text" placeholder="minecraft:block" class="app-input" style="width:180px;" list="block_identifiers" id="fill-target"><br>
                   Fill: <input type="text" placeholder="minecraft:block" class="app-input" style="width:180px;" list="block_identifiers" id="fill-fill"><br>
-                  <button class="generate-button" style="padding: 5px 25px;" onclick="if(confirm('The fill tool is very expeimental and has a high chance to break your structures.\n\nDo you want to proceed?')){fillBlocks()}">
+                  <button class="generate-button" style="padding: 5px 25px;" onclick="fillBlocks()">
                     Fill
                   </button>
                 </td>

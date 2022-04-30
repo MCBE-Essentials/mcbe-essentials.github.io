@@ -37,28 +37,13 @@
         <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg" draggable="false">
         <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">Minecraft Bedrock Essentials</h2>
         <i style="margin-left:15px; margin-right: 15px; display: none;">A collection of tools for Minecraft Bedrock Edition coding!<br></i><br>
-        <button onclick="window.location.href='//discord.gg/Maeq5ZtpVk'">Discord</button><br>
-        <ul class="main-left-select" id="left-tools">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>World Packager</h1>
           <table class="app-main" id="app-main">
             <thead>
               <tr>
                 <td>Add-ons</td>
-                <td>Edit world options</td>
+                <!--<td>Edit world options</td>-->
               </tr>
             </thead>
             <tbody>
@@ -96,12 +81,12 @@
                     
                   </table>
                 </td>
-                <td class="app-inner">
+                <!--<td class="app-inner">
                   <button class="generate-button gb-blue world-edit-button" onclick="openWorldSettings()" style="border-radius: 10px 10px 0px 0px;">Edit world settings</button><br>
                   <button class="generate-button gb-blue world-edit-button" onclick="openWorldGamerules()">Edit gamerules</button><br>
                   <button class="generate-button gb-blue world-edit-button" onclick="openWorldRestrictions()">Edit restrictions</button><br>
                   <button class="generate-button gb-blue world-edit-button" onclick="openWorldMisc()" style="border-radius: 0px 0px 10px 10px;">Edit miscellaneous</button>
-                </td>
+                </td>-->
               </tr>
               <tr>
                 <td colspan="2">World Template</td>
@@ -124,13 +109,14 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 10px 0px 0px 10px" onclick="downloadProject()" id="downloadworldbutton">Download World</div><div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 0px 10px 10px 0px" onclick="downloadLevelDat()">Download level.dat</div>
+                  <div class="generate-button" style="display:inline-block;width:100%;" onclick="downloadProject()" id="downloadworldbutton">Download World</div>
+                  <!--<div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 10px 0px 0px 10px" onclick="downloadProject()" id="downloadworldbutton">Download World</div><div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 0px 10px 10px 0px" onclick="downloadLevelDat()">Download level.dat</div>-->
                   <input type="file" id="file" style="display:none" accept=".zip,.mctemplate,.mcworld">
                 </td>
               </tr>
             </tbody>
           </table><br>
-      The World Packager allows you to apply addons directly into your world data<br>and edit gamerules stored in your level.dat file. It can also transform your world<br>into an importable World Template. Thanks to <a href="http://jszip.org/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">JSZip</a> for archive parsing<br>and <a href="https://github.com/PrismarineJS/prismarine-nbt" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">Prismarine-NBT</a> for the level.dat editing.
+      The World Packager allows you to apply addons directly into your world data<!--<br>and edit gamerules stored in your level.dat file-->. It can also transform your world<br>into an importable World Template. Thanks to <a href="http://jszip.org/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">JSZip</a> for archive parsing<!--<br>and <a href="https://github.com/PrismarineJS/prismarine-nbt" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">Prismarine-NBT</a> for the level.dat editing-->.
       <br><br>
       </div>
     </div>

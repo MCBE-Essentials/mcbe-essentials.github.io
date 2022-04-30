@@ -1,3 +1,7 @@
+<!--
+  Congrats, you found a scrapped app!
+  This app had to be scrapped because prismarine-nbt doesn't allow you to add the level.dat header required for Bedrock edition.
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,13 +19,22 @@
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/item/style.css">
 
     <!-- import the webpage's javascript file -->
-    <script src="/apps.js" defer></script>
+    <script src="/apps.js"></script>
     <script src="/script.js" defer></script>
+    <script src="/pnbt.js"></script>
+    <script src="/jszip.js" defer></script>
+    <script src="/filesaver.js" defer></script>
+    <script src="/item/script.js"></script>
     <script src="script.js" defer></script>
+    <script>
+      alert("This app is unused.");
+      window.location.href = "/";
+    </script>
   </head>
-  <body style="">
+  <body onload="">
     <div id="head" class="header">
         <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
       <span class="imgicontext">MCBE Essentials</span>
@@ -30,39 +43,40 @@
       <div id="left" class="main-left">
       </div>
       <div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
-          <h1>App Name</h1>
+          <h1>World Generator</h1>
+        <label style="display: none;"><input type="file" id="file" accept=".dat" style="display: none;"> File</label>
           <table class="app-main" id="app-main">
             <thead>
               <tr>
-                <td>Parameters</td>
-                <td>Output</td>
+                <td>Flat World</td>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <table class="app-inner" style="display:inline-block">
-                    <tr>
-                      <td class="app-inner-inner">
-                        <textarea class="ta2" rows="3" placeholder="Param1"></textarea>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="1" class="app-inner-inner"><label><input type="checkbox"> Option</label><br>
-                      <textarea class="ta2" style="border:1px solid #a3acb1;" rows="5" placeholder="Param2"></textarea>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="generate-button">Generate</td>
-                    </tr>
-                  </table>
-                </td>
                 <td class="app-inner">
+                  <div class="layers-list" id="layers-list">
+                    Loading template...
+                  </div>
+                  <div class="generate-button gb-blue" onclick="newLayer('minecraft:cobblestone', '1')" style="border-radius: 10px;">
+                    + Add Layer
+                  </div>
                 </td>
+              </tr>
+              <tr>
+                <td class="app-inner">
+                  Biome: <select class="app-input" style="width:320px;height:unset;" id="biome" value="1" oninput="changeBiome(this.value)">
+                    <option value="0">ocean</option>
+                    <option value="1">Loading biomes...</option>
+                  </select><br>
+                  <label><input type="checkbox" oninput="flatVersioning(this.checked)"> Start at y level -64</label>
+                </td>
+              </tr>
+              <tr>
+                <td class="generate-button" style="cursor: pointer" onclick="exportMcworld();">Download .mcworld</td>
               </tr>
             </tbody>
           </table><br>
-      Text
+      World Generator allows you to download a .mcworld containing a world that can't be created in vanilla Minecraft.
       <br><br>
       </div>
     </div>
@@ -75,3 +89,5 @@
     </div>
   </body>
 </html>
+<datalist id="block-identifiers"></datalist>
+<datalist id="biome-identifiers"></datalist>

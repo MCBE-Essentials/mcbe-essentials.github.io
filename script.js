@@ -30,6 +30,10 @@ if(window.location.href.includes("glitch.me") && window.localStorage.isDev != "t
   window.location.href = window.location.href.replace("glitch.me", "github.io");
 }
 
+if(window.location.host == "mcbe-essentials.glitch.me"){
+  document.title = "[DEV BUILD] MCBE Essentials";
+}
+
 if(location.protocol != "https:"){
 window.location.href= (window.location.href).replaceAll("http:", "https:")
 }
