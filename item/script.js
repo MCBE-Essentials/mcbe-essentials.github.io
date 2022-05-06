@@ -62,6 +62,7 @@ var mcitems = {
       "minecraft:bed": "minecraft:white_bed",
       "minecraft:water": "minecraft:water_bucket",
       "minecraft:lava": "minecraft:lava_bucket",
+      "minecraft:banner_pattern": "minecraft:creeper_banner_pattern"
     },
     durabilities: {
       //Armor

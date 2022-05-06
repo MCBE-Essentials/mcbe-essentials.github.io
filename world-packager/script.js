@@ -320,6 +320,10 @@ function processProject(){
   }
   
   doPacks();
+  
+  masterzip.file("world_icon.jpeg").async("base64").then(function(result){
+    document.getElementById("world-icon").src = "data:image/jpeg;base64," + result;
+  });
 }
 
 function packsList(list){
@@ -686,9 +690,6 @@ function downloadLevelDat(){
 
 function activateWT(){
   if(confirm("Are you sure you want to activate World Template mode? This will make your project export as a .mctemplate file and it will include its own manifest.json file.")){
-    document.getElementById("add-wt").style.display = "none";
-    document.getElementById("wt-settings").style.display = "block";
-    document.getElementById("downloadworldbutton").innerHTML = "Download World Template";
     masterzip.file("manifest.json", JSON.stringify(wt_template));
     readWT();
   }
@@ -714,6 +715,10 @@ function readWT(){
     document.getElementById("wt-lock").checked = result.header.lock_template_options;
     document.getElementById("wt-title").value = result.header.name;
     document.getElementById("wt-desc").value = result.header.description;
+    
+    document.getElementById("add-wt").style.display = "none";
+    document.getElementById("wt-settings").style.display = "block";
+    document.getElementById("downloadworldbutton").innerHTML = "Download World Template";
   });
 }
 

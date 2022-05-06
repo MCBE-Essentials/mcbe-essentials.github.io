@@ -12,9 +12,13 @@
   }
 
   var customItemsData = JSON.parse(window.localStorage.customItems);
+  document.getElementById("displays").innerHTML = "";
   for(var i = 0; i < Object.keys(customItemsData).length; i++){
     var entry = customItemsData[Object.keys(customItemsData)[i]];
     document.getElementById("displays").innerHTML += createRow(entry.texture, Object.keys(customItemsData)[i], entry.readable, i);
+  }
+  if(Object.keys(customItemsData).length == 0){
+    document.getElementById("displays").innerHTML = "<tr><td colspan='4' class='app-inner' style='border-radius:10px;'><i>No uploaded items yet.</i></td></tr>";
   }
   
   var dataurl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABF0lEQVR4XmMYBSM+BBhJDoEghv949axjIMlMpoGOAhaiHQD1+Y1VL8BaMr7MQtF6/dV9MP8lw3xICBEZEkMgBNB8fvXfY6yB9vLcKbC4eEciJCRuQUPiCv40MYhDgEifowcHPCTWQUMiCH9IDP40AIvzrAfTUDw7TSELhX+AYSWE//ofJA1A0wQDATCEygEcPrn88wGqzPP3EL6oMAMxYMBDYNQBxNcFaBGKEfdo8uJGZpDcwHAVb1IY+rngwN/rEB9eeguhJQUZSAEDHgKEWy+wFlCYNsRj0JKOAZbfYd6F+rwhoQks0mAZCpEZ7LUh8e03AiEhnuAJSfVB84nyOSzghkAaQE/SOgRaxVeGWKuYYRSM+BAAAM/kV0mgX0JmAAAAAElFTkSuQmCC";

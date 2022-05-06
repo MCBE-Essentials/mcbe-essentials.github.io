@@ -42,51 +42,59 @@
           <table class="app-main" id="app-main">
             <thead>
               <tr>
-                <td>Shape</td>
+                <td>Line</td>
                 <td>Head Facing</td>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <table class="app-inner" style="display:inline-block">
+                <td class="app-inner">
+                  <table style="display:inline-block">
                     <tr>
-                      <td class="app-inner-inner">
+                      <td class="app-inner-inner" style="text-align:left;">
                         <!--<textarea class="ta2" rows="3" placeholder="Param1" id="customentities" onblur="doIdentifiers()"></textarea>-->
                         <table style="margin-left:auto;margin-right:auto;">
                           <tbody>
                             <tr>
                               <td>
-                                Start X: <input class="app-input" type="number" placeholder="0" id="x">
+                                From:
                               </td> 
                               <td>
-                                End X: <input class="app-input" type="number" placeholder="0" id="x2">
+                                <input class="app-input" style="width:150px" placeholder="0 0 0" id="from">
                               </td>
                             </tr>
                             <tr>
                               <td>
-                                Start Y: <input class="app-input" type="number" placeholder="0" id="y">
+                                To:
                               </td> 
                               <td>
-                                End Y: <input class="app-input" type="number" placeholder="0" id="y2">
+                                <input class="app-input" style="width:150px" placeholder="0 0 0" id="to">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Modifier:</td>
+                              <td>
+                                <select class="app-input" style="height:unset;width:100px;" id="modifier">
+                                  <option value="">(none)</option>
+                                  <option value="~">~</option>
+                                  <option value="^">^</option>
+                                </select>
                               </td>
                             </tr>
                             <tr>
                               <td>
-                                Start Z: <input class="app-input" type="number" placeholder="0" id="z">
-                              </td> 
+                                Steps:
+                              </td>
                               <td>
-                                End Z: <input class="app-input" type="number" placeholder="0" id="z2">
+                                <input class="app-input" type="number" placeholder="0" id="steps">
                               </td>
                             </tr>
                             <tr>
-                              <td colspan="2">
-                                Steps: <input class="app-input" type="number" placeholder="0" id="steps">
+                              <td>
+                                Name:
                               </td>
-                            </tr>
-                            <tr>
-                              <td colspan="2">
-                                Name: <input class="app-input" type="text" placeholder="NAME" id="name">
+                              <td>
+                                <input class="app-input" type="text" placeholder="myCameraMovement" id="name" style="width:200px;">
                               </td>
                             </tr>
 
@@ -110,9 +118,10 @@
                     Your entity will<br>simply face the direction<br>they were facing when the<br>camera sequence started.
                   </div>
                   <div class="facing-settings" id="facing-1">
-                    X: <input class="app-input facing-step0" type="number" placeholder="0"><br>
+                    <!--X: <input class="app-input facing-step0" type="number" placeholder="0"><br>
                     Y: <input class="app-input facing-step1" type="number" placeholder="0"><br>
-                    Z: <input class="app-input facing-step2" type="number" placeholder="0"><br>
+                    Z: <input class="app-input facing-step2" type="number" placeholder="0"><br>-->
+                    Face: <input class="app-input facing-step0" style="width:150px" placeholder="0 0 0"><br>
                     Your entity will always<br>be looking towards these<br>coordinates.
                   </div>
                   <div class="facing-settings" id="facing-2">
@@ -126,41 +135,15 @@
                     The entity's head / facing<br>rotation will change<br>this much every step.
                   </div>
                   <div class="facing-settings" id="facing-4">
-                    <table style="margin-left:auto;margin-right:auto;">
-                          <tbody>
-                            <tr>
-                              <td>
-                                Start X: <input class="app-input facing-step0" type="number" placeholder="0">
-                              </td> 
-                              <td>
-                                End X: <input class="app-input facing-step3" type="number" placeholder="0">
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                Start Y: <input class="app-input facing-step1" type="number" placeholder="0">
-                              </td> 
-                              <td>
-                                End Y: <input class="app-input facing-step4" type="number" placeholder="0">
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                Start Z: <input class="app-input facing-step2" type="number" placeholder="0">
-                              </td> 
-                              <td>
-                                End Z: <input class="app-input facing-step5" type="number" placeholder="0">
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                    Start Facing: <input class="app-input facing-step0" style="width:150px" placeholder="0 0 0"><br>
+                    End Facing: <input class="app-input facing-step1" style="width:150px" placeholder="0 0 0"><br><br>
+                    The player will face<br>the end coordinates on<br>the last step.
                   </div>
                 </td>
               </tr>
               <tr>
                 <td class="app-inner" style="padding:0;" colspan="2">
-                  <textarea class="app-inner ta2" style="width:calc(100% - 25px);display: table-cell;background-color: #4b4a5c;padding: 4px;border-radius: 10px;height: 100%;" placeholder="execute @e[tag=NAME,scores={NAME=1}] ~ ~ ~ /tp @s 0 0 0" id="output" rows="11" disabled></textarea><br>
-                  Make sure you do<br>"/scoreboard objectives add NAME dummy"<br>beforehand!
+                  <textarea class="app-inner ta2" style="width:calc(100% - 25px);display: table-cell;background-color: #4b4a5c;padding: 4px;border-radius: 10px;height: 100%;" placeholder="execute @e[tag=NAME,scores={NAME=1}] ~ ~ ~ /tp @s 0 0 0" id="output" rows="11" disabled></textarea>
                 </td>
               </tr>
               <tr>
@@ -170,7 +153,7 @@
               </tr>
             </tbody>
           </table><br>
-      This program generates a straight line of coordinates in which a player or entity can teleport for a smooth view.<br>Put the output in a function and run it every tick. Add the value you put in NAME as a tag to whichever entity you want to go through the process, and apply them to the scoreboard.
+      This program generates a straight line of coordinates in which a player or entity can teleport for a smooth view.<br>Put the output in a function and run it every tick. <i>Add the value you put in NAME as a tag to whichever entity you want to go through the process</i>.
       <br><br><br>
       </div>
     </div>

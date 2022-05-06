@@ -48,15 +48,15 @@
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <table class="app-inner" style="display:inline-block">
+                <td class="app-inner">
+                  <table style="display:inline-block; width:100%">
                     <tr>
                       <td class="app-inner-inner">
                         <div id="pack-list" style="width:calc(100%-10px);height:200px;overflow-y:auto;">Packs will show up here<br>with their directory's name.</div>
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="1" class="app-inner-inner">
+                      <td class="app-inner-inner">
                         <div style="display:inline-block;">Change Hierarchy: <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="movePack('up');" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">
                           <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="movePack('down');" class="minibutton"></div><br>
                   
@@ -89,10 +89,10 @@
                 </td>-->
               </tr>
               <tr>
-                <td colspan="2">World Template</td>
+                <td>World Template</td>
               </tr>
               <tr>
-                <td class="app-inner" colspan="2">
+                <td class="app-inner">
                   <button class="generate-button gb-red" id="add-wt" onclick="activateWT()">Activate World Template</button>
                   <div style="display:none;" id="wt-settings">
                     <label><input type="text" class="app-input" placeholder="00.00.00" style="width: 75px;" id="wt-version" oninput="writeWT()"> Base Game Version</label><br>
@@ -108,8 +108,17 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="2">
-                  <div class="generate-button" style="display:inline-block;width:100%;" onclick="downloadProject()" id="downloadworldbutton">Download World</div>
+                <td>World Icon</td>
+              </tr>
+              <tr>
+                <td style="text-align:middle;">
+                  <img src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/CreateNewWorld.png" style="height: 100%;" id="world-icon"><br>
+          <label style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;font-size:8pt;position:relative;top:-10px;" for="worldiconfile">Change World Icon</label><input type="file" id="worldiconfile" style="display:none" accept=".jpeg">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="generate-button" style="display:inline-block;width:calc(100% - 10px);" onclick="downloadProject()" id="downloadworldbutton">Download World</div>
                   <!--<div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 10px 0px 0px 10px" onclick="downloadProject()" id="downloadworldbutton">Download World</div><div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 0px 10px 10px 0px" onclick="downloadLevelDat()">Download level.dat</div>-->
                   <input type="file" id="file" style="display:none" accept=".zip,.mctemplate,.mcworld">
                 </td>
@@ -162,8 +171,7 @@
         <div class="tier-editor-close-button" onclick="closeEditors();">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">World Settings</h2>
         <div style="column-count: 2; column-gap: unset;">
-          <img src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/CreateNewWorld.png" style="width: 100%;" id="world-icon">
-          <label style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;font-size:8pt;position:relative;top:-10px;" for="worldiconfile">Change World Icon</label><input type="file" id="worldiconfile" style="display:none" accept=".jpeg"><br>
+          <br>
           <span>World name: <input class="app-input" style="width: 100%;" placeholder="My World" id="ws-name" oninput="updateWorldSettings()"></span><br>
           <span>World seed: <input class="app-input" type="number" style="width:180px;" placeholder="1234" id="ws-seed" oninput="updateWorldSettings()"></span><br>
             <span>Difficulty: 
