@@ -1,48 +1,41 @@
-/*@font-face {
-  font-family: 'Minecraft';
-  src: url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.eot');
-  src: url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.eot?#iefix') format('embedded-opentype'),
-       url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.woff') format('woff'),
-       url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.ttf')  format('truetype'),
-       url('http://charliecowan.co.uk/mcbuttongenerator/fonts/mcfont.svg#svgFontName') format('svg');
+.itemgrid td {
+  height: 15px;
+  width: 15px; 
+  background-color: #8b8b8b;
+  border:1px solid #cacaca;
+  border-top-color: black;
+  border-left-color: black;
+  cursor: default;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display:inline-block;
 }
 
-.button {
-  height: 40px;
-  width: 400px;
-  outline: 2px solid black;
-  position: relative;
-  margin: 0;
-  display: inline-block;
-  background-image: url('http://charliecowan.co.uk/mcbuttongenerator/button_center.png');
-  background-repeat: repeat;
-  padding: 0;
-  font-family: Minecraft;
-  text-align: center;
-  color: white;
-  text-shadow: 3px 3px #4C4C4C;
-  border-bottom: 4px solid #565656;
-  border-right: 2px solid #565656;
-  border-left: 2px solid #AAA;
-  border-top: 2px solid #AAA;
-  box-sizing: border-box;
-  font-size: 16px;
+.itemgrid td:hover {
+  background-color: #8b8b8b;
 }
 
-.button span {
-  position: relative;
-  line-height: 40px;
-  bottom: 3px;
+.itemgrid td.selected {
+  background-color: rgb(214,214,214);
 }
 
-.button:hover {
-  border-bottom: 4px solid #59639A;
-  border-right: 2px solid #59639A;
-  border-left: 2px solid #BDC6FF;
-  border-top: 2px solid #BDC6FF;
-  background-image: url('http://charliecowan.co.uk/mcbuttongenerator/button_active_center.png');
-  color: #FFFFA0;
-}*/
+.itemgrid td.selected:hover {
+  /*background-color: #777777;*/
+}
+
+.itemgrid {
+  border-collapse: separate;
+  border-spacing: 0px;
+  user-select: none;
+}
+
+.itemgrid.large td {
+  height: 25px;
+  width:25px;
+  border:2px solid #cacaca;
+  border-top-color: black;
+  border-left-color: black;
+}
 
   .app-inner-inner {
     background-color: #5f5e70;
@@ -78,7 +71,7 @@
     background-color: #2d2a3b;
     border-radius: 10px;
     padding:15px;
-    border-spacing:15px 0px;
+    border-spacing:15px 4px;
   }
   
   .textarea {

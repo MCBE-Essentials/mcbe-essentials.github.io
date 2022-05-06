@@ -1,20 +1,27 @@
-function generate(name, [xstart, ystart, zstart], [xend, yend, zend], steps, removeTagWhenFinished){
-  var output = ["execute @e[tag="+name+"] ~~~ scoreboard players add @s "+name+" 1"];
+function generate(name, [xstart, ystart, zstart], [xend, yend, zend], steps, removeTagWhenFinished, modifier){
+  var output = [
+    "#Generated with Camera Movement Generator by ReBrainerTV",
+    "scoreboard objectives add "+name+" dummy",
+    "execute @e[tag="+name+"] ~~~ scoreboard players add @s "+name+" 1"
+  ];
+  
+  if(name == ""){
+    return [];
+  }
+  
   var distx, disty, distz;
   distx = xend - xstart;
   disty = yend - ystart;
   distz = zend - zstart;
   
   for(var i = 0; i < steps+1; i++){
-    var x = Math.ceil((xstart + (distx / steps) * i) * 1000) / 1000;
-    var y = Math.ceil((ystart + (disty / steps) * i) * 1000) / 1000;
-    var z = Math.ceil((zstart + (distz / steps) * i) * 1000) / 1000;
+    var x = document.getElementById("modifier").value + Math.ceil((xstart + (distx / steps) * i) * 1000) / 1000;
+    var y = document.getElementById("modifier").value + Math.ceil((ystart + (disty / steps) * i) * 1000) / 1000;
+    var z = document.getElementById("modifier").value + Math.ceil((zstart + (distz / steps) * i) * 1000) / 1000;
     var face = "";
     
     if(facing == 1){
-      face = "facing " + faceel.getElementsByClassName("facing-step0")[0].value +
-      " " + faceel.getElementsByClassName("facing-step1")[0].value +
-      " " + faceel.getElementsByClassName("facing-step2")[0].value
+      face = "facing " + faceel.getElementsByClassName("facing-step0")[0].value;
     } else if(facing == 2){
       face = faceel.getElementsByClassName("facing-step0")[0].value +
       " " + faceel.getElementsByClassName("facing-step1")[0].value;
@@ -23,12 +30,12 @@ function generate(name, [xstart, ystart, zstart], [xend, yend, zend], steps, rem
       " ~" + faceel.getElementsByClassName("facing-step1")[0].value;
     } else if(facing == 4) {
       var fxs, fys, fzs, fxe, fye, fze, fxd, fyd, fzd, fx, fy, fz;
-      fxs = parseFloat(faceel.getElementsByClassName("facing-step0")[0].value);
-      fys = parseFloat(faceel.getElementsByClassName("facing-step1")[0].value);
-      fzs = parseFloat(faceel.getElementsByClassName("facing-step2")[0].value);
-      fxe = parseFloat(faceel.getElementsByClassName("facing-step3")[0].value);
-      fye = parseFloat(faceel.getElementsByClassName("facing-step4")[0].value);
-      fze = parseFloat(faceel.getElementsByClassName("facing-step5")[0].value);
+      fxs = getCoordinatesFromValue(faceel.getElementsByClassName("facing-step0")[0].value)[0];
+      fys = getCoordinatesFromValue(faceel.getElementsByClassName("facing-step0")[0].value)[1];
+      fzs = getCoordinatesFromValue(faceel.getElementsByClassName("facing-step0")[0].value)[2];
+      fxe = getCoordinatesFromValue(faceel.getElementsByClassName("facing-step1")[0].value)[0];
+      fye = getCoordinatesFromValue(faceel.getElementsByClassName("facing-step1")[0].value)[1];
+      fze = getCoordinatesFromValue(faceel.getElementsByClassName("facing-step1")[0].value)[2];
       fxd = fxe - fxs;
       fyd = fye - fys;
       fzd = fze - fzs;
@@ -47,21 +54,28 @@ function generate(name, [xstart, ystart, zstart], [xend, yend, zend], steps, rem
   return output;
 }
 
+function getCoordinatesFromValue(val){
+  var output = val.split(" ");
+  for(var i = 0; i < output.length; i++){
+    output[i].replaceAll("^", "");
+    output[i].replaceAll("~", "");
+  }
+  
+  return [
+    parseFloat(output[0]), 
+    parseFloat(output[1]),
+    parseFloat(output[2])
+  ];
+}
+
 function doOutput(){
   document.getElementById("output").value = generate(
-    document.getElementById("name").value,
-    [
-      parseFloat(document.getElementById("x").value),
-      parseFloat(document.getElementById("y").value),
-      parseFloat(document.getElementById("z").value)
-    ],
-    [
-      parseFloat(document.getElementById("x2").value),
-      parseFloat(document.getElementById("y2").value),
-      parseFloat(document.getElementById("z2").value)
-    ],
+    document.getElementById("name").value.replaceAll(" ", "_"),
+    getCoordinatesFromValue(document.getElementById("from").value),
+    getCoordinatesFromValue(document.getElementById("to").value),
     parseFloat(document.getElementById("steps").value),
-    false
+    false,
+    document.getElementById("modifier").value
   ).join("\n");
 }
 function copyText() {

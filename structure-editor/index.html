@@ -253,14 +253,20 @@
       <div style="position:relative;text-align:left;">
         <!--<div class="tier-editor-close-button" onclick="closeEditors();">x</div>-->
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Upload</h2><br>
-        Hey there! Welcome to the Structure Editor! To get started, please upload a .mcstructure file.
+        Hey there! Welcome to the Structure Editor! To get started, please upload a .mcstructure file or select an alternate version of the app.
         <br><br>
-        <label class="generate-button gb-blue" style="display:block;text-align:center;background-color:#cdcbce;" id="loading2">
+        <label class="generate-button gb-blue" style="display:block;text-align:center;background-color:#cdcbce;border-radius:10px 10px 0px 0px;" id="loading2">
           Loading, please wait...
         </label>
-        <label class="generate-button gb-blue" style="display:none;text-align:center" for="file" id="upload2">
+        <label class="generate-button gb-blue" style="display:none;text-align:center;border-radius:10px 10px 0px 0px;" for="file" id="upload2">
           Upload
+        </label>
+        <label class="generate-button" style="display:inline-block;width:calc(50% - 10px);text-align:center;border-radius:0px 0px 0px 10px" onclick="window.location.href='/structure-to-function/'">
+          Convert to Function
+        </label><label class="generate-button" style="display:inline-block;width:calc(50% - 10px);text-align:center;border-radius:0px 0px 10px 0px" onclick="window.location.href='/structure-editor/loot-tabler/'">
+          Apply Loot Tables
         </label><br>
+        <br>
         In the wrong place? <a href="/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_self">Go to the homepage</a><br>
       </div>
     </div>

@@ -66,7 +66,7 @@ function loadApp(path, type, elem){
     link = link.replaceAll("github.io", "glitch.me");
     if(path.subapps){
       for(var a = 0; a < path.subapps.length; a++){
-        path.subapps[a] = path.subapps[a].replaceAll("github.io", "glitch.me");
+        path.subapps[a].link = path.subapps[a].link.replaceAll("github.io", "glitch.me");
       }
     }
   }
@@ -84,8 +84,11 @@ function loadApp(path, type, elem){
   }
   
   if(path.subapps){
-    if(path.subapps.includes(window.location.href)){
-      elem.setAttribute("class", "selected");
+    for(var a = 0; a < path.subapps.length; a++){
+      if(path.subapps[a].link == window.location.href){
+        elem.setAttribute("class", "selected");
+        document.title = path.subapps[a].name + " - MCBE Essentials";
+      }
     }
   }
   

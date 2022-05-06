@@ -11,7 +11,6 @@ document.getElementById("file").addEventListener("change", function(){
         document.getElementById("upload").style.display = "none";
         document.getElementById("download").style.display = "table-row";
       });
-      structure = e.target.result;
     }
     
     fr.readAsArrayBuffer(this.files[0]);
