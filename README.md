@@ -4,7 +4,7 @@
 
 ## Apps
 
-The site currently has 8 functioning apps and 1 shadow application (doesn't appear in the site's shortcuts).
+The site currently has 11 functioning apps and 4 sub-apps (doesn't appear in the site's shortcuts, but are considered a part of the main apps anyways).
 
 ## Global code
 

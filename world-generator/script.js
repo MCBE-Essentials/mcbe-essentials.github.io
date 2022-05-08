@@ -3,9 +3,11 @@ const { Buffer } = require('buffer');
 const jszip = new JSZip();
 var worldArchive = false;
 var leveldat = {};
+var unparsedldb = {};
 
 function loadWorldArchive(){
   worldArchive.file("level.dat").async("arrayBuffer").then(res => nbt.parse(Buffer.from(res))).then(function(result){
+    unparsedldb = result;
     leveldat = result.parsed;
     flatWorldLayers = JSON.parse(leveldat.value["FlatWorldLayers"].value);
     renderFlatWorld();
@@ -17,8 +19,7 @@ document.getElementById("file").addEventListener("change", function(){
     var fr = new FileReader();
     fr.onload = function(e){      
       nbt.parse(Buffer.from(e.target.result)).then(function(data){
-        leveldat = data.parsed;
-        console.log(leveldat);
+        console.log(data);
       });
     }
     fr.readAsArrayBuffer(this.files[0]);

@@ -132,14 +132,14 @@ var allTEntities = {
     ],
     furnace: true
   },
-  Lectern: {
-    type: "container",
-    behavior: "lectern",
-    slots: 1,
-    slotsDescriptions: [
-      "Book"
-    ]
-  },
+  //Lectern: {
+  //  type: "container",
+  //  behavior: "lectern",
+  //  slots: 1,
+  //  slotsDescriptions: [
+  //    "Book"
+  //  ]
+  //},
   Jukebox: {
     type: "container",
     behavior: "jukebox",
@@ -298,11 +298,13 @@ function structureToEditor(){
   document.getElementById("tile-list").innerHTML = ""
   if(tileentities){
     for(var i = 0; i < tileentities.length; i++){
-      var name = tileentities[i].value.block_entity_data.value.id.value;
-      if(Object.keys(allTEntities).includes(name)){
-        document.getElementById("tile-list").innerHTML += '<span class="idlabel" index="'+i+'" onclick="openEditTile(this)">'+name+'</span>';
-      } else {
-        snackbar('One or more tile entities in this structure are not supported in the Tile Entity Editor.');
+      if(tileentities[i].value.block_entity_data){
+        var name = tileentities[i].value.block_entity_data.value.id.value;
+        if(Object.keys(allTEntities).includes(name)){
+          document.getElementById("tile-list").innerHTML += '<span class="idlabel" index="'+i+'" onclick="openEditTile(this)">'+name+'</span>';
+        } else {
+          snackbar('One or more tile entities in this structure are not supported in the Tile Entity Editor.');
+        }
       }
     }
   }
@@ -625,7 +627,9 @@ function openEditTile(label){
       storageLocation = currentTile.value.block_entity_data.value.RecordItem.value;
       doLoop = false;
     } else if(currentTileMeta.behavior == "lectern"){
-      storageLocation = currentTile.value.block_entity_data.value.book.value;
+      if(currentTile.value.block_entity_data.value.book){
+        storageLocation = currentTile.value.block_entity_data.value.book.value;
+      }
       doLoop = false;
     } else {
       storageLocation = currentTile.value.block_entity_data.value.Items.value.value;
