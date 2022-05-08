@@ -42,9 +42,11 @@ function structureToEditor(){
   
   if(tileentities){
     for(var i = 0; i < tileentities.length; i++){
-      var name = tileentities[i].value.block_entity_data.value.id.value;
-      if(Object.keys(allTEntities).includes(name) && allTEntities[name].type == "container" && !allTEntities[name].behavior){
-        document.getElementById("tile-list").innerHTML += '<span class="idlabel" index="'+i+'" onclick="openEditTile(this)">'+name+'</span>';
+      if(tileentities[i].value.block_entity_data){
+        var name = tileentities[i].value.block_entity_data.value.id.value;
+        if(Object.keys(allTEntities).includes(name) && allTEntities[name].type == "container" && !allTEntities[name].behavior){
+          document.getElementById("tile-list").innerHTML += '<span class="idlabel" index="'+i+'" onclick="openEditTile(this)">'+name+'</span>';
+        }
       }
     }
     

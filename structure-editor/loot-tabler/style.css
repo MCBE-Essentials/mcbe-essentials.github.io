@@ -197,12 +197,6 @@ input.app-input {
     width: 35%;
   }
   
-  .app-inner tr td {
-    display:block;
-    width: 100%;
-    margin-top: 15px;
-  }
-  
   .app-inner {
     border-spacing: 0px;
   }
