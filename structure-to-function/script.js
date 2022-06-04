@@ -20,18 +20,38 @@ document.getElementById("file").addEventListener("change", function(){
 });
 
 function exportFunction(tiles, air, waterlog,blockstates, tilecontainerloot, entities, entityrot, entityloot){
-  saveAs(new File([
-    structureToFunction(
-      tiles,
-      air,
-      waterlog,
-      blockstates,
-      tilecontainerloot,
-      entities,
-      entityrot,
-      entityloot
-    )
-  ], "hello.mcfunction"), document.getElementById("file").files[0].name.replaceAll(".mcstructure", ".mcfunction"));
+  var data = structureToFunction(
+    tiles,
+    air,
+    waterlog,
+    blockstates,
+    tilecontainerloot,
+    entities,
+    entityrot,
+    entityloot
+  );
+  
+  var files = [];
+  var filename = document.getElementById("file").files[0].name.replaceAll(".mcstructure", "");
+  if(data.split("\n").length > 9000){
+    var lines = data.split("\n");
+    
+    var loops = 1;
+    while(lines.length > 1 && loops < 25){
+      files.push(
+        new File([lines.splice(0, 9000).join("\n")], filename + loops + ".mcfunction")
+      );
+      loops++;
+    }
+  } else {
+    files = [
+      new File([data], filename + ".mcfunction")
+    ];
+  }
+  
+  for(let downloadable of files){
+    saveAs(downloadable);
+  }
 }
 
 function download(){

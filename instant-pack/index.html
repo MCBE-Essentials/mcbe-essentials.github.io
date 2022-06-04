@@ -61,15 +61,15 @@
                         <label for="inp" class="generate-button" style="display:block;">Upload Pack Icon</label><input id="inp" type='file' style="display:none;" accept=".png">
                       </td>
                     </tr>
-                                  <tr>
+                    <!--<tr>
                       <td colspan="1" class="app-inner-inner">
                         <label><input type="radio" name="packtype" checked value="bp" oninput="updateManifest()"> Behavior Pack</label><br>
                         <label><input type="radio" name="packtype" value="rp" oninput="updateManifest()"> Resource Pack</label><br>
                       </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                       <td colspan="1" class="app-inner-inner">
-                        <label>Minecraft Version: <input type="text" placeholder="1.18.0" class="app-input" style="width:100px" id="version" oninput="updateManifest()"></label><br>
+                        <label>Minecraft Version: <input type="text" placeholder="1.18.0" class="app-input" style="width:100px" id="version" oninput="updateManifest()" list="versions"></label><br>
                         <label>Pack Version: <input type="text" placeholder="0.0.1" value="0.0.1" class="app-input" style="width:100px" id="packversion" oninput="updateManifest()"></label><br>
                         <label><input type="checkbox" id="include" oninput="updateManifest()" checked> Include title and description in manifest</label><br>
                       </td>
@@ -86,10 +86,22 @@
                   </table>
                 </td>
                 <td class="app-inner" style="height:300px">
+                  Pack: <select class="app-input" style="width:125px;height:unset;" id="packtype" oninput="updateManifest()">
+                    <option value="bp">Behavior</option>
+                    <option value="rp">Resource</option>
+                  </select><br>
                   <div id="folderlist" packtype="rp">
                   </div>
                 </td>
               </tr>
+    <!--
+              <tr>
+                <td colspan="2">Gametest</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="app-inner">Gametest</td>
+              </tr>
+-->
             </tbody>
           </table><br>
       This program generates an empty addon template.<br>
@@ -106,3 +118,4 @@
     </div>
   </body>
 </html>
+<datalist id="versions"></datalist>

@@ -4,24 +4,24 @@ mcitem {
   cursor: pointer;
 }
 
-mcitem:hover {
- filter: drop-shadow(2px 4px 6px black);
-}
-
-mcitem.nohover:hover {
-  filter: unset;
-}
-
-mcitem.enchanted {
+mcitem.enchanted img {
   filter: drop-shadow(0px 0px 0px purple) drop-shadow(0px 0px 3px magenta) drop-shadow(0px 0px 3px purple);
 }
 
-mcitem.enchanted:hover {
+mcitem:hover img {
+ filter: drop-shadow(2px 4px 6px black);
+}
+
+mcitem.nohover:hover img {
+  filter: unset;
+}
+
+mcitem.enchanted:hover img {
   filter: drop-shadow(0px 0px 0px purple) drop-shadow(0px 0px 3px magenta) drop-shadow(0px 0px 3px purple) opacity(0.7);
 }
 
-mcitem.enchanted.nohover:hover {
-  filter: drop-shadow(0px 0px 3px purple);
+mcitem.enchanted.nohover:hover img {
+  filter: drop-shadow(0px 0px 0px purple) drop-shadow(0px 0px 3px magenta) drop-shadow(0px 0px 3px purple);
 }
 
 mcitem[identifier="null"], mcitem[identifier=""]{

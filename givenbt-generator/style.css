@@ -1,3 +1,7 @@
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
 .app-inner-inner {
   background-color: #5f5e70;
   padding: 5px;
@@ -84,7 +88,7 @@
   text-overflow: clip;
 }
 
-input.app-input {
+.app-input {
   width: 50px;
   border: 3px solid #4a4a4e;
   border-radius: 100px;
@@ -105,6 +109,9 @@ input.app-input {
     width: 100%;
     z-index: 1000;
   }
+  .main-left.visible {
+    display: block;
+  }
   .leftimg {
     width: 25%;
   }
@@ -121,10 +128,10 @@ input.app-input {
 
 .selectlist {
   width: 10vw;
-  height: 58vh;
+  height: 30vh;
 }
 
-#identifiers_list {
+.identifiers_list {
   height: calc(100% - 45px);
   overflow-y: scroll;
   text-align: left;
@@ -160,10 +167,10 @@ input.app-input {
   }
 }
 
-@media only screen and (max-width: 670px) {
-  /*Phone portrait*/
+/*@media only screen and (max-width: 670px) {
+  
   .hidesmall {
-    /*display: none;*/
+    
     width: 35%;
   }
 
@@ -187,8 +194,9 @@ input.app-input {
     width: 100%;
     height: 200px;
   }
-  #identifiers_list {
+  .identifiers_list {
     width: unset;
+    max-width:500px;
   }
 
   .textarea {
@@ -214,4 +222,4 @@ input.app-input {
   .id-prefix {
     display: unset;
   }
-}
+}*/

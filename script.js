@@ -32,6 +32,7 @@ if(window.location.href.includes("glitch.me") && window.localStorage.isDev != "t
 
 if(window.location.host == "mcbe-essentials.glitch.me"){
   document.title = "[DEV BUILD] MCBE Essentials";
+  document.getElementById("head").innerHTML += "<span style='margin-left:12px;' class='devviewstable' onclick='window.location.href = window.location.href.replace(\"glitch.me\", \"github.io\");'>View Stable Page</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span>";
 }
 
 if(location.protocol != "https:"){
@@ -56,6 +57,11 @@ function loadApps(){
     }
   }
 }
+
+function reloadCSS(){
+  var links = document.getElementsByTagName("link"); for (var i = 0; i < links.length;i++) { var link = links[i]; if (link.rel === "stylesheet") {link.href += "?"; }}
+}
+
 function loadApp(path, type, elem){
   //main;list
   var svg = '<svg viewBox="0 0 24 24" class="' + path.icon.class[type] + '">' + path.icon.data + "</svg>";
@@ -126,11 +132,10 @@ function loadApp(path, type, elem){
 }
 
 function toggleMenu(btn){
-  if(document.getElementById("left").style.display != "block"){
-    document.getElementById("left").style.display = "block";
+  document.getElementById("left").classList.toggle("visible");
+  if(document.getElementById("left").classList.contains("visible")){
     btn.style.backgroundColor = "#2e3148";
   } else {
-    document.getElementById("left").style.display = "none";
     btn.style.backgroundColor = "#4a4a5c";
   }
 }

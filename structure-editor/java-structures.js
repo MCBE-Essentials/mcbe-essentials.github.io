@@ -111,5 +111,5 @@ function javaToBedrock(){
   };
   
   structure = newStructure;
-  alert("You've just imported a Java Edition structure file. Using experimental software, it has been converted to the Bedrock format. Identifiers were likely not converted properly. Use this at your own risk!");
+  alert("You've just imported a Java Edition structure file. Using experimental software, it has been converted to the Bedrock format. Identifiers and block states were likely not converted properly. Use this at your own risk!");
 }

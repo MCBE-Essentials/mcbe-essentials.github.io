@@ -200,6 +200,9 @@ button.generate-button {
     width:100%;
     z-index:1000;
   }
+  .main-left.visible {
+    display: block;
+  }
   .leftimg {
     width:25%;
   }

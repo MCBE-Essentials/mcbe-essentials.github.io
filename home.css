@@ -1,5 +1,5 @@
 html {
-  /*overflow: hidden;*/
+  overflow: auto;
   user-select: none;
 }
 
@@ -53,12 +53,18 @@ html {
     width:inherit;
     z-index:unset;
   }
+  .main-left.visible {
+    display: block;
+  }
 }
 
 @media only screen and (max-height: 680px) {
   /*Phone Landscape*/
   .main-left {
     display: none;
+  }
+  .main-left.visible {
+    display: block;
   }
 }
 
