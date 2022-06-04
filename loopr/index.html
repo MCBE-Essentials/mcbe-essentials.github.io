@@ -40,15 +40,10 @@
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>Loopr</h1>
           <table class="app-main" id="app-main">
-            <thead>
-              <tr>
-                <td>Loop</td>
-                <td class="edit-only">Options</td>
-              </tr>
-            </thead>
             <tbody>
-              <tr>
-                <td>
+              <tr class="app-row">
+                <td class="app-node">
+                  <span>Loop</span><br>
                   <table class="app-inner" style="display:inline-block">
                     <tr>
                       <td class="app-inner-inner edit-only">
@@ -80,10 +75,13 @@
                     </tr>
                   </table>
                 </td>
-                <td class="app-inner edit-only">
-                  <div class="generate-button" onclick="saveProj()" style="display:inline-block;width:5vw;margin-top:5px;">Save</div><br>
-                  <label><!-- onclick="document.getElementById('input-file').click();" --><div class="generate-button" style="display:inline-block;width:5vw;margin-top:5px;">Load</div><input type="file" id="input-file" style="display:none;" accept=".lpr" oninput=""></label><br>
-                  <div class="gb-blue generate-button" onclick="exportUrl()" style="display:inline-block;width:5vw;margin-top:5px;">Share</div><br>
+                <td class="edit-only app-node" style="height:inherit;">
+                  <span>Options</span><br>
+                  <div class="app-inner" style="height:calc(100% - 60px);">
+                    <div class="generate-button" onclick="saveProj()" style="display:inline-block;width:5vw;min-width:90px;margin-top:5px;">Save</div><br>
+                    <label><!-- onclick="document.getElementById('input-file').click();" --><div class="generate-button" style="display:inline-block;width:5vw;min-width:90px;margin-top:5px;">Load</div><input type="file" id="input-file" style="display:none;" accept=".lpr" oninput=""></label><br>
+                    <div class="gb-blue generate-button" onclick="exportUrl()" style="display:inline-block;width:5vw;min-width:90px;margin-top:5px;">Share</div><br>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -98,7 +96,7 @@
             </tbody>
           </table><br>
       <!--text goes here-->
-      <!--<div id="readonly">Visit the docs to learn how this app works!</div>-->
+      <div id="readonly"><a href="docs/" target="_self">Visit the docs</a> to learn how this app works!</div>
       
       <br><br>
       </div>

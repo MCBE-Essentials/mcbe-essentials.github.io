@@ -29,11 +29,10 @@
     <script src="/structure-to-function/portable.js" defer></script>
     <script src="java-structures.js"></script>
     <script src="https://unpkg.com/jsoneditor@9.6.0/dist/jsoneditor.min.js"></script>
-    <script src="/nomobile.js"></script>
   </head>
   <body onload="loaded()">
     <div id="head" class="header">
-        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
       <span class="imgicontext">MCBE Essentials</span>
     </div>
     <div id="body" class="main-content">
@@ -41,10 +40,166 @@
         <br>
         <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
         <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">MCBE Essentials</h2>
+        <div class="left-inner">
+          Loading sidebar...
+        </div>
       </div>
       <div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
-          <h1>Structure Editor</h1>
-          <table class="app-main" id="app-main">
+        <h1>Structure Editor</h1>
+        <table class="app-main">
+          <tbody>
+            <tr class="app-row">
+              <td class="app-node">
+                <span>Fill Blocks</span><br>
+                <div class="app-inner">
+                  <select class="app-input" id="fill-layer">
+                    <option value="0">Default layer</option>
+                    <option value="1">Waterlog layer</option>
+                  </select><br>
+                  From: <input type="number" placeholder="x" class="app-input" id="fill-f-1">,<input type="number" placeholder="y" class="app-input" id="fill-f-2">,<input type="number" placeholder="z" class="app-input" id="fill-f-3"><br>
+                  To: <input type="number" placeholder="x" class="app-input" id="fill-t-1">,<input type="number" placeholder="y" class="app-input" id="fill-t-2">,<input type="number" placeholder="z" class="app-input" id="fill-t-3"><br>
+                  Target: <input type="text" placeholder="minecraft:block" class="app-input" style="width:180px;" list="block_identifiers" id="fill-target"><br>
+                  Fill: <input type="text" placeholder="minecraft:block" class="app-input" style="width:180px;" list="block_identifiers" id="fill-fill"><br>
+                  <button class="generate-button" style="padding: 5px 25px;" onclick="fillBlocks()">
+                    Fill
+                  </button>
+                </div>
+              </td>
+              <td rowspan="2" style="height:inherit;" class="app-node">
+                <span>Entity Editor</span>
+                <div class="app-inner" style="height:calc(100% - 53px);">
+                  <div style="height: calc(100% - 30px);min-height:250px;overflow-y:auto;" class="app-inner-inner" id="entity-list">
+                    
+                  </div>
+                  Select an entity to edit it.
+                </div>
+              </td>
+              <td rowspan="3" style="height:inherit;" class="app-node">
+                <span>Tile Entity Editor</span>
+                <div class="app-inner" style="height:calc(100% - 53px);">
+                  <div class="app-inner-inner" style="width:calc(100%-10px);height:200px;overflow-y:auto;" id="tile-list">
+                  </div>
+                  <div id="tile-demo" style="" class="tile-editor-type">
+                    Please select a tile<br>entity from the list<br>to edit it
+                  </div>
+                  <div id="tile-container" style="display:none;" class="tile-editor-type">
+                    <div id="tile-container-loot" style="display:none;">
+                      Loot Table:<br>
+                      <input type="text" class="app-input" placeholder="loot_tables/chests/spawn_bonus_chest.json" id="tile-container-loot-editor" style="width:270px;font-size:9pt;font-family: monospace;" oninput="updateTile()"><br>
+                    </div>
+                    <div id="tile-container-xp" style="display:none;">
+                      Stored XP: <input type="number" class="app-input" placeholder="0" id="tile-container-stored-xp" oninput="updateTile()">
+                    </div>
+                    <table class="itemgrid large" style="max-width:290px;margin-left: auto;margin-right: auto;" id="tilecontainer">
+                      <tbody>
+                        <tr></tr>
+                      </tbody>
+                    </table><br>
+
+                    <label>ID: <input type="text" class="app-input" style="width:180px;" placeholder="minecraft:item" list="item_identifiers" id="tile-container-item-id" oninput="updateTileItem()" disabled></label><br>
+                    <label>Count: <input type="number" class="app-input" placeholder="0" id="tile-container-item-count" oninput="updateTileItem()" disabled></label><br>
+                    <label>Damage: <input type="number" class="app-input" placeholder="0" id="tile-container-item-damage" oninput="updateTileItem()" disabled></label>
+                  </div>
+                  
+                  <div id="tile-sign" style="display:none;" class="tile-editor-type">
+                    <textarea rows="4" style="width:150px; background-image:url(https://mcbe-essentials.glitch.me/assets/sign_texture.png); font-family: Minecraftia; text-align:center; overflow: hidden; resize: none; line-height: 15px;
+    background-size: contain;" placeholder="Text..." id="tile-sign-editor" oninput="updateTile()"></textarea><br>
+                    <label><input type="checkbox" oninput="updateTile()" id="tile-sign-ignorelighting"> Ignore lighting</label><br>
+                    <label><input type="checkbox" oninput="updateTile()" id="tile-sign-persistformatting"> Persist Formatting</label>
+                  </div>
+                  
+                  <div id="tile-commandblock" style="text-align:left;display:none;" class="tile-editor-type">
+                    Name: <input type="text" class="app-input" style="width:180px;" placeholder="My Command Block" id="tile-cb-name" oninput="updateTile()"><br>
+                    Command:<br>
+                    <textarea rows="4" cols="40" placeholder="/say hello world" id="tile-cb-command" oninput="updateTile()"></textarea><br>
+                    Tick Delay: <input type="number" class="app-input" placeholder="0" id="tile-cb-delay" oninput="updateTile()"><br>
+                    <label><input type="checkbox" id="tile-cb-firsttick" oninput="updateTile()"> Execute on First Tick</label><br>
+                    <label><input type="checkbox" id="tile-cb-conditional" oninput="updateTile()"> Conditional Mode</label><br>                    
+                    <label><input type="checkbox" id="tile-cb-trackoutput" oninput="updateTile()"> Track Output</label><br>
+                  </div>
+                  
+                  <div id="tile-flowerpot" style="display:none;" class="tile-editor-type">
+                    <label>Block: <input type="text" class="app-input" style="width:180px;font-family: monospace;" placeholder="minecraft:red_flower" id="tile-fp-block" oninput="updateTile()" list="flowerblocks"></label><br>
+                    <label>Flower Type:<br><input type="text" class="app-input" style="width:180px;" placeholder="cornflower" id="tile-fp-block-type" oninput="updateTile()" list="flowers"></label>
+                  </div>
+                  
+                  <div id="tile-spawner" style="display:none;text-align:left;" class="tile-editor-type">
+                    <label>Name: <input type="text" class="app-input" style="width:230px;" placeholder="minecraft:pig" id="tile-spawner-id" list="entity_identifiers" oninput="updateTile()"></label><br>
+                    <label>Delay: <input type="number" class="app-input" placeholder="0" id="tile-spawner-delay" oninput="updateTile()"></label><br>
+                    <label>Min Delay: <input type="number" class="app-input" placeholder="200" id="tile-spawner-mindelay" oninput="updateTile()" step="100" style="width:100px;"></label><br>
+                    <label>Max Delay: <input type="number" class="app-input" placeholder="800" id="tile-spawner-maxdelay" oninput="updateTile()" step="100" style="width:100px;"></label><br>
+                    <label>Spawn Count: <input type="number" class="app-input" placeholder="4" id="tile-spawner-count" oninput="updateTile()"></label><br>
+                    <label>Max Nearby Entities: <input type="number" class="app-input" placeholder="6" id="tile-spawner-maxnearbyentities" oninput="updateTile()"></label><br>
+                    <label>Required Player Radius: <input type="number" class="app-input" placeholder="16" id="tile-spawner-requiredplayerradius" oninput="updateTile()"></label><br>
+                    <label>Spawn Radius: <input type="number" class="app-input" placeholder="0" id="tile-spawner-spawnradius" oninput="updateTile()"></label><br>
+                    <br>
+                      <label>Display Entity Scale: <input type="number" class="app-input" placeholder="1" id="tile-spawner-displayscale" oninput="updateTile()" step="0.1"></label><br>
+                  </div>
+                  
+                  <div id="tile-structureblock" style="text-align:left;display:none;" class="tile-editor-type">
+                    <!--Name: <input type="text" class="app-input" style="width:180px;" placeholder="My Command Block" id="tile-cb-name" oninput="updateTile()"><br>
+                    Command:<br>
+                    <textarea rows="4" cols="40" placeholder="/say hello world" id="tile-cb-command" oninput="updateTile()"></textarea><br>
+                    Tick Delay: <input type="number" class="app-input" placeholder="0" id="tile-cb-delay" oninput="updateTile()"><br>
+                    <label><input type="checkbox" id="tile-cb-firsttick" oninput="updateTile()"> Execute on First Tick</label><br>
+                    <label><input type="checkbox" id="tile-cb-conditional" oninput="updateTile()"> Conditional Mode</label><br>                    
+                    <label><input type="checkbox" id="tile-cb-trackoutput" oninput="updateTile()"> Track Output</label><br>-->
+                    <label>Structure Name: <input></label>
+                    Size: <input type="number" placeholder="x" class="app-input">,<input type="number" placeholder="y" class="app-input">,<input type="number" placeholder="z" class="app-input"><br>
+                    Offset: <input type="number" placeholder="x" class="app-input">,<input type="number" placeholder="y" class="app-input">,<input type="number" placeholder="z" class="app-input"><br>
+                    <label><input type="checkbox"> Ignore Entities</label><br>
+                    <label><input type="checkbox"> Ignore Blocks</label><br>
+                    <label><input type="checkbox"> Include Players</label><br>
+                    <label>Redstone Save Mode</label><br>
+                    <label><input> Show Bounding Box</label><br>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td rowspan="2" style="height:inherit;" class="app-node">
+                <span>More Tools</span>
+                <div class="app-inner" style="height:calc(100% - 50px);">
+                  <div class="moretoolsgroup">
+                    <button class="generate-button" style="padding: 5px 15px; border-radius: 10px 10px 0px 0px" onclick="openTextEditor();">
+                      Open node editor
+                    </button><br>
+                    <!--<input type="file" id="jsonfile" accept=".json" style="display:none;">
+                    <label class="generate-button" style="display:inline-block; padding: 5px 0px; border-radius: 0px; width: 100%;" for="jsonfile">
+                      Import JSON
+                    </label><br>-->
+                    <button class="generate-button" style="padding: 5px 15px; border-radius: 0px 0px 10px 10px;" onclick="exportJson()">
+                      Export JSON
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td class="app-node">
+                <span>Structure Information</span>
+                <div class="app-inner">
+                  World origin: <b id="worldorigin">0, 0, 0</b><br>
+                  Structure Size: <b id="structuresize">0, 0, 0</b>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td colspan="3">
+                <label class="generate-button gb-blue" style="display:block;" for="file" id="upload">
+                  Upload
+                </label>
+                <input type="file" id="file" accept=".nbt,.mcstructure,.json" style="display:none;">
+                <div class="generate-button gb-blue" style="display:none;" id="download" onclick="openFileEditor();">
+                  Download / Export
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <!--
+         <table class="app-main" id="app-main">
             <tbody>
               <tr>
                 <td>Fill Blocks</td>
@@ -73,9 +228,6 @@
                 </td>
                 <td class="app-inner" rowspan="5">
                   <div class="app-inner-inner" style="width:calc(100%-10px);height:200px;overflow-y:auto;" id="tile-list">
-                    <!--<span class="idlabel selected">Chest</span>
-                    <span class="idlabel">Sign</span>
-                    <span class="idlabel">Command Block</span>-->
                   </div>
                   <div id="tile-demo" style="" class="tile-editor-type">
                     Please select a tile<br>entity from the list<br>to edit it
@@ -88,7 +240,7 @@
                     <div id="tile-container-xp" style="display:none;">
                       Stored XP: <input type="number" class="app-input" placeholder="0" id="tile-container-stored-xp" oninput="updateTile()">
                     </div>
-                    <table class="itemgrid large" style="max-width:290px;" id="tilecontainer">
+                    <table class="itemgrid large" style="max-width:290px;margin-left: auto;margin-right: auto;" id="tilecontainer">
                       <tbody>
                         <tr></tr>
                       </tbody>
@@ -101,7 +253,9 @@
                   
                   <div id="tile-sign" style="display:none;" class="tile-editor-type">
                     <textarea rows="4" style="width:150px; background-image:url(https://mcbe-essentials.glitch.me/assets/sign_texture.png); font-family: Minecraftia; text-align:center; overflow: hidden; resize: none; line-height: 15px;
-    background-size: contain;" placeholder="Text..." id="tile-sign-editor" oninput="updateTile()"></textarea>
+    background-size: contain;" placeholder="Text..." id="tile-sign-editor" oninput="updateTile()"></textarea><br>
+                    <label><input type="checkbox"> Ignore lighting</label><br>
+                    <label><input type="checkbox"> Persist Formatting</label>
                   </div>
                   
                   <div id="tile-commandblock" style="text-align:left;display:none;" class="tile-editor-type">
@@ -117,6 +271,19 @@
                   <div id="tile-flowerpot" style="display:none;" class="tile-editor-type">
                     Block: <input type="text" class="app-input" style="width:180px;font-family: monospace;" placeholder="minecraft:red_flower" id="tile-fp-block" oninput="updateTile()" list="flowerblocks"><br>
                     Flower Type:<br><input type="text" class="app-input" style="width:180px;" placeholder="cornflower" id="tile-fp-block-type" oninput="updateTile()" list="flowers">
+                  </div>
+                  
+                  <div id="tile-spawner" style="display:none;text-align:left;" class="tile-editor-type">
+                    Name: <input type="text" class="app-input" style="width:230px;" placeholder="minecraft:pig" id="tile-spawner-id" list="entity_identifiers" oninput="updateTile()"><br>
+                    Delay: <input type="number" class="app-input" placeholder="0" id="tile-spawner-delay" oninput="updateTile()"><br>
+                    Min Delay: <input type="number" class="app-input" placeholder="200" id="tile-spawner-mindelay" oninput="updateTile()" step="100" style="width:100px;"><br>
+                    Max Delay: <input type="number" class="app-input" placeholder="800" id="tile-spawner-maxdelay" oninput="updateTile()" step="100" style="width:100px;"><br>
+                    Spawn Count: <input type="number" class="app-input" placeholder="4" id="tile-spawner-count" oninput="updateTile()"><br>
+                    Max Nearby Entities: <input type="number" class="app-input" placeholder="6" id="tile-spawner-maxnearbyentities" oninput="updateTile()"><br>
+                    Required Player Radius: <input type="number" class="app-input" placeholder="16" id="tile-spawner-requiredplayerradius" oninput="updateTile()"><br>
+                    Spawn Radius: <input type="number" class="app-input" placeholder="0" id="tile-spawner-spawnradius" oninput="updateTile()"><br>
+                    <br>
+                    Display Entity Scale: <input type="number" class="app-input" placeholder="1" id="tile-spawner-displayscale" oninput="updateTile()" step="0.1"><br>
                   </div>
                 </td>
               </tr>
@@ -157,9 +324,9 @@
                 </td>
               </tr>
             </tbody>
-          </table><br>
+          </table>--><br>
       
-      Thanks to <a href="https://thedestruc7i0n.ca/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">TheDestruc7i0n</a> for the item data, <a href="https://bridge-core.app/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">bridge.</a> for the identifier data,<br><a href="https://github.com/PrismarineJS/prismarine-nbt" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">Prismarine-NBT</a> for the NBT to JavaScript library and <a href="https://github.com/josdejong/jsoneditor" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">Jos de Jong</a> for the JSON editor.
+      Thanks to <a href="https://thedestruc7i0n.ca/" target="_blank">TheDestruc7i0n</a> for the item data, <a href="https://bridge-core.app/" target="_blank">bridge.</a> for the identifier data,<br><a href="https://github.com/PrismarineJS/prismarine-nbt" target="_blank">Prismarine-NBT</a> for the NBT to JavaScript library and <a href="https://github.com/josdejong/jsoneditor" target="_blank">Jos de Jong</a> for the JSON editor.
       <br><br>
       </div>
     </div>
@@ -169,43 +336,47 @@
       <div style="position:relative;height:100%;text-align:left;">
         <div class="tier-editor-close-button" onclick="closeEditors();">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Entity Editor</h2>
-        <table>
-          <tbody>
-            <tr>
-              <td style="display:inline-block;">
-                Identifier: <input type="text" style="width:180px;" placeholder="minecraft:entity" class="app-input" list="entity_identifiers" id="entity-id"><br>
-                Name Tag: <input type="text" style="width:180px;" placeholder="Sprite Cranberry" class="app-input" id="entity-name"><br>
-                Health: <input type="number" placeholder="20" class="app-input" id="entity-health-current"> / <input type="number" placeholder="20" class="app-input" id="entity-health-max"><br>
-                Effects:<br><textarea placeholder="effectId:duration:amplifier:showParticles" id="entity-effects" rows="5" cols="40"></textarea>
-              </td>
-              <td>
-                Looking to edit entity items? Search for your entity in the Node Editor.
-              </td>
-              <!--
-                <td>
-                  Items:<br><table class="itemgrid large">
-                    <tr>
-                      <td style="background-image: url(https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_helmet.png);"></td>
-                      <td style="background-image: url(https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_chestplate.png);"></td>
-                      <td style="background-image: url(https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_leggings.png);"></td>
-                      <td style="background-image: url(https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_boots.png);"></td>
-                    </tr>
-                    <tr>
-                      <td style="background-image: url(https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png);"><mcitem identifier="minecraft:apple" count="24" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem></td>
-                      <td></td>
-                    </tr>
-                  </table><br>
-                </td>
-                <td class="app-inner-inner">
-                  <u>Item Editor</u><br>
-                    ID: <input type="text" class="app-input" style="width:180px;" placeholder="minecraft:item" list="item_identifiers"><br>
-                    Count: <input type="number" class="app-input" placeholder="0"><br>
-                    Damage: <input type="number" class="app-input" placeholder="0">
-                </td>
-              -->                  
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <div style="display:inline-block;vertical-align:middle;">
+            Identifier: <input type="text" style="width:250px;" placeholder="minecraft:entity" class="app-input" list="entity_identifiers" id="entity-id"><br>
+            Name Tag: <input type="text" style="width:250px;" placeholder="Sprite Cranberry" class="app-input" id="entity-name"><br>
+            Health: <input type="number" placeholder="20" class="app-input" id="entity-health-current"> / <input type="number" placeholder="20" class="app-input" id="entity-health-max"><br>
+            Effects:<br><textarea placeholder="effectId:duration:amplifier:showParticles" id="entity-effects" rows="5" cols="40" style="resize:none;"></textarea>
+          </div>
+          <div style="display:inline-block;vertical-align:middle;">            
+            <div style="width: 400px;">
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="display:inline-block;vertical-align:top;">
+            Equipment:<br>
+            <table class="itemgrid large" id="entity-equipment">
+              <tr>
+                <td index="0" location="armor" onclick="selectEntityItem(this, 'armor')"></td>
+                <td index="1" location="armor" onclick="selectEntityItem(this, 'armor')"></td>
+                <td index="2" location="armor" onclick="selectEntityItem(this, 'armor')"></td>
+                <td index="3" location="armor" onclick="selectEntityItem(this, 'armor')"></td>
+              </tr>
+              <tr>
+                <td index="0" location="offhand" onclick="selectEntityItem(this, 'offhand')"></td>
+                <td index="0" location="mainhand" onclick="selectEntityItem(this, 'mainhand')"></td>
+              </tr>
+            </table>
+          </div>
+          <div style="display:inline-block;vertical-align:top;">
+            Inventory:<br>
+            <table class="itemgrid large" style="max-width:290px;" id="entity-inventory">
+              <tr></tr>
+            </table>
+          </div>
+          <div class="app-inner-inner" style="display:inline-block;vertical-align:middle;">
+            <u>Item Editor</u><br>
+              ID: <input type="text" class="app-input" style="width:250px;" placeholder="(no item)" list="item_identifiers" id="entity-container-item-id" oninput="updateEntityItem()"><br>
+              Count: <input type="number" class="app-input" placeholder="0" id="entity-container-item-count" oninput="updateEntityItem()"><br>
+              Damage: <input type="number" class="app-input" placeholder="0" id="entity-container-item-damage" oninput="updateEntityItem()">
+          </div>
+        </div>
       </div>
     </div>
     <div class="tier-editor" id="text-editor" style="display:none;user-select:none;height:unset;">
@@ -233,8 +404,8 @@
           <option value="mcstructure">Bedrock Structure</option>
           <option value="mcfunction">Bedrock Function</option>
         </select><br>
-        <div id="mcfunction-warning" style="display:none;">
-          Some data may be lost in conversion. Click <a href="conversion-warning/#mcfunction" target="_blank">here</a> to get a list of data that won't get carried over. <!--Additionally, if the structure is over 9,000 commands long, it will be split into multiple files. Do not exit the page until the files have downloaded.-->
+        <div id="mcfunction-warning" class="warningmsg" style="display:none;">
+          Some data may be lost in conversion. Click <a href="conversion-warning/#mcfunction" target="_blank">here</a> to get a list of data that won't get carried over.<br><br>If the structure is over 9,000 commands long, it will <b>not</b> be split into multiple files. To split files, use the <a href="/structure-to-function/">structure to function converter</a>.
         </div>
         <label><input type="checkbox" id="tiles" checked> Include blocks</label><br>
         <label><input type="checkbox" id="air" checked> Place air blocks</label><br>
@@ -253,19 +424,22 @@
       <div style="position:relative;text-align:left;">
         <!--<div class="tier-editor-close-button" onclick="closeEditors();">x</div>-->
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Upload</h2><br>
-        Hey there! Welcome to the Structure Editor! To get started, please upload a .mcstructure file or select an alternate version of the app.
+        Hey there! Welcome to the Structure Editor! To get started, please upload a structure file or select an alternate version of the app.
         <br><br>
         <label class="generate-button gb-blue" style="display:block;text-align:center;background-color:#cdcbce;border-radius:10px 10px 0px 0px;" id="loading2">
           Loading, please wait...
         </label>
-        <label class="generate-button gb-blue" style="display:none;text-align:center;border-radius:10px 10px 0px 0px;" for="file" id="upload2">
+        <label class="generate-button gb-blue uploader-upload" for="file" id="upload2">
           Upload
         </label>
-        <label class="generate-button" style="display:inline-block;width:calc(50% - 10px);text-align:center;border-radius:0px 0px 0px 10px" onclick="window.location.href='/structure-to-function/'">
+        <label class="generate-button uploader-convert" onclick="window.location.href='/structure-to-function/'">
           Convert to Function
-        </label><label class="generate-button" style="display:inline-block;width:calc(50% - 10px);text-align:center;border-radius:0px 0px 10px 0px" onclick="window.location.href='/structure-editor/loot-tabler/'">
+        </label><label class="generate-button uploader-loot" onclick="window.location.href='/structure-editor/loot-tabler/'">
           Apply Loot Tables
         </label><br>
+        <div class="warningmsg" id="mobilewarning">
+          Look out! This is a pretty heavy app and not designed for mobile devices. Consider selecting a lighter version of the app above to lessen the burden on your device.
+        </div>
         <br>
         In the wrong place? <a href="/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_self">Go to the homepage</a><br>
       </div>

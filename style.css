@@ -24,6 +24,7 @@
   display: table-cell;
   vertical-align: top;
   min-width: 400px;
+  user-select: none;
 }
 
 .left-inner {
@@ -64,6 +65,13 @@ html {
   min-height: 100%;
 }
 
+a[href] {
+  background-color: rgba(255,255,255,0.3);
+  padding: 0px 4px;
+  border-radius: 5px;
+  color: #82f782;
+}
+
 .smalltag {padding: 2px 4px; font-size: 10px; border-radius: 6px;}
 
 .imgicon { 
@@ -82,6 +90,20 @@ html {
   font-family: 'Minecraftia';
   top: 3px;
   cursor:pointer;
+}
+
+.devviewstable {
+  position: relative;
+  /*margin-left: 25px;*/
+  font-family: 'Minecraftia';
+  top: 3px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.devviewstable:hover {
+  background-color: #dad9dc;
+  color: black;
 }
 
 .lefttitle {
@@ -205,6 +227,9 @@ button:hover {
     width:100%;
     z-index:1000;
   }
+  .main-left.visible {
+    display: block;
+  }
   .leftimg {
     width:25%;
   }
@@ -223,6 +248,9 @@ button:hover {
   /*Phone Landscape*/
   .main-left {
     display: none;
+  }
+  .main-left.visible {
+    display: block;
   }
   .discordbutton {
     display: table-cell;
@@ -278,8 +306,14 @@ button:hover {
     position:absolute;
     width:100%;
     z-index:1000;
+    height:100%;
   }
-    .menu-button2 {
+  
+  .main-left.visible {
+    display: block;
+  }
+  
+  .menu-button2 {
     display:block;
   }
 }

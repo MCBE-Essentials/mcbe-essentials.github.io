@@ -57,33 +57,9 @@ function structureToEditor(){
 }
 
 var allTEntities = {
-  BrewingStand: {
-    type: "container",
-    slots: 5,
-    slotsDescriptions: [
-      "Ingredient",
-      "Bottle 1",
-      "Bottle 2",
-      "Bottle 3",
-      "Fuel"
-    ]
-  },
-  BlastFurnace: {
-    type: "container",
-    slots: 3,
-    slotsDescriptions: [
-      "Input",
-      "Fuel",
-      "Result"
-    ],
-    furnace: true
-  },
   Barrel: {
     type: "container",
     slots: 27
-  },
-  FlowerPot: {
-    type: "flowerpot"
   },
   Dropper: {
     type: "container",
@@ -97,68 +73,13 @@ var allTEntities = {
     type: "container",
     slots: 27
   },
-  GlowItemFrame: {
-    type: "container",
-    behavior: "itemframe",
-    slots: 1
-  },
-  ItemFrame: {
-    type: "container",
-    behavior: "itemframe",
-    slots: 1
-  },
   Hopper: {
     type: "container",
     slots: 5
   },
-  Furnace: {
-    type: "container",
-    slots: 3,
-    slotsDescriptions: [
-      "Input",
-      "Fuel",
-      "Result"
-    ],
-    furnace: true
-  },
-  Lectern: {
-    type: "container",
-    behavior: "lectern",
-    slots: 1,
-    slotsDescriptions: [
-      "Book"
-    ]
-  },
-  Jukebox: {
-    type: "container",
-    behavior: "jukebox",
-    slots: 1,
-    slotsDescriptions: [
-      "Disc"
-    ]
-  },
-  Smoker: {
-    type: "container",
-    slots: 3,
-    slotsDescriptions: [
-      "Input",
-      "Fuel",
-      "Result"
-    ],
-    furnace: true
-  },
   ShulkerBox: {
     type: "container",
     slots: 27
-  },
-  Sign: {
-    type: "sign"
-  },
-  /*StructureBlock: {
-    type: "structureblock"
-  },*/
-  CommandBlock: {
-    type: "commandblock"
   }
 };
 
@@ -207,6 +128,11 @@ function openEditTile(label){
   if(currentTileMeta.type == "container"){
     for(var i = 0; i < currentTileMeta.slots; i++){
       document.getElementById("tilecontainer").children[0].children[0].innerHTML += "<td index='"+i+"'></td>";
+    }
+    if(currentTileMeta.slots == 9){
+      document.getElementById("tilecontainer").style.maxWidth = "100px";
+    } else {
+      document.getElementById("tilecontainer").style.maxWidth = "290px";
     }
     
     var storageLocation;
@@ -260,4 +186,17 @@ for(var i = 0; i < 27; i++){
 
 function downloadStructure(){
   saveAs(new File([nbt.writeUncompressed(structure, 'little')], "hello.mcstructure"), document.getElementById("file").files[0].name);
+}
+
+function createTable(container){
+  var containerItems = container.value.block_entity_data.value.Items.value.value;
+  var itemsCount = [];
+  for(let item of containerItems){
+    
+    
+    if(!itemsCount[item.Name.value]){
+      itemsCount[item.Name.value] = {'count': 0};
+    }
+    itemsCount[item.Name.value] += item.Count.value;
+  }
 }

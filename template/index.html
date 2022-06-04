@@ -31,38 +31,78 @@
       </div>
       <div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>App Name</h1>
-          <table class="app-main" id="app-main">
-            <thead>
-              <tr>
-                <td>Parameters</td>
-                <td>Output</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <table class="app-inner" style="display:inline-block">
-                    <tr>
-                      <td class="app-inner-inner">
-                        <textarea class="ta2" rows="3" placeholder="Param1"></textarea>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="1" class="app-inner-inner"><label><input type="checkbox"> Option</label><br>
-                      <textarea class="ta2" style="border:1px solid #a3acb1;" rows="5" placeholder="Param2"></textarea>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="generate-button">Generate</td>
-                    </tr>
-                  </table>
-                </td>
-                <td class="app-inner">
-                </td>
-              </tr>
-            </tbody>
-          </table><br>
-      Text
+          <table class="app-main">
+          <tbody>
+            <tr class="app-row">
+              <td class="app-node">
+                <span>Section Header</span><br>
+                <div class="app-inner">
+                  My Content<br>
+                  Line 2<br>
+                  Line 3<br>
+                </div>
+              </td>
+              <td rowspan="2" style="height:inherit;" class="app-node">
+                <span>Section Header 2</span>
+                <div class="app-inner" style="height:calc(100% - 53px);">
+                  <div style="height: calc(100% - 30px);min-height:250px;overflow-y:auto;" class="app-inner-inner" id="entity-list">
+                    Inner content
+                  </div>
+                  Outer content
+                </div>
+              </td>
+              <td rowspan="3" style="height:inherit;max-width:250px" class="app-node">
+                <span>Header 3</span>
+                <div class="app-inner" style="height:calc(100% - 53px);">
+                  <div class="app-inner-inner" style="width:calc(100%-10px);height:200px;overflow-y:auto;" id="tile-list">
+                    More inner content<br>
+                    You can set a max node width!
+                  </div>
+                  The app also responds to Mobile and groups things appropriately! 
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td rowspan="2" style="height:inherit;" class="app-node">
+                <span>Header 4</span>
+                <div class="app-inner" style="height:calc(100% - 50px);">
+                  <div class="moretoolsgroup">
+                    <button class="generate-button" style="padding: 5px 15px; border-radius: 10px 10px 0px 0px">
+                      Button 1
+                    </button><br>
+                    <!--<input type="file" id="jsonfile" accept=".json" style="display:none;">
+                    <label class="generate-button" style="display:inline-block; padding: 5px 0px; border-radius: 0px; width: 100%;" for="jsonfile">
+                      Import JSON
+                    </label><br>-->
+                    <button class="generate-button" style="padding: 5px 15px; border-radius: 0px 0px 10px 10px;">
+                      Button 2
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td class="app-node">
+                <span>Header 5</span>
+                <div class="app-inner">
+                  Informative <b>Content</b>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td colspan="3">
+                <label class="generate-button gb-blue" style="display:block;" for="file" id="upload">
+                  Upload
+                </label>
+                <input type="file" id="file" accept=".nbt,.mcstructure,.json" style="display:none;">
+                <div class="generate-button gb-blue" id="download">
+                  Download / Export
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table><br>
+      App Description / Credits
       <br><br>
       </div>
     </div>

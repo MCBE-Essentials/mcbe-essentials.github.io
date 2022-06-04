@@ -1,16 +1,11 @@
 // https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/formatVersions.json
-var versions = [];
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-       // Typical action to be performed when the document is ready:
-       versions = eval(xhttp.responseText);
-       start();
-    }
-};
-xhttp.open("GET", "https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/formatVersions.json", true);
-//THANK YOU BRIDGE.!
-xhttp.send();
+var versions = {};
+async function fetchData(){
+  versions = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/formatVersions.json').then(data => data.json());  
+  start();
+}
+
+fetchData();
 
 var manifest = {
 	"format_version": 2,
@@ -47,6 +42,10 @@ function generateDetails(){
 generateDetails();
 
 function start(){
+  for(let vnum of versions.formatVersions){
+    document.getElementById("versions").innerHTML += "<option value='"+ vnum +"'></option>"
+  }
+  
   setVersion();
   manifest.header.uuid = generateUUID();
   manifest.modules[0].uuid = generateUUID();
@@ -54,8 +53,10 @@ function start(){
 }
 
 function setVersion(){
-  document.getElementById("version").value = versions[versions.length-1];
-  document.getElementById("version").placeholder = versions[versions.length-1];
+  /*document.getElementById("version").value = versions[versions.length-1];
+  document.getElementById("version").placeholder = versions[versions.length-1];*/
+  document.getElementById("version").value = versions.currentStable;
+  document.getElementById("version").placeholder = versions.currentStable;
 }
 
 function generateUUID(){
@@ -89,7 +90,7 @@ function updateManifest(){
     }
   }
   
-  if(document.querySelector('input[name="packtype"]:checked').value == "bp"){
+  if(document.getElementById("packtype").value == "bp"){
     manifest.modules[0].type = "data";
   } else {
     manifest.modules[0].type = "resources";
@@ -113,11 +114,11 @@ function updateManifest(){
 }
 
 function generateLabels(){
-  if(document.getElementById("folderlist").getAttribute("packtype") != document.querySelector('input[name="packtype"]:checked').value){
+  if(document.getElementById("folderlist").getAttribute("packtype") != document.getElementById("packtype").value){
     document.getElementById("folderlist").innerHTML = "";
-    document.getElementById("folderlist").setAttribute("packtype", document.querySelector('input[name="packtype"]:checked').value);
-    for(var i = 0; i < labels[document.querySelector('input[name="packtype"]:checked').value].length; i++){
-      var name = labels[document.querySelector('input[name="packtype"]:checked').value][i]
+    document.getElementById("folderlist").setAttribute("packtype", document.getElementById("packtype").value);
+    for(var i = 0; i < labels[document.getElementById("packtype").value].length; i++){
+      var name = labels[document.getElementById("packtype").value][i]
       var el = document.createElement("label");
       el.classList = ["idlabel"];
       el.innerHTML = '<input type="checkbox" class="idchecker" value="'+name+'">'+name+'<br>';
@@ -135,6 +136,7 @@ var labels = {
     "items",
     "loot_tables",
     "recipes",
+    "scripts",
     "spawn_rules",
     "structures",
     "trading"

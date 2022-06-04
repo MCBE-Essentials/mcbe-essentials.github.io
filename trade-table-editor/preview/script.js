@@ -23,6 +23,18 @@ function createTier(disableName){
   return tier;
 }
 
+function hasEnchants(item){
+  if(!item.functions){
+    return false;
+  }
+  
+  for(let func of item.functions){
+    if(func.function == "specific_enchants"){
+      return true;
+    }
+  }
+}
+
 function addTrade(element, tradeData){
   if(!tradeData){
     var tradeData = tradeTemplate;
@@ -37,14 +49,14 @@ function addTrade(element, tradeData){
   //trade.setAttribute("disabled","");
   var tradeHTML = '<div class="trade-inner">';
   
-  tradeHTML += '<mcitem style="height:40px; width:40px;" identifier="' + wants0.item + '" count="'+ wants0.quantity +'"></mcitem>';
+  tradeHTML += '<mcitem style="height:40px; width:40px;" '+ (hasEnchants(wants0) ? 'class="enchanted"' : '') +' identifier="' + wants0.item + '" count="'+ wants0.quantity +'"></mcitem>';
   if(wants1){
-    tradeHTML += '<mcitem style="height:40px; width:40px;" identifier="' + wants1.item + '" count="'+ wants1.quantity +'"></mcitem>';
+    tradeHTML += '<mcitem style="height:40px; width:40px;" '+ (hasEnchants(wants1) ? 'class="enchanted"' : '') +' identifier="' + wants1.item + '" count="'+ wants1.quantity +'"></mcitem>';
   } else {
     tradeHTML += '<mcitem style="height:40px;width:40px;visibility:hidden;" identifier="minecraft:air" count="1"></mcitem>';
   }
   tradeHTML += '<img class="trade-arrow" src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png">';
-  tradeHTML += '<mcitem style="height:40px; width:40px;" identifier="' + gives.item + '" count="'+ gives.quantity +'"></mcitem>';
+  tradeHTML += '<mcitem style="height:40px; width:40px;" '+ (hasEnchants(gives) ? 'class="enchanted"' : '') +' identifier="' + gives.item + '" count="'+ gives.quantity +'"></mcitem>';
   tradeHTML += '</div>';
   
   trade.innerHTML = tradeHTML;

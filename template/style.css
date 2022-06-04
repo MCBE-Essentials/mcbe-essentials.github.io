@@ -94,6 +94,10 @@ input.app-input {
   background-color: #acacc1;
 }
 
+.app-row {
+  height:1px;
+}
+
 @media only screen and (max-width: 1475px) {
   /*Square*/
   /*.main-left {
@@ -104,6 +108,9 @@ input.app-input {
     position: absolute;
     width: 100%;
     z-index: 1000;
+  }
+  .main-left.visible {
+    display: block;
   }
   .leftimg {
     width: 25%;
@@ -167,10 +174,12 @@ input.app-input {
     width: 35%;
   }
 
-  .app-inner tr td {
+  .app-row {
+    height: unset;
+  }
+  
+  .app-row .app-node {
     display: block;
-    width: 100%;
-    margin-top: 15px;
   }
 
   .app-inner {

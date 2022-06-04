@@ -83,10 +83,14 @@
                           <tr></tr>
                         </tbody>
                     </table>
-                    <b>Items:</b> <span id="container-items" style="width: 24px;display: inline-block;text-align: left;">0</span>
+                    <b>Items:</b> <span id="container-items" style="width: 24px;display: inline-block;text-align: left;">0</span><br>
+                    <!--<br>
+                    <button class="generate-button" style="font-size: 8pt;" onclick="if(confirm('Are you sure you want to proceed? This will generate a loot table based on the items in the chest that will always output the items above (not necessarily in that order).')){generateLootTable();}">
+                      Generate Loot Table from contents
+                    </button>-->
                   </div>
                   <div class="app-inner-inner" style="margin-top: 6px;">
-                    Loot Table:<br>
+                    Loot Table Path:<br>
                     <input style="width:calc(100% - 9px);font-family:monospace;font-size:8pt;" placeholder="loot_tables/chests/spawn_bonus_chest.json" id="table-path" oninput="updateTile()" disabled><br>
                     Loot Table Seed: <input type="number" placeholder="0000000000" id="table-seed" oninput="updateTile()" disabled>
                   </div>
@@ -103,7 +107,7 @@
           </table><br>
       This app is a modfied verison of the Structure Editor, created to quickly and easily apply loot tables to containers within structures.<br><br>
       Leave the "Loot Table Seed" field blank if you want the loot table to generate randomly each time the structure is loaded, otherwise put a number in to generate the contents consistently.<br><br>
-       Thanks to <a href="https://thedestruc7i0n.ca/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_blank">TheDestruc7i0n</a> for the item data.
+       Thanks to <a href="https://thedestruc7i0n.ca/" target="_blank">TheDestruc7i0n</a> for the item data.
       <br><br>
       </div>
     </div>

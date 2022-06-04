@@ -9,45 +9,178 @@
       rel="icon"
       href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
     />
-    
+
     <title>MCBE Essentials</title>
 
     <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="../style.css" />
 
     <!-- import the webpage's javascript file -->
     <script src="/apps.js" defer></script>
     <script src="/script.js" defer></script>
+    
+    <style>
+      code {
+        padding: 4px 8px;
+        background-color: rgba(255, 255, 255, 0.2);
+        vertical-align: middle;
+        border-radius: 5px;
+        font-size: 1.15em;
+      }
+      
+      a[href] {
+        background-color:rgba(255,255,255,0.3);
+        padding:0px 4px;
+        border-radius:5px;
+        color:#82f782;
+      }
+      
+      #right img {
+        width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+    </style>
   </head>
   <body style="">
     <div id="head" class="header">
-        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <img
+        src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+        class="imgicon"
+      />
       <span class="imgicontext">MCBE Essentials</span>
     </div>
     <div id="body" class="main-content">
-      <div id="left" class="main-left">
-      </div>
-      <div id="right" class="main-right" style="font-family: Minecraftia;text-align:left;">
-      <h2 style="font-size:2.25em;">Loopr Docs</h2>
-        This is the documentation for how Loopr works. 
-        
-        <h2>The Basics</h2>
-        Loopr is an app that will let you write hundreds of lines of similar-looking code very quickly. It's basically a customizable "for" loop to generate numbers.
-        <br><br>
-        
-        <h2>Loop through a list</h2>
-        If you select "Loop through a list", a box will appear, titled "Paste your list here". 
-        <br><br>
-      <br><br>
+      <div id="left" class="main-left"></div>
+      <div
+        id="right"
+        class="main-right"
+        style="font-family: Minecraftia; text-align: left"
+      >
+        <div style="margin-left: 15px;">
+          <h2 style="font-size: 2.25em; margin-bottom:0px">Loopr Docs</h2>
+          <span style="font-size:0.8em">By <a href="https://github.com/Gekocaretaker/">Gekocaretaker</a></span><br><br>
+          Loopr is a program that allows you to write hundreds of lines of
+          similar-looking code very quicky.
+          <h2>The Basics</h2>
+          Loopr currently has two different modes, <b>Loop Through a List</b> and
+          <b>Loop Total Times</b>. Each one has a different data input, which will
+          be talked about in <b>Loop Through a List</b> and
+          <b>Loop Total Times</b> Both have a template field (See
+          <b>Output Template</b>) and a finished loop field. There are 5 additional
+          buttons:
+          <ul>
+            <li>
+              Generate: Used to generate your loop using the template and data.
+            </li>
+            <li>
+              Copy Output: This allows you to easily get the output of your loop
+              without needing to highlight it all.
+            </li>
+            <li>
+              Save: Export your loop to work with later. Saves as a
+              <code>.lpr</code> file
+            </li>
+            <li>Load: Load your loop from a saved <code>.lpr</code> file.</li>
+            <li>Share: Send your loop to someone else as a url.</li>
+          </ul>
+          <h2>Loop Through a List</h2>
+          Use a list of values to get a different output loop. Each value needs to
+          be separated with a newline character (Enter Key). The list of values
+          will go into the list field. The data input of this is
+          <code>&lt;&lt;value&gt;&gt;</code>
+          <br />
+          <h2>Loop Total Times</h2>
+          Use a number to loop. The data input of this is
+          <code>&lt;&lt;length&gt;&gt;</code> and <code>&lt;&lt;line&gt;&gt;</code>
+          <br />
+          <h2>Output Template</h2>
+          The template is what the data will be added to, so it can make
+          variations of the template in the output. The template has a special
+          scripting system using <code>&lt;&lt; &gt;&gt;</code>. Here is valid scripts:
+          <ul>
+            <li>
+              value [String]: The current value from the list. Only usable in
+              <b>Loop Through a List</b>.
+            </li>
+            <li>
+              line [Number]: The current position of the loop. Usable in all loopr
+              modes.
+            </li>
+            <li>
+              length [Number]: The amount of items in a list in
+              <b>Loop Through a List</b> or is the total amount of loops in
+              <b>Loop Total Times</b>
+            </li>
+            <li>
+              parseFloat(value) [Number]: Used to convert the current value into a
+              float to work with math. Can throw an error if the value can't be
+              converted.
+            </li>
+            <li>
+              Operations of Mathematics: You can use <code>+</code>, <code>-</code>,
+              <code>*</code>, <code>/</code>, and <code>%</code>
+            </li>
+            <li>
+              Math: The <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math"
+                  target="_blank"
+                  >Math</a
+                >
+              class can be used for complicated mathematics.
+            </li>
+            <li>Infinity: This only writes the word Infinity.</li>
+            <li>
+              Date: The <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"
+                  target="_blank"
+                  >Date</a
+                >
+              class can be used to work with date and time.
+            </li>
+            <li>
+              RegExp: The <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp"
+                  target="_blank"
+                  >RegExp</a
+                >
+              class can be used to modify strings using either literal notation or
+              the class itself.
+            </li>
+            <li>
+              Conditionals and Loops: You can use <code>if</code>, <code>else</code>,
+              <code>switch</code>, <code>case</code>, <code>for</code>, and <code>while</code>
+            </li>
+          </ul>
+          These are invalid and will not work in Loopr:
+          <i
+            >document, console, query, window, href, alert, confirm, prompt,
+            history, Function, function, import, export, eval, location, await,
+            async, do.</i
+          >
+          <h2>Examples:</h2>
+          Minecraft Bedrock JSON:<br>
+          <img src="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/LooprExample1.png" alt="A Loopr Example" /><br>
+          Using the <code>%</code> operator to determine if a number is even and also displaying the progress of the loop:<br>
+          <img src="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/LooprExample2.png" alt="A Loopr Example" /><br>
+          Example using Math and Date:<br>
+          <img src="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/LooprExample3.png" alt="A Loopr Example" /><br>
+          <br /><br />
+        </div>
       </div>
     </div>
-    <div class="menu-button2"
-         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
-         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
-         onclick="toggleMenu(this)"
-         >
-      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
+    <div
+      class="menu-button2"
+      onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
+      onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+      onclick="toggleMenu(this)"
+    >
+      <img
+        src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740"
+        style="margin: 20px 8px; width: 28px; image-rendering: pixelated"
+      />
     </div>
   </body>
 </html>
