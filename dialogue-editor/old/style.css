@@ -103,26 +103,6 @@
   border-radius: 10px;
 }
 
-.generate-button {
-  background-color: #a7a7a7;
-  color:black;
-  padding: 5px;
-  border-radius: 10px;
-  cursor:pointer;
-}
-
-.gb-blue {
-  background-color:#82c1f7;
-}
-
-.gb-green {
-  background-color:#82f782;
-}
-  
-.generate-button:hover {
-  background-color: #cdcbce;
-}
-
 .disabled {
   background-color: gray;
 }

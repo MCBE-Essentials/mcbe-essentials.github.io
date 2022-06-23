@@ -2,11 +2,12 @@
 <html>
   <head>
     <title>Item engine test: view all items</title>
-    <script src="/script.js"></script>
-    <script src="script.js"></script>
+    <script src="/script.js" defer></script>
+    <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
   </head>
   <body onload="fetchData();">
+    <div id="head"></div>
     <div id="items">
       
     </div>
@@ -15,16 +16,19 @@
 <script>
 var identifiers = {};
 async function fetchData(){
-  var ids = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(data => data.json());
-  identifiers = ids.definitions;
+  await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(data => {
+    identifiers = data.json().definitions;
+  });
   
   doIdentifiers();
 }
 
 function doIdentifiers(){
   document.getElementById("items").innerHTML = "";
-  for(var i = 0; i < identifiers.item_identifiers.enum.length; i++){
-    document.getElementById("items").innerHTML += '<mcitem identifier="'+ identifiers.item_identifiers.enum[i] +'" count="3"></mcitem>';
+  for(var i = 0; i < identifiers.prefixed_item_identifiers.enum.length; i++){
+    if(!identifiers.prefixed_item_identifiers.enum[i].startsWith("minecraft:element_")){
+      document.getElementById("items").innerHTML += '<mcitem identifier="'+ identifiers.prefixed_item_identifiers.enum[i] +'" count="3"></mcitem>';
+    }
   }
   mcitems.init();
 }

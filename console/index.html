@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Console</title>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <button onclick="window.opener.location.href = window.opener.location.href.replace('glitch.me', 'github.io'); window.close();">View Stable</button><br>
+    <button onclick="window.opener.reloadCSS();">Reload Stylesheets</button>
+    <button onclick="window.opener.location.reload();">Refresh Page</button>
+    <button onclick="closeOverlays();">Close all overlays</button>
+    
+    <details open style="user-select: none;">
+      <summary>Errors</summary>
+      
+      <div id="errors">
+        
+      </div>
+    </details>
+    <details>
+      <summary>Stylesheets</summary>
+      <ul id="stylesheets">
+        
+      </ul>
+    </details>
+  </body>
+</html>

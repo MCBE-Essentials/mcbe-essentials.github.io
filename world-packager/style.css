@@ -51,43 +51,15 @@
     padding: 5px;
     border-radius: 10px;
   }
-  
-  .generate-button {
-    background-color: #82f782;
-    color:black;
-    padding: 5px;
-    border-radius: 10px;
-    cursor:pointer;
-  }
-
-button.generate-button {
-  padding: 5px 20px;
-}
-
-.gb-blue {
-  background-color:#82c1f7;
-}
-
-.gb-red {
-  background-color:#f78282;
-}
-
-.gb-orange {
-  background-color:#ef933c;
-}
-
-.gb-purple {
-  background-color: #d174e5;
-}
 
 .world-edit-button {
   width: 231px;
   border-radius: unset;
 }
   
-  .generate-button:hover {
-    background-color: #cdcbce;
-  }
+button.generate-button {
+  padding: 5px 20px;
+}
   
   .app-inner {
     background-color: #4b4a5c;
@@ -189,6 +161,19 @@ button.generate-button {
     background-color: #acacc1;
 }
 
+.worldsettings-inner {
+  column-count: 2;
+  column-gap: 0px;
+}
+
+.gamerules-inner {
+  column-count: 3;
+  column-gap: 0px;
+}
+.app-row {
+  height:1px;
+}
+
 @media only screen and (max-width: 1475px) {
   /*Square*/
   /*.main-left {
@@ -231,6 +216,21 @@ button.generate-button {
   width:15vw;
 }
 
+.remove-from-world-data {
+  border-radius: 10px 0px 0px 10px;
+  width: unset;
+}
+
+.upload-pack {
+  border-radius: 0px 10px 10px 0px;
+  display:inline-block;
+  padding: 5px 20px;
+}
+
+.mobilewarning {
+  display: none;
+}
+
 @media only screen and (max-width: 920px) {
   .id-prefix {
     display:none;
@@ -256,6 +256,31 @@ button.generate-button {
   .idlabel input[type=checkbox]{
     width: 10px;
   }
+  
+  .tier-editor {
+    width: 90%;
+    font-size: 10pt;
+    height: unset;
+  }
+  
+  .worldsettings-inner {
+    column-count: unset;
+    column-gap: unset;
+  }
+
+  .gamerules-inner {
+    column-count: unset;
+    column-gap: unset;
+  }
+  
+  .worldsettings-inner .idlabel2 {
+    border-radius: 10px;
+    white-space: unset;
+  }
+  
+  .mobilewarning {
+    display: block;
+  }
 }
 
 @media only screen and (max-width: 670px) {
@@ -263,12 +288,6 @@ button.generate-button {
   .hidesmall {
     /*display: none;*/
     width: 35%;
-  }
-  
-  .app-inner tr td {
-    display:block;
-    width: 100%;
-    margin-top: 15px;
   }
   
   .app-inner {
@@ -311,5 +330,35 @@ button.generate-button {
   
   .id-prefix {
     display:unset;
+  }
+  
+  .app-row {
+    height: unset;
+  }
+
+  .app-row .app-node {
+    display: block;
+  }
+  
+  .generate-button {
+    font-size: 9pt;
+  }
+  
+  .main-right {
+    font-size: 9pt;
+  }
+  
+  .remove-from-world-data {
+    display: block;
+    width: 100%;
+    border-radius: 10px 10px 0px 0px;
+    padding: 0;
+  }
+  
+  .upload-pack {
+    display: block;
+    width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    padding: 5px 0px;
   }
 }

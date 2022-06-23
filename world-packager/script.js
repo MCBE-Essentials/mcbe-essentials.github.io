@@ -44,10 +44,10 @@ document.getElementById("file").addEventListener("change", function(){
           alert("Upload failed: World is missing a levelname.txt file.");
           return;
         }
-        if(!Object.keys(masterzip.files).includes("world_icon.jpeg")){
+        /*if(!Object.keys(masterzip.files).includes("world_icon.jpeg")){
           alert("Upload failed: World is missing a world_icon.jpeg file.");
           return;
-        }
+        }*/
         
         processProject();
         inForcedMode = false;
@@ -122,15 +122,40 @@ function getLevelDat(){
   });
 }
 
+//Thanks to https://stackoverflow.com/a/43933693 for this essential piece of code!!
+function concatenate(resultConstructor, ...arrays) {
+  let totalLength = 0;
+  for (const arr of arrays) {
+    totalLength += arr.length;
+  }
+  const result = new resultConstructor(totalLength);
+  let offset = 0;
+  for (const arr of arrays) {
+    result.set(arr, offset);
+    offset += arr.length;
+  }
+  return result;
+}
+
+function updateLevelDat(){  
+  var brokenldb = nbt.writeUncompressed(leveldat, 'little');
+  var fixedldb = datHandler.fix(brokenldb);
+  masterzip.file("level.dat", fixedldb);
+}
+
 function openWorldSettings(){
   document.getElementById("overlay").style.display = "block";
   document.getElementById("settings-editor").style.display = "block";
   
-  masterzip.file("world_icon.jpeg").async("base64").then(function(result){
-    document.getElementById("world-icon").src = "data:image/jpeg;base64," + result;
-  });
+  if(masterzip.file("world_icon.jpeg") != null){
+    masterzip.file("world_icon.jpeg").async("base64").then(function(result){
+      document.getElementById("world-icon").src = "data:image/jpeg;base64," + result;
+    });
+  } else {
+    document.getElementById("world-icon").src = "https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/WorldDemoScreen_Big_Grayscale.png";
+  }
   document.getElementById("ws-name").value = leveldat.value.LevelName.value;
-  document.getElementById("ws-seed").value = leveldat.value.RandomSeed.value[1];
+  document.getElementById("ws-seed").innerHTML = leveldat.value.RandomSeed.value.valueOf().toString();
   document.getElementById("ws-difficulty").value = leveldat.value.Difficulty.value;
   document.getElementById("ws-gametype").value = leveldat.value.GameType.value;
   document.getElementById("ws-generator").value = leveldat.value.Generator.value;
@@ -191,9 +216,28 @@ function openWorldRestrictions(){
   document.getElementById("wr-limitedx").value = leveldat.value.LimitedWorldOriginX.value;
   document.getElementById("wr-limitedy").value = leveldat.value.LimitedWorldOriginY.value;
   document.getElementById("wr-limitedz").value = leveldat.value.LimitedWorldOriginZ.value;
-  document.getElementById("wr-limitedwidth").value = leveldat.value.limitedWorldWidth.value;
-  document.getElementById("wr-limiteddepth").value = leveldat.value.limitedWorldDepth.value;
+  
+  if(leveldat.value.limitedWorldWidth){
+    document.getElementById("wr-limitedwidth").value = leveldat.value.limitedWorldWidth.value;
+    document.getElementById("wr-limitedwidth").disabled = false;
+  } else {
+    document.getElementById("wr-limitedwidth").disabled = true;
+  }
+  
+  if(leveldat.value.limitedWorldDepth){
+    document.getElementById("wr-limiteddepth").value = leveldat.value.limitedWorldDepth.value;
+    document.getElementById("wr-limiteddepth").disabled = false;
+  } else {
+    document.getElementById("wr-limiteddepth").disabled = true;
+  }
+  
   document.getElementById("wr-texturerequired").checked = leveldat.value.texturePacksRequired.value;
+  
+  if(leveldat.value.experiments){
+    document.getElementById("removeExperiments").style.display = "block";
+  } else {
+    document.getElementById("removeExperiments").style.display = "none";
+  }
 }
   
 function openWorldMisc(){
@@ -218,7 +262,7 @@ function updateWorldSettings() {
   leveldat.value.LevelName.value = document.getElementById("ws-name").value;
   //Update levelname.txt
   masterzip.file("levelname.txt", document.getElementById("ws-name").value);
-  leveldat.value.RandomSeed.value[1] = parseFloat(document.getElementById("ws-seed").value);
+  //leveldat.value.RandomSeed.value[1] = parseFloat(document.getElementById("ws-seed").value);
   leveldat.value.Difficulty.value = parseFloat(document.getElementById("ws-difficulty").value);
   leveldat.value.GameType.value = parseFloat(document.getElementById("ws-gametype").value);
   leveldat.value.Generator.value = parseFloat(document.getElementById("ws-generator").value);
@@ -231,7 +275,7 @@ function updateWorldSettings() {
   leveldat.value.bonusChestSpawned.value = (document.getElementById("ws-bonuschestspawned").checked == true ? 1 : 0);
   
   //Update level.dat inside zip file
-  masterzip.file("level.dat", nbt.writeUncompressed(leveldat, 'little'));
+  updateLevelDat();
 }
 
 function updateGamerules(){
@@ -265,7 +309,7 @@ function updateGamerules(){
   leveldat.value.maxcommandchainlength.value = parseFloat(document.getElementById("wg-chainlimit").value);
   
   //Update level.dat inside zip file
-  masterzip.file("level.dat", nbt.writeUncompressed(leveldat, 'little'));
+  updateLevelDat();
 }
 
 function updateRestrictions(){
@@ -284,7 +328,25 @@ function updateRestrictions(){
   leveldat.value.texturePacksRequired.value = (document.getElementById("wr-texturerequired").checked == true ? 1 : 0);
   
   //Update level.dat inside zip file
-  masterzip.file("level.dat", nbt.writeUncompressed(leveldat, 'little'));
+  updateLevelDat();
+}
+
+function removeExperiments(){
+  var currentExperiments = Object.keys(leveldat.value.experiments.value);
+  currentExperiments = currentExperiments.filter(item => !['experiments_ever_used', 'saved_with_toggled_experiments'].includes(item));
+  
+  if(
+    confirm(
+      "Are you SURE you want to remove all experimental gameplay toggles on the world? This can seriously damage the world you're editing.\n\n" +
+      "The following toggles will be disabled: \n" +
+      currentExperiments.join("\n") +
+      "\n\nAre you sure you want to proceed?"
+    )
+  ){
+    delete leveldat.value.experiments;
+    updateLevelDat();
+    openWorldRestrictions();
+  }
 }
 
 function updateWorldMisc() {
@@ -301,7 +363,7 @@ function updateWorldMisc() {
   leveldat.value.LANBroadcastIntent.value = (document.getElementById("wm-lanvisible").checked == true ? 1 : 0);
   
   //Update level.dat inside zip file
-  masterzip.file("level.dat", nbt.writeUncompressed(leveldat, 'little'));
+  updateLevelDat();
 }
 
 function processProject(){
@@ -321,9 +383,13 @@ function processProject(){
   
   doPacks();
   
-  masterzip.file("world_icon.jpeg").async("base64").then(function(result){
-    document.getElementById("world-icon").src = "data:image/jpeg;base64," + result;
-  });
+  if(masterzip.file("world_icon.jpeg") != null){
+    masterzip.file("world_icon.jpeg").async("base64").then(function(result){
+      document.getElementById("world-icon").src = "data:image/jpeg;base64," + result;
+    });
+  } else {
+    document.getElementById("world-icon").src = "https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/WorldDemoScreen_Big_Grayscale.png";
+  }
 }
 
 function packsList(list){
@@ -364,9 +430,14 @@ function selectPack(el){
   
   //LOADING IMAGE document.getElementById("pack-icon").src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbook.png?v=1619285887129";
   
-  masterzip.file(foldertype + "/" + currentPack.metadata.folder + "/pack_icon.png").async("base64").then(function(result){
-    document.getElementById("pack-icon").src = "data:image/png;base64," + result;
-  })
+  if(masterzip.file(foldertype + "/" + currentPack.metadata.folder + "/pack_icon.png") == null){
+    //No pack icon
+    document.getElementById("pack-icon").src = 'https://raw.githubusercontent.com/bedrock-dot-dev/packs/master/stable/resource/pack_icon.png';
+  } else {
+    masterzip.file(foldertype + "/" + currentPack.metadata.folder + "/pack_icon.png").async("base64").then(function(result){
+      document.getElementById("pack-icon").src = "data:image/png;base64," + result;
+    })
+  }
 }
 
 function movePack(mode){
@@ -683,9 +754,32 @@ function deletePack(){
   }
 }
 
+function confirmWipeData(){
+  if(confirm("The following things will be deleted:\nBuilds, player data, inventories, scoreboards, portals, entities, anything that has been added since world generation.\nThe following things will NOT be deleted:\nWorld template mode, gamerules, world seed, add-ons.\n\nAre you sure you want to perform this action?")){
+    masterzip.remove("db");
+    
+    var blankdatazip = new JSZip();
+    
+    fetch('https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/blank_worlddata.zip').then((result) => {
+      blankdatazip.loadAsync(result.blob()).then(function(){
+        for(let bfname of Object.keys(blankdatazip.files)){
+          blankdatazip.file(bfname).async('blob').then((blankdatafile) => {
+            masterzip.file(bfname, blankdatafile);
+          });
+        }
+      });
+    });
+    
+    document.getElementById("wipedata").style.display = "none";
+  }
+}
+
 function downloadLevelDat(){
   var worldname = document.getElementById("file").files[0].name.split(".")[0];
-  saveAs(new File([nbt.writeUncompressed(leveldat, 'little')], "level.dat"), worldname + " - level.dat");
+  updateLevelDat();
+  masterzip.file("level.dat").async("arraybuffer").then(function(inputfile){
+    saveAs(new File([inputfile], worldname + " - level.dat"), worldname + " - level.dat");
+  });
 }
 
 function activateWT(){

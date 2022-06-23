@@ -1,4 +1,5 @@
 //Parser.js - Convert MCBE concepts to JSON and vice versa
+//This file is just a concept and has no functionality whatsoever.
 /*
   Support for:
   - Coordinates

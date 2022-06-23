@@ -19,18 +19,18 @@ xhttp.send();
 var identifiers = {};
 async function doIdentifiers(){
   document.getElementById("block_identifiers").innerHTML = "";
-  for(var i = 0; i < identifiers.block_identifiers.enum.length; i++){
-    document.getElementById("block_identifiers").innerHTML += '<option value="'+ identifiers.block_identifiers.enum[i] +'"></option>';
+  for(var i = 0; i < identifiers.prefixed_block_identifiers.enum.length; i++){
+    document.getElementById("block_identifiers").innerHTML += '<option value="'+ identifiers.prefixed_block_identifiers.enum[i] +'"></option>';
   }
   
   document.getElementById("item_identifiers").innerHTML = "";
-  for(var i = 0; i < identifiers.item_identifiers.enum.length; i++){
-    document.getElementById("item_identifiers").innerHTML += '<option value="'+ identifiers.item_identifiers.enum[i] +'"></option>';
+  for(var i = 0; i < identifiers.prefixed_item_identifiers.enum.length; i++){
+    document.getElementById("item_identifiers").innerHTML += '<option value="'+ identifiers.prefixed_item_identifiers.enum[i] +'"></option>';
   }
   
   document.getElementById("entity_identifiers").innerHTML = "";
-  for(var i = 0; i < identifiers.entity_identifiers.enum.length; i++){
-    document.getElementById("entity_identifiers").innerHTML += '<option value="'+ identifiers.entity_identifiers.enum[i] +'"></option>';
+  for(var i = 0; i < identifiers.prefixed_entity_identifiers.enum.length; i++){
+    document.getElementById("entity_identifiers").innerHTML += '<option value="'+ identifiers.prefixed_entity_identifiers.enum[i] +'"></option>';
   }
 }
 

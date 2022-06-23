@@ -330,5 +330,13 @@
   "stony_peaks": {
     "identifier": "stony_peaks",
     "numeric": 189
+  },
+  "deep_dark": {
+    "identifier": "deep_dark",
+    "numeric": 190
+  },
+  "mangrove_swamp": {
+    "identifier": "mangrove_swamp",
+    "numeric": 191
   }
 }
