@@ -10,7 +10,7 @@ async function fetchData(){
 fetchData();
 
 function doIdentifiers(){
-  var blocks = identifiers.block_identifiers.enum;
+  var blocks = identifiers.prefixed_block_identifiers.enum;
   
   document.getElementById("place_list").innerHTML = "";
   document.getElementById("destroy_list").innerHTML = "";
@@ -22,7 +22,7 @@ function doIdentifiers(){
     document.getElementById("destroy_list").innerHTML += newItemDestroy;
   }
   
-  for(let item of identifiers.item_identifiers.enum){
+  for(let item of identifiers.prefixed_item_identifiers.enum){
     document.getElementById("item_ids").innerHTML += "<option value='"+item+"'></option>";
   }
 }

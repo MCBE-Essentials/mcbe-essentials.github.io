@@ -1,0 +1,22 @@
+<script src="/pnbt.js"></script>
+
+<input type="file" id="file">
+
+<script>
+  const nbt = require('prismarine-nbt');
+const { Buffer } = require('buffer');
+  
+  document.getElementById("file").addEventListener("change", function(){
+  if(this.files && this.files[0]){
+    var fr = new FileReader();
+    fr.onload = function(e){      
+      nbt.parse(Buffer.from(e.target.result)).then(function(data){
+        console.log(data);
+      });
+    }
+    fr.readAsArrayBuffer(this.files[0]);
+    //Set global variable "filename" for use in exporting later
+    filename = document.getElementById("file").files[0].name.split(".")[0];
+  }
+});</script>
+

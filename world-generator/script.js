@@ -5,16 +5,46 @@ var worldArchive = false;
 var leveldat = {};
 var unparsedldb = {};
 
+function selectWorldType(typeclass){
+  for(let el of document.getElementById("main-page").getElementsByTagName("tr")){
+    el.style.display = "none";
+  }
+  
+  var group = document.getElementById("main-page").getElementsByClassName(typeclass);
+  for(let el of group){
+    el.style.display = "table-row";
+  }
+  
+  var group = document.getElementById("main-page").getElementsByClassName('all');
+  for(let el of group){
+    el.style.display = "table-row";
+  }
+  
+  fetchWorld(typeclass);
+}
+
 function loadWorldArchive(){
   worldArchive.file("level.dat").async("arrayBuffer").then(res => nbt.parse(Buffer.from(res))).then(function(result){
     unparsedldb = result;
     leveldat = result.parsed;
-    flatWorldLayers = JSON.parse(leveldat.value["FlatWorldLayers"].value);
-    renderFlatWorld();
+    if(leveldat.value.Generator.value == 2){
+      flatWorldLayers = JSON.parse(leveldat.value["FlatWorldLayers"].value);
+      renderFlatWorld();
+    } else if(leveldat.value.Generator.value == 0) {      
+      document.getElementById("old-width").value = leveldat.value.limitedWorldWidth.value;
+      document.getElementById("old-depth").value = leveldat.value.limitedWorldDepth.value;
+      document.getElementById("old-x").value = leveldat.value.LimitedWorldOriginX.value;
+      document.getElementById("old-z").value = leveldat.value.LimitedWorldOriginZ.value;
+
+      document.getElementById("old-seed").value = "";
+    } else {
+      document.getElementById("inf-biome").value = leveldat.value.BiomeOverride.value;
+      document.getElementById("inf-seed").value = "";
+    }
   });
 }
 
-document.getElementById("file").addEventListener("change", function(){
+/*document.getElementById("file").addEventListener("change", function(){
   if(this.files && this.files[0]){
     var fr = new FileReader();
     fr.onload = function(e){      
@@ -26,7 +56,8 @@ document.getElementById("file").addEventListener("change", function(){
     //Set global variable "filename" for use in exporting later
     filename = document.getElementById("file").files[0].name.split(".")[0];
   }
-});
+});*/
+
 var biomeData = false;
 
 async function fetchData(){
@@ -36,22 +67,34 @@ async function fetchData(){
   identifiers = ids.definitions;
   biomeData = biomes;
   
-  await fetch('https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Superflat%20Template.mcworld').then(resp => resp.arrayBuffer())
-  .then(buf => jszip.loadAsync(Buffer.from(buf))).then(function(result){worldArchive = result; loadWorldArchive();})
-  
   doIdentifiers();
+}
+
+var worldfiles = {
+  flat: "https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Superflat%20Template.mcworld",
+  infinite: "https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Infinite%20Single%20Biome%20Template.mcworld",
+  old: "https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Old%20World%20Template.mcworld?v=1655059676533"
+};
+
+async function fetchWorld(type){
+  await fetch(worldfiles[type]).then(resp => resp.arrayBuffer())
+  .then(buf => jszip.loadAsync(Buffer.from(buf))).then(function(result){worldArchive = result; loadWorldArchive();})
 }
 
 var identifiers = {};
 function doIdentifiers(){
   document.getElementById("block-identifiers").innerHTML = "";
-  for(var i = 0; i < identifiers.block_identifiers.enum.length; i++){
-    document.getElementById("block-identifiers").innerHTML += '<option value="'+ identifiers.block_identifiers.enum[i] +'"></option>';
+  for(var i = 0; i < identifiers.prefixed_block_identifiers.enum.length; i++){
+    document.getElementById("block-identifiers").innerHTML += '<option value="'+ identifiers.prefixed_block_identifiers.enum[i] +'"></option>';
   }
   
-  document.getElementById("biome").innerHTML = "";
+  document.getElementById("flat-biome").innerHTML = "";
+  document.getElementById("inf-biome").innerHTML = "";
   for(var i = 0; i < Object.keys(biomeData).length; i++){
-    document.getElementById("biome").innerHTML += '<option value="'+ biomeData[Object.keys(biomeData)[i]].numeric +'">'+ Object.keys(biomeData)[i] +'</option>';
+    if(biomeData[Object.keys(biomeData)[i]].numeric) {
+      document.getElementById("flat-biome").innerHTML += '<option value="'+ biomeData[Object.keys(biomeData)[i]].numeric +'">'+ Object.keys(biomeData)[i] +'</option>';
+    }
+    document.getElementById("inf-biome").innerHTML += '<option value="'+ Object.keys(biomeData)[i] +'">'+ Object.keys(biomeData)[i] +'</option>';
   }
 }
 
@@ -66,27 +109,25 @@ fetchData();
 </div>
 */
 
-var worldType = "flat";
-
 var flatWorldLayers = {
-    "biome_id": 1,
-    "block_layers": [
-        {
-            "block_name": "minecraft:bedrock",
-            "count": 1
-        },
-        {
-            "block_name": "minecraft:dirt",
-            "count": 2
-        },
-        {
-            "block_name": "minecraft:grass",
-            "count": 1
-        }
-    ],
-    "encoding_version": 6,
-    "structure_options": null,
-    "world_version": "version.post_1_18"
+  "biome_id": 1,
+  "block_layers": [
+      {
+          "block_name": "minecraft:bedrock",
+          "count": 1
+      },
+      {
+          "block_name": "minecraft:dirt",
+          "count": 2
+      },
+      {
+          "block_name": "minecraft:grass",
+          "count": 1
+      }
+  ],
+  "encoding_version": 6,
+  "structure_options": null,
+  "world_version": "version.post_1_18"
 };
 
 function renderLayer(identifier, count, layerIndex){
@@ -167,7 +208,7 @@ function renderFlatWorld(justParse){
       renderLayer(currentLayer.block_name, currentLayer.count, ind);
     }
 
-    document.getElementById("biome").value = flatWorldLayers.biome_id;
+    document.getElementById("flat-biome").value = flatWorldLayers.biome_id;
   }
   
   leveldat.value["FlatWorldLayers"].value = JSON.stringify(flatWorldLayers);
@@ -195,12 +236,28 @@ function moveLayer(index, mod){
   renderFlatWorld();
 }
 
-function changeBiome(value){
-  if(worldType == "flat"){
-    flatWorldLayers.biome_id = parseFloat(value);
-  }
+function changeFlatBiome(value){
+  flatWorldLayers.biome_id = parseFloat(value);
   
   renderFlatWorld();
+}
+
+function changeInfBiome(value){
+  leveldat.value.BiomeOverride.value = value;
+  if(leveldat.value.RandomSeed) delete leveldat.value.RandomSeed;
+}
+
+function changeInfSeed(value){
+  if(leveldat.value.RandomSeed) delete leveldat.value.RandomSeed;
+}
+
+function changeOldWorld(){
+  leveldat.value.limitedWorldWidth.value = parseFloat(document.getElementById("old-width").value);
+  leveldat.value.limitedWorldDepth.value = parseFloat(document.getElementById("old-depth").value);
+  leveldat.value.LimitedWorldOriginX.value = parseFloat(document.getElementById("old-x").value);
+  leveldat.value.LimitedWorldOriginZ.value = parseFloat(document.getElementById("old-z").value);
+  
+  if(leveldat.value.RandomSeed) delete leveldat.value.RandomSeed
 }
 
 function flatVersioning(bool){
@@ -218,9 +275,20 @@ function flatVersioning(bool){
 }
 
 function exportMcworld(){
-  var filename = "Custom Flat World";
+  var filename = "custom_" + document.getElementById("worldtype").value + "_world";
+  
+  //Remove world icon & Fix world name
+  leveldat.value["LevelName"].value = filename;
+  worldArchive.remove('world_icon.jpeg');
+  
+  //Fix ldb
+  var brokenldb = nbt.writeUncompressed(leveldat, 'little');
+  var fixedldb = datHandler.fix(brokenldb);
+  worldArchive.file("level.dat", fixedldb);
   worldArchive.generateAsync({type:"blob"})
   .then(function (blob) {
     saveAs(blob, filename + ".mcworld");
   });
 }
+
+selectWorldType("flat");

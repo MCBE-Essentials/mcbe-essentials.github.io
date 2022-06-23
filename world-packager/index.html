@@ -23,6 +23,7 @@
     <script src="/jszip.js" defer></script>
     <script src="uuid.js" defer></script>
     <script src="/pnbt.js" defer></script>
+    <script src="/leveldat.js" defer></script>
     <script src="script.js" defer></script>
     <script src="/nomobile.js"></script>
   </head>
@@ -40,92 +41,86 @@
       </div><div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>World Packager</h1>
           <table class="app-main" id="app-main">
-            <thead>
-              <tr>
-                <td>Add-ons</td>
-                <!--<td>Edit world options</td>-->
-              </tr>
-            </thead>
             <tbody>
-              <tr>
-                <td class="app-inner">
-                  <table style="display:inline-block; width:100%">
-                    <tr>
-                      <td class="app-inner-inner">
-                        <div id="pack-list" style="width:calc(100%-10px);height:200px;overflow-y:auto;">Packs will show up here<br>with their directory's name.</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="app-inner-inner">
-                        <div style="display:inline-block;">Change Hierarchy: <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="movePack('up');" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">
-                          <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="movePack('down');" class="minibutton"></div><br>
-                  
-                      <label><input type="text" class="app-input" placeholder="00.00.00" style="width: 75px;" oninput="updateManifest()" id="pack-version"> Pack Version</label><br>
-                      <label><input type="text" class="app-input" placeholder="00.00.00" style="width: 75px;" oninput="updateManifest()" id="pack-me-version"> Min Engine Version</label><br>
-                        
-                        <table style="width:100%;">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <img id="pack-icon" src="https://raw.githubusercontent.com/bedrock-dot-dev/packs/master/stable/resource/pack_icon.png" width="60" height="60" draggable="false" style="image-rendering:pixelated;"><br><label style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;font-size:8pt;position:relative;top:-10px;" for="packiconfile">Change</label><input type="file" id="packiconfile" style="display:none" accept=".png">
-                              </td>
-                              <td>
-                                <textarea class="ta2" style="border:1px solid #a3acb1;" rows="1" placeholder="Pack Title" id="pack-title" oninput="updateManifest()"></textarea><textarea class="ta2" style="border:1px solid #a3acb1;" rows="5" placeholder="Pack Description" id="pack-desc" oninput="updateManifest()"></textarea>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <button class="generate-button gb-red" style="border-radius: 10px 0px 0px 10px; width: unset;" onclick="deletePack()">Remove from world data</button><label class="generate-button gb-green" style="border-radius: 0px 10px 10px 0px; display:inline-block;padding: 5px 20px;" for="packfile">Upload Pack</label><input type="file" id="packfile" style="display:none" accept=".zip,.mcaddon,.mcpack"><br>
-                      </td>
-                    </tr>
-                    
-                  </table>
-                </td>
-                <!--<td class="app-inner">
-                  <button class="generate-button gb-blue world-edit-button" onclick="openWorldSettings()" style="border-radius: 10px 10px 0px 0px;">Edit world settings</button><br>
-                  <button class="generate-button gb-blue world-edit-button" onclick="openWorldGamerules()">Edit gamerules</button><br>
-                  <button class="generate-button gb-blue world-edit-button" onclick="openWorldRestrictions()">Edit restrictions</button><br>
-                  <button class="generate-button gb-blue world-edit-button" onclick="openWorldMisc()" style="border-radius: 0px 0px 10px 10px;">Edit miscellaneous</button>
-                </td>-->
-              </tr>
-              <tr>
-                <td>World Template</td>
-              </tr>
-              <tr>
-                <td class="app-inner">
-                  <button class="generate-button gb-red" id="add-wt" onclick="activateWT()">Activate World Template</button>
-                  <div style="display:none;" id="wt-settings">
-                    <label><input type="text" class="app-input" placeholder="00.00.00" style="width: 75px;" id="wt-version" oninput="writeWT()"> Base Game Version</label><br>
-                    <label><input type="checkbox" id="wt-lock" oninput="writeWT()"> Lock world options</label><br>
+              <tr class="app-row">
+                <td class="app-node">
+                  <span>Add-ons</span>
+                  <div class="app-inner">
+                    <table style="display:inline-block; width:100%">
+                      <tr>
+                        <td class="app-inner-inner">
+                          <div id="pack-list" style="width:calc(100%-10px);height:200px;overflow-y:auto;">Packs will show up here<br>with their directory's name.</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="app-inner-inner">
+                          <div style="display:inline-block;">Change Hierarchy: <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="movePack('up');" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton">
+                            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="movePack('down');" class="minibutton"></div><br>
 
-                    <div class="app-inner-inner">
-                    <textarea class="ta2" style="border:1px solid #a3acb1;" rows="1" placeholder="World Template Title" id="wt-title" oninput="writeWT()"></textarea><br>
-                    <textarea class="ta2" style="border:1px solid #a3acb1;" rows="5" placeholder="World Template Description (invisible)" id="wt-desc" oninput="writeWT()"></textarea><br>
-                      
+                        <label><input type="text" class="app-input" placeholder="00.00.00" style="width: 75px;" oninput="updateManifest()" id="pack-version"> Pack Version</label><br>
+                        <label><input type="text" class="app-input" placeholder="00.00.00" style="width: 75px;" oninput="updateManifest()" id="pack-me-version"> Min Engine Version</label><br>
+
+                          <table style="width:100%;">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <img id="pack-icon" src="https://raw.githubusercontent.com/bedrock-dot-dev/packs/master/stable/resource/pack_icon.png" width="60" height="60" draggable="false" style="image-rendering:pixelated;"><br><label style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;font-size:8pt;position:relative;top:-10px;" for="packiconfile">Change</label><input type="file" id="packiconfile" style="display:none" accept=".png">
+                                </td>
+                                <td>
+                                  <textarea class="ta2" style="border:1px solid #a3acb1;" rows="1" placeholder="Pack Title" id="pack-title" oninput="updateManifest()"></textarea><textarea class="ta2" style="border:1px solid #a3acb1;" rows="5" placeholder="Pack Description" id="pack-desc" oninput="updateManifest()"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <button class="generate-button gb-red remove-from-world-data" onclick="deletePack()">Remove from world data</button><label class="generate-button gb-green upload-pack" for="packfile">Upload Pack</label><input type="file" id="packfile" style="display:none" accept=".zip,.mcaddon,.mcpack"><br>
+                        </td>
+                      </tr>
+
+                    </table>
+                  </div>
+                </td>
+                <td class="app-node" style="height:inherit">
+                  <span>World Data</span>
+                  <div class="app-inner" style="height:calc(100% - 50px);">
+                    <button class="generate-button gb-blue world-edit-button" onclick="openWorldSettings()" style="border-radius: 10px 10px 0px 0px;">Edit world settings</button><br>
+                    <button class="generate-button gb-blue world-edit-button" onclick="openWorldGamerules()">Edit gamerules</button><br>
+                    <button class="generate-button gb-blue world-edit-button" onclick="openWorldRestrictions()">Edit restrictions</button><br>
+                    <button class="generate-button gb-blue world-edit-button" onclick="openWorldMisc()" style="border-radius: 0px 0px 10px 10px;">Edit miscellaneous</button><br>
+                    <button class="generate-button gb-red world-edit-button" style="border-radius: 10px; margin-top: 4px;" onclick="confirmWipeData()" id="wipedata">
+                      Wipe level data
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="app-row">
+                <td colspan="2" class="app-node">
+                  <span>World Template</span>
+                  <div class="app-inner">
+                    <button class="generate-button gb-red" id="add-wt" onclick="activateWT()">Activate World Template</button>
+                    <div style="display:none;" id="wt-settings">
+                      <label><input type="text" class="app-input" placeholder="00.00.00" style="width: 75px;" id="wt-version" oninput="writeWT()"> Base Game Version</label><br>
+                      <label><input type="checkbox" id="wt-lock" oninput="writeWT()"> Lock world options</label><br>
+
+                      <div class="app-inner-inner">
+                      <textarea class="ta2" style="border:1px solid #a3acb1;" rows="1" placeholder="World Template Title" id="wt-title" oninput="writeWT()"></textarea><br>
+                      <textarea class="ta2" style="border:1px solid #a3acb1;" rows="5" placeholder="World Template Description (invisible)" id="wt-desc" oninput="writeWT()"></textarea><br>
+
+                      </div>
+                      <button class="generate-button gb-red" id="remove-wt" onclick="deleteWT()">Remove World Template</button>
                     </div>
-                    <button class="generate-button gb-red" id="remove-wt" onclick="deleteWT()">Remove World Template</button>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td>World Icon</td>
-              </tr>
-              <tr>
-                <td style="text-align:middle;">
-                  <img src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/CreateNewWorld.png" style="max-width: 500px; width: 100%;" id="world-icon"><br>
-          <label style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;font-size:8pt;position:relative;top:-10px;" for="worldiconfile">Change World Icon</label><input type="file" id="worldiconfile" style="display:none" accept=".jpeg">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="generate-button" style="display:inline-block;width:calc(100% - 10px);" onclick="downloadProject()" id="downloadworldbutton">Download World</div>
-                  <!--<div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 10px 0px 0px 10px" onclick="downloadProject()" id="downloadworldbutton">Download World</div><div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 0px 10px 10px 0px" onclick="downloadLevelDat()">Download level.dat</div>-->
+                <td colspan="2">
+                  <!--<div class="generate-button" style="display:inline-block;width:calc(100% - 10px);" onclick="downloadProject()" id="downloadworldbutton">Download World</div>-->
+                  <div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 10px 0px 0px 10px" onclick="downloadProject()" id="downloadworldbutton">Download World</div><div class="generate-button" style="display:inline-block;width:calc(50% - 10px);border-radius: 0px 10px 10px 0px" onclick="downloadLevelDat()">Download level.dat</div>
                   <input type="file" id="file" style="display:none" accept=".zip,.mctemplate,.mcworld">
                 </td>
               </tr>
             </tbody>
           </table><br>
-      The World Packager allows you to apply addons directly into your world data<!--<br>and edit gamerules stored in your level.dat file-->. It can also transform your world<br>into an importable World Template. Thanks to <a href="http://jszip.org/" target="_blank">JSZip</a> for archive parsing<!--<br>and <a href="https://github.com/PrismarineJS/prismarine-nbt" target="_blank">Prismarine-NBT</a> for the level.dat editing-->.
+      The World Packager allows you to apply addons directly into your world data and edit gamerules stored in your level.dat file. It can also transform your world into an importable World Template. Thanks to <a href="http://jszip.org/" target="_blank">JSZip</a> for archive parsing and <a href="https://github.com/PrismarineJS/prismarine-nbt" target="_blank">Prismarine-NBT</a> for the level.dat editing.
       <br><br>
       </div>
     </div>
@@ -135,7 +130,7 @@
       <div style="position:relative;height:100%;text-align:left;" class="gamerule-container">
         <div class="tier-editor-close-button" onclick="closeEditors();">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Gamerules</h2>
-        <div style="column-count: 3; column-gap: 0px;">
+        <div class="gamerules-inner">
           <label class="idlabel2">Command Block Output <input type="checkbox" id="wg-commandblockoutput" oninput="updateGamerules()"></label><br>
           <label class="idlabel2">Command Blocks Enabled <input type="checkbox" id="wg-commandblocksenabled" oninput="updateGamerules()"></label><br>
           <label class="idlabel2">Commands Enabled<input type="checkbox" id="wg-commandsenabled" oninput="updateGamerules()"></label><br>
@@ -170,10 +165,11 @@
       <div style="position:relative;height:100%;text-align:left;" class="gamerule-container">
         <div class="tier-editor-close-button" onclick="closeEditors();">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">World Settings</h2>
-        <div style="column-count: 2; column-gap: unset;">
-          <br>
+        <div class="worldsettings-inner">
+          <img src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/CreateNewWorld.png" style="width: 100%; max-width: 450px; margin-left: auto; margin-right: auto; display: block;" id="world-icon">
+          <br><label style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;font-size:8pt;position:relative;top:-10px;" for="worldiconfile">Change World Icon</label><input type="file" id="worldiconfile" style="display:none" accept=".jpeg"><br>
           <span>World name: <input class="app-input" style="width: 100%;" placeholder="My World" id="ws-name" oninput="updateWorldSettings()"></span><br>
-          <span>World seed: <input class="app-input" type="number" style="width:180px;" placeholder="1234" id="ws-seed" oninput="updateWorldSettings()"></span><br>
+          <span>World seed: <!--<input class="app-input" type="number" style="width:180px;" placeholder="1234" id="ws-seed" oninput="updateWorldSettings()" disabled>--> <b id="ws-seed">1234</b></span><br>
             <span>Difficulty: 
               <select class="app-input" style="width: 125px; height: unset;" id="ws-difficulty" oninput="updateWorldSettings()">
                 <option value="0">Peaceful</option>
@@ -188,7 +184,8 @@
                 <option value="0">Survival</option>
                 <option value="1">Creative</option>
                 <option value="2">Adventure</option>
-                <option value="3">Spectator</option>
+                <option value="3">Spectator (Broken, Old)</option>
+                <option value="6">Spectator (Experimental)</option>
               </select>
           </span>
           <span>
@@ -219,7 +216,7 @@
       <div style="position:relative;height:100%;text-align:left;" class="gamerule-container">
         <div class="tier-editor-close-button" onclick="closeEditors();">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Restrictions</h2>
-        <div style="column-count: 2; column-gap: unset;">
+        <div class="worldsettings-inner">
           <!--<label class="idlabel2">Confirmed platform locked content<input type="checkbox"></label><br>-->
           <label class="idlabel2">Has been loaded in creative<input type="checkbox" id="wr-creative" oninput="updateRestrictions()"></label><br>
           <label class="idlabel2">Has locked behavior pack<input type="checkbox" id="wr-lockedbp" oninput="updateRestrictions()"></label><br>
@@ -227,7 +224,7 @@
           <label class="idlabel2">Immutable world<input type="checkbox" id="wr-immutableworld" oninput="updateRestrictions()"></label><br>
           <label class="idlabel2">Is from locked template<input type="checkbox" id="wr-fromlockedtemplate" oninput="updateRestrictions()"></label><br>
           <label class="idlabel2">Is from world template<input type="checkbox" id="wr-fromtemplate" oninput="updateRestrictions()"></label><br>
-          <label class="idlabel2">Is from world template option locked<input type="checkbox" id="wr-fromtemplateoptionlocked" oninput="updateRestrictions()"></label><br>
+          <label class="idlabel2">World Template locked settings<input type="checkbox" id="wr-fromtemplateoptionlocked" oninput="updateRestrictions()"></label><br>
           <span style="font-size: 9pt;">Limited World Origin: 
             <input class="app-input" type="number" placeholder="X" id="wr-limitedx" oninput="updateRestrictions()">,
             <input class="app-input" type="number" placeholder="Y" id="wr-limitedy" oninput="updateRestrictions()">,
@@ -237,8 +234,12 @@
             <input class="app-input" type="number" placeholder="W" id="wr-limitedwidth" oninput="updateRestrictions()">,
             <input class="app-input" type="number" placeholder="D" id="wr-limiteddepth" oninput="updateRestrictions()">
             
-          </span>
+          </span><br>
           <label class="idlabel2">Texture packs required<input type="checkbox" id="wr-texturerequired" oninput="updateRestrictions()"></label>
+        </div>
+        <br>
+        <div class="generate-button gb-red" style="text-align: center;" onclick="removeExperiments();" id="removeExperiments">
+          Remove Experiments
         </div>
       </div>
     </div>
@@ -246,7 +247,7 @@
       <div style="position:relative;height:100%;text-align:left;" class="gamerule-container">
         <div class="tier-editor-close-button" onclick="closeEditors();">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Miscellaneous</h2>
-        <div style="column-count: 2; column-gap: unset;">
+        <div class="worldsettings-inner">
           <label class="idlabel2">Center maps to origin<input type="checkbox" id="wm-centermaps"></label><br>
           <label class="idlabel2">Education features<input type="checkbox" id="wm-education"></label><br>
           <label class="idlabel2">Spawn V1 Villagers<input type="checkbox" id="wm-spawnv1"></label><br>
@@ -277,8 +278,11 @@
         <label class="generate-button gb-blue" style="text-align:center; display: block;" for="file" id="upload2">
           Upload
         </label>
-                <div style="padding: 5px 15px;background-color: #ff9494;border: 2px solid red;color: black;font-size: 10pt;">
+        <div style="padding: 5px 15px;background-color: #ff9494;border: 2px solid red;color: black;font-size: 10pt;">
           <b>Before you get started, please note:</b> Browsers are not designed to deal with zip archives, so the packaging process can be extremely slow. You have been warned!
+        </div>
+        <div style="padding: 5px 15px;background-color: #ff9494;border: 2px solid red;color: black;font-size: 10pt;margin-top: 4px" class="mobilewarning">
+          Look out! This is a pretty heavy app and not designed for mobile devices.
         </div>
         <br>
         In the wrong place? <a href="/" target="_self">Go to the homepage</a>

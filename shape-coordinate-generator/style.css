@@ -4,21 +4,6 @@
     border-radius: 10px;
   }
   
-  .generate-button {
-    background-color: #82f782;
-    color:black;
-    padding: 5px;
-    border-radius: 10px;
-    cursor:pointer;
-  }
-
-.gb-blue {
-  background-color:#82c1f7;
-}
-  
-  .generate-button:hover {
-    background-color: #cdcbce;
-  }
   
   .app-inner {
     background-color: #4b4a5c;

@@ -17,6 +17,12 @@ var file = {
 var project = file["minecraft:npc_dialogue"];
 var filename = "my-dialogue.json";
 
+var advancedMode = false;
+var searchParams = new URLSearchParams(location.search);
+if(searchParams.has("advanced")){
+  advancedMode = true;
+}
+
 document.getElementById("file").addEventListener("change", function(){
   if(this.files && this.files[0]){
     var fr = new FileReader();
@@ -137,9 +143,29 @@ function openScene(scenedata){
   
   //Render buttons
   var buttonplus = '<img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142">';
-  var buttonEls = document.getElementsByClassName("dialogue-button");
   var buttons = scenedata.buttons;
-  var row2 = document.getElementById("row2");
+  //Create button elements
+  document.getElementById("buttons").children[0].innerHTML = "";
+  var completedbuttons = 0;
+  
+  var totalbuttons = Math.ceil(buttons.length / 3) + 1;
+  if(!advancedMode && totalbuttons > 2){
+    totalbuttons = 2;
+  }
+  
+  for(var i = 0; i < totalbuttons; i++){
+    var btnrow = document.createElement("tr");
+    for(var a = 0; a < 3; a++){
+      var newbtn = document.createElement("td");
+      newbtn.classList = ["dialogue-button"];
+      newbtn.setAttribute("disabled", "");
+      btnrow.appendChild(newbtn);
+    }
+    document.getElementById("buttons").children[0].appendChild(btnrow);
+  }
+  
+  var buttonEls = document.getElementsByClassName("dialogue-button");
+  
   for(var i = 0; i < buttonEls.length; i++){
     buttonEls[i].setAttribute("disabled", "");
     buttonEls[i].innerHTML = "";
@@ -147,13 +173,6 @@ function openScene(scenedata){
     buttonEls[i].setAttribute("onclick", "");
     buttonEls[i].setAttribute("oncontextmenu", "return false;");
   }
-  
-  //Hide second row if less than 3 buttons are defined
-  /*if(buttons.length < 3 && i > 2){
-    row2.style.display = "none";
-  } else {
-    row2.style.display = "table-row";
-  }*/
   
   for(var i = 0; i < buttons.length; i++){
     buttonEls[i].removeAttribute("disabled");
@@ -172,7 +191,7 @@ function openScene(scenedata){
     buttonEls[i].setAttribute("oncontextmenu", "doButtonContext("+i+"); return false;");
   }
   
-  if(buttons.length < 6){
+  if((buttons.length < 6 && !advancedMode) || advancedMode){
     buttonEls[buttons.length].removeAttribute("disabled");
     buttonEls[buttons.length].innerHTML = buttonplus;
     buttonEls[i].setAttribute("onclick", "addButton()");
@@ -292,6 +311,14 @@ function editButton(index){
     document.getElementById("button-name").value = currentButton.name;
   }
   document.getElementById("button-commands").value = currentButton.commands.join("\n");
+  
+  if(!advancedMode){
+    document.getElementById("button-image").style.display = "none";
+  } else {
+    document.getElementById("button-name").removeAttribute("maxlength");
+    if(!currentButton.image) currentButton.iamge = [""];
+    document.getElementById("button-image").value = currentButton.image[0];
+  }
 }
 
 function closeEditors(){
@@ -312,6 +339,14 @@ function closeEditors(){
   }
   
   currentButton.commands = document.getElementById("button-commands").value.split("\n");
+  
+  if(advancedMode){
+    if(document.getElementById("button-image").value != ""){
+      currentButton.image = [
+        document.getElementById("button-image").value
+      ];
+    }
+  }
   openScene(currentScene);
 }
 

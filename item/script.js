@@ -2,7 +2,7 @@
 //<mcitem identifier="minecraft:diamond_sword" count="2"></mcitem>
 async function fetchData() {
   mcitems.data.items = await fetch(
-    "https://unpkg.com/minecraft-textures@1.18.0/dist/textures/json/1.18.id.json"
+    "https://unpkg.com/minecraft-textures@1.19.0/dist/textures/json/1.19.id.json"
   ).then(response => response.json());
   mcitems.init();
   

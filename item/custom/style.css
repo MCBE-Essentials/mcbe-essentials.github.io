@@ -29,23 +29,6 @@ body {
   border-radius: 10px;
 }
 
-.generate-button {
-  background-color: #82f782;
-  color: black;
-  padding: 5px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align:center;
-}
-
-.gb-blue {
-  background-color: #82c1f7;
-}
-
-.generate-button:hover {
-  background-color: #cdcbce;
-}
-
 .app-inner {
   background-color: #acacc2;
   padding: 9px;

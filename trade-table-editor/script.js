@@ -63,8 +63,8 @@ async function fetchData(){
 
 function doIdentifiers(){
   document.getElementById("item_identifiers").innerHTML = "";
-  for(var i = 0; i < identifiers.item_identifiers.enum.length; i++){
-    document.getElementById("item_identifiers").innerHTML += '<option value="'+ identifiers.item_identifiers.enum[i] +'"></option>';
+  for(var i = 0; i < identifiers.prefixed_item_identifiers.enum.length; i++){
+    document.getElementById("item_identifiers").innerHTML += '<option value="'+ identifiers.prefixed_item_identifiers.enum[i] +'"></option>';
   }
 }
 

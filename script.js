@@ -1,3 +1,5 @@
+//Sidebar
+
 function includeHTML() {
   var z, i, elmnt, file, xhttp;
   /* Loop through a collection of all HTML elements: */
@@ -27,12 +29,25 @@ function includeHTML() {
 includeHTML();
 
 if(window.location.href.includes("glitch.me") && window.localStorage.isDev != "true"){
+  //Go to stable if "isDev" isn't specified in the localstorage.
   window.location.href = window.location.href.replace("glitch.me", "github.io");
 }
 
 if(window.location.host == "mcbe-essentials.glitch.me"){
+  //Development mode quirks
   document.title = "[DEV BUILD] MCBE Essentials";
-  document.getElementById("head").innerHTML += "<span style='margin-left:12px;' class='devviewstable' onclick='window.location.href = window.location.href.replace(\"glitch.me\", \"github.io\");'>View Stable Page</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span>";
+  //document.getElementById("head").innerHTML += "<span style='margin-left:12px;' class='devviewstable' onclick='window.location.href = window.location.href.replace(\"glitch.me\", \"github.io\");'>View Stable Page</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span>";
+  document.getElementById("head").innerHTML += "<span style='margin-left:12px;' class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
+  
+}
+
+var devWindow;
+function openDevWindow(){
+  devWindow = window.open("/console/", "DevWindow", "width=300,height=400");
+  window.onerror = function(error, url, line) {
+    //controller.sendLog({acc:'error', data:'ERR:'+error+' URL:'+url+' L:'+line});
+    devWindow.newError({data: error, url: url, line: line});
+  };
 }
 
 if(location.protocol != "https:"){
@@ -64,6 +79,7 @@ function reloadCSS(){
 
 function loadApp(path, type, elem){
   //main;list
+  if(!path) return;
   var svg = '<svg viewBox="0 0 24 24" class="' + path.icon.class[type] + '">' + path.icon.data + "</svg>";
   elem.innerHTML += svg;
   
@@ -131,6 +147,10 @@ function loadApp(path, type, elem){
   }
 }
 
+//Force disable spellcheck
+for(let el of document.getElementsByTagName('textarea')) el.spellcheck = false;
+for(let el of document.getElementsByTagName('input')) el.spellcheck = false;
+
 function toggleMenu(btn){
   document.getElementById("left").classList.toggle("visible");
   if(document.getElementById("left").classList.contains("visible")){
@@ -158,3 +178,9 @@ function doUnload(){
     e.returnValue = '';
   });
 }
+
+/* 
+window.onerror = function(error, url, line) {
+    controller.sendLog({acc:'error', data:'ERR:'+error+' URL:'+url+' L:'+line});
+};
+*/

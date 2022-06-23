@@ -15,7 +15,7 @@ xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
        data = JSON.parse(xhttp.responseText);
-       identifiers = data.definitions.entity_identifiers.enum;
+       identifiers = data.definitions.prefixed_entity_identifiers.enum;
        doIdentifiers();
     }
 };

@@ -57,30 +57,6 @@ input[type=time]{
     padding: 5px;
     border-radius: 10px;
   }
-  
-  .generate-button {
-    background-color: #82f782;
-    color:black;
-    padding: 5px;
-    border-radius: 10px;
-    cursor:pointer;
-  }
-
-.gb-blue {
-  background-color:#82c1f7;
-}
-
-.gb-gray {
-  background-color:#b9b9b9;
-}
-
-.generate-button:hover {
-  background-color: #cdcbce;
-}
-
-.gb-gray:hover {
-  background-color:#b9b9b9;
-}
 
 .app-inner {
   background-color: #4b4a5c;

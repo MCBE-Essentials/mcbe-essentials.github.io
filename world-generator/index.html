@@ -1,7 +1,3 @@
-<!--
-  Congrats, you found a scrapped app!
-  This app had to be scrapped because prismarine-nbt doesn't allow you to add the level.dat header required for Bedrock edition.
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,6 +21,7 @@
     <script src="/apps.js"></script>
     <script src="/script.js" defer></script>
     <script src="/pnbt.js"></script>
+    <script src="/leveldat.js" defer></script>
     <script src="/jszip.js" defer></script>
     <script src="/filesaver.js" defer></script>
     <script src="/item/script.js"></script>
@@ -44,39 +41,80 @@
       </div>
       <div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>World Generator</h1>
-        <label style="display: block;"><input type="file" id="file" accept=".dat" style="display: none;"> File</label>
           <table class="app-main" id="app-main">
             <thead>
               <tr>
-                <td>Flat World</td>
+                <td>
+                  <div class="app-inner">
+                    World Type: <select class="app-input" style="width:unset; height:unset;" oninput="selectWorldType(this.value)" id="worldtype">
+                      <option value="flat">Flat World</option>
+                      <option value="infinite">Infinite Single Biome </option>
+                      <option value="old">Old World</option>
+                    </select>
+                  </div>
+                </td>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td class="app-inner">
-                  <div class="layers-list" id="layers-list">
-                    Loading template...
-                  </div>
-                  <div class="generate-button gb-blue" onclick="newLayer('minecraft:cobblestone', '1')" style="border-radius: 10px;">
-                    + Add Layer
+            <tbody id="main-page">
+              <tr class="flat">
+                <td>
+                  <span>Flat Layers</span><br>
+                  <div class="app-inner">
+                    <div class="layers-list" id="layers-list">
+                      Loading template...
+                    </div>
+                    <div class="generate-button gb-blue" onclick="newLayer('minecraft:cobblestone', '1')" style="border-radius: 10px;">
+                      + Add Layer
+                    </div>
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td class="app-inner">
-                  Biome: <select class="app-input" style="width:320px;height:unset;" id="biome" value="1" oninput="changeBiome(this.value)">
-                    <option value="0">ocean</option>
-                    <option value="1">Loading biomes...</option>
-                  </select><br>
-                  <label><input type="checkbox" oninput="flatVersioning(this.checked)"> Start at y level -64</label>
+              <tr class="flat">
+                <td>
+                  <span>Additional Settings</span><br>
+                  <div class="app-inner">
+                    Biome: <select class="app-input" style="width:320px;height:unset;" id="flat-biome" value="1" oninput="changeFlatBiome(this.value)">
+                      <option value="0">ocean</option>
+                      <option value="1">Loading biomes...</option>
+                    </select><br>
+                    <label><input type="checkbox" oninput="flatVersioning(this.checked)"> Start at y level -64</label>
+                  </div>
                 </td>
               </tr>
-              <tr>
+              <tr class="infinite">
+                <td>
+                  <span>Infinite World</span><br>
+                  <div class="app-inner">
+                    Biome: <select class="app-input" style="width:320px;height:unset;" id="inf-biome" value="ocean" oninput="changeInfBiome(this.value)">
+                      <option value="ocean">ocean</option>
+                      <option value="ocean">Loading biomes...</option>
+                    </select><br>
+                    <!--<label>World Seed: <input class="app-input" type="number" style="width: 250px;" placeholder="-6341454152401905754" oninput="changeInfWorldSeed(this.value)" id="inf-seed"></label><br>-->
+                  </div>
+                </td>
+              </tr>
+              <tr class="old">
+                <td>
+                  <span>Old</span><br>
+                  <div class="app-inner">
+                    <div class="app-inner-inner">
+                      <label>Width (in chunks): <input type="number" class="app-input" placeholder="16" id="old-width" oninput="changeOldWorld()"></label><br>
+                      <label>Depth (in chunks): <input type="number" class="app-input" placeholder="16" id="old-depth" oninput="changeOldWorld()"></label><br>
+                      <label>Center X: <input type="number" class="app-input" placeholder="0" id="old-x" oninput="changeOldWorld()"></label><br>
+                      <label>Center Z: <input type="number" class="app-input" placeholder="0" id="old-z" oninput="changeOldWorld()"></label><br>
+                    </div>
+                    <!--<label>World Seed: <input class="app-input" type="number" style="width: 250px;" placeholder="-6341454152401905754" id="old-seed" oninput="changeOldWorld()"></label><br>-->
+                  </div>
+                </td>
+              </tr>
+              <tr class="all">
                 <td class="generate-button" style="cursor: pointer" onclick="exportMcworld();">Download .mcworld</td>
               </tr>
             </tbody>
           </table><br>
-      World Generator allows you to download a .mcworld containing a world that can't be created in vanilla Minecraft.
+      World Generator allows you to download a .mcworld containing a world that can't be created in vanilla Minecraft.<br><br>
+        
+      <b>Note:</b> You will have to upgrade your world to 1.18+ after you import it. Disable making a backup and you should be good to go!
       <br><br>
       </div>
     </div>

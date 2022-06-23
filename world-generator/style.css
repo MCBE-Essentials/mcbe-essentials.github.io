@@ -12,6 +12,10 @@ input::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
 
+select::-webkit-expand {
+  display: none;
+}
+
 .layers-list {
   height: 40vh;
   overflow-y: scroll;
@@ -32,22 +36,6 @@ input::-webkit-calendar-picker-indicator {
     background-color: #5f5e70;
     padding: 5px;
     border-radius: 10px;
-  }
-  
-  .generate-button {
-    background-color: #82f782;
-    color:black;
-    padding: 5px;
-    border-radius: 10px;
-    cursor:pointer;
-  }
-
-.gb-blue {
-  background-color:#82c1f7;
-}
-  
-  .generate-button:hover {
-    background-color: #cdcbce;
   }
   
   .app-inner {
