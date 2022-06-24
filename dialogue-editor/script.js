@@ -316,7 +316,7 @@ function editButton(index){
     document.getElementById("button-image").style.display = "none";
   } else {
     document.getElementById("button-name").removeAttribute("maxlength");
-    if(!currentButton.image) currentButton.iamge = [""];
+    if(!currentButton.image) currentButton.image = [""];
     document.getElementById("button-image").value = currentButton.image[0];
   }
 }
