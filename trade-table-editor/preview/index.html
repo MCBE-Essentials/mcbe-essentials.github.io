@@ -17,7 +17,6 @@
 
 			const urlParams = new URLSearchParams(window.location.search)
 			const openTradeTable = urlParams.get('openTradeTable')
-			console.log(openTradeTable)
 
 			const binary = atob(openTradeTable)
 			const decoded = strFromU8(unzlibSync(strToU8(binary, true)))
