@@ -9,7 +9,7 @@ if(document.getElementById("left")){
 if(document.getElementById("head")){
   fetch('/navtop.html').then((response) => response.text()).then((data) => {
     document.getElementById("head").innerHTML = data;
-    document.getElementById("head").innerHTML += "<span class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
+    //document.getElementById("head").innerHTML += "<span class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
   });
 }
 
