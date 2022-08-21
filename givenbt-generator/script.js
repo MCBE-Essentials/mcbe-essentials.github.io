@@ -70,7 +70,7 @@ function checkSAll(list){
   if(unchecked == 0){
     elem.indeterminate = false;
     elem.checked = true;
-  } else if (unchecked < identifiers.block_identifiers.enum.length){
+  } else if (unchecked < identifiers.prefixed_block_identifiers.enum.length){
     elem.indeterminate = true;
   } else {
     elem.indeterminate = false;

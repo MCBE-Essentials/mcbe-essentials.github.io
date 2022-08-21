@@ -36,10 +36,10 @@ function loadWorldArchive(){
       document.getElementById("old-x").value = leveldat.value.LimitedWorldOriginX.value;
       document.getElementById("old-z").value = leveldat.value.LimitedWorldOriginZ.value;
 
-      document.getElementById("old-seed").value = "";
+      //document.getElementById("old-seed").value = "";
     } else {
       document.getElementById("inf-biome").value = leveldat.value.BiomeOverride.value;
-      document.getElementById("inf-seed").value = "";
+      //document.getElementById("inf-seed").value = "";
     }
   });
 }
@@ -140,9 +140,11 @@ function renderLayer(identifier, count, layerIndex){
   var itemEngine = document.createElement("mcitem");
   itemEngine.setAttribute("identifier", identifier);
   itemEngine.setAttribute("count", count);
-  itemEngine.style = "width:45px;height:45px;font-size:6pt;cursor:default;";
+  itemEngine.setAttribute("width", "45px");
+  itemEngine.setAttribute("height", "45px");
+  itemEngine.style = "font-size:6pt;cursor:default;";
   itemEngine.classList = ["nohover"];
-  itemEngine.setAttribute("allowlist", "identifiers.block_identifiers.enum");
+  //itemEngine.setAttribute("allowlist", "identifiers.prefixed_block_identifiers.enum");
 
   var identifierInput = document.createElement("input");
   identifierInput.type = "text";

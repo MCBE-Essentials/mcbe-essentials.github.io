@@ -7,7 +7,7 @@
   <body>
     <button onclick="window.opener.location.href = window.opener.location.href.replace('glitch.me', 'github.io'); window.close();">View Stable</button><br>
     <button onclick="window.opener.reloadCSS();">Reload Stylesheets</button>
-    <button onclick="window.opener.location.reload();">Refresh Page</button>
+    <button onclick="window.opener.location.reload(); window.setTimeout(refreshStylesheets, 3000)">Refresh Page</button>
     <button onclick="closeOverlays();">Close all overlays</button>
     
     <details open style="user-select: none;">
@@ -19,6 +19,7 @@
     </details>
     <details>
       <summary>Stylesheets</summary>
+      <input id="newstylesheet" value="style-oldest.css"><button onclick="addNewStylesheet()">Add</button>
       <ul id="stylesheets">
         
       </ul>

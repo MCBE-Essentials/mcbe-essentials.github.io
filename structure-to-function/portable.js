@@ -28,37 +28,10 @@ function getFunctionEntityCoords([worldX, worldY, worldZ], [x, y, z]){
   return [x,y,z];
 }
 
-function convertTiles(indicies_index, placeAir, size, keepStates){
+async function convertTiles(indicies_index, placeAir, size, keepStates){
   var commands = [];
   var blockIdentifiers = structure.value.structure.value.block_indices.value.value[indicies_index].value;
   var palette = structure.value.structure.value.palette.value.default.value.block_palette.value.value;
-  //Loop through all tiles, add a setblock command for each one (OLD STRATEGY)
-  /*for(var i = 0; i < blockIdentifiers.length; i++){
-    //Ignore placing the block if it is undefined (structure void)
-    if(blockIdentifiers[i] != -1){
-      var coords = getFunctionBlockCoords(size, i);
-      var id = palette[blockIdentifiers[i]].name.value;
-      var states = parseStates(palette[blockIdentifiers[i]].states.value);
-      if(whitelistStates(palette[blockIdentifiers[i]].states.value)){
-        //Ignore placing the block if it is air and air should be filtered out
-        if(placeAir || (!placeAir && id != "minecraft:air")){
-          commands.push("setblock " + getRelativeCoords(coords) + " " + id + (keepStates ? states : ""));
-        }
-      }
-    }
-  }*/
-  
-  //New strategy:
-  /*
-    1. Add all items into an "unsorted" array.
-      Use template: {x: 0, y: 0, z: 0, palette: 12}
-    2. Find the lowest tile in the X axis. If there are multiple results, find lowest Z and then Y. 
-    3. Travel along X axis until a tile with a different palette index is found. Move each of the pixels to their own separate "shape".
-    4. Repeat step 3 along Z axis, except if an incorrect tile is found on the entire row, don't move it
-    5. Y axis, incorrect tile on entire square
-    6. Inside the sorted shape, find the highest and lowest X/Y/Z coordinates and use them to construct a /fill command.
-    7. Repeat from step 2 until no items are left in the unsorted array. 
-  */
   
   var unsortedTiles = [];
   for(var i = 0; i < blockIdentifiers.length; i++){
@@ -274,22 +247,10 @@ function getLowestEntry(list, size){
   return lowestEntry;
 }
 
-function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, tileContainerItems, includeEntities, entityRotation, entityEquiptment){
+async function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, tileContainerItems, includeEntities, entityRotation, entityEquiptment){
   var output = ["#Generated with ReBrainer's Structure Editor at https://mcbe-essentials.glitch.me/structure-editor/ on " + new Date()];
   var size = structure.value.size.value.value;
-  var structure_world_origin = structure.value.structure_world_origin.value.value;
-  //Blocks (waterlog layer)
-  if(keepWaterlog){
-    output.push("#Blocks (blocklog layer)");
-    output = output.concat(convertTiles(1, placeAir, size, keepStates));
-  }
-  
-  //Blocks (main layer)
-  if(includeBlocks){
-    output.push("#Blocks (default layer)");
-    output = output.concat(convertTiles(0, placeAir, size, keepStates));
-  }
-  
+  var structure_world_origin = structure.value.structure_world_origin.value.value;  
   //Entities
   var entities = structure.value.structure.value.entities.value.value;
   if(structure.value.structure.value.entities.value.type != "end" && includeEntities){
@@ -354,6 +315,18 @@ function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, 
         }
       }
     }
+  }
+  
+  //Blocks (waterlog layer)
+  if(keepWaterlog){
+    output.push("#Blocks (blocklog layer)");
+    output = output.concat(await convertTiles(1, placeAir, size, keepStates));
+  }
+  
+  //Blocks (main layer)
+  if(includeBlocks){
+    output.push("#Blocks (default layer)");
+    output = output.concat(await convertTiles(0, placeAir, size, keepStates));
   }
   
   return output.join("\n");

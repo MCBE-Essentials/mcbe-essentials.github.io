@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2e3148" />
+    <meta name="theme-color" content="#26203a" />
     <link
       rel="icon"
       href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
@@ -31,7 +31,7 @@
       </div>
       <div id="right" class="main-right" style="font-family: Minecraftia;text-align:center;">
           <h1>GiveNBT Generator</h1>
-          <table class="app-main" id="app-main">
+          <!--<table class="app-main" id="app-main">
             <thead>
               <tr><td colspan="3">Item</td></tr>
             </thead>
@@ -77,7 +77,66 @@
                 </td>
               </tr>
             </tbody>
-          </table><br>
+          </table>-->
+        <table class="app-main" id="app-main">
+          <tbody>
+            <tr class="app-row">
+              <td class="app-node" colspan="3">
+                <span>Item</span>
+                <div class="app-inner">
+                  <label>Selector: <input class="app-input" style="width: 200px;" placeholder="@s" id="selector" value="@s"></label><br>
+                  <label>Item: <input class="app-input" style="width: 300px;" placeholder="minecraft:apple" id="item" list="item_ids"></label>
+                  <label>Amount: <input class="app-input" type="number" value="0" id="count"></label>
+                  <label>Data: <input class="app-input" type="number" value="0" id="data"></label>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td class="app-node selectlist">
+                <span>Can Place On</span>
+                <div class="app-inner" style="height: 30vh;">
+                  <label style="height:10px; font-size:10pt;"><input type="checkbox" oninput="selectAll(this, 'place_list')" id="place_list_box"><span id="place_list_text">Select All</span></label><div id="place_list" class="identifiers_list">Loading identifier data from bridge.</div><input style="width:calc(100% - 15px);height:10px;border-radius:100px;padding:5px 5px;font-family:Minecraftia;text-indent:5px;border:none;font-size:8pt;" placeholder="Search" oninput="searchList(this.value, 'place_list')">
+                </div>
+              </td>
+              <td class="app-node selectlist">
+                <span>Can Destroy</span>
+                <div class="app-inner" style="height: 30vh;">
+                  <label style="height:10px; font-size:10pt;"><input type="checkbox" oninput="selectAll(this, 'destroy_list')" id="destroy_list_box"><span id="destroy_list_text">Select All</span></label><div id="destroy_list" class="identifiers_list">Loading identifier data from bridge.</div><input style="width:calc(100% - 15px);height:10px;border-radius:100px;padding:5px 5px;font-family:Minecraftia;text-indent:5px;border:none;font-size:8pt;" placeholder="Search" oninput="searchList(this.value, 'destroy_list')">
+                </div>
+              </td>
+              <td class="app-node selectlist">
+                <span>Other</span>
+                <div class="app-inner" style="height: calc(100% - 50px);">
+                  <label>Item Lock: 
+                    <select class="app-input" style="width:unset;height:unset;" id="itemlock">
+                      <option value="none">Off</option>
+                      <option value="lock_in_inventory">Inventory</option>
+                      <option value="lock_in_slot">Slot</option>
+                    </select>
+                  </label><br>
+                  <label>Keep On Death: <input type="checkbox" id="keepondeath"></label>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td colspan="3" class="app-node">
+                <span>Output</span>
+                <div class="app-inner" style="padding: 10px;">
+                  <textarea class="ta2" rows="3" placeholder="/give @s ..." style="width:100%;" disabled id="output"></textarea>
+                </div>
+              </td>
+            </tr>
+            <tr class="app-row">
+              <td colspan="3" class="app-node">
+                <div>
+                  <div class="generate-button" onclick="doOutput()" style="display:inline-block;width:calc(50% - 10px);border-radius:10px 0px 0px 10px;">Generate</div><div class="gb-blue generate-button" onclick="copyText()" style="display:inline-block;width:calc(50% - 10px);border-radius:0px 10px 10px 0px;">Copy Output</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <br>
       GiveNBT generator is a visual tool to generate a /give command with special item NBT.
       <br><br>
       </div>

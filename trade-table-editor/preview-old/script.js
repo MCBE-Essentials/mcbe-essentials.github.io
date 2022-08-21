@@ -31,7 +31,7 @@ function createTier(disableName) {
 	var tier = document.createElement('div')
 	tier.classList = ['tier']
 	if (!disableName) {
-		tier.innerHTML = '<span>Level ' + index + ' - ' + tierName + '</span>'
+		tier.innerHTML = '<span class="levellabel">Level ' + index + ' - ' + tierName + '</span>'
 	} else {
 		tier.innerHTML = '<br>'
 	}
@@ -251,6 +251,8 @@ document.getElementById('file').addEventListener('change', function () {
 })
 
 function tradeTableLoaded(tradeTable) {
+  //Set the "current table" variable to the entered value in the function in case the table was not loaded via a file
+  mytable = tradeTable;
 	document.getElementById('import').style.display = 'none'
 	document.getElementById('reroll').style.display = 'inline'
 	simulateTable(tradeTable)

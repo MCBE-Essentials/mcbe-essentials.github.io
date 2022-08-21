@@ -112,7 +112,7 @@ body {
 }
 
 input.app-input {
-  /*width: 50px;*/
+  width: 100%;
   border: 3px solid #4a4a4e;
   border-radius: 100px;
   height: 20px;

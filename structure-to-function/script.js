@@ -19,8 +19,8 @@ document.getElementById("file").addEventListener("change", function(){
   }
 });
 
-function exportFunction(tiles, air, waterlog,blockstates, tilecontainerloot, entities, entityrot, entityloot){
-  var data = structureToFunction(
+async function exportFunction(tiles, air, waterlog,blockstates, tilecontainerloot, entities, entityrot, entityloot){
+  var data = await structureToFunction(
     tiles,
     air,
     waterlog,

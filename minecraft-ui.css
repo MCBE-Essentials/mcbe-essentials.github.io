@@ -1,0 +1,229 @@
+/*::-webkit-scrollbar {
+  width: 15px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: unset;
+  background-color: black;
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5c7c6;
+  border-radius: unset;
+  width: 50px;
+}*/
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background-image: url("https://i.imgur.com/m6yDiu4.png");
+  background-color: transparent;
+  background-repeat: repeat-y;
+  background-size: contain;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c6c6c6;
+  border-radius: 0px;
+  outline: 2px solid black;
+  border: 1px solid #06080a;
+  border-color: #585856 #bababa #585856 #bababa;
+  width: 4px;
+}
+
+.trade-list-container::-webkit-scrollbar {
+  width: 12px;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+.trade-list-container::-webkit-scrollbar-thumb {
+  background: #d5d5d5;
+  border: 3px solid black;
+  border-color: white #363636 #363636 white;
+  outline: unset;
+}
+
+.trade-list-container::-webkit-scrollbar-track {
+  background: #8b8b8b;
+  border: 3px solid black;
+  border-color: #373737 white white #373737;
+}
+
+.mc-button {
+  padding: 5px 20px;
+  border: 2px solid #616161;
+  border-color: #f7f7f7 #616161 #616161 #f7f7f7;
+  outline: 2px solid black;
+  background-color: #c6c6c6;
+  position: relative;
+  color: black;
+  cursor: pointer;
+  font-family: Minecraftia;
+}
+
+.mc-button:hover {
+  background-color: #208306;
+  border-color: #2fbb22 #005000 #005000 #2fbb22;
+  outline-color: white;
+  color:white;
+}
+
+.mc-button:active {
+  background-color: #208306;
+  border-color: #005000 #2fbb22 #2fbb22 #005000;
+  outline-color: white;
+  color: white;
+  padding-bottom: 4px;
+  padding-top: 6px;
+}
+
+.mc-switch-label {
+  margin-left: 5px;
+  user-select: none;
+}
+
+.mc-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 24px; 
+}
+
+.mc-switch .slider:after {
+  width: 6px;
+  height: 15px;
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  left: 26px;
+  background-color: #7f7f7f;
+}
+
+.mc-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.mc-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #404040;
+  outline: 2px solid black;
+}
+
+.mc-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 30px;
+  width: 15px;
+  left: -2px;
+  top: -5px;
+  background-color: #c6c6c6;
+  border: 2px solid white;
+  border-color: white #585658 #383738 white;
+  outline: 2px solid black;
+}
+
+input:checked + .slider {
+  background-color: #7f7f7f;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  left: unset;
+  right: -2px;
+}
+
+input:checked + .slider:after {
+  background-color: #404040;
+}
+
+.mc-switch:hover .slider {
+  background-color: #4e8836;
+  outline: 2px solid white;
+}
+
+.mc-switch:hover .slider:after {
+  background-color: #036a00;
+}
+
+.mc-switch:hover .slider:before {
+  background-color: #43a01c;
+  border-color: #37d61e #037300 #037300 #37d61e;
+  outline: 2px solid white;
+}
+
+.mc-switch-label:hover .slider {
+  background-color: #4e8836;
+  outline: 2px solid white;
+}
+
+.mc-switch-label:hover .slider:after {
+  background-color: #036a00;
+}
+
+.mc-switch-label:hover .slider:before {
+  background-color: #43a01c;
+  border-color: #37d61e #037300 #037300 #37d61e;
+  outline: 2px solid white;
+}
+
+.mc-input {
+  background-color: #5e5e5e;
+  height: 45px;
+  font-family: Minecraftia;
+  font-size: 13pt;
+  width: 100%;
+  border: 2px solid black;
+  border-color: #464447 transparent #b3b3b3 transparent;
+  outline: 2px solid black;
+  color: white;
+}
+
+.mc-input:hover {
+  outline: 2px solid white;
+}
+
+.mc-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #808080;
+  height: 24px; 
+  border: 2px solid black;
+  z-index: 0;
+}
+
+.mc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 35px;
+  width: 18px;
+  left: -2px;
+  top: -5px;
+  background-color: #c6c6c6;
+  border: 2px solid white;
+  border-color: white #585658 #383738 white;
+  outline: 2px solid black;
+  z-index: 1;
+}
+
+.mc-slider::-webkit-slider-thumb:hover {
+  background-color: #43a01c;
+  border-color: #37d61e #037300 #037300 #37d61e;
+  outline: 2px solid white;
+}
