@@ -1,58 +1,6 @@
-var tradetable = {
-	"tiers": [
-		{
-			"total_exp_required": 0,
-			"groups": [
-				{
-					"num_to_select": 1,
-					"trades": [
-						{
-							"wants": [
-								{
-									"item": "minecraft:string",
-									"quantity": 20,
-									"price_multiplier": 0.05
-								}
-							],
-							"gives": [
-								{
-									"item": "minecraft:emerald",
-									"quantity": 1
-								}
-							],
-							"trader_exp": 1,
-							"max_uses": 6,
-							"reward_exp": true
-						}
-					]
-				},
-        {
-					"num_to_select": 1,
-					"trades": [
-						{
-							"wants": [
-								{
-									"item": "minecraft:emerald",
-									"quantity": 1,
-									"price_multiplier": 0.05
-								}
-							],
-							"gives": [
-								{
-									"item": "minecraft:emerald",
-									"quantity": 1
-								}
-							],
-							"trader_exp": 1,
-							"max_uses": 6,
-							"reward_exp": true
-						}
-					]
-				}
-			]
-		}
-	]
-};
+var importedData = '{"tiers":[{"total_exp_required":0,"groups":[{"num_to_select":1,"trades":[{"wants":[{"item":"minecraft:string","quantity":20,"price_multiplier":0.05}],"gives":[{"item":"minecraft:emerald","quantity":1}],"trader_exp":1,"max_uses":6,"reward_exp":true}]},{"num_to_select":1,"trades":[{"wants":[{"item":"minecraft:emerald","quantity":1,"price_multiplier":0.05}],"gives":[{"item":"minecraft:emerald","quantity":1}],"trader_exp":1,"max_uses":6,"reward_exp":true}]}]}]}';
+
+var tradetable = {};
 var identifiers = {};
 async function fetchData(){
   var ids = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(data => data.json());
@@ -147,18 +95,6 @@ var currentGroup, currentGroupElement, currentTrade, currentTradeElement, curren
 var currentTier = 0;
 var filename = "undefined";
 
-document.getElementById("file").addEventListener("change", function(){
-  if(this.files && this.files[0]){
-    var fr = new FileReader();
-    fr.onload = function(e){      
-      tradetable = correctImportedTable(JSON.parse(e.target.result));
-      tableToEditor();
-    }
-    fr.readAsText(this.files[0]);
-    filename = document.getElementById("file").files[0].name.split(".")[0];
-  }
-});
-
 function correctImportedTable(table){
   var tiers = table.tiers;
   var choiceMessage = false;
@@ -210,25 +146,20 @@ function correctImportedTable(table){
 }
 
 function exportTable(){
-  filename = prompt("What would you like to name your trade table file?", "trade-table.json");
-  if(filename == "" || filename == false || filename == null){
-    return;
+  if(!window.iapi && !window.bridge.connected && !window.bridge.openedFile){
+    filename = prompt("What would you like to name your trade table file?", "trade-table.json");
+    if(filename == "" || filename == false || filename == null){
+      return;
+    }
   }
   
   var text = JSON.stringify(tradetable, null, 3);
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
+    
+  exportFile(new File([text], filename), filename);
 }
 
-function tableToEditor(){
+function parseImportedData(){
+  tradetable = correctImportedTable(JSON.parse(sterilizeJSON(importedData)));
   document.getElementById("tierslist").innerHTML = "";
   for(var i = 0; i < tradetable.tiers.length; i++){
     document.getElementById("tierslist").innerHTML += "<option value='"+ i +"'>Tier "+ i +"</option>";
@@ -238,7 +169,7 @@ function tableToEditor(){
 }
 
 function selectTier(t){
-  if(t){
+  if(t !== undefined){
     currentTier = parseFloat(t);
   }
   
@@ -247,6 +178,7 @@ function selectTier(t){
   document.getElementById("grouplist").innerHTML = "";
   for(var i = 0; i < tierdata.groups.length; i++){
     var groupEl = document.createElement("details");
+    groupEl.classList = ["group"]; 
     groupEl.innerHTML = "<summary onclick='selectGroup(this)'>Group "+i+"</summary>";
     groupEl.setAttribute("index", i);
     for(var a = 0; a < tierdata.groups[i].trades.length; a++){
@@ -326,9 +258,9 @@ function selectGroup(el, forceOpen){
   var groupdata = tradetable.tiers[currentTier].groups[groupIndex];
   currentGroup = groupdata;
   
-  for(var i = 0; i < document.getElementsByTagName("details").length; i++){
+  for(let detail of document.getElementsByClassName("group")){
     //if(document.getElementsByTagName("details")[i] != currentGroupElement)
-      document.getElementsByTagName("details")[i].open = false;
+      detail.open = false;
   }
   if(forceOpen) currentGroupElement.open = true;
   if(currentGroupElement.children.length > 1){
@@ -473,6 +405,7 @@ function addGroup(groupTemplate){
   var groupdata = tradetable.tiers[currentTier].groups[tradetable.tiers[currentTier].groups.length-1];
   
   var groupEl = document.createElement("details");
+  groupEl.classList = ["group"]; 
   groupEl.innerHTML = "<summary onclick='selectGroup(this)'>Group "+ (tradetable.tiers[currentTier].groups.length - 1) +"</summary>";
   groupEl.setAttribute("index", (tradetable.tiers[currentTier].groups.length - 1));
   for(var a = 0; a < groupdata.trades.length; a++){
@@ -752,7 +685,7 @@ function editItem(element){
     document.getElementById("item-preview").innerHTML = 
     '<mcitem identifier="'+ itemdata.item +'" count="'+ itemdata.quantity +'" '+ 
     (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage +'"' : "")
-    + ' onclick="copyItem(this)" style="width:64px;height:64px;font-size:18pt;" '
+    + ' onclick="copyItem(this)"  width="64px" height="64px" style="font-size:18pt;" '
     + (getFunctionFromData(itemdata, "specific_enchants") ? 'class="enchanted"' : ' ') +'></mcitem>';
     
     document.getElementById("item-identifier").value = itemdata.item;
@@ -890,7 +823,7 @@ function updateItem(){
   document.getElementById("item-preview").innerHTML = 
     '<mcitem identifier="'+ itemdata.item +'" count="'+ itemdata.quantity +'" '+ 
     (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage +'"' : "")
-    + ' onclick="copyItem(this)" style="width:64px;height:64px;font-size:18pt;" '
+    + ' onclick="copyItem(this)" width="64px" height="64px" style="font-size:18pt;" '
     + (getFunctionFromData(itemdata, "specific_enchants") ? 'class="enchanted"' : ' ') +'></mcitem>';
   
   //document.getElementById("item-json").value = JSON.stringify(currentItem, null, 1);
@@ -948,4 +881,13 @@ function copyItem(){
   snackbar('Copied item JSON to clipboard.');
 }
 
-tableToEditor();
+var previewWindow = false;
+function previewTable(){
+  if(previewWindow) previewWindow.close();
+  previewWindow = window.open('previewer/', 'PreviewWindow', 'popup=true,width=850,height=850');
+  previewWindow.onload = function(){
+    previewWindow.window.tradeTableLoaded(tradetable);
+  };
+}
+
+parseImportedData();

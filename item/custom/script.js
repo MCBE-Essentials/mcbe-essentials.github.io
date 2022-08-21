@@ -7,8 +7,8 @@
     }
   }
   */
-  if(!window.localStorage.customItems){
-    window.localStorage.customItems = "[]";
+  if(!window.localStorage.customItems || !window.localStorage.customItems.startsWith("{")){
+    window.localStorage.customItems = "{}";
   }
 
   var customItemsData = JSON.parse(window.localStorage.customItems);

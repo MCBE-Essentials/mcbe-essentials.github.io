@@ -139,7 +139,7 @@ function openEditTile(label){
     storageLocation = currentTile.value.block_entity_data.value.Items.value.value;
     
     for(var i = 0; i < storageLocation.length; i++){
-      document.getElementById("tilecontainer").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" style="width:25px;height:25px;font-size:6pt;cursor:unset;" class="nohover"></mcitem>';
+      document.getElementById("tilecontainer").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;cursor:unset;" class="nohover"></mcitem>';
     }
     mcitems.init();
     currentTileMeta.storageLocation = storageLocation;

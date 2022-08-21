@@ -1,73 +1,127 @@
-//ReBrainer's Item Editor
-//<mcitem identifier="minecraft:diamond_sword" count="2"></mcitem>
+//ReBrainer's Item Engine v1.2
+//<minecraft-item identifier="minecraft:diamond_sword" count="2"></mcitem>
 async function fetchData() {
+  //Get vanilla item data
 	mcitems.data.items = await fetch(
 		'https://unpkg.com/minecraft-textures@1.19.0/dist/textures/json/1.19.id.json'
 	).then((response) => response.json())
+  //Get identifier mapping data
+  mcitems.data.mapping = await fetch(
+		'https://mcbe-essentials.glitch.me/item/data/mapping.json'
+	).then((response) => response.json())
+  
 	mcitems.init()
 
 	if (window.localStorage.customItems)
 		mcitems.data.customitems = JSON.parse(window.localStorage.customItems)
 }
 
+class MinecraftItem extends HTMLElement {
+  static get observedAttributes(){
+    return ['identifier', 'count', 'damage', 'width', 'height'];
+  }
+  
+  constructor(){
+    super();
+    
+    const shadow = this.attachShadow({mode: 'open'});
+    
+    const itemdata = mcitems.getData(this.getAttribute('identifier'), (this.hasAttribute('allowlist')	? this.getAttribute('allowlist') : false));
+    
+    const image = document.createElement('img');
+    image.setAttribute('class', 'mcitemdisplay');
+    image.src = itemdata.texture;
+    image.setAttribute('data-title', itemdata.readable);
+    //image.style.height = this.getAttribute("height");
+    //image.style.width = this.getAttribute("width");
+    image.draggable = false;
+    
+    const count = document.createElement('span');
+    count.setAttribute('class', 'mcitemcount');
+    //count.style.fontSize = this.style.fontSize;
+    count.textContent = (parseFloat(this.getAttribute('count')) > 1	? this.getAttribute('count'): '');
+    
+    const style = document.createElement("style");
+    style.textContent = `
+      .mcitemdisplay {
+        height: ${this.getAttribute("height")};
+        width: ${this.getAttribute("width")};
+        image-rendering: pixelated;
+      }
+      
+      .mcitemcount {
+        font-size: ${this.style.fontSize}
+      }
+    `;
+    
+    const stylesheet = document.createElement("link");
+    stylesheet.rel = "stylesheet";
+    stylesheet.href = "/item/style.css";
+    
+    const pagestyle = document.createElement("link");
+    pagestyle.rel = "stylesheet";
+    pagestyle.href = "style.css";
+    
+    let damage = false;
+    if(this.hasAttribute('damage') && (Object.keys(mcitems.data.durabilities).includes(this.getAttribute('identifier')))){
+      damage = document.createElement('progress');
+      damage.setAttribute('class', 'mcitemdamage');
+    }
+    
+    shadow.appendChild(stylesheet);
+    shadow.appendChild(pagestyle);
+    shadow.appendChild(style);
+    shadow.appendChild(image);
+    shadow.appendChild(count);
+    if(damage !== false){
+      shadow.appendChild(damage);
+    }
+    
+    //this.style.position = 'relative';
+  }
+  
+  attributeChangedCallback(name, oldValue, newValue){
+    console.log('attributechanged', this)
+    const shadow = this.shadowRoot;
+    let style = shadow.querySelector("style");
+    let count = shadow.querySelector(".mcitemcount");
+    let image = shadow.querySelector(".mcitemdisplay");
+    let damage = shadow.querySelector(".mcitemdamage");
+    
+    style.textContent = `
+      .mcitemdisplay {
+        height: ${this.getAttribute("height")};
+        width: ${this.getAttribute("width")};
+        image-rendering: pixelated;
+      }
+      
+      .mcitemcount {
+        font-size: ${this.style.fontSize}
+      }
+    `;
+    
+    const itemdata = mcitems.getData(this.getAttribute('identifier'), (this.hasAttribute('allowlist')	? this.getAttribute('allowlist') : false));
+    
+    image.setAttribute('class', 'mcitemdisplay');
+    image.src = itemdata.texture;
+    image.setAttribute('data-title', itemdata.readable);
+    image.draggable = false;
+    
+    count.setAttribute('class', 'mcitemcount');
+    count.textContent = (parseFloat(this.getAttribute('count')) > 1	? this.getAttribute('count'): '');
+    
+    if(damage){
+      damage = document.createElement('progress');
+      damage.setAttribute('class', 'mcitemdamage');
+    }
+  }
+}
+
 var mcitems = {
 	data: {
 		items: {},
 		customitems: {},
-		mapping: {
-			'minecraft:record_11': 'minecraft:music_disc_11',
-			'minecraft:record_13': 'minecraft:music_disc_13',
-			'minecraft:record_blocks': 'minecraft:music_disc_blocks',
-			'minecraft:record_cat': 'minecraft:music_disc_cat',
-			'minecraft:record_chirp': 'minecraft:music_disc_chirp',
-			'minecraft:record_far': 'minecraft:music_disc_far',
-			'minecraft:record_mall': 'minecraft:music_disc_mall',
-			'minecraft:record_mellohi': 'minecraft:music_disc_mellohi',
-			'minecraft:record_otherside': 'minecraft:music_disc_otherside',
-			'minecraft:record_pigstep': 'minecraft:music_disc_pigstep',
-			'minecraft:record_stal': 'minecraft:music_disc_stal',
-			'minecraft:record_strad': 'minecraft:music_disc_strad',
-			'minecraft:record_wait': 'minecraft:music_disc_wait',
-			'minecraft:record_ward': 'minecraft:music_disc_ward',
-			'minecraft:horsearmordiamond': 'minecraft:diamond_horse_armor',
-			'minecraft:horsearmoriron': 'minecraft:iron_horse_armor',
-			'minecraft:horsearmorgold': 'minecraft:gold_horse_armor',
-			'minecraft:horsearmorleather': 'minecraft:leather_horse_armor',
-			'minecraft:totem': 'minecraft:totem_of_undying',
-			'minecraft:reeds': 'minecraft:sugar_cane',
-			'minecraft:sapling': 'minecraft:oak_sapling',
-			'minecraft:dye': 'minecraft:white_dye',
-			'minecraft:coral_block': 'minecraft:brain_coral_block',
-			//Bedrock -> Java
-			'minecraft:small_dripleaf_block': 'minecraft:small_dripleaf',
-			'minecraft:acacia_standing_sign': 'minecraft:acacia_sign',
-			'minecraft:acacia_wall_sign': 'minecraft:acacia_sign',
-			'minecraft:azalea_leaves_flowered':
-				'minecraft:flowering_azalea_leaves',
-			'minecraft:bamboo_sapling': 'minecraft:bamboo',
-			'minecraft:brewingstandblock': 'minecraft:brewing_stand',
-			'minecraft:brick_block': 'minecraft:bricks',
-			'minecraft:banner': 'minecraft:white_banner',
-			'minecraft:red_flower': 'minecraft:poppy',
-			'minecraft:yellow_flower': 'minecraft:dandelion',
-			'minecraft:tallgrass': 'minecraft:tall_grass',
-			'minecraft:waterlily': 'minecraft:lily_pad',
-			'minecraft:dirt_with_roots': 'minecraft:rooted_dirt',
-			'minecraft:turtle_shell_piece': 'minecraft:scute',
-			'minecraft:fish': 'minecraft:cod',
-			'minecraft:cooked_fish': 'minecraft:cooked_cod',
-			'minecraft:clownfish': 'minecraft:tropical_fish',
-			'minecraft:boat': 'minecraft:oak_boat',
-			'minecraft:grass': 'minecraft:grass_block',
-			'minecraft:grass_path': 'minecraft:dirt_path',
-			'minecraft:stained_glass_pane':
-				'minecraft:white_stained_glass_pane',
-			'minecraft:bed': 'minecraft:white_bed',
-			'minecraft:water': 'minecraft:water_bucket',
-			'minecraft:lava': 'minecraft:lava_bucket',
-			'minecraft:banner_pattern': 'minecraft:creeper_banner_pattern',
-			'minecraft:carpet': 'minecraft:white_carpet',
-		},
+		mapping: {},
 		durabilities: {
 			//Armor
 			'minecraft:turtle_helmet': 275,
@@ -141,7 +195,148 @@ var mcitems = {
 		},
 	},
 
-	init: function () {
+	init: function(){ 
+    for(let item of document.querySelectorAll("mcitem")){
+      item.innerHTML = "";
+      const itemdata = mcitems.getData(item.getAttribute('identifier'), (item.hasAttribute('allowlist')	? item.getAttribute('allowlist') : false));
+
+      const image = document.createElement('img');
+      image.setAttribute('class', 'mcitemdisplay');
+      image.src = itemdata.texture;
+      image.setAttribute('data-title', itemdata.readable);
+      image.style.height = item.getAttribute("height");
+      image.style.width = item.getAttribute("width");
+      image.draggable = false;
+
+      const count = document.createElement('span');
+      count.setAttribute('class', 'mcitemcount');
+      count.style.fontSize = item.style.fontSize;
+      count.textContent = (parseFloat(item.getAttribute('count')) > 1	? item.getAttribute('count'): '');
+
+      let damage = false;
+      if(item.hasAttribute('damage') && (Object.keys(mcitems.data.durabilities).includes(item.getAttribute('identifier')))){
+        damage = document.createElement('progress');
+        damage.setAttribute('class', 'mcitemdamage');
+      }
+      
+      item.appendChild(image);
+      item.appendChild(count);
+      if(damage !== false){
+        item.appendChild(damage);
+      }
+    }
+  },
+	getData: function (identifier, allowlist) {
+		var items = Object.keys(mcitems.data.items.items || {})
+		var customitems = Object.keys(mcitems.data.customitems || {})
+    //Default, 'failed' output
+		var output = {
+			texture:
+				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png',
+			readable: 'Unknown',
+		}
+
+    identifier = mcitems.mapItemIdentifier(mcitems.parseItemIdentifier(identifier));
+    
+		try {
+      //If tag uses a valid allowlist and identifier is not on it, output the 'failed' result.
+			if (allowlist && eval(allowlist)) {
+				if (!eval(allowlist).includes(identifier)) {
+					return output
+				}
+			}
+		} catch (e) {}
+
+		if (items.includes(identifier)) {
+			output = mcitems.data.items.items[identifier]
+		} else if (customitems.includes(identifier)) {
+			output = mcitems.data.customitems[identifier]
+		} else if (identifier == 'null' || !identifier) {
+			//No item to display, render partially transparent.
+			output.texture =
+				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_chestplate.png'
+			output.readable = 'No item'
+		} else {
+			//Invalid, take other data
+			output.texture =
+				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png'
+			output.readable = identifier
+			//if(!identifier.includes("element")) console.log(identifier);
+		}
+
+		return output
+	},
+  mapItemIdentifier: function(identifier) {
+    var baseIdentifier = identifier.namespace + ':' + identifier.identifier;
+    if(Object.keys(mcitems.data.mapping).includes(baseIdentifier)){
+      var mappedData = mcitems.data.mapping[baseIdentifier];
+      if(mappedData.constructor == Array){
+        //Mapping to a specific data value
+        return mappedData[identifier.data];
+      } else if(mappedData.constructor == String) {
+        //Mapping to a specific identifier
+        return mappedData;
+      }
+    }
+    //If no match can be found, return the identifier without the data value
+    return baseIdentifier;
+  },
+  parseItemIdentifier: function(string){
+    var divided = string.split(":");
+    
+    var output = {
+      "namespace": "minecraft",
+      "identifier": "air",
+      "data": 0
+    }
+    if(divided.length == 1){
+      //Using default namespace and data
+      output = {
+        "namespace": "minecraft",
+        "identifier": divided[0],
+        "data": 0
+      }
+    } else if(divided.length == 2){
+      //Either the identifier contains no namespace, or no data
+      if(parseFloat(divided[1]).toString() === divided[1]){
+        //Item is missing namespace, fill in 'minecraft'
+        output.namespace = "minecraft";
+        output.identifier = divided[0];
+        output.data = parseFloat(divided[1]);
+      } else {
+        //Item is missing data, fill in 0
+        output.namespace = divided[0];
+        output.identifier = divided[1];
+        output.data = 0;
+      }
+    } else if(divided.length == 3) {
+      //Identifier contains all 3 components
+      output = {
+        "namespace": divided[0],
+        "identifier": divided[1],
+        "data": parseFloat(divided[2])
+      };
+    } else {
+      //Not an identifier, contains too many properties
+      return false;
+    }
+    return output;
+  },
+  doTooltips: function(e) {
+    for (let tooltip of document.querySelectorAll(".mcitemtooltip")) {
+      tooltip.style.left = e.pageX + 'px';
+      tooltip.style.top = e.pageY + 'px';
+    }
+  }
+}
+
+fetchData()
+
+//Tooltips
+document.addEventListener('mousemove', mcitems.doTooltips, false);
+
+/*
+init: function () {
 		for (
 			var i = 0;
 			i < document.getElementsByTagName('mcitem').length;
@@ -161,7 +356,7 @@ var mcitems = {
 								[i].getAttribute('allowlist')
 						: false
 				).texture +
-				'" title="' +
+				'" data-title="' +
 				mcitems.getData(
 					document
 						.getElementsByTagName('mcitem')
@@ -222,48 +417,5 @@ var mcitems = {
 			document.getElementsByTagName('mcitem')[i].style.position =
 				'relative'
 		}
-	},
-	getData: function (identifier, allowlist) {
-		identifier = identifier
-		var items = Object.keys(mcitems.data.items.items || {})
-		var customitems = Object.keys(mcitems.data.customitems || {})
-		var output = {
-			texture:
-				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png',
-			readable: 'Unknown',
-		}
-
-		try {
-			if (allowlist && eval(allowlist)) {
-				if (!eval(allowlist).includes(identifier)) {
-					return output
-				}
-			}
-		} catch (e) {}
-
-		if (Object.keys(mcitems.data.mapping).includes(identifier)) {
-			identifier = mcitems.data.mapping[identifier]
-		}
-
-		if (items.includes(identifier)) {
-			output = mcitems.data.items.items[identifier]
-		} else if (customitems.includes(identifier)) {
-			output = mcitems.data.customitems[identifier]
-		} else if (identifier == 'null' || !identifier) {
-			//No item to display, render partially transparent.
-			output.texture =
-				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_chestplate.png'
-			output.readable = 'No item'
-		} else {
-			//Invalid, take other data
-			output.texture =
-				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png'
-			output.readable = identifier
-			//if(!identifier.includes("element")) console.log(identifier);
-		}
-
-		return output
-	},
-}
-
-fetchData()
+	}
+*/

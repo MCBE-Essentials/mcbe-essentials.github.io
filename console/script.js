@@ -20,6 +20,7 @@ function newError(err){
 
 function getStylesheets(){
   var area = document.getElementById("stylesheets");
+  area.innerHTML = "";
   for(var i = 0; i < opener.document.getElementsByTagName("link").length; i++){
     var link = opener.document.getElementsByTagName("link")[i];
     if(link.rel == "stylesheet"){
@@ -31,15 +32,25 @@ function getStylesheets(){
 
 function doStylesheet(checkbox, index){
   var el = opener.document.getElementsByTagName("link")[index];
+  opener.console.log(el, index);
   if(checkbox.checked){
     if(el.hasAttribute("dev-href")){
       el.href = el.getAttribute("dev-href");
       el.removeAttribute("dev-href");
     }
   } else {
-    el.setAttribute("dev-href", href);
+    el.setAttribute("dev-href", el.href);
     el.href = "";
   }
 }
 
 getStylesheets();
+
+function addNewStylesheet(){
+  var src = document.getElementById("newstylesheet").value;
+  var tag = opener.document.createElement("link");
+  tag.setAttribute("rel", "stylesheet");
+  tag.setAttribute("href", src);
+  opener.document.head.appendChild(tag);
+  getStylesheets();
+}

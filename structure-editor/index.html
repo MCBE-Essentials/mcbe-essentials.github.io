@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2e3148" />
+    <meta name="theme-color" content="#26203a" />
     <link
       rel="icon"
       href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
@@ -22,8 +22,10 @@
     <script src="/apps.js" defer></script>
     <script src="/pnbt.js"></script>
     <script src="script.js" defer></script>
+    <script src="/filesaver.js" defer></script>
+    <script src="/js/datahandler.js" defer></script>
+    
     <script src="/script.js" defer></script>
-    <script src="/filesaver.js"></script>
     <script src="/item/script.js"></script>
     <script src="viewer/script.js" defer></script>
     <script src="/structure-to-function/portable.js" defer></script>
@@ -186,11 +188,11 @@
             </tr>
             <tr class="app-row">
               <td colspan="3">
-                <label class="generate-button gb-blue" style="display:block;" for="file" id="upload">
+                <label class="generate-button gb-blue" style="display:block;" for="dataFileInput" id="upload">
                   Upload
                 </label>
-                <input type="file" id="file" accept=".nbt,.mcstructure,.json" style="display:none;">
-                <div class="generate-button gb-blue" style="display:none;" id="download" onclick="openFileEditor();">
+                <input type="file" id="dataFileInput" readertype="arraybuffer/text" accept=".nbt,.mcstructure,.json" style="display:none;">
+                <div class="generate-button gb-blue export-button" style="display:none;" id="download" onclick="openFileEditor();">
                   Download / Export
                 </div>
               </td>
@@ -198,133 +200,7 @@
           </tbody>
         </table>
         
-        <!--
-         <table class="app-main" id="app-main">
-            <tbody>
-              <tr>
-                <td>Fill Blocks</td>
-                <td>Entity Editor</td>
-                <td>Tile Entity Editor</td>
-              </tr>
-              <tr>
-                <td class="app-inner">
-                  <select class="app-input" id="fill-layer">
-                    <option value="0">Default layer</option>
-                    <option value="1">Waterlog layer</option>
-                  </select><br>
-                  From: <input type="number" placeholder="x" class="app-input" id="fill-f-1">,<input type="number" placeholder="y" class="app-input" id="fill-f-2">,<input type="number" placeholder="z" class="app-input" id="fill-f-3"><br>
-                  To: <input type="number" placeholder="x" class="app-input" id="fill-t-1">,<input type="number" placeholder="y" class="app-input" id="fill-t-2">,<input type="number" placeholder="z" class="app-input" id="fill-t-3"><br>
-                  Target: <input type="text" placeholder="minecraft:block" class="app-input" style="width:180px;" list="block_identifiers" id="fill-target"><br>
-                  Fill: <input type="text" placeholder="minecraft:block" class="app-input" style="width:180px;" list="block_identifiers" id="fill-fill"><br>
-                  <button class="generate-button" style="padding: 5px 25px;" onclick="fillBlocks()">
-                    Fill
-                  </button>
-                </td>
-                <td class="app-inner" rowspan="3">
-                  <div style="width:calc(100%-12px);height:250px;overflow-y:auto;" class="app-inner-inner" id="entity-list">
-                    
-                  </div>
-                  Select an entity to edit it.
-                </td>
-                <td class="app-inner" rowspan="5">
-                  <div class="app-inner-inner" style="width:calc(100%-10px);height:200px;overflow-y:auto;" id="tile-list">
-                  </div>
-                  <div id="tile-demo" style="" class="tile-editor-type">
-                    Please select a tile<br>entity from the list<br>to edit it
-                  </div>
-                  <div id="tile-container" style="display:none;" class="tile-editor-type">
-                    <div id="tile-container-loot" style="display:none;">
-                      Loot Table:<br>
-                      <input type="text" class="app-input" placeholder="loot_tables/chests/spawn_bonus_chest.json" id="tile-container-loot-editor" style="width:270px;font-size:9pt;font-family: monospace;" oninput="updateTile()"><br>
-                    </div>
-                    <div id="tile-container-xp" style="display:none;">
-                      Stored XP: <input type="number" class="app-input" placeholder="0" id="tile-container-stored-xp" oninput="updateTile()">
-                    </div>
-                    <table class="itemgrid large" style="max-width:290px;margin-left: auto;margin-right: auto;" id="tilecontainer">
-                      <tbody>
-                        <tr></tr>
-                      </tbody>
-                    </table><br>
-
-                    ID: <input type="text" class="app-input" style="width:180px;" placeholder="minecraft:item" list="item_identifiers" id="tile-container-item-id" oninput="updateTileItem()" disabled><br>
-                    Count: <input type="number" class="app-input" placeholder="0" id="tile-container-item-count" oninput="updateTileItem()" disabled><br>
-                    Damage: <input type="number" class="app-input" placeholder="0" id="tile-container-item-damage" oninput="updateTileItem()" disabled>
-                  </div>
-                  
-                  <div id="tile-sign" style="display:none;" class="tile-editor-type">
-                    <textarea rows="4" style="width:150px; background-image:url(https://mcbe-essentials.glitch.me/assets/sign_texture.png); font-family: Minecraftia; text-align:center; overflow: hidden; resize: none; line-height: 15px;
-    background-size: contain;" placeholder="Text..." id="tile-sign-editor" oninput="updateTile()"></textarea><br>
-                    <label><input type="checkbox"> Ignore lighting</label><br>
-                    <label><input type="checkbox"> Persist Formatting</label>
-                  </div>
-                  
-                  <div id="tile-commandblock" style="text-align:left;display:none;" class="tile-editor-type">
-                    Name: <input type="text" class="app-input" style="width:180px;" placeholder="My Command Block" id="tile-cb-name" oninput="updateTile()"><br>
-                    Command:<br>
-                    <textarea rows="4" cols="40" placeholder="/say hello world" id="tile-cb-command" oninput="updateTile()"></textarea><br>
-                    Tick Delay: <input type="number" class="app-input" placeholder="0" id="tile-cb-delay" oninput="updateTile()"><br>
-                    <label><input type="checkbox" id="tile-cb-firsttick" oninput="updateTile()"> Execute on First Tick</label><br>
-                    <label><input type="checkbox" id="tile-cb-conditional" oninput="updateTile()"> Conditional Mode</label><br>                    
-                    <label><input type="checkbox" id="tile-cb-trackoutput" oninput="updateTile()"> Track Output</label><br>
-                  </div>
-                  
-                  <div id="tile-flowerpot" style="display:none;" class="tile-editor-type">
-                    Block: <input type="text" class="app-input" style="width:180px;font-family: monospace;" placeholder="minecraft:red_flower" id="tile-fp-block" oninput="updateTile()" list="flowerblocks"><br>
-                    Flower Type:<br><input type="text" class="app-input" style="width:180px;" placeholder="cornflower" id="tile-fp-block-type" oninput="updateTile()" list="flowers">
-                  </div>
-                  
-                  <div id="tile-spawner" style="display:none;text-align:left;" class="tile-editor-type">
-                    Name: <input type="text" class="app-input" style="width:230px;" placeholder="minecraft:pig" id="tile-spawner-id" list="entity_identifiers" oninput="updateTile()"><br>
-                    Delay: <input type="number" class="app-input" placeholder="0" id="tile-spawner-delay" oninput="updateTile()"><br>
-                    Min Delay: <input type="number" class="app-input" placeholder="200" id="tile-spawner-mindelay" oninput="updateTile()" step="100" style="width:100px;"><br>
-                    Max Delay: <input type="number" class="app-input" placeholder="800" id="tile-spawner-maxdelay" oninput="updateTile()" step="100" style="width:100px;"><br>
-                    Spawn Count: <input type="number" class="app-input" placeholder="4" id="tile-spawner-count" oninput="updateTile()"><br>
-                    Max Nearby Entities: <input type="number" class="app-input" placeholder="6" id="tile-spawner-maxnearbyentities" oninput="updateTile()"><br>
-                    Required Player Radius: <input type="number" class="app-input" placeholder="16" id="tile-spawner-requiredplayerradius" oninput="updateTile()"><br>
-                    Spawn Radius: <input type="number" class="app-input" placeholder="0" id="tile-spawner-spawnradius" oninput="updateTile()"><br>
-                    <br>
-                    Display Entity Scale: <input type="number" class="app-input" placeholder="1" id="tile-spawner-displayscale" oninput="updateTile()" step="0.1"><br>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>More Tools</td>
-              </tr>
-              <tr>
-                <td rowspan="3" class="app-inner">
-                  <button class="generate-button" style="padding: 5px 15px; border-radius: 10px 10px 0px 0px" onclick="openTextEditor();">
-                    Open node editor
-                  </button><br>
-                  <button class="generate-button" style="padding: 5px 15px; border-radius: unset;" onclick="copyJson()">
-                    Copy JSON to clipboard
-                  </button><br>
-                  <button class="generate-button" style="padding: 5px 15px; border-radius: 0px 0px 10px 10px" onclick="openPreview()">
-                    Top-down preview
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>Structure Information</td>
-              </tr>
-              <tr>
-                <td class="app-inner">
-                  World origin: <b id="worldorigin">0, 0, 0</b><br>
-                  Structure Size: <b id="structuresize">0, 0, 0</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3">
-                  <label class="generate-button gb-blue" style="display:block;" for="file" id="upload">
-                    Upload
-                  </label>
-                  <input type="file" id="file" accept=".nbt,.mcstructure" style="display:none;">
-                  <div class="generate-button gb-blue" style="display:none;" id="download" onclick="openFileEditor();">
-                    Download / Export
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>--><br>
+        <br>
       
       Thanks to <a href="https://thedestruc7i0n.ca/" target="_blank">TheDestruc7i0n</a> for the item data, <a href="https://bridge-core.app/" target="_blank">bridge.</a> for the identifier data,<br><a href="https://github.com/PrismarineJS/prismarine-nbt" target="_blank">Prismarine-NBT</a> for the NBT to JavaScript library and <a href="https://github.com/josdejong/jsoneditor" target="_blank">Jos de Jong</a> for the JSON editor.
       <br><br>
@@ -400,10 +276,10 @@
       <div style="position:relative;height:100%;text-align:left;">
         <div class="tier-editor-close-button" onclick="closeEditors();">x</div>
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Download</h2>
-        <select class="app-input" id="filetype" oninput="if(this.value == 'mcfunction'){document.getElementById('mcfunction-warning').style.display='block';}else{document.getElementById('mcfunction-warning').style.display='none';}" style="width:180px;">
+        <select class="app-input export-type" id="filetype" oninput="if(this.value == 'mcfunction'){document.getElementById('mcfunction-warning').style.display='block';}else{document.getElementById('mcfunction-warning').style.display='none';}" style="width:180px;">
           <option value="mcstructure">Bedrock Structure</option>
           <option value="mcfunction">Bedrock Function</option>
-        </select><br>
+        </select><br class="export-type">
         <div id="mcfunction-warning" class="warningmsg" style="display:none;">
           Some data may be lost in conversion. Click <a href="conversion-warning/#mcfunction" target="_blank">here</a> to get a list of data that won't get carried over.<br><br>If the structure is over 9,000 commands long, it will <b>not</b> be split into multiple files. To split files, use the <a href="/structure-to-function/">structure to function converter</a>.
         </div>
@@ -415,7 +291,7 @@
         <label><input type="checkbox" id="entities" checked> Include entities</label><br>
         <label><input type="checkbox" id="entityrot" checked> Keep entity rotation</label><br>
         <label><input type="checkbox" id="entityloot" checked> Include entity equipment and inventory</label><br><br>
-        <div class="generate-button" style="text-align:center;" onclick="download()">
+        <div class="generate-button export-button" style="text-align:center;" onclick="download()">
           Download
         </div>
       </div>
@@ -429,7 +305,7 @@
         <label class="generate-button gb-blue" style="display:block;text-align:center;background-color:#cdcbce;border-radius:10px 10px 0px 0px;" id="loading2">
           Loading, please wait...
         </label>
-        <label class="generate-button gb-blue uploader-upload" for="file" id="upload2">
+        <label class="generate-button gb-blue uploader-upload" for="dataFileInput" id="upload2">
           Upload
         </label>
         <label class="generate-button uploader-convert" onclick="window.location.href='/structure-to-function/'">

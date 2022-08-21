@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trade Table Preview</title>
+    
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/item/style.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/minecraft-ui.css">
+    
+    <script src="script.js" defer></script>
+		<script src="/item/script.js" defer></script>
+    <script src="/filesaver.js"></script>
+    <script src="/js/datahandler.js" defer></script>
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <input id="dataFileInput" type="file" style="display: none;" readertype="text" accept=".json">
+    <table class="trade-menu">
+      <tbody>
+        <tr>
+          <td class="trade-bar">
+            <div class="trade-list-container">
+              <div class="trade-list" id="list">
+                
+              </div>
+            </div>
+            
+          </td>
+          <td class="divider hide-square-desktop-display">
+            <div></div>
+          </td>
+          <td class="options hide-square-desktop-display">
+            <div class="options-inner">
+              <label for="dataFileInput" class="mc-button" onclick="simulateTable(mytable)" style="font-size: 10pt;">Import File</label><br><br>
+              
+              <label class="mc-switch-label">
+                <label class="mc-switch">
+                  <input type="checkbox" id="show-ids" oninput="toggleShowIds(this)" checked>
+                  <span class="slider"></span>
+                </label> 
+                <span class="mc-switch-label">Show Identifiers</span>
+              </label><br>
+              <br>
+              
+              <span>Please note: The enchantment algorithm may not accurately represent what you are likely to receive when running the table in-game.</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px; text-align: center;">
+            <button class="mc-button" onclick="simulateTable(mytable)">Reroll Trades</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+<div class="tooltip" style="display: none;">
+  <span class="tooltip-name" style="display: block">Item Name</span>
+  <span class="tooltip-enchs" style="display: block">Efficiency V</span>
+  <span class="tooltip-lore" style="display: block">Lore</span>
+  <span class="tooltip-identifier">minecraft:identifier</span>
+  
+</div>

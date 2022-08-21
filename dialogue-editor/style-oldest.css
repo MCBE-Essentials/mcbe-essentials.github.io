@@ -1,0 +1,310 @@
+.minibutton {
+  height: 18px;
+  image-rendering: pixelated;
+  cursor: pointer;
+}
+
+.minibutton.black {
+  filter: brightness(0);
+}
+
+.minibutton:hover {
+  filter: brightness(150%) drop-shadow(2px 4px 6px black);
+}
+
+.minibutton.black:hover {
+  filter: brightness(0.8) drop-shadow(2px 4px 6px black);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1002;
+}
+
+#item-editor td {
+  display: inline-block;
+  text-align: left;
+}
+
+.tier-editor {
+  position: fixed;
+  right: 50%;
+  top: 50%;
+  width: 50%;
+  height: 25%;
+  min-height: 230px;
+  transform: translate(50%, -50%);
+  background-color: #4a4a5c;
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  z-index: 1003;
+  font-family: Minecraftia;
+}
+
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+#item-editor {
+  height: unset;
+}
+
+.tier-editor-close-button {
+  position: absolute;
+  top: -20px;
+  right: 0px;
+  font-family: Minecraftia;
+  padding: 6px 15px 9px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.tier-editor-close-button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tier-editor-delete-button {
+  position: absolute;
+  top: -20px;
+  left: 0px;
+  font-family: Minecraftia;
+  padding: 6px 11px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.tier-editor-delete-button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.app-inner-inner {
+  background-color: #5f5e70;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.app-inner {
+  background-color: #4b4a5c;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.app-main {
+  margin: auto;
+  background-color: #2d2a3b;
+  border-radius: 10px;
+  padding: 15px;
+  border-spacing: 15px 0px;
+  user-select: none;
+  min-width: 40vw;
+}
+
+.textarea {
+  width: 40vw;
+  height: 30vh;
+  background-color: unset;
+  color: white;
+  border: none;
+  resize: none;
+}
+
+.ta2 {
+  width: 30vw;
+  background-color: unset;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  resize: none;
+}
+
+.ta2::placeholder {
+  color: #dcdcdc;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.textarea-container {
+  position: relative;
+}
+
+.preset {
+  color: #82f782;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.idlabel {
+  text-overflow: clip;
+  font-size: 9pt;
+  white-space: nowrap;
+  /*width:90%;*/
+  display: block;
+  padding: 5px 3px;
+  border-radius: 25px;
+}
+
+.idlabel:hover {
+  background-color: #ffffff24;
+}
+
+.idlabel {
+  text-overflow: clip;
+}
+
+.app-input {
+  width: 50px;
+  border: 3px solid #4a4a4e;
+  border-radius: 100px;
+  height: 20px;
+  text-indent: 4px;
+  font-family: "Minecraftia";
+  background-color: #acacc1;
+}
+
+
+
+@media only screen and (max-width: 1475px) {
+  /*Square*/
+  /*.main-left {
+    display: none;
+  }*/
+  .app-main {
+    width: 60vw;
+  }
+  .main-left {
+    display: none;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+  }
+  .main-left.visible {
+    display: block;
+  }
+  .leftimg {
+    width: 25%;
+  }
+  .main-right {
+    overflow-x: hidden;
+  }
+  .discordbutton {
+    display: table-cell;
+  }
+  .menu-button2 {
+    display: block;
+  }
+}
+
+.selectlist {
+  width: 10vw;
+  height: 58vh;
+}
+
+#identifiers_list {
+  height: calc(100% - 45px);
+  overflow-y: scroll;
+  text-align: left;
+  overflow-x: hidden;
+  text-overflow: clip;
+  width: 15vw;
+}
+
+@media only screen and (max-width: 920px) {
+  .id-prefix {
+    display: none;
+  }
+  .presets-desktop {
+    width: 11vw;
+  }
+  .app-main {
+    padding: unset;
+  }
+  .dialogue-button {
+    font-size: 8pt;
+  }
+
+  .idlabel {
+    font-size: 0.6em;
+  }
+
+  .idlabel input[type="checkbox"] {
+    width: 10px;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  /*Phone portrait*/
+  .hidesmall {
+    /*display: none;*/
+    width: 35%;
+  }
+
+  .app-inner tr td {
+    display: block;
+    width: 100%;
+    margin-left: -8px;
+    height: 25px;
+    /*margin-top: 15px;*/
+  }
+
+  .app-main {
+    width: 85vw;
+  }
+
+  .app-inner {
+    border-spacing: 0px;
+  }
+
+  .discordbutton {
+    display: block;
+  }
+  body {
+    overflow: auto;
+  }
+  .selectlist {
+    width: 100%;
+    height: 200px;
+  }
+  #identifiers_list {
+    width: unset;
+  }
+
+  .textarea {
+    width: 100%;
+  }
+
+  .ta2 {
+    width: 100%;
+  }
+
+  .presets-desktop {
+    display: none;
+  }
+
+  .idlabel {
+    font-size: 12px;
+  }
+
+  .idlabel input[type="checkbox"] {
+    width: unset;
+  }
+
+  .id-prefix {
+    display: unset;
+  }
+
+  .dialogue-button {
+    font-size: unset;
+  }
+  
+  .tier-editor {
+    width: 90%;
+  }
+}

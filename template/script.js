@@ -10,3 +10,8 @@ document.getElementById("file").addEventListener("change", function(){
     filename = document.getElementById("file").files[0].name.split(".")[0];
   }
 });
+
+//version that utilises filehandler
+document.getElementById("file").addEventListener("change", function(){
+  importFile(this.files, project, 'text', doSomething);
+});

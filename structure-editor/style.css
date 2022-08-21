@@ -1,35 +1,22 @@
-button[type="button"] {
-  appearance: auto;
-  -webkit-writing-mode: horizontal-tb !important;
-  font-style: ;
-  font-variant-ligatures: ;
-  font-variant-caps: ;
-  font-variant-numeric: ;
-  font-variant-east-asian: ;
-  font-weight: ;
-  font-stretch: ;
-  font-size: ;
-  font-family: ;
-  text-rendering: auto;
-  color: -internal-light-dark(black, white);
-  letter-spacing: normal;
-  word-spacing: normal;
-  line-height: normal;
-  text-transform: none;
-  text-indent: 0px;
-  text-shadow: none;
-  display: inline-block;
-  text-align: center;
-  align-items: flex-start;
-  cursor: default;
-  box-sizing: border-box;
-  background-color: -internal-light-dark(rgb(239, 239, 239), rgb(59, 59, 59));
-  margin: 0em;
-  padding: 1px 6px;
-  border-width: 2px;
-  border-style: outset;
-  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
-  border-image: initial;
+.idlabel {
+  text-overflow: clip;
+  font-size: 9pt;
+  white-space: nowrap;
+  /*width:90%;*/
+  display: block;
+  padding: 2px 3px;
+  border-radius: 25px;
+  text-overflow: clip;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.idlabel:hover {
+  background-color: #ffffff24;
+}
+
+.idlabel.selected {
+  border: 1px solid white;
 }
 
 .itemgrid td {
@@ -77,171 +64,26 @@ button[type="button"] {
   user-select: none;
 }
 
-.warningmsg {
-  padding: 5px 15px;
-  background-color: #ff9494;
-  border: 2px solid red;
-  color: black;
-  font-size: 10pt;
-}
-
-.app-inner-inner {
-  background-color: #5f5e70;
-  padding: 5px;
-  border-radius: 10px;
-}
-
-details {
-  margin-left: 25px;
-  text-align: left;
-}
-
-#editor {
-  min-width: 30vw;
-  min-height: 10vh;
-  text-align: left;
-  font-family: monospace;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1002;
-}
-
-input::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-
-.tier-editor {
-  position: fixed;
-  right: 50%;
-  top: 50%;
-  width: 50%;
-  height: 25%;
-  min-height: 230px;
-  transform: translate(50%, -50%);
-  background-color: #4a4a5c;
-  border-radius: 15px;
-  padding: 15px;
-  text-align: center;
-  z-index: 1003;
-  font-family: Minecraftia;
-}
-
-.tier-editor-close-button {
-  position: absolute;
-  top: -20px;
-  right: 0px;
-  font-family: Minecraftia;
-  padding: 6px 15px 9px 15px;
-  cursor: pointer;
-  border-radius: 5px;
-  user-select: none;
-}
-
-.tier-editor-close-button:hover {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
-.app-inner {
-  background-color: #4b4a5c;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-.app-main {
-  margin: auto;
-  background-color: #2d2a3b;
-  /*background-color: #123456;*/
-  border-radius: 10px;
-  padding: 15px;
-  border-spacing: 15px 0px;
-  user-select: none;
-}
-
-.textarea {
-  width: 40vw;
-  height: 30vh;
-  background-color: unset;
-  color: white;
-  border: none;
-  resize: none;
-}
-
-.ta2 {
-  width: 30vw;
-  background-color: unset;
-  color: white;
-  border-radius: 10px;
-  border: none;
-  resize: none;
-}
-
-.ta2::placeholder {
-  color: #dcdcdc;
-}
-
-.textarea-container {
-  position: relative;
-}
-
-.preset {
-  color: #82f782;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.idlabel {
-  text-overflow: clip;
-  font-size: 9pt;
-  white-space: nowrap;
-  /*width:90%;*/
-  display: block;
-  padding: 2px 3px;
-  border-radius: 25px;
-  text-overflow: clip;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-.idlabel:hover {
-  background-color: #ffffff24;
-}
-
-.idlabel.selected {
-  border: 1px solid white;
-}
-
-.app-input {
-  border: 3px solid #4a4a4e;
-  border-radius: 100px;
-  height: 20px;
-  text-indent: 4px;
-  font-family: "Minecraftia";
-  background-color: #acacc1;
-}
-
-input.app-input {
-  width: 50px;
-}
-
-input.app-input[type="text"] {
-  width: 100px;
-}
-
 select.app-input {
-  font-size: 9pt;
-  height: 25px;
+  height: unset;
+  width: unset;
 }
 
-.app-row {
-  height:1px;
+.moretoolsgroup {
+  position: relative;
+  top: 50%;
+  transform: translate(0%, -50%);
 }
+
+.moretoolsgroup button {
+  width: 100%;
+}
+
+.uploader-upload { display:none; text-align:center; border-radius:10px 10px 0px 0px; }
+
+.uploader-convert { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 0px 10px; }
+
+.uploader-loot { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 10px 0px; }
 
 #mobilewarning {
   display: none;
@@ -251,270 +93,12 @@ select.app-input {
   min-width: 120%;
 }
 
-@media only screen and (max-width: 1475px) {
-  /*Square*/
-  /*.main-left {
-  display: none;
-}*/
-  .main-left {
-    display: none;
-    position: absolute;
-    width: 100%;
-    z-index: 1000;
-  }
-  
-  .main-left.visible {
-    display: block;
-  }
-  
-  .leftimg {
-    width: 25%;
-  }
-  .main-right {
-    overflow-x: hidden;
-  }
-  .discordbutton {
-    display: table-cell;
-  }
-  .menu-button2 {
-    display: block;
-  }
+input.app-input[type="text"] {
+  width: 100px;
 }
 
-.selectlist {
-  width: 10vw;
-  height: 58vh;
-}
-
-#identifiers_list {
-  height: calc(100% - 45px);
-  overflow-y: scroll;
-  text-align: left;
-  overflow-x: hidden;
-  text-overflow: clip;
-  width: 15vw;
-}
-
-.moretoolsgroup {
-  position: relative;
-  top: 50%;
-  transform: translate(0%, -50%);
-}
-
-.uploader-upload { display:none; text-align:center; border-radius:10px 10px 0px 0px; }
-
-.uploader-convert { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 0px 10px; }
-
-.uploader-loot { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 10px 0px; }
-
-@media only screen and (max-width: 920px) {
-  .id-prefix {
-    display: none;
-  }
-  .presets-desktop {
-    width: 11vw;
-  }
-  .app-main {
-    padding: unset;
-  }
-  .preset {
-    font-size: 0.8em;
-  }
-
-  .preset-shortenable {
-    display: none;
-  }
-
-  .idlabel {
-    font-size: 0.6em;
-  }
-
-  .idlabel input[type="checkbox"] {
-    width: 10px;
-  }
-  
-  .generate-button {
-    font-size: 9pt;
-  }
-  
-  .app-node span {
-    font-size: 9pt;
-  }
-  
-  .app-inner {
-    font-size: 9pt;
-  }
-  
-  input.app-input {
-    font-size: 10px;
-    width: 40px;
-    height: 15px;
-  }
-  
-  .tier-editor {
-    width: 90%;
-    font-size: 10pt;
-    height: unset;
-  }
-  
-  #uploader .generate-button {
-    display: block;
-    width:unset;
-  }
-  
-  .uploader-upload { border-radius:10px 10px 0px 0px; }
-  
-  .uploader-convert { border-radius: unset; }
-  
-  .uploader-loot { border-radius:0px 0px 10px 10px; }
-  
-  #mobilewarning {
-    display: block;
-  }
-}
-
-@media only screen and (max-width: 670px) {
-  /*Phone portrait*/
-  .hidesmall {
-    /*display: none;*/
-    width: 35%;
-  }
-
-  /*.app-inner tr td {
-  display:block;
-  width: 100%;
-  margin-top: 15px;
-}*/
-  .app-row {
-    height: unset;
-  }
-  
-  .app-row .app-node {
-    display: block;
-  }
-  
+@media only screen and (max-width: 560px) {
   .moretoolsgroup {
     transform: unset;
-  }
-
-  .app-inner {
-    border-spacing: 0px;
-  }
-  
-  .generate-button {
-    font-size: unset;
-  }
-  
-  .app-node span {
-    font-size: 9pt;
-  }
-
-  .discordbutton {
-    display: block;
-  }
-  
-  body {
-    overflow: auto;
-  }
-  .selectlist {
-    width: 100%;
-    height: 200px;
-  }
-  #identifiers_list {
-    width: unset;
-  }
-
-  .textarea {
-    width: 100%;
-  }
-
-  .ta2 {
-    width: 100%;
-  }
-
-  .presets-desktop {
-    display: none;
-  }
-
-  .idlabel {
-    font-size: 12px;
-  }
-
-  .idlabel input[type="checkbox"] {
-    width: unset;
-  }
-
-  .id-prefix {
-    display: unset;
-  }
-}
-
-/* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar {
-  visibility: hidden; /* Hidden by default. Visible on click */
-  min-width: 250px; /* Set a default minimum width */
-  transform: translate(-50%, 0%); /* Divide value of min-width by 2 */
-  background-color: #333333/*9b*/; /* Black background color */
-  color: #ffffff; /* White text color */
-  text-align: center; /* Centered text */
-  border-radius: 2px; /* Rounded borders */
-  padding: 16px; /* Padding */
-  position: fixed; /* Sit on top of the screen */
-  z-index: 1005; /* Add a z-index if needed */
-  left: 50%; /* Center the snackbar */
-  bottom: 30px; /* 30px from the bottom */
-}
-
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar.show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  -webkit-animation: fadein 0.35s, fadeout 0.5s 2.5s;
-  animation: fadein 0.35s, fadeout 0.5s 2.5s;
-}
-
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-
-@keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-  to {
-    bottom: 0;
-    opacity: 0;
-  }
-}
-
-@keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-  to {
-    bottom: 0;
-    opacity: 0;
-  }
+  } 
 }

@@ -1,103 +1,13 @@
-.gamerule-container span {
-  display: inline-block;
-}
-
-.tier-editor {
-  position:fixed;
-  right:50%;
-  top:50%;
-  width:50%;
-  height:25%;
-  min-height:230px;
-  transform: translate(50%, -50%); 
-  background-color:#4a4a5c; 
-  border-radius: 15px;
-  padding:15px; 
-  text-align:center;
-  z-index:1003;
-  font-family:Minecraftia;
-}
-.tier-editor-close-button {
-  position:absolute; top:-20px; right:0px; font-family:Minecraftia; padding: 6px 15px 9px 15px; cursor:pointer; border-radius:5px;
-  user-select:none;
-}
-
-.tier-editor-close-button:hover {
-  background-color: rgba(255,255,255,0.5);
-}
-
-.overlay {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:rgba(0, 0, 0, 0.8);
-  z-index:1002
-}
-
-.minibutton { height:18px;image-rendering:pixelated;cursor:pointer; }
-
-.minibutton.black { filter: brightness(0); }
-
-.minibutton:hover {
-  filter: brightness(150%) drop-shadow(2px 4px 6px black);
-}
-
-.minibutton.black:hover { filter: brightness(0.8) drop-shadow(2px 4px 6px black); }
-
-  .app-inner-inner {
-    background-color: #5f5e70;
-    padding: 5px;
-    border-radius: 10px;
-  }
-
 .world-edit-button {
   width: 231px;
   border-radius: unset;
 }
-  
-button.generate-button {
-  padding: 5px 20px;
+
+.preset {
+  color: #82f782;
+  text-decoration: underline;
+  cursor: pointer;
 }
-  
-  .app-inner {
-    background-color: #4b4a5c;
-    padding: 15px;
-    border-radius: 10px;
-    
-  }
-  
-  .app-main {
-    margin:auto;
-    background-color: #2d2a3b;
-    border-radius: 10px;
-    padding:15px;
-    border-spacing:15px 0px;
-    user-select:none;
-  }
-  
-  .textarea {
-    width:40vw; height: 30vh;background-color: unset;color: white; border: none;resize:none;
-  }
-  
-  .ta2 {
-    width: calc(100% - 12px); background-color: unset; color: white; border-radius:10px; border: none; resize:none;
-  }
-  
-  .ta2::placeholder {
-    color:#dcdcdc;
-  }
-  
-  .textarea-container {
-    position: relative;
-  }
-  
-  .preset {
-    color: #82f782;
-    text-decoration: underline;
-    cursor: pointer;
-  }
   
 .idlabel {
   text-overflow: clip;
@@ -151,16 +61,6 @@ button.generate-button {
   background-color:#0073ff;
 }
 
-.app-input {
-    width: 50px;
-    border: 3px solid #4a4a4e;
-    border-radius: 100px;
-    height: 20px;
-    text-indent: 4px;
-    font-family: 'Minecraftia';
-    background-color: #acacc1;
-}
-
 .worldsettings-inner {
   column-count: 2;
   column-gap: 0px;
@@ -170,50 +70,9 @@ button.generate-button {
   column-count: 3;
   column-gap: 0px;
 }
-.app-row {
-  height:1px;
-}
 
-@media only screen and (max-width: 1475px) {
-  /*Square*/
-  /*.main-left {
-    display: none;
-  }*/
-  .main-left {
-    display:none;
-    position:absolute;
-    width:100%;
-    z-index:1000;
-  }
-  .main-left.visible {
-    display: block;
-  }
-  .leftimg {
-    width:25%;
-  }
-  .main-right {
-    overflow-x: hidden;
-  }
-  .discordbutton {
-    display: table-cell;
-  }
-    .menu-button2 {
-    display:block;
-  }
-}
-
-.selectlist {
-  width:10vw;
-  height:58vh;
-}
-
-#identifiers_list {
-  height:calc(100% - 45px);
-  overflow-y:scroll;
-  text-align:left;
-  overflow-x:hidden;
-  text-overflow:clip;
-  width:15vw;
+.gamerule-container span {
+  display: inline-block;
 }
 
 .remove-from-world-data {
@@ -231,38 +90,7 @@ button.generate-button {
   display: none;
 }
 
-@media only screen and (max-width: 920px) {
-  .id-prefix {
-    display:none;
-  }
-  .presets-desktop {
-    width: 11vw;
-  }
-  .app-main {
-    padding:unset;
-  }
-  .preset {
-    font-size: 0.8em;
-  }
-  
-  .preset-shortenable {
-    display:none;
-  }
-  
-  .idlabel {
-    font-size: 0.6em;
-  }
-  
-  .idlabel input[type=checkbox]{
-    width: 10px;
-  }
-  
-  .tier-editor {
-    width: 90%;
-    font-size: 10pt;
-    height: unset;
-  }
-  
+@media only screen and (max-width: 920px) {  
   .worldsettings-inner {
     column-count: unset;
     column-gap: unset;
@@ -284,70 +112,7 @@ button.generate-button {
 }
 
 @media only screen and (max-width: 670px) {
-  /*Phone portrait*/
-  .hidesmall {
-    /*display: none;*/
-    width: 35%;
-  }
-  
-  .app-inner {
-    border-spacing: 0px;
-  }
-  
-  .discordbutton {
-    display: block;
-  }
-  body {
-    overflow: auto;
-  }
-  .selectlist {
-    width:100%;
-    height:200px;
-  }
-  #identifiers_list {
-    width:unset;
-  }
-  
-  .textarea {
-    width:100%;
-  }
-  
-  .ta2 {
-    width: 100%;
-  }
-  
-  .presets-desktop{
-    display:none;
-  }
-  
-    .idlabel {
-    font-size: 12px;
-  }
-  
-  .idlabel input[type=checkbox]{
-    width: unset;
-  }
-  
-  .id-prefix {
-    display:unset;
-  }
-  
-  .app-row {
-    height: unset;
-  }
-
-  .app-row .app-node {
-    display: block;
-  }
-  
-  .generate-button {
-    font-size: 9pt;
-  }
-  
-  .main-right {
-    font-size: 9pt;
-  }
-  
+  /*Phone portrait*/  
   .remove-from-world-data {
     display: block;
     width: 100%;

@@ -1,3 +1,5 @@
+var importedData = '{"format_version":"1.17.20","minecraft:npc_dialogue":{"scenes":[{"scene_tag":"scene_1","npc_name":"Scene 1","text":"","on_open_commands":[],"on_close_commands":[],"buttons":[]}]}}';
+
 var file = {
   "format_version": "1.17.20",
   "minecraft:npc_dialogue": {
@@ -23,7 +25,7 @@ if(searchParams.has("advanced")){
   advancedMode = true;
 }
 
-document.getElementById("file").addEventListener("change", function(){
+/*document.getElementById("file").addEventListener("change", function(){
   if(this.files && this.files[0]){
     var fr = new FileReader();
     fr.onload = function(e){
@@ -38,25 +40,19 @@ document.getElementById("file").addEventListener("change", function(){
     fr.readAsText(this.files[0]);
     filename = document.getElementById("file").files[0].name.split(".")[0];
   }
-});
+});*/
 
 function exportProject(){
-  filename = prompt("What would you like to name your dialogue file?", "dialogue.json");
-  if(filename == "" || filename == false || filename == null){
-    return;
+  if(!window.iapi && !window.bridge.connected && !window.bridge.openedFile){
+    filename = prompt("What would you like to name your dialogue file?", "dialogue.json");
+    if(filename == "" || filename == false || filename == null){
+      return;
+    }
   }
   
   var text = JSON.stringify(file, null, 3);
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
+    
+  exportFile(new File([text], filename), filename);
 }
 
 function getScene(tag){
@@ -248,6 +244,18 @@ function updateScene(checkTag){
   
   currentOptionElement.value = scenedata.scene_tag;
   currentOptionElement.innerHTML = scenedata.scene_tag;
+}
+
+function parseImportedData(){
+  file = JSON.parse(sterilizeJSON(importedData));
+  project = file["minecraft:npc_dialogue"];
+  if(document.getElementById("dataFileInput").files[0]){
+    filename = document.getElementById("dataFileInput").files[0].name.split(".")[0];
+  } else {
+    filename = "bridge-file"
+  }
+  
+  readProject();
 }
 
 function readProject(){

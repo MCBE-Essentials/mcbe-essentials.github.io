@@ -1,33 +1,24 @@
-//Sidebar
-
-function includeHTML() {
-  var z, i, elmnt, file, xhttp;
-  /* Loop through a collection of all HTML elements: */
-  z = document.getElementsByTagName("*");
-  for (i = 0; i < z.length; i++) {
-    elmnt = z[i];
-    /*search for elements with a certain atrribute:*/
-    file = elmnt.getAttribute("id");
-    if (file == "left") {
-      /* Make an HTTP request using the attribute value as the file name: */
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-          loadApps();
-        }
-      }
-      xhttp.open("GET", "/left.html", true);
-      xhttp.send();
-      /* Exit the function: */
-      return;
-    }
-  }
+//Load navigation bars
+if(document.getElementById("left")){
+  fetch('/navleft.html').then((response) => response.text()).then((data) => {
+    document.getElementById("left").innerHTML = data;
+    loadApps();
+  });
 }
 
-includeHTML();
+if(document.getElementById("head")){
+  fetch('/navtop.html').then((response) => response.text()).then((data) => {
+    document.getElementById("head").innerHTML = data;
+    document.getElementById("head").innerHTML += "<span class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
+  });
+}
 
+window.bridge = {
+  connected: false,
+  openedFile: undefined
+};
+
+//General code
 if(window.location.href.includes("glitch.me") && window.localStorage.isDev != "true"){
   //Go to stable if "isDev" isn't specified in the localstorage.
   window.location.href = window.location.href.replace("glitch.me", "github.io");
@@ -37,8 +28,6 @@ if(window.location.host == "mcbe-essentials.glitch.me"){
   //Development mode quirks
   document.title = "[DEV BUILD] MCBE Essentials";
   //document.getElementById("head").innerHTML += "<span style='margin-left:12px;' class='devviewstable' onclick='window.location.href = window.location.href.replace(\"glitch.me\", \"github.io\");'>View Stable Page</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span>";
-  document.getElementById("head").innerHTML += "<span style='margin-left:12px;' class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
-  
 }
 
 var devWindow;
@@ -54,12 +43,12 @@ if(location.protocol != "https:"){
 window.location.href= (window.location.href).replaceAll("http:", "https:")
 }
 
-if(location.href[location.href.length-1] != "/" && location.pathname != "/loopr/"){
+if(location.href[location.href.length-1] != "/" && location.pathname != "/loopr/" && !location.href.endsWith(".html")){
   window.location.href = location.href + "/";
 }
 
 function loadApps(){
-  if(window.location.pathname == "/home" || window.location.pathname == "/"){
+  /*if(window.location.pathname == "/home" || window.location.pathname == "/"){
     document.getElementById("left-tools").style.display = "none";
     list = document.getElementsByTagName("tbody")[0];
     for(var i = 0; i < list.getElementsByTagName("td").length; i++){
@@ -70,6 +59,35 @@ function loadApps(){
     for(var i = 0; i < list.children.length; i++){
       loadApp(apps[i], 'list', list.children[i]);
     }
+  }*/
+  
+  var idModifier = "";
+  if(window.location.pathname == "/home" || window.location.pathname == "/"){
+    idModifier = "-home";
+  }
+  for(let category of Object.keys(apps)){
+    document.getElementById(category + idModifier).innerHTML = "";
+    for(let app of apps[category]){
+      var label = document.createElement("li");
+      label.classList = ['app-label'];
+      document.getElementById(category + idModifier).appendChild(label);
+      loadApp(app, label, category);
+      
+      if(app.subapps){
+        var subapplistcontainer = document.createElement("li");
+        var subapplist = document.createElement("ul");
+        
+        for(let subapp of app.subapps){
+          var subapplabel = document.createElement("li");
+          subapplabel.classList = ['app-label'];
+          subapplist.appendChild(subapplabel);
+          loadApp(subapp, subapplabel, category);
+        }
+        
+        subapplistcontainer.appendChild(subapplist);
+        document.getElementById(category + idModifier).appendChild(subapplistcontainer);
+      }
+    }
   }
 }
 
@@ -77,10 +95,10 @@ function reloadCSS(){
   var links = document.getElementsByTagName("link"); for (var i = 0; i < links.length;i++) { var link = links[i]; if (link.rel === "stylesheet") {link.href += "?"; }}
 }
 
-function loadApp(path, type, elem){
+function loadApp(path, elem, category){
   //main;list
   if(!path) return;
-  var svg = '<svg viewBox="0 0 24 24" class="' + path.icon.class[type] + '">' + path.icon.data + "</svg>";
+  var svg = '<svg viewBox="0 0 24 24" class="' + path.icon.class.list + '">' + path.icon.data + "</svg>";
   elem.innerHTML += svg;
   
   var link = path.link;
@@ -94,8 +112,14 @@ function loadApp(path, type, elem){
   }
   
   if(window.location.href == link){
-    elem.setAttribute("class", "selected");
+    elem.setAttribute("class", "app-label selected");
     document.title = path.name + " - MCBE Essentials";
+    document.getElementById(category).parentNode.open = true;
+    document.getElementById(category).parentNode.children[0].style.pointerEvents = 'none';
+    
+    if(document.getElementsByTagName("h1").length !== 0)
+    document.getElementsByTagName("h1")[0].innerHTML = '<svg viewBox="0 0 24 24" style="height: 48px; vertical-align: middle;">' + path.icon.data + "</svg> " + path.name;
+    
     if(path.confirmUnload){
       doUnload();
     }
@@ -105,46 +129,18 @@ function loadApp(path, type, elem){
     }
   }
   
-  if(path.subapps){
-    for(var a = 0; a < path.subapps.length; a++){
-      if(path.subapps[a].link == window.location.href){
-        elem.setAttribute("class", "selected");
-        document.title = path.subapps[a].name + " - MCBE Essentials";
-      }
-    }
+  var span = document.createElement("span");
+  span.innerHTML = path.name;
+  if(path.tba == true){
+    span.innerHTML = "TBA";
   }
-  
-  if(type == "list"){
-    var span = document.createElement("span");
-    span.innerHTML = path.name;
-    if(path.tba == true){
-      span.innerHTML = "TBA";
-    }
-    if(path.beta == true){
-      span.innerHTML += ' <tag class="smalltag" style="background-color:red;color:white;">BETA</tag>';
-    }
-    if(path.bridge == true){
-      span.innerHTML += ' <tag class="smalltag" style="background-color:#0096c7;color:white;">BRIDGE</tag>';
-    }
-    elem.appendChild(span);
+  if(path.beta == true){
+    span.innerHTML += ' <tag class="smalltag" style="background-color:red;color:white;">BETA</tag>';
   }
-  
-  if(type == "main"){
-    elem.innerHTML += '<br class="break">';
-    var span = document.createElement("span");
-    span.setAttribute("class", "tdtitle");
-    span.innerHTML = path.name;
-    if(path.tba == true){
-      span.innerHTML = "TBA";
-    }
-    if(path.beta == true){
-      span.innerHTML += ' <tag class="smalltag" style="background-color:red;color:white;">BETA</tag>';
-    }
-    if(path.bridge == true){
-      span.innerHTML += ' <tag class="smalltag" style="background-color:#0096c7;color:white;">BRIDGE</tag>';
-    }
-    elem.appendChild(span);
+  if(path.bridge == true){
+    span.innerHTML += ' <tag class="smalltag" style="background-color:#0096c7;color:white;">BRIDGE</tag>';
   }
+  elem.appendChild(span);
 }
 
 //Force disable spellcheck
@@ -152,19 +148,16 @@ for(let el of document.getElementsByTagName('textarea')) el.spellcheck = false;
 for(let el of document.getElementsByTagName('input')) el.spellcheck = false;
 
 function toggleMenu(btn){
-  document.getElementById("left").classList.toggle("visible");
-  if(document.getElementById("left").classList.contains("visible")){
-    btn.style.backgroundColor = "#2e3148";
-  } else {
-    btn.style.backgroundColor = "#4a4a5c";
-  }
+  document.body.classList.toggle("mobile-menu-visible");
 }
 
-document.getElementById("head").addEventListener("click", function(e){
-  if(e.target.getAttribute("class").includes("imgicon")){
-    window.location.href="/";
-  }
-});
+if(document.getElementById("head")){
+  document.getElementById("head").addEventListener("click", function(e){
+    if(e.target.hasAttribute('class') && e.target.getAttribute("class").includes("imgicon") && !document.body.classList.contains("embedded-frame")){
+      window.location.href="/";
+    }
+  });
+}
 
 if(window.localStorage.lastSavedData){
   delete window.localStorage.lastSavedData;
@@ -184,3 +177,14 @@ window.onerror = function(error, url, line) {
     controller.sendLog({acc:'error', data:'ERR:'+error+' URL:'+url+' L:'+line});
 };
 */
+
+//Detect if page is embedded
+if(window.parent != window){
+  console.log("Page is operating as an embedded frame.");
+  document.body.classList.toggle("embedded-frame", true);
+}
+
+function sterilizeJSON(jsonString){
+  jsonString = jsonString.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m);
+  return jsonString;
+}

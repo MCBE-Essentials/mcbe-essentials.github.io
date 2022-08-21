@@ -3,6 +3,8 @@ const { Buffer } = require('buffer');
  // fetch('https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/bobby.mcstructure?v=1642358868820').then(resp => resp.arrayBuffer())
  //   .then(buf => nbt.parse(Buffer.from(buf))).then(console.log)
 
+var importedData = false;
+
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
@@ -121,7 +123,7 @@ var allTEntities = {
   },
   Hopper: {
     type: "container",
-    slots: 5
+    slots: 5 
   },
   Furnace: {
     type: "container",
@@ -235,20 +237,9 @@ function copyJson(){
 }
 
 function exportJson(){
-  saveAs(new File([JSON.stringify(structure, null, 3)], document.getElementById("file").files[0].name.replaceAll(".mcstructure", ".json")));
+  exportFile(new File([JSON.stringify(structure, null, 3)], document.getElementById("dataFileInput").files[0].name.replaceAll(".mcstructure", ".json")));
   snackbar('The JSON file can be uploaded the same as a MCSTRUCTURE file.');
 }
-
-/*document.getElementById("jsonfile").addEventListener("change", function(){
-  if(this.files && this.files[0]){
-    var fr = new FileReader();
-    fr.onload = function(e){      
-      structure = JSON.parse(e.target.result);
-      structureToEditor();
-    }
-    fr.readAsText(this.files[0]);
-  }
-});*/
 
 var structure = {};
 var unparsedStructure;
@@ -265,35 +256,24 @@ var currentEntityMeta = {};
 var currentEntityItem;
 var isEntityItem = false;
 
-var inputfile = document.getElementById("file");
-inputfile.addEventListener('change', function(e) {
-  var file = e.target.files[0];
-  var reader = new FileReader();
-  reader.addEventListener("load",function(m) {
-    if(file.name.endsWith('.json')){
-      structure = JSON.parse(m.target.result);
-      structureToEditor();
-    } else {
-      nbt.parse(Buffer.from(m.target.result)).then(function(data){
-        structure = data.parsed;
-        unparsedStructure = data.metadata.buffer;
-        //console.log(data);
-        
-        if(structure.value.entities){
-          javaToBedrock();
-        }
-
-        structureToEditor();
-      });
-    }
-  });
-  
+function parseImportedData(file){
   if(file.name.endsWith('.json')){
-    reader.readAsText(file);
+    structure = JSON.parse(importedData);
+    structureToEditor();
   } else {
-    reader.readAsArrayBuffer(file);
+    nbt.parse(Buffer.from(importedData)).then(function(data){
+      structure = data.parsed;
+      unparsedStructure = data.metadata.buffer;
+      //console.log(data);
+
+      if(structure.value.entities){
+        javaToBedrock();
+      }
+
+      structureToEditor();
+    });
   }
-});
+}
 
 function loaded(){
   document.getElementById("loading2").style.display="none";
@@ -429,12 +409,16 @@ function exportStructure(tiles, air, waterlog, blockstates, tilecontainerloot, e
       }
     }
   }
+  var filename = 'bridge-file'
+  if(document.getElementById("dataFileInput").files[0]) filename = document.getElementById("dataFileInput").files[0].name;
   
-  saveAs(new File([nbt.writeUncompressed(structure2, 'little')], "hello.mcstructure"), document.getElementById("file").files[0].name);
+  exportFile(new File([nbt.writeUncompressed(structure2, 'little')], "hello.mcstructure"), filename);
 }
 
 function exportFunction(tiles, air, waterlog,blockstates, tilecontainerloot, entities, entityrot, entityloot){
-  saveAs(new File([
+  
+  
+  exportFile(new File([
     structureToFunction(
       tiles,
       air,
@@ -445,7 +429,7 @@ function exportFunction(tiles, air, waterlog,blockstates, tilecontainerloot, ent
       entityrot,
       entityloot
     )
-  ], "hello.mcfunction"), document.getElementById("file").files[0].name.replaceAll(".mcstructure", ".mcfunction"));
+  ], "hello.mcfunction"), document.getElementById("dataFileInput").files[0].name.replaceAll(".mcstructure", ".mcfunction"));
 }
 
 function download(){
@@ -674,7 +658,7 @@ function openEditEntity(label){
     
     for(var i = 0; i < storageLocation.length; i++){
       if(storageLocation[i].Name.value != ""){
-        document.getElementById("entity-inventory").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+        document.getElementById("entity-inventory").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
       }
     }
   } else {
@@ -694,7 +678,7 @@ function openEditEntity(label){
     var storageLocation = currentEntity.Armor.value.value;
     for(var i = 0; i < storageLocation.length; i++){
       if(storageLocation[i].Name.value != ""){
-        document.getElementById("entity-equipment").children[0].children[0].children[i].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+        document.getElementById("entity-equipment").children[0].children[0].children[i].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
         document.getElementById("entity-equipment").children[0].children[0].children[i].style.backgroundImage = "";
       }
     }
@@ -706,7 +690,7 @@ function openEditEntity(label){
     document.getElementById("entity-equipment").children[0].children[1].children[0].style.display = "inline-block";
     var storageLocation = currentEntity.Offhand.value.value[0];
     if(storageLocation.Name.value != ""){
-      document.getElementById("entity-equipment").children[0].children[1].children[0].innerHTML = '<mcitem identifier="'+ storageLocation.Name.value +'" count="'+ storageLocation.Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+      document.getElementById("entity-equipment").children[0].children[1].children[0].innerHTML = '<mcitem identifier="'+ storageLocation.Name.value +'" count="'+ storageLocation.Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
       document.getElementById("entity-equipment").children[0].children[1].children[0].style.backgroundImage = "";
     }
   } else {
@@ -717,7 +701,7 @@ function openEditEntity(label){
     document.getElementById("entity-equipment").children[0].children[1].children[1].style.display = "inline-block";
     var storageLocation = currentEntity.Mainhand.value.value[0];
     if(storageLocation.Name.value != ""){
-      document.getElementById("entity-equipment").children[0].children[1].children[1].innerHTML = '<mcitem identifier="'+ storageLocation.Name.value +'" count="'+ storageLocation.Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+      document.getElementById("entity-equipment").children[0].children[1].children[1].innerHTML = '<mcitem identifier="'+ storageLocation.Name.value +'" count="'+ storageLocation.Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
       document.getElementById("entity-equipment").children[0].children[1].children[1].style.backgroundImage = "";
     }
   } else {
@@ -874,7 +858,7 @@ function updateEntityItem(){
   if(currentEntityItem.Name.value != ""){
     currentEntityItem.Count.value = parseFloat(document.getElementById("entity-container-item-count").value);
     currentEntityItem.Damage.value = parseFloat(document.getElementById("entity-container-item-damage").value);
-    document.querySelector('#entity-editor td.selected').innerHTML = '<mcitem identifier="'+ currentEntityItem.Name.value +'" count="'+ currentEntityItem.Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+    document.querySelector('#entity-editor td.selected').innerHTML = '<mcitem identifier="'+ currentEntityItem.Name.value +'" count="'+ currentEntityItem.Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
   } else {
     currentEntityItem.Count.value = 0;
     currentEntityItem.Damage.value = 0;
@@ -906,7 +890,7 @@ function openEditTile(label){
   }
   label.classList.toggle("selected", true);
   
-  //<mcitem identifier="minecraft:diamond_pickaxe" count="1" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>
+  //<mcitem identifier="minecraft:diamond_pickaxe" count="1" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>
   document.getElementById("tilecontainer").children[0].children[0].innerHTML = "";
   
   for(var i = 0; i < document.getElementsByClassName("tile-editor-type").length; i++){
@@ -958,10 +942,10 @@ function openEditTile(label){
     
     if(doLoop){
       for(var i = 0; i < storageLocation.length; i++){
-        document.getElementById("tilecontainer").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+        document.getElementById("tilecontainer").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
       }
     } else {
-      document.getElementById("tilecontainer").children[0].children[0].children[0].innerHTML = '<mcitem identifier="'+ storageLocation.Name.value +'" count="'+ storageLocation.Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+      document.getElementById("tilecontainer").children[0].children[0].children[0].innerHTML = '<mcitem identifier="'+ storageLocation.Name.value +'" count="'+ storageLocation.Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
     }
     mcitems.init();
     currentTileMeta.storageLocation = storageLocation;
@@ -1091,7 +1075,7 @@ function updateTileItem(){
     currentTileItem.Name.value = document.getElementById("tile-container-item-id").value;
     currentTileItem.Count.value = parseFloat(document.getElementById("tile-container-item-count").value);
     currentTileItem.Damage.value = parseFloat(document.getElementById("tile-container-item-damage").value);
-    document.getElementById("tile-container").getElementsByTagName("td")[currentTileItem.Slot.value].innerHTML = '<mcitem identifier="'+ currentTileItem.Name.value +'" count="'+ currentTileItem.Count.value +'" style="width:25px;height:25px;font-size:6pt;" class="nohover"></mcitem>';
+    document.getElementById("tile-container").getElementsByTagName("td")[currentTileItem.Slot.value].innerHTML = '<mcitem identifier="'+ currentTileItem.Name.value +'" count="'+ currentTileItem.Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
     mcitems.init();
   }
 }
