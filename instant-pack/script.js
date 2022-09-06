@@ -26,7 +26,7 @@ var manifest = {
 	]
 };
 
-function randomArray(arr){
+function randomArray(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
@@ -77,18 +77,18 @@ function generateUUID(){
 
 function updateManifest(){
   var version = document.getElementById("packversion").value.split(".");
-  var min_engine_version = document.getElementById("version").value.split(".");
+  var min_engine_version = document.getElementById("version").value;
   for(var i = 0; i < version.length; i++){
     version[i] = parseFloat(version[i]);
   }
-  for(var i = 0; i < min_engine_version.length; i++){
+  /*for(var i = 0; i < min_engine_version.length; i++){
     min_engine_version[i] = parseFloat(min_engine_version[i]);
     if(i == min_engine_version.length - 1){
       if(min_engine_version[i].toString().length > 1 && min_engine_version[i].toString()[min_engine_version[i].toString().length-1] == "0"){
         min_engine_version[i] = min_engine_version[i] / 10;
       }
     }
-  }
+  }*/
   
   if(document.getElementById("packtype").value == "bp"){
     manifest.modules[0].type = "data";
@@ -106,11 +106,25 @@ function updateManifest(){
     manifest.modules[0].description = "pack.description";
   }
   
-  manifest.header.min_engine_version = min_engine_version;
+  manifest.header.min_engine_version = versionToArray(min_engine_version);
   manifest.header.version = version;
   manifest.modules[0].version = version;
   
   generateLabels();
+}
+
+function versionToArray(ver){
+  var output = ver.split(".");
+  
+  if(output.length == 2){
+    output.push('0');
+  }
+  
+  for (let i = 0; i < output.length; i++){
+    output[i] = parseFloat(output[i])
+  }
+
+  return output; //[1, 16, 200]
 }
 
 function generateLabels(){
