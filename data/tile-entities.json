@@ -1,0 +1,115 @@
+{
+  "BrewingStand": {
+    "type": "container",
+    "slots": 5,
+    "slotsDescriptions": [
+      "Ingredient",
+      "Bottle 1",
+      "Bottle 2",
+      "Bottle 3",
+      "Fuel"
+    ]
+  },
+  "BlastFurnace": {
+    "type": "container",
+    "slots": 3,
+    "slotsDescriptions": [
+      "Input",
+      "Fuel",
+      "Result"
+    ],
+    "furnace": true
+  },
+  "Barrel": {
+    "type": "container",
+    "slots": 27
+  },
+  "//ChiseledBookshelf": {
+    "type": "container",
+    "slots": 6
+  },
+  "FlowerPot": {
+    "type": "flowerpot"
+  },
+  "Dropper": {
+    "type": "container",
+    "slots": 9
+  },
+  "Dispenser": {
+    "type": "container",
+    "slots": 9
+  },
+  "Chest": {
+    "type": "container",
+    "slots": 27
+  },
+  "GlowItemFrame": {
+    "type": "container",
+    "behavior": "itemframe",
+    "slots": 1
+  },
+  "HangingSign": {
+    "type": "sign"
+  },
+  "ItemFrame": {
+    "type": "container",
+    "behavior": "itemframe",
+    "slots": 1
+  },
+  "Hopper": {
+    "type": "container",
+    "slots": 5 
+  },
+  "Furnace": {
+    "type": "container",
+    "slots": 3,
+    "slotsDescriptions": [
+      "Input",
+      "Fuel",
+      "Result"
+    ],
+    "furnace": true
+  },
+  "//Lectern": {
+    "type": "container",
+    "behavior": "lectern",
+    "slots": 1,
+    "slotsDescriptions": [
+      "Book"
+    ]
+  },
+  "Jukebox": {
+    "type": "container",
+    "behavior": "jukebox",
+    "slots": 1,
+    "slotsDescriptions": [
+      "Disc"
+    ]
+  },
+  "Smoker": {
+    "type": "container",
+    "slots": 3,
+    "slotsDescriptions": [
+      "Input",
+      "Fuel",
+      "Result"
+    ],
+    "furnace": true
+  },
+  "ShulkerBox": {
+    "type": "container",
+    "slots": 27
+  },
+  "Sign": {
+    "type": "sign"
+  },
+  "//StructureBlock": {
+    "type": "structureblock"
+  },
+  "CommandBlock": {
+    "type": "commandblock"
+  },
+  "MobSpawner": {
+    "type": "spawner"
+  }
+}

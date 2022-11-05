@@ -9,7 +9,14 @@
     <button onclick="window.opener.reloadCSS();">Reload Stylesheets</button>
     <button onclick="window.opener.location.reload(); window.setTimeout(refreshStylesheets, 3000)">Refresh Page</button>
     <button onclick="closeOverlays();">Close all overlays</button>
-    
+    <br>
+    <select oninput="importPresetFile(this)">
+      <option>(Import a file to the program)</option>
+      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/StructureEditorCompleteFeatureTest.mcstructure?v=1652565689289">StructureEditorCompleteFeatureTest</option>
+      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/bobby.mcstructure">StructureEditorBobby</option>
+      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/1.20%20test.mcstructure">1.20 Test</option>
+    </select>
+    <br><br>
     <details open style="user-select: none;">
       <summary>Errors</summary>
       

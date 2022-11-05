@@ -2,9 +2,12 @@
 
 **MCBE Essentials** is a collection of Web Tools built for Minecraft Bedrock Edition.
 
+## License
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
 ## Apps
 
-The site currently has 11 functioning apps and 4 sub-apps (doesn't appear in the site's shortcuts, but are considered a part of the main apps anyways).
+Each app has been classified below.
 
 | App                        | Type        | Upld.      | Dwnld.    | Exports as                           | Libraries             |
 | :-----------:              | :---------: | :-----:    | :-------: | :-----------:                        | --------------------- |
@@ -27,24 +30,17 @@ The site currently has 11 functioning apps and 4 sub-apps (doesn't appear in the
 
 ## Global code
 
-This code is available across the entire app.
-
-- The left sidebar's structure code, available in `left.html`
-- The general stylesheet, available at `style.css`
-- **In some apps,** `pnbt.js` is used as an NBT - JSON library
-- **In some apps,** `filesaver.js` is used to download files.
-  - Other apps use their own strange system of downloading a file via a pseudo-`<a>` element.
-- Apps that are not supported by mobile use `nomobile.js` and get redirected to `nomobile.html`
+Certain files are applied across the entire site for easy editing and consistency.
+- `js/datahandler.js` 
+- `js/bridge-connect.js`
+- `navtop.html`
+- `navleft.html`
+- `minecraft-ui.css`
 
 ## Domains
 
 The stable release is available at [https://mcbe-essentials.github.io](https://mcbe-essentials.github.io)
 
-The development version is available at [https://mcbe-essentials.glitch.me](https://mcbe-essentials.glitch.me) but is only accesible if you have entered dev mode on the site.
-
-## To Do
-### Bugs and inconsistancies
-- Make all apps use `filesaver.js` to download files.
-- Make all apps use `pnbt.js` to save files.
+The nightly build is available at [https://mcbe-essentials.glitch.me](https://mcbe-essentials.glitch.me) but is only accesible if you have entered dev mode on the site.
 
 \ ゜ o ゜)ノ

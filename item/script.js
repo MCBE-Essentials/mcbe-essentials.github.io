@@ -14,6 +14,13 @@ async function fetchData() {
 
 	if (window.localStorage.customItems)
 		mcitems.data.customitems = JSON.parse(window.localStorage.customItems)
+  
+  //Append tooltip element to page
+  let tooltipel = document.createElement("div");
+  tooltipel.style.display = "none";
+  tooltipel.classList = ["tooltip"];
+  tooltipel.innerHTML = '<span class="tooltip-name" style="display: block">Item Name</span><span class="tooltip-enchs" style="display: block">Efficiency V</span><span class="tooltip-lore" style="display: block">Lore</span><span class="tooltip-identifier">minecraft:identifier</span>';
+  document.body.appendChild(tooltipel);
 }
 
 class MinecraftItem extends HTMLElement {
@@ -224,6 +231,17 @@ var mcitems = {
       if(damage !== false){
         item.appendChild(damage);
       }
+      
+      //Hover notes 
+      if(item.classList.contains("hovertooltip")){
+        item.onmouseover = function() {
+          mcitems.tooltip.show(this);
+        }
+
+        item.addEventListener("mouseleave", (e) => {
+          mcitems.tooltip.hide();
+        })
+      }
     }
   },
 	getData: function (identifier, allowlist) {
@@ -238,6 +256,11 @@ var mcitems = {
 
     identifier = mcitems.mapItemIdentifier(mcitems.parseItemIdentifier(identifier));
     
+    if(typeof identifier === 'object'){
+      //Identifier was mapped to a specific display name and not another identifier. Return the mapped data.
+      return identifier;
+    }
+    
 		try {
       //If tag uses a valid allowlist and identifier is not on it, output the 'failed' result.
 			if (allowlist && eval(allowlist)) {
@@ -246,7 +269,7 @@ var mcitems = {
 				}
 			}
 		} catch (e) {}
-
+    
 		if (items.includes(identifier)) {
 			output = mcitems.data.items.items[identifier]
 		} else if (customitems.includes(identifier)) {
@@ -322,10 +345,51 @@ var mcitems = {
     }
     return output;
   },
-  doTooltips: function(e) {
-    for (let tooltip of document.querySelectorAll(".mcitemtooltip")) {
-      tooltip.style.left = e.pageX + 'px';
-      tooltip.style.top = e.pageY + 'px';
+  tooltip: {
+    hover: function(e) {
+      let tooltip = document.querySelector('.tooltip');
+      if(!tooltip) return;
+      if(tooltip.style.display != 'none'){
+        tooltip.style.left = e.pageX + 'px';
+        tooltip.style.top = e.pageY + 'px';
+      }
+    },
+    show: function(element){
+      let tooltip = document.querySelector('.tooltip')
+
+      var itemdata = JSON.parse(element.getAttribute("itemdata"));
+
+      //let itemname = ((getFunction('set_name', 'name', itemdata) != false) ? getFunction('set_name', 'name', itemdata) : (element.children[0].getAttribute("data-title") != element.getAttribute("identifier") ? element.children[0].getAttribute("data-title") : "Unknown Name"));
+      let itemname = (element.children[0].getAttribute("data-title") != element.getAttribute("identifier") ? element.children[0].getAttribute("data-title") : "Unknown Name");
+      let customitemname = false;
+      let itemenchs = false//doEnchantments(itemdata);
+      let itemlore = false//((getFunction('set_lore', 'lore', itemdata) != false) ? getFunction('set_lore', 'lore', itemdata).join("<br>") : false)
+      let itemid = element.getAttribute("identifier")
+
+      document.querySelector('.tooltip-name').innerHTML = itemname;
+      if(customitemname){
+        document.querySelector('.tooltip-name').style.fontStyle = 'italic'
+      } else {
+        document.querySelector('.tooltip-name').style.fontStyle = 'unset'
+      }
+
+      if(itemenchs === false){
+        document.querySelector('.tooltip-enchs').innerHTML = "";
+      } else {
+        document.querySelector('.tooltip-enchs').innerHTML = itemenchs;
+      }
+
+      if(itemlore === false){
+        document.querySelector('.tooltip-lore').innerHTML = "";
+      } else {
+        document.querySelector('.tooltip-lore').innerHTML = itemlore;
+      }
+      document.querySelector('.tooltip-identifier').innerHTML = itemid;
+
+      tooltip.style.display = 'block';  
+    },
+    hide: function(){
+      document.querySelector('.tooltip').style.display = 'none';
     }
   }
 }
@@ -333,7 +397,7 @@ var mcitems = {
 fetchData()
 
 //Tooltips
-document.addEventListener('mousemove', mcitems.doTooltips, false);
+document.addEventListener('mousemove', mcitems.tooltip.hover, false);
 
 /*
 init: function () {

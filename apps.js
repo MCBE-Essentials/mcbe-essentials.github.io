@@ -11,7 +11,8 @@ var apps = {
         data: '<path fill="currentColor" d="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,12.35L13.85,13.36Z" />'
       },
       link: "https://mcbe-essentials.github.io/world-packager/",
-      confirmUnload: true
+      confirmUnload: true,
+      hideEmbedded: true
     },
     {
       name: "Trade Table Editor",
@@ -63,6 +64,19 @@ var apps = {
       ],
       confirmUnload: true
     },
+    /*{
+      name: "NBT Editor",
+      icon: {
+        class: {
+          main: "hidesmall svgicon", 
+          list: "svgiconlist"
+        },
+        data: '<path fill="currentColor" d="M17 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3M19 19H5V5H16.17L19 7.83V19M12 12C10.34 12 9 13.34 9 15S10.34 18 12 18 15 16.66 15 15 13.66 12 12 12M6 6H15V10H6V6Z" />'
+      },
+      link: "https://mcbe-essentials.github.io/nbt-editor/",
+      confirmUnload: true,
+      beta: true
+    }*/
   ],
   Generators: [
     {
@@ -163,7 +177,8 @@ var apps = {
         data: '<path fill="currentColor" d="M20 6H12L10 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V8C22 6.9 21.1 6 20 6M18 12H16V14H18V16H16V18H14V16H16V14H14V12H16V10H14V8H16V10H18V12Z" />'
       },
       link: "https://mcbe-essentials.github.io/instant-pack/",    
-      confirmUnload: false
+      confirmUnload: false,
+      hideEmbedded: true
     },
     {
       name: "World Generator",
@@ -175,7 +190,8 @@ var apps = {
         data: '<path fill="currentColor" d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H5M15.78,5H19V17.18C18.74,16.38 17.69,15.79 16.8,15.79H15.8V12.79A1,1 0 0,0 14.8,11.79H8.8V9.79H10.8A1,1 0 0,0 11.8,8.79V6.79H13.8C14.83,6.79 15.67,6 15.78,5M5,10.29L9.8,14.79V15.79C9.8,16.9 10.7,17.79 11.8,17.79V19H5V10.29Z" />'
       },
       link: "https://mcbe-essentials.github.io/world-generator/",
-      confirmUnload: false
+      confirmUnload: false,
+      hideEmbedded: true
     },
   ],
   Visualizers: [
@@ -192,6 +208,20 @@ var apps = {
       confirmUnload: false
     },
     {
+      name: "Recipe Previewer",
+      icon: {
+        class: {
+          main: "hidesmall svgicon", 
+          list: "svgiconlist"
+        },
+        //data: '<path fill="currentColor" d="M18,2A2,2 0 0,1 20,4V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18M18,4H13V12L10.5,9.75L8,12V4H6V20H18V4Z" />'
+        data: '<path fill="currentColor" d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M13,4V12L10.5,9.75L8,12V4H6V20H10C10.54,20.81 11.23,21.5 12.03,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2H18A2,2 0 0,1 20,4V11.81C19.42,11.26 18.75,10.81 18,10.5V4H13Z" />'
+      },
+      link: "https://mcbe-essentials.github.io/recipe-previewer/",
+      confirmUnload: false,
+      beta: true
+    },
+    {
       name: "Server Log to Graph",
       icon: {
         class: {
@@ -201,7 +231,8 @@ var apps = {
         data: '<path fill="currentColor" d="M3,14L3.5,14.07L8.07,9.5C7.89,8.85 8.06,8.11 8.59,7.59C9.37,6.8 10.63,6.8 11.41,7.59C11.94,8.11 12.11,8.85 11.93,9.5L14.5,12.07L15,12C15.18,12 15.35,12 15.5,12.07L19.07,8.5C19,8.35 19,8.18 19,8A2,2 0 0,1 21,6A2,2 0 0,1 23,8A2,2 0 0,1 21,10C20.82,10 20.65,10 20.5,9.93L16.93,13.5C17,13.65 17,13.82 17,14A2,2 0 0,1 15,16A2,2 0 0,1 13,14L13.07,13.5L10.5,10.93C10.18,11 9.82,11 9.5,10.93L4.93,15.5L5,16A2,2 0 0,1 3,18A2,2 0 0,1 1,16A2,2 0 0,1 3,14Z" />'
       },
       link: "https://mcbe-essentials.github.io/log-to-graph/",
-      confirmUnload: false
+      confirmUnload: false,
+      hideEmbedded: true
     }
   ],
   Converters: [

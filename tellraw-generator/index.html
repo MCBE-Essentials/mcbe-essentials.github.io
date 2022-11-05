@@ -115,7 +115,14 @@
               </tr>
               <tr>
                 <td class="app-inner">
-                  Who should the command target? <input class="app-input" type="text" placeholder="@s" value="@s" style="font-size: 8pt; width: 150px" id="cselector">
+                  Message type: 
+                  <select class="app-input" style="width: 150px; height: unset;" id="messagetype">
+                    <option value="/tellraw @$ ">Chat message</option>
+                    <option value="/titleraw @$ title ">Title</option>
+                    <option value="/titleraw @$ subtitle ">Subtitle</option>
+                    <option value="/titleraw @$ actionbar ">Actionbar</option>
+                  </select><br>
+                  Target: <input class="app-input" type="text" placeholder="@s" value="@s" style="font-size: 8pt; width: 150px" id="cselector">
                 </td>
               </tr>
               <tr>

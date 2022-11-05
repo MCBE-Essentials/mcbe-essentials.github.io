@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="style.css" />
 
     <!-- import the webpage's javascript file -->
+    <script src="/pnbt.js"></script>
+    <script src="script.js" defer></script>
+    <script src="/filesaver.js" defer></script>
+    <script src="/js/datahandler.js" defer></script>
     <script src="/apps.js" defer></script>
     <script src="/script.js" defer></script>
-    <script src="/pnbt.js"></script>
-    <script src="/filesaver.js"></script>
-    <script src="script.js" defer></script>
-    <script src="portable.js" defer></script>
   </head>
   <body style="">
     <!--<div id="menu-button">
@@ -110,17 +110,22 @@
                   </tr>
                   <tr id="upload">
                     <td>
-                      <label class="generate-button gb-blue" for="file" style="display: block">Upload</label>
-                      <input type="file" id="file" accept=".mcstructure" style="display:none;">
+                      <label class="generate-button gb-blue" for="dataFileInput" style="display: block">Upload</label>
+                      <!--<input type="file" id="file" accept=".mcstructure" style="display:none;">-->
+                      <input id="dataFileInput" type="file" readertype="arraybuffer/text" accept=".mcstructure,.json" style="display:none;">
                     </td>
                   </tr>
                   <tr id="download" style="display: none">
                     <td colspan="2">
                       <div
-                        class="generate-button"
+                        class="generate-button export-button"
                         onclick="download()"
+                        id="download-btn"
                       >
                         Convert and download
+                      </div>
+                      <div class="generate-button gb-gray" style="display:none;" id="loading-btn">
+                        Converting...
                       </div>
                     </td>
                   </tr>

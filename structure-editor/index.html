@@ -28,7 +28,7 @@
     <script src="/script.js" defer></script>
     <script src="/item/script.js"></script>
     <script src="viewer/script.js" defer></script>
-    <script src="/structure-to-function/portable.js" defer></script>
+    <script src="/structure-to-function/portable-v1.js" defer></script>
     <script src="java-structures.js"></script>
     <script src="https://unpkg.com/jsoneditor@9.6.0/dist/jsoneditor.min.js"></script>
   </head>
@@ -297,7 +297,7 @@
       </div>
     </div>
     <div class="tier-editor" id="uploader" style="display:block;user-select:none;height:unset;">
-      <div style="position:relative;text-align:left;">
+      <div style="position:relative;text-align:left;" id="structure-upload-prompt-inner">
         <!--<div class="tier-editor-close-button" onclick="closeEditors();">x</div>-->
         <h2 style="text-align:center;user-select:none;" class="lefttitle">Upload</h2><br>
         Hey there! Welcome to the Structure Editor! To get started, please upload a structure file or select an alternate version of the app.
@@ -319,10 +319,6 @@
         <br>
         In the wrong place? <a href="/" style="background-color:rgba(255,255,255,0.3);padding:0px 4px;border-radius:5px;color:#82f782;" target="_self">Go to the homepage</a><br>
       </div>
-    </div>
-    
-    <div id="snackbar">
-      my snackbar lol
     </div>
     
     <div class="menu-button2"

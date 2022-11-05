@@ -1,8 +1,13 @@
 const nbt = require('prismarine-nbt');
 const { Buffer } = require('buffer');
 
+const worker = new Worker("./portable.js");
+worker.onmessage = (e) => {
+  downloadFunction(e.data)
+}
+
 var structure = {};
-document.getElementById("file").addEventListener("change", function(){
+/*document.getElementById("file").addEventListener("change", function(){
   if(this.files && this.files[0]){
     var fr = new FileReader();
     fr.onload = function(e){
@@ -17,22 +22,53 @@ document.getElementById("file").addEventListener("change", function(){
     //Set global variable "filename" for use in exporting later
     filename = document.getElementById("file").files[0].name.split(".")[0];
   }
-});
+});*/
 
-async function exportFunction(tiles, air, waterlog,blockstates, tilecontainerloot, entities, entityrot, entityloot){
-  var data = await structureToFunction(
-    tiles,
-    air,
-    waterlog,
-    blockstates,
-    tilecontainerloot,
-    entities,
-    entityrot,
-    entityloot
-  );
-  
+var importedData = '';
+/*function parseImportedData(){
+  structure = importedData;
+  document.getElementById("upload").style.display = "none";
+  document.getElementById("download").style.display = "table-row";
+}*/
+var currentFile = '';
+function parseImportedData(file){
+  currentFile = file;
+  if(file.name.endsWith('.json')){
+    structure = JSON.parse(importedData);
+    document.getElementById("upload").style.display = "none";
+    document.getElementById("download").style.display = "table-row";
+  } else {
+    nbt.parse(Buffer.from(importedData)).then(function(data){
+      structure = data.parsed;
+      unparsedStructure = data.metadata.buffer;
+      //console.log(data);
+
+      document.getElementById("upload").style.display = "none";
+      document.getElementById("download").style.display = "table-row";
+    });
+  }
+}
+
+function exportFunction(){
+  worker.postMessage({
+    "tiles": document.getElementById("tiles").checked,
+    "air": document.getElementById("air").checked,
+    "waterlog": document.getElementById("waterlog").checked,
+    "blockstates": document.getElementById("blockstates").checked,
+    "tilecontainerloot": document.getElementById("tilecontainerloot").checked,
+    "entities": document.getElementById("entities").checked,
+    "entityrot": document.getElementById("entityrot").checked,
+    "entityloot": document.getElementById("entityloot").checked,
+    
+    "structure": structure
+  })
+  document.querySelector("#download-btn").style.display = "none";
+  document.querySelector("#loading-btn").style.display = "block";
+}
+
+function downloadFunction(data){  
   var files = [];
-  var filename = document.getElementById("file").files[0].name.replaceAll(".mcstructure", "");
+  var filename = currentFile.name.replaceAll(".mcstructure", "");
   if(data.split("\n").length > 9000){
     var lines = data.split("\n");
     
@@ -50,8 +86,15 @@ async function exportFunction(tiles, air, waterlog,blockstates, tilecontainerloo
   }
   
   for(let downloadable of files){
-    saveAs(downloadable);
+    if(window.bridge && window.bridge.connected){
+      exportFile(downloadable, downloadable.name, window.bridge.openedPath.replace("structures", "functions").replaceAll(".mcstructure", ".mcfunction"));
+    } else {
+      exportFile(downloadable);
+    }
   }
+  
+  document.querySelector("#download-btn").style.display = "block";
+  document.querySelector("#loading-btn").style.display = "none";
 }
 
 function download(){

@@ -21,9 +21,10 @@
     <!-- import the webpage's javascript file -->
     <script src="/apps.js" defer></script>
     <script src="/script.js" defer></script>
-    <script src="/item/script.js"></script>
-    <script src="/pnbt.js"></script>
-    <script src="/filesaver.js"></script>
+    <script src="/item/script.js" defer></script>
+    <script src="/pnbt.js" defer></script>
+    <script src="/filesaver.js" defer></script>
+    <script src="/js/datahandler.js" defer></script>
     <script src="script.js" defer></script>
   </head>
   <body style="">
@@ -97,10 +98,10 @@
                 </td>
               </tr>
               <tr>
-                <input id="file" type="file" accept=".mcstructure" style="display:none;">
+                <input id="dataFileInput" type="file" readertype="arraybuffer" accept=".mcstructure" style="display:none;">
                 <td colspan="2">
-                  <label class="generate-button gb-blue" style="display:inline-block;width:calc(100% - 8px);" for="file" id="upload">Upload</label>
-                  <label class="generate-button gb-blue" style="display:none;width:calc(100% - 8px);" id="download" onclick="downloadStructure()">Download</label>
+                  <label class="generate-button gb-blue" style="display:inline-block;width:calc(100% - 8px);" for="dataFileInput" id="upload">Upload</label>
+                  <label class="generate-button gb-blue export-button" style="display:none;width:calc(100% - 8px);" id="download" onclick="downloadStructure()">Download</label>
                 </td>
               </tr>
             </tbody>

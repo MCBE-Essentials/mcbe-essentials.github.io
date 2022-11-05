@@ -1,0 +1,197 @@
+body {
+  background-color: #8f8f8f;
+  font-family: Minecraftia;
+}
+
+.grid {
+  border-spacing: 0;
+}
+
+.slot {
+  width: 42px;
+  height: 42px;
+  background-color: #8b8b8b;
+  border: 3px solid #373737;
+  border-color: #373737 white white #373737;
+  display: inline-block;
+}
+
+.recipe-title {
+  color: #4c4c4c;
+}
+
+.big-slot {
+  padding: 9px;
+}
+
+.slot:hover {
+  background-color: #6aad43;
+  border-color: white;
+}
+
+.slot.nohover:hover {
+  background-color: #8b8b8b;
+  border-color: #373737 white white #373737;
+}
+
+.tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #100010;
+  background-color: rgba(16,0,16,0.94);
+  padding: 0.375em;
+  font-family: Minecraftia,sans-serif;
+  font-size: 16px;
+  word-spacing: 4px;
+  white-space: nowrap;
+  line-height: 1.25em;
+  margin: 0.125em 0.25em;
+  pointer-events: none;
+  z-index: 9999;
+  margin-left: 10px;
+  margin-top: 10px;
+  
+  color: #FFFFFF;
+  text-shadow: 0.125em 0.125em 0 #3f3f3f;
+}
+
+.tooltip-identifier {
+  font-size: 0.75em;
+  color: darkgray;
+}
+
+.tooltip-enchs {
+  color: lightgray;
+}
+
+.tooltip-lore {
+  color: purple;
+  text-shadow: 0.125em 0.125em 0 transparent;
+  font-style: italic;
+}
+
+.tooltip:before {
+  content: "";
+  position: absolute;
+  top: 0.125em;
+  right: -0.125em;
+  bottom: 0.125em;
+  left: -0.125em;
+  border: 0.125em solid #100010;
+  border-style: none solid;
+  border-color: rgba(16,0,16,0.94);
+  
+  box-sizing: inherit;
+}
+
+.tooltip:after {
+  content: "";
+  position: absolute;
+  top: 0.125em;
+  right: 0;
+  bottom: 0.125em;
+  left: 0;
+  border: 0.125em solid #2D0A63;
+  border-image: -webkit-linear-gradient(rgba(80,0,255,0.31),rgba(40,0,127,0.31)) 1;
+  border-image: linear-gradient(rgba(80,0,255,0.31),rgba(40,0,127,0.31)) 1;
+  
+  box-sizing: inherit;
+}
+
+.trade-arrow {
+  height: 38px;
+  image-rendering: pixelated;
+  vertical-align: middle;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.flame {
+  width: 33px;
+  image-rendering: pixelated;
+  margin-top: 5px;
+}
+
+.flame-holder {
+  text-align: center;
+}
+
+.trade-inner {
+  /*margin-left: 15px;*/
+}
+
+.options {
+  background-color: #c6c6c6;
+  width: 470px;
+  height: 470px;
+  z-index: 1;
+  outline: 3px solid black;
+  padding: 10px;
+  border-radius: 4px;
+  outline: 3px solid black;
+  border: 3px solid white;
+  border-color: white #555555 #555555 white;
+  border-radius: 4px;
+  color: black;
+}
+
+.recipe-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-spacing: 0px;
+  padding: 0px;
+}
+
+mcitem {
+  margin-right: 15px;
+  vertical-align: middle;
+  cursor: default;
+  padding: 1px;
+  user-select: none;
+}
+
+.mcitemcount {
+  /*margin-bottom: -3px;*/
+  margin-left: -26px;
+  font-size: 14pt;
+  text-align: right;
+  width: 28px;
+}
+
+.mcitemdamage {
+  margin-left: -40px;
+  height: 3px;
+  appearance: none;
+  border-radius: 12px;
+}
+
+.mcitemdamage::-webkit-progress-value {
+  background: lime;
+}
+
+.tier {
+  padding-bottom: 15px;
+}
+
+.crafting-table-3x3 {
+  min-width: 300px;
+}
+
+.crafting-2x2 {
+  min-width: 230px;
+}
+
+.mock-brewing {
+  min-width: 230px;
+}
+
+.crafting-type {
+  display: none;
+}
+
+.embedded-frame .import-button {
+  display: none;
+}
