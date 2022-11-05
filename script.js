@@ -9,7 +9,9 @@ if(document.getElementById("left")){
 if(document.getElementById("head")){
   fetch('/navtop.html').then((response) => response.text()).then((data) => {
     document.getElementById("head").innerHTML = data;
-    //document.getElementById("head").innerHTML += "<span class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
+    if(location.hostname == "mcbe-essentials.glitch.me"){ 
+      document.getElementById("head").innerHTML += "<span class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
+    }
   });
 }
 
@@ -111,6 +113,10 @@ function loadApp(path, elem, category){
     }
   }
   
+  if(path.hideEmbedded){
+    elem.classList.toggle("hide-embedded", true)
+  }
+  
   if(window.location.href == link){
     elem.setAttribute("class", "app-label selected");
     document.title = path.name + " - MCBE Essentials";
@@ -155,6 +161,8 @@ if(document.getElementById("head")){
   document.getElementById("head").addEventListener("click", function(e){
     if(e.target.hasAttribute('class') && e.target.getAttribute("class").includes("imgicon") && !document.body.classList.contains("embedded-frame")){
       window.location.href="/";
+    } else if(document.body.classList.contains("embedded-frame")){
+      snackbar("MCBE Essentials is created and maintained by ReBrainerTV. If you've found a bug, join the MCBE Essentials discord server to report it!");
     }
   });
 }
@@ -187,4 +195,20 @@ if(window.parent != window){
 function sterilizeJSON(jsonString){
   jsonString = jsonString.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m);
   return jsonString;
+}
+
+//Append snackbar
+let snackbarel = document.createElement("snackbar");
+snackbarel.id = "snackbar";
+document.body.appendChild(snackbarel);
+function snackbar(message, delay) {
+  var x = document.getElementById("snackbar");
+  x.innerHTML = message;
+  if(!delay){
+    var delay = 3000;
+  }
+  if(x.className != "show"){ //Prevent adding an additional delay if snackbar is already visible
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, delay);
+  }
 }

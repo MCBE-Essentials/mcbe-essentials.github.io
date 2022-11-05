@@ -25,6 +25,7 @@
   --category-hover-foreground: var(--category-background);
   --category-hover-background: var(--category-foreground);
   --sidebar-background: #312948;
+  --menu-button-closed-background: #312948f0;
   --sidebar-button-background: var(--topbar-background);
   
   --app-inner-background: #4b4a5c;
@@ -97,7 +98,7 @@
   position: absolute;
   top: 40px;
   width: 100%;
-  background-color: #2e3148;
+  background-color: var(--background);
   display: table-row;
 }
 
@@ -146,7 +147,7 @@
   height:25%;
   min-height:230px;
   transform: translate(50%, -50%); 
-  background-color:#4a4a5c; 
+  background-color: var(--app-inner-background); 
   border-radius: 15px;
   padding:15px; 
   text-align:center;
@@ -229,6 +230,10 @@
 
 .app-row {
   height:1px;
+}
+
+.license-button {
+  display: none;
 }
 
 body {
@@ -444,9 +449,9 @@ button.generate-button {
 }*/
 
 .menu-button2 {
-  background-color: var(--sidebar-background);
+  background-color: var(--menu-button-closed-background);
   display: none;
-  position: absolute;
+  position: fixed;
   width: 50px;
   height: 50px;
   top: 60px;
@@ -553,7 +558,6 @@ li > ul {
 #snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */
   min-width: 250px; /* Set a default minimum width */
-  margin-left: -125px; /* Divide value of min-width by 2 */
   background-color: #333333; /* Black background color */
   color: #ffffff; /* White text color */
   text-align: center; /* Centered text */
@@ -563,6 +567,9 @@ li > ul {
   z-index: 1005; /* Add a z-index if needed */
   left: 50%; /* Center the snackbar */
   bottom: 30px; /* 30px from the bottom */
+  transform: translate(-50%, 0%);
+  font-family: 'Minecraftia';
+  font-size: 10pt;
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
@@ -842,6 +849,10 @@ li > ul {
 
 .embedded-frame .main-content {
   background-color: unset;
+}
+
+.embedded-frame .hide-embedded {
+  display: none;
 }
 
 .main-left-select-old {

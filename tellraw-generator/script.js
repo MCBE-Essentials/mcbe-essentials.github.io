@@ -237,70 +237,71 @@ function parseContent(){
     instructions = instructions.concat(parseAs(editor.childNodes[i]));
   }
   
-  
-  
   //Parse
   var output = "";
   var jsonText = {"rawtext": []};
   var currentFormats = [];
-  for(var i = 0; i < instructions.length; i++){
-    var instruction = instructions[i];
-    if(instruction.type == "text"){
-      jsonText.rawtext.push(
-        {
-          "text": instruction.value
-        }
-      );
-    } else if(instruction.type == "format"){
-      if(instruction.mode == "add"){
-        currentFormats.push(instruction.value);
-        var item = jsonText.rawtext[jsonText.rawtext.length-1];
-        if(!item){
-          jsonText.rawtext.push({"text": ""});
-          item = jsonText.rawtext[0];
-        }
-        item.text += instruction.value;
-      } else if(instruction.mode == "remove"){
-        currentFormats.splice(currentFormats.indexOf(instruction.value), 1);
-        var item = jsonText.rawtext[jsonText.rawtext.length-1];
-        if(!item){
-          jsonText.rawtext.push({"text": ""});
-          item = jsonText.rawtext[0];
-        }
-        item.text += "§r" + currentFormats.join("");
-      }      
-    } else if(instruction.type == "score"){
-      jsonText.rawtext.push(
-        {
-          "score": {
-            "name": instruction.selector,
-            "objective": instruction.score
+  for(let instruction of instructions){
+    let value = instruction.value || null;
+    switch (instruction.type) {
+      default: {
+        console.log('unknown instruction:', instruction);
+        break;
+      }
+      case 'text': {
+        jsonText.rawtext.push({"text": value})
+        break;
+      }
+      case 'format': {
+        if(instruction.mode == 'add'){
+          if(currentFormats.indexOf(value) === -1){
+            currentFormats.push(value);
+            jsonText.rawtext.push({"text": value})
+          } 
+        } else {
+          if(currentFormats.indexOf(value) !== -1){
+            currentFormats.splice(currentFormats.indexOf(value), 1);
+            jsonText.rawtext.push({"text": "§r" + currentFormats.join("")})
           }
         }
-      );
-    } else if(instruction.type == "selector"){
-      jsonText.rawtext.push(
-        {
-          "selector": instruction.value
-        }
-      );
-    } else if(instruction.type == "translation"){
-      var value = {
-          "translate": instruction.value
-      };
-      if(instruction.withText){
-        value.with = JSON.parse(instruction.withText);
+        break;
       }
-      jsonText.rawtext.push(
-        value
-      );
+      case 'score': {
+        jsonText.rawtext.push(
+          {
+            "score": {
+              "name": instruction.selector,
+              "objective": instruction.score
+            }
+          }
+        )
+        break;
+      };
+      case 'selector': {
+        jsonText.rawtext.push(
+          {
+            "selector": value
+          }
+        )
+        break;
+      };
+      case 'translation': {
+        var translationobj = {
+          "translate": value
+        };
+        if(instruction.withText){
+          translationobj.with = JSON.parse(instruction.withText);
+        }
+        jsonText.rawtext.push(translationobj);
+        break;
+      }
     }
   }
   
   //Shorten text elements
   for(var i = 0; i < jsonText.rawtext.length; i++){
-    if(jsonText.rawtext[i] && jsonText.rawtext[i-1]){
-      if(Object.keys(jsonText.rawtext[i-1]).includes("text") && Object.keys(jsonText.rawtext[i]).includes("text")){
+    if(i > 0 && jsonText.rawtext[i]/* && jsonText.rawtext[i-1]*/){
+      if(jsonText.rawtext[i-1].hasOwnProperty("text") && jsonText.rawtext[i].hasOwnProperty("text")){
         jsonText.rawtext[i-1].text += jsonText.rawtext[i].text;
         jsonText.rawtext.splice(i, 1);
         i--;
@@ -411,7 +412,7 @@ function generateTellraw(){
   var selector = document.getElementById("cselector").value;
   
   var rawtext = JSON.stringify(parseContent());
-  document.getElementById("output").value = "/tellraw " + selector + " " + rawtext;
+  document.getElementById("output").value = (document.getElementById("messagetype").value.replaceAll("@$", selector)) + rawtext;
 }
 
 /* 

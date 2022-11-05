@@ -630,16 +630,6 @@ function updateGroup(){
   }
 }
 
-function snackbar(message, delay) {
-  var x = document.getElementById("snackbar");
-  x.innerHTML = message;
-  if(!delay){
-    var delay = 3000;
-  }
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, delay);
-}
-
 function closeTierEditor(ignoreUpdating){
   document.getElementById("overlay").style.display = "none";
   document.getElementById("tier-editor").style.display = "none";
@@ -683,7 +673,7 @@ function editItem(element){
     }
     
     document.getElementById("item-preview").innerHTML = 
-    '<mcitem identifier="'+ itemdata.item +'" count="'+ itemdata.quantity +'" '+ 
+    '<mcitem class="hovertooltip" identifier="'+ itemdata.item +'" count="'+ itemdata.quantity +'" '+ 
     (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage +'"' : "")
     + ' onclick="copyItem(this)"  width="64px" height="64px" style="font-size:18pt;" '
     + (getFunctionFromData(itemdata, "specific_enchants") ? 'class="enchanted"' : ' ') +'></mcitem>';
@@ -823,8 +813,8 @@ function updateItem(){
   document.getElementById("item-preview").innerHTML = 
     '<mcitem identifier="'+ itemdata.item +'" count="'+ itemdata.quantity +'" '+ 
     (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage +'"' : "")
-    + ' onclick="copyItem(this)" width="64px" height="64px" style="font-size:18pt;" '
-    + (getFunctionFromData(itemdata, "specific_enchants") ? 'class="enchanted"' : ' ') +'></mcitem>';
+    + ' onclick="copyItem(this)" width="64px" height="64px" style="font-size:18pt;" class="' + (!(["minecraft:", ""].includes(itemdata.item)) ? 'hovertooltip ': '')
+    + (getFunctionFromData(itemdata, "specific_enchants") ? 'enchanted"' : '"') +'></mcitem>';
   
   //document.getElementById("item-json").value = JSON.stringify(currentItem, null, 1);
   

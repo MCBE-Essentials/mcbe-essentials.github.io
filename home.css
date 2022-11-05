@@ -135,3 +135,7 @@ html {
     display: inline-block;
   }
 }
+
+.license-button {
+  display: unset;
+}

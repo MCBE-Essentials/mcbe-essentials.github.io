@@ -5,3 +5,14 @@
 .app-main {
   border-spacing: 10px 4px;
 }
+
+@media only screen and (max-width: 800px) {
+  /* Small Square */  
+  .app-node {
+    display: block;
+  }
+  
+  .app-row {
+    height: unset;
+  }
+}

@@ -36,148 +36,9 @@ async function doIdentifiers(){
   }
 }
 
-var allEffects = [
-  "speed",
-  "slowness",
-  "haste",
-  "mining_fatigue",
-  "strength",
-  "instant_health",
-  "instant_damage",
-  "jump_boost",
-  "nausea",
-  "regeneration",
-  "resistance",
-  "fire_resistance",
-  "water_breathing",
-  "invisibility",
-  "blindness",
-  "night_vision",
-  "hunger",
-  "weakness",
-  "poison",
-  "wither",
-  "health_boost",
-  "absorption",
-  "saturation",
-  "levitation",
-  "fatal_poison",
-  "conduit_power",
-  "slow_falling",
-  "bad_omen",
-  "village_hero",
-  "darkness"
-];
+var allEffects = null; (async function(){allEffects = await fetch("/data/effects-list.json").then((result) => {return result.json()});})();
 
-var allTEntities = {
-  BrewingStand: {
-    //https://github.com/bedrock-dot-dev/packs/blob/master/stable/resource/textures/ui/brewing_fuel_empty.png
-    type: "container",
-    slots: 5,
-    slotsDescriptions: [
-      "Ingredient",
-      "Bottle 1",
-      "Bottle 2",
-      "Bottle 3",
-      "Fuel"
-    ]
-  },
-  BlastFurnace: {
-    type: "container",
-    slots: 3,
-    slotsDescriptions: [
-      "Input",
-      "Fuel",
-      "Result"
-    ],
-    furnace: true
-  },
-  Barrel: {
-    type: "container",
-    slots: 27
-  },
-  FlowerPot: {
-    type: "flowerpot"
-  },
-  Dropper: {
-    type: "container",
-    slots: 9
-  },
-  Dispenser: {
-    type: "container",
-    slots: 9
-  },
-  Chest: {
-    type: "container",
-    slots: 27
-  },
-  GlowItemFrame: {
-    type: "container",
-    behavior: "itemframe",
-    slots: 1
-  },
-  ItemFrame: {
-    type: "container",
-    behavior: "itemframe",
-    slots: 1
-  },
-  Hopper: {
-    type: "container",
-    slots: 5 
-  },
-  Furnace: {
-    type: "container",
-    slots: 3,
-    slotsDescriptions: [
-      "Input",
-      "Fuel",
-      "Result"
-    ],
-    furnace: true
-  },
-  //Lectern: {
-  //  type: "container",
-  //  behavior: "lectern",
-  //  slots: 1,
-  //  slotsDescriptions: [
-  //    "Book"
-  //  ]
-  //},
-  Jukebox: {
-    type: "container",
-    behavior: "jukebox",
-    slots: 1,
-    slotsDescriptions: [
-      "Disc"
-    ]
-  },
-  Smoker: {
-    type: "container",
-    slots: 3,
-    slotsDescriptions: [
-      "Input",
-      "Fuel",
-      "Result"
-    ],
-    furnace: true
-  },
-  ShulkerBox: {
-    type: "container",
-    slots: 27
-  },
-  Sign: {
-    type: "sign"
-  },
-  /*StructureBlock: {
-    type: "structureblock"
-  },*/
-  CommandBlock: {
-    type: "commandblock"
-  },
-  MobSpawner: {
-    type: "spawner"
-  }
-};
+var allTEntities = {"BrewingStand":{"type":"container","slots":5,"slotsDescriptions":["Ingredient","Bottle 1","Bottle 2","Bottle 3","Fuel"]},"BlastFurnace":{"type":"container","slots":3,"slotsDescriptions":["Input","Fuel","Result"],"furnace":true},"Barrel":{"type":"container","slots":27},"//ChiseledBookshelf":{"type":"container","slots":6},"FlowerPot":{"type":"flowerpot"},"Dropper":{"type":"container","slots":9},"Dispenser":{"type":"container","slots":9},"Chest":{"type":"container","slots":27},"GlowItemFrame":{"type":"container","behavior":"itemframe","slots":1},"HangingSign":{"type":"sign"},"ItemFrame":{"type":"container","behavior":"itemframe","slots":1},"Hopper":{"type":"container","slots":5},"Furnace":{"type":"container","slots":3,"slotsDescriptions":["Input","Fuel","Result"],"furnace":true},"//Lectern":{"type":"container","behavior":"lectern","slots":1,"slotsDescriptions":["Book"]},"Jukebox":{"type":"container","behavior":"jukebox","slots":1,"slotsDescriptions":["Disc"]},"Smoker":{"type":"container","slots":3,"slotsDescriptions":["Input","Fuel","Result"],"furnace":true},"ShulkerBox":{"type":"container","slots":27},"Sign":{"type":"sign"},"//StructureBlock":{"type":"structureblock"},"CommandBlock":{"type":"commandblock"},"MobSpawner":{"type":"spawner"}}; (async function(){allTEntities = await fetch("/data/tile-entities.json").then((result) => {return result.json()});})();
 
 var texteditor = new JSONEditor(document.getElementById('text-holder'))
 function openTextEditor(){
@@ -219,16 +80,6 @@ function closeEditors(){
   if(document.getElementById("uploader").style.display == "none"){
     document.getElementById("overlay").style.display = "none";
   }
-}
-
-function snackbar(message, delay) {
-  var x = document.getElementById("snackbar");
-  x.innerHTML = message;
-  if(!delay){
-    var delay = 3000;
-  }
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, delay);
 }
 
 function copyJson(){
@@ -942,7 +793,8 @@ function openEditTile(label){
     
     if(doLoop){
       for(var i = 0; i < storageLocation.length; i++){
-        document.getElementById("tilecontainer").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
+        let slot = (storageLocation[i].Slot || {}).value || i;
+        document.getElementById("tilecontainer").children[0].children[0].children[slot].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
       }
     } else {
       document.getElementById("tilecontainer").children[0].children[0].children[0].innerHTML = '<mcitem identifier="'+ storageLocation.Name.value +'" count="'+ storageLocation.Count.value +'" width="25px" height="25px" style="font-size:6pt;" class="nohover"></mcitem>';
@@ -992,7 +844,8 @@ function selectContainerItem(el){
   } else {
     var success = false;
     for(var i = 0; i < currentTileMeta.storageLocation.length; i++){
-      if(currentTileMeta.storageLocation[i].Slot.value == index){
+      let slot = (currentTileMeta.storageLocation[i].Slot || {}).value || i;
+      if(slot == index){
         currentTileItem = currentTileMeta.storageLocation[i];
         success = true;
       }

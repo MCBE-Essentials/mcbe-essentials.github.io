@@ -192,16 +192,9 @@ function createItemElement(invisible, item, quantity, damage, enchanted, itemdat
   } else {
     mcitem.setAttribute("identifier", item);
     mcitem.setAttribute("count", quantity);
-    mcitem.setAttribute("class", "nohover" + (enchanted ? ' enchanted' : ''));
+    mcitem.setAttribute("class", "hovertooltip nohover" + (enchanted ? ' enchanted' : ''));
     if(damage) mcitem.setAttribute("damage", damage);
     if(itemdata) mcitem.setAttribute("itemdata", itemdata);
-    mcitem.onmouseover = function() {
-      showTooltip(this);
-    }
-    
-    mcitem.addEventListener("mouseleave", (e) => {
-      hideTooltip();
-    })
   }
   
   return mcitem;
@@ -243,7 +236,7 @@ var tierNames = [
 	'*',
 ]
 
-document.addEventListener('mousemove', moveTooltip, false);
+/*document.addEventListener('mousemove', moveTooltip, false);
 
 function moveTooltip(e) {
   let tooltip = document.querySelector('.tooltip');
@@ -251,45 +244,41 @@ function moveTooltip(e) {
     tooltip.style.left = e.pageX + 'px';
     tooltip.style.top = e.pageY + 'px';
   }
-}
+}*/
 
-function showTooltip(element){
+mcitems.tooltip.show = function(element){
   let tooltip = document.querySelector('.tooltip')
-  
+
   var itemdata = JSON.parse(element.getAttribute("itemdata"));
-  
+
   let itemname = ((getFunction('set_name', 'name', itemdata) != false) ? getFunction('set_name', 'name', itemdata) : (element.children[0].getAttribute("data-title") != element.getAttribute("identifier") ? element.children[0].getAttribute("data-title") : "Unknown Name"));
   let customitemname = (getFunction('set_name', 'name', itemdata) != false);
   let itemenchs = doEnchantments(itemdata);
   let itemlore = ((getFunction('set_lore', 'lore', itemdata) != false) ? getFunction('set_lore', 'lore', itemdata).join("<br>") : false)
   let itemid = element.getAttribute("identifier")
-  
+
   document.querySelector('.tooltip-name').innerHTML = itemname;
   if(customitemname){
     document.querySelector('.tooltip-name').style.fontStyle = 'italic'
   } else {
     document.querySelector('.tooltip-name').style.fontStyle = 'unset'
   }
-  
+
   if(itemenchs === false){
     document.querySelector('.tooltip-enchs').innerHTML = "";
   } else {
     document.querySelector('.tooltip-enchs').innerHTML = itemenchs;
   }
-  
+
   if(itemlore === false){
     document.querySelector('.tooltip-lore').innerHTML = "";
   } else {
     document.querySelector('.tooltip-lore').innerHTML = itemlore;
   }
   document.querySelector('.tooltip-identifier').innerHTML = itemid;
-  
-  tooltip.style.display = 'block';  
-}
 
-function hideTooltip(){
-  document.querySelector('.tooltip').style.display = 'none';
-}
+  tooltip.style.display = 'block';  
+};
 
 function toggleShowIds(elem){
   document.querySelector('.tooltip-identifier').style.display = (elem.checked ? 'block' : 'none');
@@ -350,57 +339,6 @@ function doEnchantments(itemdata){
   return output; //"Aqua Affinity I<br>Unbreaking III"
 }
 
-var enchantNames = {
-  "aqua_affinity": {"numeric": 0, "name":"Aqua Affinity", "maxLevel": 1, "treasure":false, "gear": true},
-  "bane_of_arthropods": {"numeric": 0, "name":"Bane of Arthropods", "maxLevel": 5, "treasure":false, "gear": false},
-  "binding": {"numeric": 0, "name":"Curse of Binding", "maxLevel": 1, "treasure":true, "gear": true, "curse": true},
-  "blast_protection": {"numeric": 0, "name":"Blast Protection", "maxLevel": 4, "treasure":false, "gear": true},
-  "channeling": {"numeric": 0, "name":"Channeling", "maxLevel": 1, "treasure":false, "gear": false},
-  "depth_strider": {"numeric": 0, "name":"Depth Strider", "maxLevel": 3, "treasure":false, "gear": false},
-  "efficiency": {"numeric": 0, "name":"Efficiency", "maxLevel": 5, "treasure":false, "gear": false},
-  "feather_falling": {"numeric": 0, "name":"Feather Falling", "maxLevel": 4, "treasure":false, "gear": false},
-  "fire_aspect": {"numeric": 0, "name":"Fire Aspect", "maxLevel": 2, "treasure":false, "gear": false},
-  "fire_protection": {"numeric": 0, "name":"Fire Protection", "maxLevel": 4, "treasure":false, "gear": false},
-  "flame": {"numeric": 0, "name":"Flame", "maxLevel": 1, "treasure":false, "gear": false},
-  "fortune": {"numeric": 0, "name":"Fortune", "maxLevel": 3, "treasure":false, "gear": false},
-  "frost_walker": {"numeric": 0, "name":"Frost Walker", "maxLevel": 2, "treasure":true, "gear": false},
-  "impaling": {"numeric": 0, "name":"Impaling", "maxLevel": 5, "treasure":false, "gear": false},
-  "infinity": {"numeric": 0, "name":"Infinity", "maxLevel": 1, "treasure":false, "gear": false},
-  "knockback": {"numeric": 0, "name":"Knockback", "maxLevel": 2, "treasure":false, "gear": false},
-  "looting": {"numeric": 0, "name":"Looting", "maxLevel": 3, "treasure":false, "gear": false},
-  "loyalty": {"numeric": 0, "name":"Loyalty", "maxLevel": 3, "treasure":false, "gear": false},
-  "luck_of_the_sea": {"numeric": 0, "name":"Luck of the Sea", "maxLevel": 3, "treasure":false, "gear": false},
-  "lure": {"numeric": 0, "name":"Lure", "maxLevel": 3, "treasure":false, "gear": false},
-  "mending": {"numeric": 0, "name":"Mending", "maxLevel": 1, "treasure":true, "gear": false},
-  "multishot": {"numeric": 0, "name":"Multishot", "maxLevel": 1, "treasure":false, "gear": false},
-  "piercing": {"numeric": 0, "name":"Piercing", "maxLevel": 4, "treasure":false, "gear": false},
-  "power": {"numeric": 0, "name":"Power", "maxLevel": 5, "treasure":false, "gear": false},
-  "projectile_protection":{"name":"Projectile Protection", "maxLevel": 4, "treasure":false, "gear": false},
-  "protection": {"numeric": 0, "name":"Protection", "maxLevel": 4, "treasure":false, "gear": false},
-  "punch": {"numeric": 0, "name":"Punch", "maxLevel": 2, "treasure":false, "gear": false},
-  "quick_charge": {"numeric": 0, "name":"Quick Charge", "maxLevel": 3, "treasure":false, "gear": false},
-  "respiration": {"numeric": 0, "name":"Respiration", "maxLevel": 3, "treasure":false, "gear": false},
-  "riptide": {"numeric": 0, "name":"Riptide", "maxLevel": 3, "treasure":false, "gear": false},
-  "sharpness": {"numeric": 0, "name":"Sharpness", "maxLevel": 5, "treasure":false, "gear": false},
-  "silk_touch": {"numeric": 0, "name":"Silk Touch", "maxLevel": 1, "treasure":false, "gear": false},
-  "smite": {"numeric": 0, "name":"Smite", "maxLevel": 5, "treasure":false, "gear": false},
-  "soul_speed": {"numeric": 0, "name":"Soul Speed", "maxLevel": 3, "treasure":true, "gear": false, villagerExempt: true},
-  "swift_sneak": {"numeric": 0, "name":"Swift Sneak", "maxLevel": 3, "treasure":true, "gear": false, villagerExempt: true},
-  "thorns": {"numeric": 0, "name":"Thorns", "maxLevel": 3, "treasure":false, "gear": false},
-  "unbreaking": {"numeric": 0, "name":"Unbreaking", "maxLevel": 3, "treasure":false, "gear": false},
-  "vanishing": {"numeric": 0, "name":"Curse of Vanishing", "maxLevel": 1, "treasure":true, "gear": true, "curse": true}
-};
+var enchantNames = null; (async function(){enchantNames = await fetch("/data/enchantments.json").then((result) => {return result.json()});})();
 
-var enchantNumerals = [
-  '0',
-  'I',
-  'II',
-  'III',
-  'IV',
-  'V',
-  'VI',
-  'VII',
-  'VIII',
-  'IX',
-  'X'
-]
+var enchantNumerals = null; (async function(){enchantNumerals = await fetch("/data/numerals.json").then((result) => {return result.json()});})();

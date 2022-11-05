@@ -5,9 +5,9 @@
 }
 
 .layers-list div {
-  text-align: left;
+  text-align: /*left*/center;
   margin-bottom: 2px;
-  max-height: 55px;
+  /*max-height: 55px;*/
 }
 
 .layers-list div mcitem {

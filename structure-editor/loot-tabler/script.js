@@ -8,7 +8,7 @@ var structure = {};
 var tileentities = {};
 var currentTile = false;
 var currentTileMeta = false;
-document.getElementById("file").addEventListener("change", function(){
+/*document.getElementById("file").addEventListener("change", function(){
   if(this.files && this.files[0]){
     var fr = new FileReader();
     fr.onload = function(e){
@@ -24,7 +24,20 @@ document.getElementById("file").addEventListener("change", function(){
     //Set global variable "filename" for use in exporting later
     filename = document.getElementById("file").files[0].name.split(".")[0];
   }
-});
+});*/
+
+var importedData, filename;
+function parseImportedData(file){
+  console.log(importedData)
+  nbt.parse(Buffer.from(importedData)).then(function(data){
+    structure = data.parsed;
+    document.getElementById("upload").style.display = "none";
+    document.getElementById("download").style.display = "inline-block";
+    structureToEditor();
+  });
+  
+  filename = file.name;
+}
 
 function structureToEditor(){
   
@@ -139,7 +152,7 @@ function openEditTile(label){
     storageLocation = currentTile.value.block_entity_data.value.Items.value.value;
     
     for(var i = 0; i < storageLocation.length; i++){
-      document.getElementById("tilecontainer").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;cursor:unset;" class="nohover"></mcitem>';
+      document.getElementById("tilecontainer").children[0].children[0].children[storageLocation[i].Slot.value].innerHTML = '<mcitem identifier="'+ storageLocation[i].Name.value +'" count="'+ storageLocation[i].Count.value +'" width="25px" height="25px" style="font-size:6pt;cursor:unset;" class="nohover hovertooltip"></mcitem>';
     }
     mcitems.init();
     currentTileMeta.storageLocation = storageLocation;
@@ -185,7 +198,7 @@ for(var i = 0; i < 27; i++){
 }
 
 function downloadStructure(){
-  saveAs(new File([nbt.writeUncompressed(structure, 'little')], "hello.mcstructure"), document.getElementById("file").files[0].name);
+  exportFile(new File([nbt.writeUncompressed(structure, 'little')], "hello.mcstructure"), filename);
 }
 
 function createTable(container){

@@ -227,3 +227,7 @@ input:checked + .slider:after {
   border-color: #37d61e #037300 #037300 #37d61e;
   outline: 2px solid white;
 }
+
+:root {
+  --slot-bakground: #8b8b8b;
+}

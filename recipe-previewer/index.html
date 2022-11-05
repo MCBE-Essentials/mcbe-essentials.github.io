@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Recipe Preview</title>
+    
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/item/style.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/minecraft-ui.css">
+    
+    <script src="script.js" defer></script>
+		<script src="/item/script.js" defer></script>
+    <script src="/filesaver.js"></script>
+    <script src="/js/datahandler.js" defer></script>
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <input id="dataFileInput" type="file" style="display: none;" readertype="text" accept=".json">
+    <table class="recipe-menu">
+      <tbody>
+        <tr>
+          <td class="options">
+            <div class="options-inner">
+              <label for="dataFileInput" class="mc-button import-button" style="font-size: 10pt;">Import File</label><br><br>
+              
+              <span id="recipe-title" class="recipe-title">Import a recipe file to get started!</span>
+              <table class="crafting-2x2 crafting-type">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                            <td class="slot">
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                            <td class="slot">
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <img class="trade-arrow" src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png">
+                    </td>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="crafting-table-3x3 crafting-type" id="crafting-table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot"></td>
+                            <td class="slot"></td>
+                            <td class="slot"></td>
+                          </tr>
+                          <tr>
+                            <td class="slot"></td>
+                            <td class="slot"></td>
+                            <td class="slot"></td>
+                          </tr>
+                          <tr>
+                            <td class="slot"></td>
+                            <td class="slot"></td>
+                            <td class="slot"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <img class="trade-arrow" src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png">
+                    </td>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot big-slot">
+                              
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="furnace crafting-type">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="flame-holder">
+                              <img class="flame" src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/flame_full_image.png">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="slot nohover">
+                              <!--<mcitem identifier="minecraft:bucket" count="1" width="40px" height="40px" class="nohover"></mcitem>-->
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td class="arrow-holder">
+                      <img class="trade-arrow" src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png">
+                    </td>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot big-slot">
+                              
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="mock-brewing crafting-type">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                            <td class="slot">
+                              
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td class="arrow-holder">
+                      <img class="trade-arrow" src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png">
+                    </td>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="stonecutter crafting-type">
+                <tbody>
+                  <tr>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td class="arrow-holder">
+                      <img class="trade-arrow" src="https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png">
+                    </td>
+                    <td>
+                      <table class="grid">
+                        <tbody>
+                          <tr>
+                            <td class="slot">
+                              
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+<div class="tooltip" style="display: none;">
+  <span class="tooltip-name" style="display: block">Item Name</span>
+  <span class="tooltip-enchs" style="display: block">Efficiency V</span>
+  <span class="tooltip-lore" style="display: block">Lore</span>
+  <span class="tooltip-identifier">minecraft:identifier</span>
+  
+</div>

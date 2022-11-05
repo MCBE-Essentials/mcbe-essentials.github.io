@@ -18,6 +18,7 @@
 */
 
 function importFile(file, projectVariable, readertype, callback){
+  
   var reader = new FileReader();
   reader.onload = function(e){
     window[projectVariable] = e.target.result;
@@ -36,6 +37,11 @@ function importFile(file, projectVariable, readertype, callback){
       break;
     case 'arraybuffer/text':
       //Unique to Structure Editor, this will read as text if a JSON file is imported, but read as ArrayBuffer if any other type is imported.
+      if(window.location.pathname === "/structure-editor/"){
+        //Show loading button
+        document.getElementById("loading2").style.display = "block";
+        document.getElementById("upload2").style.display = "none";
+      }
       console.log(file);
       if(file.name.endsWith(".json")){
         reader.readAsText(file);
@@ -57,13 +63,16 @@ if(!window.saveAs){
   document.head.appendChild(sa);
 }
 
-function exportFile(file, name){
+function exportFile(file, name, custombridgepath){
   //The user is attempting to save the file. 
   if(window.iapi && window.bridge.openedFile && window.bridge.connected){
     //Bridge. is connected. Intercept the file and send it to bridge. instead of downloading it to your computer
     file.arrayBuffer().then(buff => {
       let filearray = new Uint8Array(buff);
-      iapi.trigger('fs.writeFile', { filePath: window.bridge.openedFile, data: filearray })
+      let bridgepath = custombridgepath || window.bridge.openedFile
+      iapi.trigger('fs.writeFile', { filePath: bridgepath, data: filearray }).then(function(){
+        snackbar('File has been saved to bridge.');
+      })
     });
   } else {
     //Downloads the file using the FileSaver API.
@@ -95,21 +104,18 @@ function changeExportButton(){
     }
   }
   
+  //Structure Editor
   if(document.querySelector(".export-type")){
     document.querySelector(".export-type").style.display = "none";
   }
 }
 
-window.addEventListener('load', function(){
-  if(window.parent != window){
-    //Connect to bridge.
-    var bridgescript = document.createElement("script");
-    bridgescript.type = "module";
-    bridgescript.src = "/js/bridge-connect.js";
-    bridgescript.defer = true;
-    bridgescript.id = "-bridge-connect";
-    document.head.appendChild(bridgescript);
-    
-    //Swap import/export buttons for bImport and bExport
-  }
-});
+if(window.parent != window){
+  //Connect to bridge.
+  var bridgescript = document.createElement("script");
+  bridgescript.type = "module";
+  bridgescript.src = "/js/bridge-connect.js";
+  bridgescript.defer = true;
+  bridgescript.id = "-bridge-connect";
+  document.head.appendChild(bridgescript);
+}

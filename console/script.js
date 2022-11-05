@@ -54,3 +54,9 @@ function addNewStylesheet(){
   opener.document.head.appendChild(tag);
   getStylesheets();
 }
+
+async function importPresetFile(selection){
+  let file = null;
+  file = new File([await fetch(selection.value).then(response => {return response.arrayBuffer()})], "default-featuretest")
+  opener.importFile(file, 'importedData', opener.readertype, opener.parseImportedData);
+}
