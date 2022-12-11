@@ -37,11 +37,11 @@ document.getElementById("file").addEventListener("change", function(){
       function(zip){
         masterzip = zip;
         if(!Object.keys(masterzip.files).includes("level.dat")){
-          alert("Upload failed: World is missing a level.dat file.");
+          alert("Upload failed: World is missing a level.dat file.\n\nMake sure that the file is at the top level of the archive (e.g. it's not in a folder within your archive).");
           return;
         }
         if(!Object.keys(masterzip.files).includes("levelname.txt")){
-          alert("Upload failed: World is missing a levelname.txt file.");
+          alert("Upload failed: World is missing a levelname.txt file.\n\nMake sure that the file is at the top level of the archive (e.g. it's not in a folder within your archive).");
           return;
         }
         /*if(!Object.keys(masterzip.files).includes("world_icon.jpeg")){
@@ -152,7 +152,7 @@ function openWorldSettings(){
       document.getElementById("world-icon").src = "data:image/jpeg;base64," + result;
     });
   } else {
-    document.getElementById("world-icon").src = "https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/WorldDemoScreen_Big_Grayscale.png";
+    document.getElementById("world-icon").src = "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/WorldDemoScreen_Big_Grayscale.png";
   }
   document.getElementById("ws-name").value = leveldat.value.LevelName.value;
   document.getElementById("ws-seed").innerHTML = leveldat.value.RandomSeed.value.valueOf().toString();
@@ -388,7 +388,7 @@ function processProject(){
       document.getElementById("world-icon").src = "data:image/jpeg;base64," + result;
     });
   } else {
-    document.getElementById("world-icon").src = "https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/WorldDemoScreen_Big_Grayscale.png";
+    document.getElementById("world-icon").src = "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/WorldDemoScreen_Big_Grayscale.png";
   }
 }
 
@@ -641,6 +641,7 @@ function updateVersion(toUpdate, value){
   }
   
   toUpdate = value;
+  return value;
 }
 
 function parseLanguage(language){
@@ -662,8 +663,8 @@ function parseLanguage(language){
 }
 
 function updateManifest(){
-  updateVersion(currentPack.header.version, document.getElementById("pack-version").value);
-  updateVersion(currentPack.header.min_engine_version, document.getElementById("pack-me-version").value);
+  currentPack.header.version = updateVersion(currentPack.header.version, document.getElementById("pack-version").value);
+  currentPack.header.min_engine_version = updateVersion(currentPack.header.min_engine_version, document.getElementById("pack-me-version").value);
   
   currentPack.header.name = document.getElementById("pack-title").value;
   currentPack.header.description = document.getElementById("pack-desc").value;
@@ -820,9 +821,9 @@ function writeWT(){
   masterzip.file("manifest.json").async("text").then(function(result){
     result = JSON.parse(result);
     if(!result.header.base_game_version){
-      result.header.base_game_version = [1, 10, 0];
+      result.header.base_game_version = [1, 19, 0];
     }
-    updateVersion(result.header.base_game_version, document.getElementById("wt-version").value);
+    result.header.base_game_version = updateVersion(result.header.base_game_version, document.getElementById("wt-version").value);
     result.header.lock_template_options = document.getElementById("wt-lock").checked;
     result.header.name = document.getElementById("wt-title").value;
     result.header.description = document.getElementById("wt-desc").value;
