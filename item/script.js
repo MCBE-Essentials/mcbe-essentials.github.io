@@ -224,6 +224,7 @@ var mcitems = {
       if(item.hasAttribute('damage') && (Object.keys(mcitems.data.durabilities).includes(item.getAttribute('identifier')))){
         damage = document.createElement('progress');
         damage.setAttribute('class', 'mcitemdamage');
+        damage.setAttribute('value', ((mcitems.data.durabilities[item.getAttribute('identifier')] - (parseFloat(item.getAttribute('damage')))) / mcitems.data.durabilities[item.getAttribute('identifier')]).toString());
       }
       
       item.appendChild(image);
@@ -243,6 +244,24 @@ var mcitems = {
         })
       }
     }
+    
+    //Render dynamic slots
+    mcitems.dynamicslots()
+    
+    //Fire afterfunction
+    if(window.afterItemInit){
+      window.afterItemInit()
+    }
+  },
+  dynamicslots: function(){
+    for(let dynamic of document.getElementsByClassName("dynamic-slot")){
+      let bgUrl = dynamic.getAttribute("empty-url") || false;
+      if(dynamic.childElementCount == 0 && bgUrl){
+        dynamic.style.backgroundImage = "url("+ bgUrl +")"
+      } else {
+        dynamic.style.backgroundImage = ""
+      }
+    }
   },
 	getData: function (identifier, allowlist) {
 		var items = Object.keys(mcitems.data.items.items || {})
@@ -250,7 +269,7 @@ var mcitems = {
     //Default, 'failed' output
 		var output = {
 			texture:
-				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png',
+				'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/empty_armor_slot_shield.png',
 			readable: 'Unknown',
 		}
 
@@ -277,12 +296,12 @@ var mcitems = {
 		} else if (identifier == 'null' || !identifier) {
 			//No item to display, render partially transparent.
 			output.texture =
-				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_chestplate.png'
+				'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/empty_armor_slot_chestplate.png'
 			output.readable = 'No item'
 		} else {
 			//Invalid, take other data
 			output.texture =
-				'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png'
+				'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/empty_armor_slot_shield.png'
 			output.readable = identifier
 			//if(!identifier.includes("element")) console.log(identifier);
 		}
@@ -364,7 +383,7 @@ var mcitems = {
       let customitemname = false;
       let itemenchs = false//doEnchantments(itemdata);
       let itemlore = false//((getFunction('set_lore', 'lore', itemdata) != false) ? getFunction('set_lore', 'lore', itemdata).join("<br>") : false)
-      let itemid = element.getAttribute("identifier")
+      let itemid = element.getAttribute("identifier");
 
       document.querySelector('.tooltip-name').innerHTML = itemname;
       if(customitemname){

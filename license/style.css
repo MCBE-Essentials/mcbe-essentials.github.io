@@ -1,0 +1,9 @@
+.left-inner .license-button {
+  background-color: var(--button-green);
+  color: black;
+}
+
+.left-inner .license-button:hover {
+  background-color: var(--button-green);
+  color: black;
+}

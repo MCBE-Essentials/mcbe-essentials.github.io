@@ -1,20 +1,26 @@
 onmessage = async function(e) {
   let options = e.data;
-  structure = options.structure;
-  let result = await structureToFunction(
-    options.tiles,
-    options.air,
-    options.waterlog,
-    options.blockstates,
-    options.tilecontainerloot,
-    options.entities,
-    options.entityrot,
-    options.entityloot
-  );
-  postMessage(result);
+  tempstructure = options.structure;
+  let result = '#There was an error converting your structure file. Please read the logs and contact ReBrainerTV on discord.'
+  try {
+    result = await structureToFunction(
+      options.tiles,
+      options.air,
+      options.waterlog,
+      options.blockstates,
+      options.tilecontainerloot,
+      options.entities,
+      options.entityrot,
+      options.entityloot
+    );
+  } catch(err) {
+    postMessage({type: 'progress', message: 'ERROR: An error has occured in conversion. Please send a screenshot of the following message along with your structure file to ReBrainerTV on the MCBE Essentials discord server (link in sidebar).'});
+    postMessage({type: 'progress', message: 'ERROR: ' + err});
+  }
+  postMessage({type: 'result', data: result});
 }
 
-let structure = {};
+let tempstructure = {};
 
 var armor = ["slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet"];
 
@@ -48,10 +54,12 @@ function getFunctionEntityCoords([worldX, worldY, worldZ], [x, y, z]){
 
 async function convertTiles(indicies_index, placeAir, size, keepStates){
   var commands = [];
-  var blockIdentifiers = structure.value.structure.value.block_indices.value.value[indicies_index].value;
-  var palette = structure.value.structure.value.palette.value.default.value.block_palette.value.value;
+  var blockIdentifiers = tempstructure.value.structure.value.block_indices.value.value[indicies_index].value;
+  var palette = tempstructure.value.structure.value.palette.value.default.value.block_palette.value.value;
   
   var unsortedTiles = [];
+  postMessage({type: 'progress', message: 'Indexing '+ blockIdentifiers.length +' blocks...'})
+  let indexprogresses = [];
   for(var i = 0; i < blockIdentifiers.length; i++){
     var tileCoords = getFunctionBlockCoords(size, i);
     var newEntry = {
@@ -60,13 +68,19 @@ async function convertTiles(indicies_index, placeAir, size, keepStates){
       z: tileCoords[2],
       palette: blockIdentifiers[i]
     };
+    if(Math.floor((i / blockIdentifiers.length) * 100) % 10 === 0 && Math.floor((i / blockIdentifiers.length) * 100) !== 0 && !indexprogresses.includes(Math.floor((i / blockIdentifiers.length) * 100))){
+      postMessage({type: 'progress', message: 'Indexing '+ Math.floor((i / blockIdentifiers.length) * 100) +'% complete'})
+      indexprogresses.push(Math.floor((i / blockIdentifiers.length) * 100))
+    }
     unsortedTiles.push(newEntry);
   }
+  postMessage({type: 'progress', message: 'Finished indexing blocks in this layer'})
   
   var shapes = [];
   var currentShape = -1;
   var sortedTiles = JSON.parse(JSON.stringify(unsortedTiles));
   //Create shapes based off model tiles. Determine which tiles belong to which shapes.
+  postMessage({type: 'progress', message: 'Sorting tiles into fill command shapes...'})
   while (sortedTiles.length > 1/* && currentShape < 1000*/){
     currentShape++;
     shapes.push([]);
@@ -171,10 +185,13 @@ async function convertTiles(indicies_index, placeAir, size, keepStates){
         }
       }
     }
-    console.log(shapes[currentShape])
+    //console.log(shapes[currentShape])
+    postMessage({type: 'progress', message: 'Found shape containing ' + shapes[currentShape].length + ' blocks'})
   }
+  postMessage({type: 'progress', message: 'Finished identifying shapes in this layer'})
   
   //Transform all shapes into fill commands
+  postMessage({type: 'progress', message: 'Converting shapes to commands'})
   for(var i = 0; i < shapes.length; i++){
     var currentShape = shapes[i];
     var tilePalette = shapes[i][0].palette;
@@ -226,6 +243,7 @@ async function convertTiles(indicies_index, placeAir, size, keepStates){
       }
     }
   }
+  postMessage({type: 'progress', message: 'Finished converting all shapes to commands for this layer.'})
   
   return commands;
 }
@@ -266,14 +284,18 @@ function getLowestEntry(list, size){
   return lowestEntry;
 }
 
-async function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, tileContainerItems, includeEntities, entityRotation, entityEquiptment){
+async function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, tileContainerItems, includeEntities, entityRotation, entityEquiptment, structureoverride = false){
+  if(structureoverride) tempstructure = structureoverride;
+  
   var output = ["#Generated with ReBrainer's Structure to Function Converter at https://mcbe-essentials.glitch.me/structure-to-function/ on " + new Date()];
-  var size = structure.value.size.value.value;
-  var structure_world_origin = structure.value.structure_world_origin.value.value;  
+  var size = tempstructure.value.size.value.value;
+  var structure_world_origin = tempstructure.value.structure_world_origin.value.value;  
+  
   //Entities
-  var entities = structure.value.structure.value.entities.value.value;
-  if(structure.value.structure.value.entities.value.type != "end" && includeEntities){
+  var entities = tempstructure.value.structure.value.entities.value.value;
+  if(tempstructure.value.structure.value.entities.value.type != "end" && includeEntities){
     output.push("#Entities");
+    postMessage({type: 'progress', message: 'Converting entities...'})
     for(var i = 0; i < entities.length; i++){
       //Entities
       var coords = getFunctionEntityCoords(structure_world_origin, entities[i].Pos.value.value);
@@ -314,39 +336,52 @@ async function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepSt
       if(entityRotation){
         output.push("execute @e[type="+entities[i].identifier.value+",x=~"+coords[0]+",y=~"+coords[1]+",z=~"+coords[2]+",r=1,c=1] ~~~ /tp @s ~ ~ ~ " + entities[i].Rotation.value.value.join(" "));
       }
+      
+      postMessage({type: 'progress', message: 'Finished converting entity ('+ (i+1) +'/'+ entities.length +')'})
     }
+    postMessage({type: 'progress', message: 'Finished converting all entities'})
   }
   
   //Tile Entities
   if(tileContainerItems){
+    postMessage({type: 'progress', message: 'Converting tile entities...'})
     output.push("#Tile Entities");
-    var tileEntityData = structure.value.structure.value.palette.value.default.value.block_position_data.value;
+    var tileEntityData = tempstructure.value.structure.value.palette.value.default.value.block_position_data.value;
     var tileentities = Object.keys(tileEntityData);
     for(var i = 0; i < tileentities.length; i++){
+      if(!tileEntityData[tileentities[i]].value.hasOwnProperty("block_entity_data")) break;
       var tile = tileEntityData[tileentities[i]].value.block_entity_data.value;
       var tilecoords = getFunctionEntityCoords(structure_world_origin, [tile.x.value, tile.y.value, tile.z.value]);
       if(tile.Items){
         var tileitems = tile.Items.value.value;
         for(var a = 0; a < tileitems.length; a++){
           if(tileitems[a].Name.value != ""){
-           output.push("replaceitem block " + getRelativeCoords(tilecoords) + " slot.container " + tileitems[a].Slot.value + " " + tileitems[a].Name.value + " " + tileitems[a].Count.value + " " + tileitems[a].Damage.value);
+           output.push("replaceitem block " + getRelativeCoords(tilecoords) + " slot.container " + (tileitems[a].hasOwnProperty("Slot") ? tileitems[a].Slot.value : a) + " " + tileitems[a].Name.value + " " + tileitems[a].Count.value + " " + tileitems[a].Damage.value);
           }
         }
       }
+      postMessage({type: 'progress', message: 'Finished converting tile entity ('+ (i+1) +'/'+ tileentities.length +')'})
     }
+    postMessage({type: 'progress', message: 'Finished converting tile entities'})
   }
   
   //Blocks (waterlog layer)
-  if(keepWaterlog){
+  if(keepWaterlog && includeBlocks){
+    postMessage({type: 'progress', message: 'Converting waterlog block layer...'})
     output.push("#Blocks (blocklog layer)");
     output = output.concat(await convertTiles(1, placeAir, size, keepStates));
+    postMessage({type: 'progress', message: 'Finished converting waterlog layer'})
   }
   
   //Blocks (main layer)
   if(includeBlocks){
+    postMessage({type: 'progress', message: 'Converting main block layer...'})
     output.push("#Blocks (default layer)");
     output = output.concat(await convertTiles(0, placeAir, size, keepStates));
+    postMessage({type: 'progress', message: 'Finished converting main block layer'})
   }
+  
+  postMessage({type: 'progress', message: 'Conversion finished. Creating file...'})
   
   return output.join("\n");
 }

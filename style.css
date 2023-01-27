@@ -27,6 +27,7 @@
   --sidebar-background: #312948;
   --menu-button-closed-background: #312948f0;
   --sidebar-button-background: var(--topbar-background);
+  --app-main-base-background: #2d2a3b;
   
   --app-inner-background: #4b4a5c;
   --app-inner-inner-background: #5f5e70;
@@ -232,9 +233,9 @@
   height:1px;
 }
 
-.license-button {
+/*.license-button {
   display: none;
-}
+}*/
 
 body {
   margin: 0px;
@@ -258,11 +259,20 @@ html {
   min-height: 100%;
 }
 
-a[href] {
-  background-color: rgba(255,255,255,0.3);
-  padding: 0px 4px;
-  border-radius: 5px;
-  color: #82f782;
+.search-box {
+  width: calc(100% - 15px);
+  height: 20px;
+  border-radius: 100px;
+  padding: 5px 5px;
+  font-family: Minecraftia;
+  text-indent: 5px;
+  background-image: url(https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2FmagnifyingGlass.png?v=1617471794543);
+  background-repeat: no-repeat;
+  background-size: 22px;
+  image-rendering: pixelated;
+  background-position: 8px 6px;
+  text-indent: 30px;
+  border: thin solid black;
 }
 
 .app-input {
@@ -279,7 +289,18 @@ select.app-input {
   border-radius: 0;
 }
 
-.smalltag {padding: 2px 4px; font-size: 10px; border-radius: 6px;}
+.smalltag {
+  padding: 2px 4px;
+  font-size: 10px;
+  border-radius: 6px;
+}
+
+.small-tag-group {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
 
 .imgicon {
   position: relative;
@@ -331,6 +352,19 @@ button.generate-button {
   padding: 5px 20px;
 }
 
+
+.scroll-button {
+  font-family: Minecraftia;
+  padding: 4px 13px 7px 13px;
+  cursor: pointer;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.scroll-button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
 .imgicontext {
   font-family: 'Minecraftia';
   cursor: pointer;
@@ -368,7 +402,7 @@ button.generate-button {
   cursor: pointer;
 }
 
-.left-inner button {
+.left-inner .navleft-button {
   font-size: 15pt;
   cursor: pointer;
   border: none;
@@ -384,7 +418,7 @@ button.generate-button {
   color: var(--font-color);
 }
 
-.left-inner button:hover {
+.left-inner .navleft-button:hover {
   padding: 8px 0px;
   margin-top: 12px;
   box-shadow: #050508 0px 7px 18px 2px;
@@ -483,6 +517,8 @@ button.generate-button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none;
+  display: list-item;
 }
 
 .left-inner .app-label {
@@ -490,8 +526,12 @@ button.generate-button {
   border-radius: unset;
 }
 
+.app-label .show-selected {
+  display: none;
+}
+
 .app-label:hover {
-  color: var(--category-hover-foreground);;
+  color: var(--category-hover-foreground);
   background-color: var(--category-hover-background);
   box-shadow: inset -3px 5px 4px 0px lightgrey;
 }
@@ -500,6 +540,14 @@ button.generate-button {
   background-color: #82f782;
   color: #1a1a2c;
   box-shadow: unset;
+}
+
+.app-label.selected .hide-selected {
+  display: none;
+}
+
+.app-label.selected .show-selected {
+  display: unset;
 }
 
 .category-list {
@@ -540,6 +588,20 @@ li > ul {
   font-size: 10pt;
 }
 
+a[href]:not(.app-label) {
+  background-color: rgba(255,255,255,0.3);
+  padding: 0px 4px;
+  border-radius: 5px;
+}
+
+a[href]:not(.app-label):not(.warningmsg a[href]) {
+  color: #82f782;
+}
+
+.warningmsg a[href] {
+  color: var(--lightest-background);
+}
+
 .idlabel {
   text-overflow: clip;
   font-size:9pt;
@@ -552,6 +614,34 @@ li > ul {
 
 .idlabel:hover {
   background-color:#ffffff24;
+}
+
+.horizontal-select div {
+  display: inline-block;
+  width: 50%;
+  background-color: var(--app-main-base-background);
+  padding: 5px 0px;
+  cursor: pointer;
+}
+
+.horizontal-select div:nth-child(1) {
+  border-radius: 10px 0px 0px 10px;
+}
+
+.horizontal-select div:last-child {
+  border-radius: 0px 10px 10px 0px;
+}
+
+.horizontal-select div.selected {
+  background-color: var(--app-inner-inner-background);
+}
+
+.horizontal-select {
+  display: inline-block;
+  width: 25%;
+  position: absolute;
+  left: 0;
+  bottom: -7px;
 }
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
@@ -604,6 +694,13 @@ li > ul {
 
 .show-mobile {
   display: none;
+}
+
+h1 {
+  font-family: MinecraftTen;
+  font-weight: normal;
+  font-size: 3em;
+  filter: drop-shadow(-2px -2px 6px black) drop-shadow(2px 4px 6px black);
 }
 
 /*
@@ -827,6 +924,10 @@ li > ul {
   .app-row {
     height: unset;
   }
+  
+  h1 {
+    font-size: 2.2em;
+  }
 }
 
 .embedded-frame .devviewstable {
@@ -903,13 +1004,6 @@ li > ul {
   margin-top: 10px;
   position:absolute;
   text-indent: 15px;
-}
-
-h1 {
-  font-family: MinecraftTen;
-  font-weight: normal;
-  font-size: 3em;
-  filter: drop-shadow(-2px -2px 6px black) drop-shadow(2px 4px 6px black);
 }
 
 @font-face {

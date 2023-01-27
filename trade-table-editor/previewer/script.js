@@ -8,7 +8,7 @@
 */
 var preload = new Image()
 preload.src =
-	'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png'
+	'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/arrow_dark_right.png'
 
 function tradeTableLoaded(tradeTable) {
   //Set the "current table" variable to the entered value in the function in case the table was not loaded via a file

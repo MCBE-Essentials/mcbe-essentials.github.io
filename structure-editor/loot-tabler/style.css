@@ -8,3 +8,11 @@
   border-top-color: black;
   border-left-color: black;
 }
+
+.idlabel:hover {
+  background-color: #ffffff24;
+}
+
+.idlabel.selected {
+  border: 1px solid white;
+}

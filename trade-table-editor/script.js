@@ -271,7 +271,7 @@ function selectGroup(el, forceOpen){
 function correctTrade(tradeEl, tradedata){
   tradeEl.innerHTML = "";
   tradeEl.innerHTML += '<mcitem identifier="'+ tradedata.wants[0].item +'" count="'+ tradedata.wants[0].quantity +'" '+ 
-    (getFunctionFromData(tradedata.wants[0], "set_damage") ? 'damage="'+ getFunctionFromData(tradedata.wants[0], "set_damage").damage +'"' : "")
+    (getFunctionFromData(tradedata.wants[0], "set_damage") ? 'damage="'+ getFunctionFromData(tradedata.wants[0], "set_damage").damage.min +'"' : "")
     +' itemtype="wants[0]" onclick="editItem(this)" '+ (getFunctionFromData(tradedata.wants[0], "specific_enchants") ? 'class="enchanted"' : "") +'></mcitem>';
   if(tradedata.wants[1]){
     if(!tradedata.wants[1].quantity || tradedata.wants[1].quantity < 1){tradedata.wants[1].quantity = 1;}
@@ -283,7 +283,7 @@ function correctTrade(tradeEl, tradedata){
     }
     tradeEl.innerHTML += ' + ';
     tradeEl.innerHTML += '<mcitem identifier="'+ tradedata.wants[1].item +'" count="'+ tradedata.wants[1].quantity +'" '+ 
-    (getFunctionFromData(tradedata.wants[1], "set_damage") ? 'damage="'+ getFunctionFromData(tradedata.wants[1], "set_damage").damage +'"' : "")
+    (getFunctionFromData(tradedata.wants[1], "set_damage") ? 'damage="'+ getFunctionFromData(tradedata.wants[1], "set_damage").damage.min +'"' : "")
     +' onclick="editItem(this)" itemtype="wants[1]" '+ (getFunctionFromData(tradedata.wants[1], "specific_enchants") ? 'class="enchanted"' : "") +'></mcitem>';
     
     
@@ -293,7 +293,7 @@ function correctTrade(tradeEl, tradedata){
   }
   tradeEl.innerHTML += ' = '
   tradeEl.innerHTML += '<mcitem identifier="'+ tradedata.gives[0].item +'" count="'+ tradedata.gives[0].quantity +'" '+ 
-    (getFunctionFromData(tradedata.gives[0], "set_damage") ? 'damage="'+ getFunctionFromData(tradedata.gives[0], "set_damage").damage +'"' : "")
+    (getFunctionFromData(tradedata.gives[0], "set_damage") ? 'damage="'+ getFunctionFromData(tradedata.gives[0], "set_damage").damage.min +'"' : "")
     +' itemtype="gives[0]" onclick="editItem(this)" '+ (getFunctionFromData(tradedata.gives[0], "specific_enchants") ? 'class="enchanted"' : "") +'></mcitem>';
   //tradeEl.innerHTML += '<mcitem identifier="'+ tradedata.gives[0].item +'" count="'+ tradedata.gives[0].quantity +'" itemtype="gives[0]" onclick="editItem(this)"></mcitem>';
 }
@@ -674,7 +674,7 @@ function editItem(element){
     
     document.getElementById("item-preview").innerHTML = 
     '<mcitem class="hovertooltip" identifier="'+ itemdata.item +'" count="'+ itemdata.quantity +'" '+ 
-    (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage +'"' : "")
+    (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage.min +'"' : "")
     + ' onclick="copyItem(this)"  width="64px" height="64px" style="font-size:18pt;" '
     + (getFunctionFromData(itemdata, "specific_enchants") ? 'class="enchanted"' : ' ') +'></mcitem>';
     
@@ -688,7 +688,7 @@ function editItem(element){
     
     var damage = getFunctionFromData(itemdata, "set_damage");
     if(damage){
-      document.getElementById("item-damage").value = getFunctionFromData(itemdata, "set_damage").damage;
+      document.getElementById("item-damage").value = getFunctionFromData(itemdata, "set_damage").damage.min;
     } else {
       document.getElementById("item-damage").value = "";
     }
@@ -752,7 +752,8 @@ function updateItem(){
   }
   
   if(document.getElementById("item-damage").value != ""){
-    addFunctionToData(itemdata, {function: "set_damage", damage: parseFloat(document.getElementById("item-damage").value)}, true);
+    let damagevalue = parseFloat(document.getElementById("item-damage").value);
+    addFunctionToData(itemdata, {function: "set_damage", damage: {min: damagevalue, max: damagevalue}}, true);
   } else {
     if(getFunctionFromData(itemdata, "set_damage")){
       removeFunctionFromData(itemdata, "set_damage");
@@ -812,7 +813,7 @@ function updateItem(){
   
   document.getElementById("item-preview").innerHTML = 
     '<mcitem identifier="'+ itemdata.item +'" count="'+ itemdata.quantity +'" '+ 
-    (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage +'"' : "")
+    (getFunctionFromData(itemdata, "set_damage") ? 'damage="'+ getFunctionFromData(itemdata, "set_damage").damage.min +'"' : "")
     + ' onclick="copyItem(this)" width="64px" height="64px" style="font-size:18pt;" class="' + (!(["minecraft:", ""].includes(itemdata.item)) ? 'hovertooltip ': '')
     + (getFunctionFromData(itemdata, "specific_enchants") ? 'enchanted"' : '"') +'></mcitem>';
   

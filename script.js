@@ -70,7 +70,7 @@ function loadApps(){
   for(let category of Object.keys(apps)){
     document.getElementById(category + idModifier).innerHTML = "";
     for(let app of apps[category]){
-      var label = document.createElement("li");
+      var label = document.createElement("a");
       label.classList = ['app-label'];
       document.getElementById(category + idModifier).appendChild(label);
       loadApp(app, label, category);
@@ -80,7 +80,7 @@ function loadApps(){
         var subapplist = document.createElement("ul");
         
         for(let subapp of app.subapps){
-          var subapplabel = document.createElement("li");
+          var subapplabel = document.createElement("a");
           subapplabel.classList = ['app-label'];
           subapplist.appendChild(subapplabel);
           loadApp(subapp, subapplabel, category);
@@ -126,26 +126,79 @@ function loadApp(path, elem, category){
     if(document.getElementsByTagName("h1").length !== 0)
     document.getElementsByTagName("h1")[0].innerHTML = '<svg viewBox="0 0 24 24" style="height: 48px; vertical-align: middle;">' + path.icon.data + "</svg> " + path.name;
     
+    if(path.discontinued){
+      if(typeof path.discontinued == 'string'){
+        snackbar(path.discontinued, 0, true)
+      } else {
+        snackbar('<span style="color:red">This app has been discontinued and is no longer recieving updates.</span>', 0, true)
+      }
+    }
+    
     if(path.confirmUnload){
       doUnload();
     }
   } else {
     if(!path.tba){
-      elem.setAttribute("onclick", "window.location.href='"+ link +"'");
+      elem.setAttribute("href", link);
     }
   }
   
   var span = document.createElement("span");
   span.innerHTML = path.name;
+  
   if(path.tba == true){
     span.innerHTML = "TBA";
-  }
+  } //Old tag handling
+  /*
   if(path.beta == true){
     span.innerHTML += ' <tag class="smalltag" style="background-color:red;color:white;">BETA</tag>';
   }
   if(path.bridge == true){
     span.innerHTML += ' <tag class="smalltag" style="background-color:#0096c7;color:white;">BRIDGE</tag>';
+  }*/
+  
+  if(path.beta || path.bridge || path.hasOwnProperty("tags")){
+    let taggroup = document.createElement("div");
+    taggroup.classList = ["small-tag-group"];
+    
+    //Create tags
+    if(path.beta){
+      let newtag = document.createElement("tag");
+      newtag.classList = ["smalltag"];
+      newtag.innerHTML = "BETA";
+      newtag.style = "background-color:red;color:white;"
+      taggroup.appendChild(newtag);
+    }
+    
+    if(path.bridge){
+      let newtag = document.createElement("tag");
+      newtag.classList = ["smalltag"];
+      newtag.innerHTML = "BRIDGE";
+      newtag.style = "background-color:#0096c7;color:white;";
+      taggroup.appendChild(newtag);
+    }
+    
+    if(path.hasOwnProperty("tags") && path.tags.constructor == Array){
+      for(let tag of path.tags){
+        let tagtitle = tag.title || "BETA";
+        let tagbg = tag.backgroundcolor || "red";
+        let tagcol = tag.fontcolor || "white";
+        let conditions = tag.conditions || []
+        
+        let newtag = document.createElement("tag");
+        newtag.classList = ["smalltag"];
+        if(conditions.includes("!selected")) newtag.classList.toggle("hide-selected", true)
+        if(conditions.includes("selected")) newtag.classList.toggle("show-selected", true)
+        newtag.innerHTML = tagtitle;
+        newtag.style.color = tagcol;
+        newtag.style.backgroundColor = tagbg;
+        taggroup.appendChild(newtag);
+      }
+    }
+    
+    span.appendChild(taggroup);
   }
+  
   elem.appendChild(span);
 }
 
@@ -201,13 +254,12 @@ function sterilizeJSON(jsonString){
 let snackbarel = document.createElement("snackbar");
 snackbarel.id = "snackbar";
 document.body.appendChild(snackbarel);
-function snackbar(message, delay) {
+function snackbar(message, delay = 3000, permanent = false) {
   var x = document.getElementById("snackbar");
   x.innerHTML = message;
-  if(!delay){
-    var delay = 3000;
-  }
-  if(x.className != "show"){ //Prevent adding an additional delay if snackbar is already visible
+  if(permanent){
+    x.style.visibility = "visible";
+  } else if(x.className != "show"){ //Prevent adding an additional delay if snackbar is already visible
     x.className = "show";
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, delay);
   }

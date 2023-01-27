@@ -44,6 +44,7 @@ mcitem[identifier="null"]:hover, mcitem[identifier=""]:hover{
   font-family: Minecraftia;
   color:white;
   text-shadow: 3px 3px 3px black;
+  z-index: 1; /* Render above progress bar */
 }
 
 .mcitemdisplay {
@@ -55,26 +56,24 @@ mcitem[identifier="null"]:hover, mcitem[identifier=""]:hover{
 .mcitemdamage {
   font-size: 10pt;
   letter-spacing: 0px;
-  margin-left: -28px;
   min-width: 20px;
   position: absolute;
-  bottom: 0px;
+  bottom: 3px;
+  left: 50%;
   text-align: right;
   color: white;
   text-shadow: 3px 3px 3px black;
-  width: 100%;
-  height: 5px;
+  width: 90%;
+  height: 7px;
+  transform: translate(-50%, 0%);
 }
 
-.mcitemdamage[value="100"]{
+.mcitemdamage[value="1"]{
   display: none;
 }
 
-#item-preview mcitem progress {
-  margin-left: -55px;
-  margin-left: -55px;
-  margin-bottom: -5px;
-  height: 10px;
+.mcitemdamage::webkit-progress-value {
+  background: orange;
 }
 
 .tooltip {

@@ -180,3 +180,8 @@ input[type=text].app-input {
 .embedded-frame .import-button { display: none; }
 .embedded-frame .export-button { border-radius: 10px; }
 .embedded-frame .preview-button { display: none; }
+
+#item-preview mcitem progress {
+  height: 10px;
+  bottom: -7px;
+}

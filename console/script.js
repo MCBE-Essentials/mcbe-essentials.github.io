@@ -57,6 +57,7 @@ function addNewStylesheet(){
 
 async function importPresetFile(selection){
   let file = null;
-  file = new File([await fetch(selection.value).then(response => {return response.arrayBuffer()})], "default-featuretest")
+  file = new File([await fetch(selection.value).then(response => {return response.arrayBuffer()})], "console#importedfile")
   opener.importFile(file, 'importedData', opener.readertype, opener.parseImportedData);
+  selection.value="#"
 }

@@ -1,6 +1,6 @@
 var preload = new Image()
 preload.src =
-	'https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/ui/arrow_dark_right.png'
+	'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/arrow_dark_right.png'
 
 let myrecipe = {};
 

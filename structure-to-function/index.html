@@ -22,7 +22,7 @@
     <script src="/filesaver.js" defer></script>
     <script src="/js/datahandler.js" defer></script>
     <script src="/apps.js" defer></script>
-    <script src="/script.js" defer></script>
+    <script src="/script.js" defer onload="snackbar('<span style=\'color:red;\'>Please note: This app may be slow when dealing with structures over 1MB.</span>');"></script>
   </head>
   <body style="">
     <!--<div id="menu-button">
@@ -61,12 +61,13 @@
         <table class="app-main" id="app-main">
           <thead>
             <tr>
-              <td>Parameters</td>
+              <td class="parameters-tab">Parameters</td>
+              <td class="logs-tab">Progress Logs</td>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>
+              <td class="parameters-tab">
                 <table class="app-inner" style="display: inline-block">
                   <tr>
                     <td style="text-align: left;">
@@ -108,41 +109,39 @@
                       ><br /><br />
                     </td>
                   </tr>
-                  <tr id="upload">
-                    <td>
-                      <label class="generate-button gb-blue" for="dataFileInput" style="display: block">Upload</label>
-                      <!--<input type="file" id="file" accept=".mcstructure" style="display:none;">-->
-                      <input id="dataFileInput" type="file" readertype="arraybuffer/text" accept=".mcstructure,.json" style="display:none;">
-                    </td>
-                  </tr>
-                  <tr id="download" style="display: none">
-                    <td colspan="2">
-                      <div
-                        class="generate-button export-button"
-                        onclick="download()"
-                        id="download-btn"
-                      >
-                        Convert and download
-                      </div>
-                      <div class="generate-button gb-gray" style="display:none;" id="loading-btn">
-                        Converting...
-                      </div>
-                    </td>
-                  </tr>
                 </table>
+              </td>
+              <td class="app-inner logs-tab" style="padding:5px;">
+                <textarea class="ta2" style="height: 240px; width: 450px; display: inline-block;" placeholder="Your progress logs will appear here..." disabled id="output-logs"></textarea>
+              </td>
+            </tr>
+            <tr id="upload">
+              <td colspan="2">
+                <label class="generate-button gb-blue" for="dataFileInput" style="display: block">Upload</label>
+                <!--<input type="file" id="file" accept=".mcstructure" style="display:none;">-->
+                <input id="dataFileInput" type="file" readertype="arraybuffer/text" accept=".mcstructure,.json" style="display:none;">
+              </td>
+            </tr>
+            <tr id="download" style="display: none">
+              <td colspan="2">
+                <div
+                  class="generate-button export-button"
+                  onclick="download()"
+                  id="download-btn"
+                >
+                  Convert and download
+                </div>
+                <div class="generate-button gb-gray" style="display:none;" id="loading-btn">
+                  Converting...
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
         <br />
-        <u>Some data may be lost in conversion:</u><br />
-        Signs will not keep their text<br />
-        Item frames, flower pots, jukeboxes and lecterns will not keep their
-        contents<br />
-        Entities will not keep most attributes<br />
-        Door hinges may not be accurate<br />
-        Command, structure, jigsaw, ect blocks will not keep their data.
-        <br /><br><br>
+        
+        <a href="/structure-editor/conversion-warning/#function" target="_blank">Some data</a> may be lost in conversion.<br>
+        <b>Files generated with this program are not for use with hacked clients.</b>
       </div>
     </div>
     <div

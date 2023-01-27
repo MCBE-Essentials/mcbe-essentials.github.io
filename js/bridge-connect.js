@@ -10,10 +10,10 @@ function bImport(filedata, filereference, filepath){
   console.log(filedata)
   //const filedata = await iapi.trigger('fs.readFile', path);
   
-  if(window.location.href.endsWith("structure-editor/")) {
+  /*if(window.location.href.endsWith("structure-editor/")) {
     document.getElementById("loading2").style.display="block";
     document.getElementById("upload2").style.display="none";
-  }
+  }*/
   
   importFile(new File([filedata], 'file'), 'importedData', document.getElementById("dataFileInput").getAttribute("readertype"), parseImportedData);
   window.bridge.openedFile = filereference;
