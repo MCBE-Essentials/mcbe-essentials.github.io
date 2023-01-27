@@ -28,19 +28,30 @@ var currentTileMeta = false;
 
 var importedData, filename;
 function parseImportedData(file){
-  console.log(importedData)
-  nbt.parse(Buffer.from(importedData)).then(function(data){
-    structure = data.parsed;
-    document.getElementById("upload").style.display = "none";
-    document.getElementById("download").style.display = "inline-block";
-    structureToEditor();
-  });
+  if(file.name.endsWith('.json')){
+    structure = JSON.parse(importedData);
+    structureToEditor(file);
+  } else {
+    nbt.parse(Buffer.from(importedData)).then(function(data){
+      structure = data.parsed;
+      unparsedStructure = data.metadata.buffer;
+      //console.log(data);
+
+      if(structure.value.entities){
+        alert("Unfortunately, this app currently doesn't support Java edition structure files."); return;
+      }
+      
+      document.getElementById("upload").style.display = "none";
+      document.getElementById("download").style.display = "inline-block";
+      
+      structureToEditor(file);
+    });
+  }
   
   filename = file.name;
 }
 
 function structureToEditor(){
-  
   var path = "structure.value";
   entities = structure.value.structure.value.entities.value.value;
   if(structure.value.structure.value.palette.value.default){

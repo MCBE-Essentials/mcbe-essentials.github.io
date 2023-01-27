@@ -37,8 +37,8 @@ function importFile(file, projectVariable, readertype, callback){
       break;
     case 'arraybuffer/text':
       //Unique to Structure Editor, this will read as text if a JSON file is imported, but read as ArrayBuffer if any other type is imported.
-      if(window.location.pathname === "/structure-editor/"){
-        //Show loading button
+      if(window.location.pathname === "/structure-editor/old/"){
+        //Show loading button in Legacy Structure Editor
         document.getElementById("loading2").style.display = "block";
         document.getElementById("upload2").style.display = "none";
       }

@@ -1,0 +1,266 @@
+{
+  "Banner": {
+    "type": "banner",
+    "blocks": [
+      "minecraft:banner",
+      "minecraft:standing_banner",
+      "minecraft:wall_banner"
+    ]
+  },
+  "Barrel": {
+    "type": "container",
+    "slots": 27,
+    "blocks": [
+      "minecraft:barrel"
+    ]
+  },
+  "Beacon": {
+    "display": false
+  },
+  "Bed": {
+    "display": false
+  },
+  "Bell": {
+    "display": false
+  },
+  "Beehive": {
+    "type": "beehive",
+    "blocks": [
+      "minecraft:beehive",
+      "minecraft:bee_nest"
+    ]
+  },
+  "BlastFurnace": {
+    "type": "furnace",
+    "blocks": [
+      "minecraft:blast_furnace",
+      "minecraft:lit_blast_furnace"
+    ]
+  },
+  "BrewingStand": {
+    "type": "brewing",
+    "blocks": [
+      "minecraft:brewing_stand"
+    ]
+  },
+  "Campfire": {
+    "type": "campfire",
+    "blocks": [
+      "minecraft:campfire"
+    ]
+  },
+  "//Cauldron": {
+    "type": "cauldron"
+  },
+  "Chest": {
+    "type": "container",
+    "slots": 27,
+    "blocks": [
+      "minecraft:chest",
+      "minecraft:trapped_chest"
+    ]
+  },
+  "ChiseledBookshelf": {
+    "type": "container",
+    "slots": 6,
+    "blocks": [
+      "minecraft:chiseled_bookshelf"
+    ]
+  },
+  "CommandBlock": {
+    "type": "commandblock",
+    "blocks": [
+      "minecraft:command_block",
+      "minecraft:chain_command_block",
+      "minecraft:repeating_command_block"
+    ]
+  },
+  "Comparator": {
+    "display": false
+  },
+  "Conduit": {
+    "type": "conduit",
+    "blocks": [
+      "minecraft:condiut"
+    ]
+  },
+  "DaylightDetector": {
+    "display": false
+  },
+  "Dispenser": {
+    "type": "container",
+    "slots": 9,
+    "blocks": [
+      "minecraft:dispenser"
+    ]
+  },
+  "Dropper": {
+    "type": "container",
+    "slots": 9,
+    "blocks": [
+      "minecraft:dropper"
+    ]
+  },
+  "EnchantTable": {
+    "display": false
+  },
+  "EnderChest": {
+    "display": false
+  },
+  "EndGateway": {
+    "type": "endgateway",
+    "blocks": [
+      "minecraft:end_gateway"
+    ]
+  },
+  "EndPortal": {
+    "display": false
+  },
+  "FlowerPot": {
+    "type": "flowerpot",
+    "blocks": [
+      "minecraft:flower_pot"
+    ]
+  },
+  "Furnace": {
+    "type": "furnace",
+    "blocks": [
+      "minecraft:furnace",
+      "minecraft:lit_furnace"
+    ]
+  },
+  "GlowItemFrame": {
+    "type": "itemframe",
+    "blocks": [
+      "minecraft:glow_frame"
+    ]
+  },
+  "HangingSign": {
+    "type": "sign",
+    "blocks": [
+      "minecraft:acacia_hanging_sign",
+      "minecraft:bamboo_hanging_sign",
+      "minecraft:birch_hanging_sign",
+      "minecraft:crimson_hanging_sign",
+      "minecraft:dark_oak_hanging_sign",
+      "minecraft:jungle_hanging_sign",
+      "minecraft:mangrove_hanging_sign",
+      "minecraft:oak_hanging_sign",
+      "minecraft:spruce_hanging_sign",
+      "minecraft:warped_hanging_sign"
+    ]
+  },
+  "Hopper": {
+    "type": "hopper",
+    "blocks": [
+      "minecraft:hopper"
+    ]
+  },
+  "ItemFrame": {
+    "type": "itemframe",
+    "blocks": [
+      "minecraft:frame"
+    ]
+  },
+  "JigsawBlock": {
+    "type": "jigsaw",
+    "blocks": [
+      "minecraft:jigsaw"
+    ]
+  },
+  "Jukebox": {
+    "type": "container",
+    "behavior": "jukebox",
+    "domain": "currentValidTile.data.RecordItem.value",
+    "createlocation": "currentValidTile.data.RecordItem = {'type': 'compound', value: JSON.parse(JSON.stringify(templateitem))}",
+    "slots": 1,
+    "slotsDescriptions": [
+      "Disc"
+    ],
+    "blocks": [
+      "minecraft:jukebox"
+    ]
+  },
+  "Lectern": {
+    "type": "lectern",
+    "blocks": [
+      "minecraft:lectern"
+    ]
+  },
+  "Lodestone": {
+    "display": false
+  },
+  "MobSpawner": {
+    "type": "spawner",
+    "blocks": [
+      "minecraft:spawner"
+    ]
+  },
+  "MovingBlock": {
+    "display": false
+  },
+  "Music": {
+    "type": "noteblock",
+    "blocks": [
+      "minecraft:noteblock"
+    ]
+  },
+  "NetherReactor": {
+    "type": "netherreactor",
+    "blocks": [
+      "minecraft:netherreactor"
+    ]
+  },
+  "PistonArm": {
+    "display": false
+  },
+  "ShulkerBox": {
+    "type": "container",
+    "slots": 27,
+    "blocks": [
+      "minecraft:shulker_box",
+      "minecraft:undyed_shulker_box"
+    ]
+  },
+  "Sign": {
+    "type": "sign",
+    "blocks": [
+      "minecraft:acacia_standing_sign",
+      "minecraft:bamboo_standing_sign",
+      "minecraft:birch_standing_sign",
+      "minecraft:crimson_standing_sign",
+      "minecraft:darkoak_standing_sign",
+      "minecraft:jungle_standing_sign",
+      "minecraft:mangrove_standing_sign",
+      "minecraft:standing_sign",
+      "minecraft:spruce_standing_sign",
+      "minecraft:warped_standing_sign",
+      "minecraft:acacia_wall_sign",
+      "minecraft:bamboo_wall_sign",
+      "minecraft:birch_wall_sign",
+      "minecraft:crimson_wall_sign",
+      "minecraft:darkoak_wall_sign",
+      "minecraft:jungle_wall_sign",
+      "minecraft:mangrove_wall_sign",
+      "minecraft:wall_sign",
+      "minecraft:spruce_wall_sign",
+      "minecraft:warped_wall_sign"
+    ]
+  },
+  "Skull": {
+    "display": false
+  },
+  "Smoker": {
+    "type": "furnace",
+    "blocks": [
+      "minecraft:smoker",
+      "minecraft:lit_smoker"
+    ]
+  },
+  "StructureBlock": {
+    "type": "structureblock",
+    "blocks": [
+      "minecraft:structure_block"
+    ]
+  }
+}

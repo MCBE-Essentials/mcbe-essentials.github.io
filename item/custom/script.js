@@ -66,5 +66,5 @@ function createRow(texture, identifier, namevalue, index){
 
 
 function abort(el){
-  el.src = "https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/textures/items/empty_armor_slot_shield.png";
+  el.src = "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/empty_armor_slot_shield.png";
 }

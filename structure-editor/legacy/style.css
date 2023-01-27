@@ -1,0 +1,59 @@
+.idlabel {
+  text-overflow: clip;
+  font-size: 9pt;
+  white-space: nowrap;
+  /*width:90%;*/
+  display: block;
+  padding: 2px 3px;
+  border-radius: 25px;
+  text-overflow: clip;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.idlabel:hover {
+  background-color: #ffffff24;
+}
+
+.idlabel.selected {
+  border: 1px solid white;
+}
+
+select.app-input {
+  height: unset;
+  width: unset;
+}
+
+.moretoolsgroup {
+  position: relative;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.moretoolsgroup button {
+  width: 100%;
+}
+
+.uploader-upload { display:none; text-align:center; border-radius:10px 10px 0px 0px; }
+
+.uploader-convert { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 0px 10px; }
+
+.uploader-loot { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 10px 0px; }
+
+#mobilewarning {
+  display: none;
+}
+
+.jsoneditor-tree-inner {
+  min-width: 120%;
+}
+
+input.app-input[type="text"] {
+  width: 100px;
+}
+
+@media only screen and (max-width: 560px) {
+  .moretoolsgroup {
+    transform: unset;
+  } 
+}

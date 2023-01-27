@@ -1,14 +1,109 @@
+#open-editors{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  font-family: 'Minecraftia';
+  user-select: none;
+}
+
+.tentity-title {
+  font-family: 'MinecraftTen';
+  font-weight: normal;
+  font-size: 1.5em;
+  filter: drop-shadow(-2px -2px 6px black) drop-shadow(2px 4px 6px black);
+}
+
+.app-main {
+  width: calc(100vw - 440px);
+}
+
+.app-tabs {
+  text-align: left;
+  padding: 0;
+  word-spacing: -10px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  margin-bottom: -1px;
+}
+
+.app-tabs .tab {
+  padding: 0px 15px;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  word-spacing: initial;
+}
+
+.app-tabs .tab.selected {
+  background-color: var(--app-inner-background);
+}
+
+.app-tab-content {
+  border-radius: 0px 0px 10px 10px;
+  display: none;
+  overflow-x: auto;
+}
+
+.app-tab-content.visible {
+  display: block;
+}
+
+.app-tab-content h1 {
+  margin:0;
+  font-size: 2.75em;
+}
+
+.app-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.object-list-container {
+  height: inherit;
+  width: 30%;
+}
+
+.object-list {
+  overflow-y: auto;
+  min-height: 150px;
+}
+
+.file-stats {
+  width: 50%;
+}
+
+.app-page {
+  width: 100%;
+}
+
+.labelgroup {
+  text-overflow: clip;
+  font-size: 9pt;
+  white-space: nowrap;
+  display: block;
+  border-radius: 13px;
+  text-overflow: clip;
+  border: 1px solid #ffffff44;
+  margin-left: 5px;
+}
+
 .idlabel {
   text-overflow: clip;
   font-size: 9pt;
   white-space: nowrap;
-  /*width:90%;*/
   display: block;
-  padding: 2px 3px;
+  padding: 2px 8px;
   border-radius: 25px;
   text-overflow: clip;
   cursor: pointer;
   border: 1px solid transparent;
+}
+
+.idlabel-icon {
+  height: 10px;
 }
 
 .idlabel:hover {
@@ -19,86 +114,411 @@
   border: 1px solid white;
 }
 
-.itemgrid td {
-  height: 15px;
-  width: 15px;
-  background-color: #8b8b8b;
-  border: 1px solid #cacaca;
-  border-top-color: black;
-  border-left-color: black;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-size: contain;
+.palette-container { /*Top-level td element containing the palette */
+  height: 580px;
   display: inline-block;
-}
-
-.itemgrid.large td {
-  height: 25px;
-  width: 25px;
-  border: 2px solid #cacaca;
-  border-top-color: black;
-  border-left-color: black;
-}
-
-.itemgrid td:hover {
-  background-color: #6aad43;
-  border: 2px solid white;
-  border-top-color: white;
-  border-left-color: white;
-}
-
-.itemgrid td.selected {
-  background-color: #c6c6c6;
-  border: 2px solid white;
-  border-top-color: #373737;
-  border-left-color: #373737;
-}
-
-.itemgrid td.selected:hover {
-  /*background-color: #777777;*/
-}
-
-.itemgrid {
-  border-collapse: separate;
-  border-spacing: 0px;
-  user-select: none;
-}
-
-select.app-input {
-  height: unset;
   width: unset;
 }
 
-.moretoolsgroup {
+.paint-container {
+  height: unset;
+  display: inline-block;
+  width: calc(100% - 570px);
+}
+
+.palette-list {
+  width: 540px;
+}
+
+.palette-list > div > div {
+  border-radius: 10px;
   position: relative;
+  overflow-x: hidden;
+}
+
+.palette-list .palette-list-label {
+  width: 440px;
+  display: inline-block;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  margin-left: 2px;
+  max-width: calc(100% - 60px);
+}
+
+.palette-list .block-preview {
+  image-rendering: pixelated;
+  height: 32px;
+  width: 32px;
+  object-fit: cover;
+  vertical-align: middle;
+  box-shadow: 0px 1px 4px 0px black;
+  margin: 3px;
+}
+
+.palette-list > div > div .minibuttongroup {
+  vertical-align: middle;
+  position: absolute;
+  right: 10px;
   top: 50%;
   transform: translate(0%, -50%);
 }
 
-.moretoolsgroup button {
-  width: 100%;
+.palette-list > div > div .minibutton {
+  height: 14px;
+  margin-left: 5px;
 }
 
-.uploader-upload { display:none; text-align:center; border-radius:10px 10px 0px 0px; }
+.palette-list .image-preview {
+  display: inline-block;
+  position: relative;
+}
 
-.uploader-convert { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 0px 10px; }
+.palette-list .image-preview span {
+  font-size: 13pt;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  margin-left: 1px;
+  margin-top: -1px;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
 
-.uploader-loot { display:inline-block; width:calc(50% - 10px); text-align:center; border-radius:0px 0px 10px 0px; }
+.paint-editor-container {
+  cursor: grab;
+  overflow: auto;
+  width: 828px;
+  height: 500px;
+  margin: auto;
+  position: relative;
+  border: 1px solid black;
+  max-width: 100%;
+  /*display: inline-block;*/
+}
 
-#mobilewarning {
+.paint-editor {
+  /*max-width: 100%;
+  overflow: visible;*/
+  border-spacing: 0;
+  /*display: block;*/
+  margin: auto;
+}
+
+.paint-editor tbody {
+  display: block;
+}
+
+.paint-editor tr {
+  /*display: inline-block;*/
+  white-space: nowrap;
+}
+
+.paint-editor td {
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+}
+
+.paint-editor td img {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.paint-editor .block-preview {
+  image-rendering: pixelated;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.paint-editor .image-preview {
+  display: block;
+  position: relative;
+  outline: 1px dashed black;
+  height: 100%;
+}
+
+.paint-editor .image-preview.below-layer img {
+  filter: opacity(0.55) saturate(0.5);
+}
+
+.paint-editor .image-preview.below-layer:hover img {
   display: none;
 }
 
-.jsoneditor-tree-inner {
-  min-width: 120%;
+.paint-editor .image-preview:hover {
+  filter: brightness(1.1);
 }
 
-input.app-input[type="text"] {
-  width: 100px;
+.paint-editor .image-preview span {
+  font-size: 10pt;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  margin-left: 1px;
+  margin-top: -1px;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+
+buttongroup button {
+  width: 100%;
+  display:block;
+}
+
+.jsoneditor-menu {
+  background-color: var(--app-inner-inner-background);
+  border-bottom: unset;
+}
+
+.jsoneditor {
+  border: 0px solid transparent;
+}
+
+.effects-list {
+  height: 128px;
+  overflow-y: auto;
+}
+
+.effects-list > div {
+  background-color: #ffffff24;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 2px;
+}
+
+.effects-list > div > * {
+  margin-right: 5px;
+}
+
+.advanced-entity-list {
+  text-align: center;
+}
+
+.advanced-entity-list .idlabel {
+  text-align: left;
+}
+
+.bottom-bar-options {
+  width: 100%;
+}
+
+.bottom-bar-options .inferior {
+  max-width: 55px;
+  min-width: 100px;
+}
+
+.export-type {
+  width: unset;
+}
+
+.jsoneditor-tree-inner {
+  min-width: 150%;
+}
+
+.equal-width {
+  width: 50%;
+}
+
+.tier-editor {
+  background-color: var(--app-main-base-background);
+}
+
+.tile-entity-parameters {
+  display: none;
+}
+
+.tile-entity-parameters.visible {
+  display: table-cell;
+}
+
+.tier-editor-close-button {
+  top: -10px;
+}
+
+.text-sign {
+  width: 200px;
+  font-family: 'Minecraftia';
+  line-height: 19px;
+  background-size: contain;
+  text-align: center;
+  overflow: hidden;
+  resize: none;
+  image-rendering: pixelated;
+  font-size: 13pt;
+  margin: auto;
+  display: block;
+}
+
+.text-sign.glowing {
+  text-shadow: -1px -1px 0 #fff, 0 -1px 0 #fff, 1px -1px 0 #fff, 1px 0 0 #fff, 1px 1px 0 #fff, 0 1px 0 #fff, -1px 1px 0 #fff, -1px 0 0 #fff;
+}
+
+.text-sign.oak {
+  background-image: url(https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/sign.png);
+}
+
+.trade-arrow {
+  image-rendering: pixelated;
+  height: 20px;
+}
+
+.save-button {
+  width: 25%;
+  position: absolute;
+  right: 0;
+  bottom: -7px;
+}
+
+.book-container {
+  background-color: #fdf8ec;
+  border: 8px solid #6f462a;
+  padding: 2px 0px;
+  outline: 3px solid black;
+  overflow-x: scroll;
+}
+
+
+.book-page-container {
+  margin: auto;
+  color: black;
+  text-align: center;
+}
+
+.book-page {
+  font-family: 'Minecraftia';
+  resize: none;
+  border: 2px solid #bfbebc;
+  background-color: #fdf8ec;
+}
+
+.book-scroll-button:hover {
+  background-color: #9b9b9b;
+  color: white;
+}
+
+.book-minibutton:hover {
+  background-color: #666666;
+  filter: grayscale(1) brightness(1.5);
+}
+
+.npc-actions thead {
+  position: sticky;
+  top: -8px;
+}
+
+.npc-actions thead th {
+  background-color: var(--app-inner-inner-background);
+  padding: 4px 3px 4px 4px;
+}
+
+.npc-actions tbody td {
+  padding: 0;
+}
+
+.npc-actions tbody td:nth-child(3) {
+  width: 50%;
+}
+
+.npc-actions tbody td:nth-child(3) textarea {
+  width: calc(100% - 6px);
+  min-width: 250px;
+  resize: vertical;
+}
+
+table.trades-list thead > tr > th {
+  /*background-color: #747474;*/
+  border: 1px solid black;
+  padding: 0px 7px;
+}
+
+table.trades-list {
+  border-spacing: 0;
+}
+
+table.trades-list tbody > tr > td > table.itemgrid.large {
+  margin: auto;
+}
+
+table.trades-list tr td {
+    text-align: center;
+}
+
+/* Maybe more sign textures one day! */
+
+@media only screen and (max-width: 1200px) {
+  .app-main {
+    width: calc(100vw - 80px);
+    padding: 8px 15px;
+  }
 }
 
 @media only screen and (max-width: 560px) {
-  .moretoolsgroup {
-    transform: unset;
-  } 
+  .object-list-container {
+    width: 100%;
+  }
+  
+  .object-list {
+    max-height: 400px;
+  }
+  
+  .bottom-bar-options td {
+    display: block;
+    text-align: center;
+  }
+  
+  .bottom-bar-options .inferior {
+    max-width: unset;
+  }
+  
+  .bottom-bar-options .export-type {
+    width: 100%;
+  }
+  
+  .equal-width {
+    width: 100%;
+  }
+  
+  .book-scroll-button {
+    position: absolute;
+  }
+  
+  .paint-editor-container {
+    width: 360px;
+  }
+  
+  .file-stats {
+    width: unset;
+  }
+  
+  .paint-container {
+    display: block;
+    width: unset;
+  }
+  
+  .palette-container {
+    height: unset;
+  }
+  
+  .palette-list {
+    width: unset;
+  }
+}
+
+textarea.app-input {
+  text-indent: unset;
+  padding: 2px 7px;
+  border-radius: 10px;
+  resize: none;
+}
+
+mcitem {
+  margin-left: -1px;
+  margin-top: -1px;
+}
+
+mcitem.enchanted img {
+  filter: drop-shadow(0px 0px 0px purple) drop-shadow(0px 0px 1px magenta) drop-shadow(0px 0px 1px purple);
 }

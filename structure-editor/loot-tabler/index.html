@@ -13,8 +13,9 @@
     <title>MCBE Essentials</title>
 
     <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/item/grid.css">
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="../style.css">
+    <!--<link rel="stylesheet" href="../style.css">-->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="/item/style.css">
 
@@ -98,7 +99,7 @@
                 </td>
               </tr>
               <tr>
-                <input id="dataFileInput" type="file" readertype="arraybuffer" accept=".mcstructure" style="display:none;">
+                <input id="dataFileInput" type="file" readertype="arraybuffer/text" accept=".mcstructure,.json" style="display:none;">
                 <td colspan="2">
                   <label class="generate-button gb-blue" style="display:inline-block;width:calc(100% - 8px);" for="dataFileInput" id="upload">Upload</label>
                   <label class="generate-button gb-blue export-button" style="display:none;width:calc(100% - 8px);" id="download" onclick="downloadStructure()">Download</label>

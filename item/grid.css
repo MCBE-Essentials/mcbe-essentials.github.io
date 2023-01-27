@@ -1,0 +1,44 @@
+.itemgrid td {
+  height: 15px;
+  width: 15px;
+  background-color: #8b8b8b;
+  border: 1px solid #cacaca;
+  border-top-color: black;
+  border-left-color: black;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+}
+
+.itemgrid.large td {
+  height: 25px;
+  width: 25px;
+  border: 2px solid #cacaca;
+  border-top-color: black;
+  border-left-color: black;
+}
+
+.itemgrid td:hover {
+  background-color: #6aad43;
+  border: 2px solid white;
+  border-top-color: white;
+  border-left-color: white;
+}
+
+.itemgrid td.selected {
+  background-color: #c6c6c6;
+  border: 2px solid white;
+  border-top-color: #373737;
+  border-left-color: #373737;
+}
+
+.itemgrid td.selected:hover {
+  /*background-color: #777777;*/
+}
+
+.itemgrid {
+  border-collapse: separate;
+  border-spacing: 0px;
+  user-select: none;
+}

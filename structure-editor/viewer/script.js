@@ -5,11 +5,11 @@ var textures = {
   chest: "https://mcbe-essentials.glitch.me/assets/chest_top.png",
   light_block: "https://upload.wikimedia.org/wikipedia/commons/4/48/BLANK_ICON.png"
 };
-var texturePrefix = "https://github.com/bedrock-dot-dev/packs/raw/master/stable/resource/";
+var texturePrefix = "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/";
 var texturePostfix = ".png";
 async function fetchData(){
-  textureDef = await fetch('https://raw.githubusercontent.com/bedrock-dot-dev/packs/master/stable/resource/blocks.json').then(data => data.json());
-  textureNames = await fetch('https://raw.githubusercontent.com/bedrock-dot-dev/packs/master/stable/resource/textures/terrain_texture.json').then(data => data.json());
+  textureDef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/blocks.json').then(data => data.json());
+  textureNames = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/terrain_texture.json').then(data => data.json());
   textureNames = textureNames.texture_data;
   
   getTopTextures();
@@ -149,8 +149,6 @@ function drawStructureTop(sdata){
       }
     }
   }
-  
-  
   
   //Draw non-air blocks
   for(var i = 0; i < topCoords.length; i++){

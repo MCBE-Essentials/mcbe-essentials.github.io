@@ -1,6 +1,7 @@
 /*
-  This file is responsible for creating a Bedrock edition level.dat header and applying it.
-  
+  This file is responsible for doing essential operations with NBT such as
+  - creating a Bedrock edition level.dat header and applying it and 
+  - generating long inputs 
 */
 
 //Thanks to https://stackoverflow.com/a/43933693 for this essential piece of code!!
@@ -41,5 +42,28 @@ const datHandler = {
     number -= (1 * output[0]);
     
     return output;
+  },
+  generateLongTag: function(bint){
+    if(typeof bint !== 'bigint') throw new Error('generateLongTag must have a BigInt as its argument');
+    class BigIntExtended extends Array {
+      valueOf () { return BigInt.asIntN(64, BigInt(this[0]) << 32n) | BigInt.asUintN(32, BigInt(this[1])) }
+    }
+    let output = new BigIntExtended(0, 0);
+    output[1] = bint;
+    
+    output[0] = (bint / 4294967296n)
+    output[1] -= (4294967296n * output[0]);
+    
+    if(output[1] < 0n){ //Value is negative
+      output[0] -= 1n; //Drop the second value by 1
+    }
+    
+    output[0] = Number(output[0]);
+    output[1] = Number(output[1]);
+    
+    return output;
+  },
+  longTagValue: function(long){
+    return BigInt.asIntN(64, BigInt(long[0]) << 32n) | BigInt.asUintN(32, BigInt(long[1]))
   }
 };

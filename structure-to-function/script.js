@@ -3,7 +3,20 @@ const { Buffer } = require('buffer');
 
 const worker = new Worker("./portable.js");
 worker.onmessage = (e) => {
-  downloadFunction(e.data)
+  if(e.data.type == 'progress'){
+    revealProgress(e.data.message)
+  } else if(e.data.type == 'result'){
+    downloadFunction(e.data.data)
+  } else {
+    console.log('Invalid message from Worker: ', e);
+  }
+}
+
+function revealProgress(message){
+  console.log(message)
+  
+  document.getElementById("output-logs").value += message + "\n";
+  document.getElementById("output-logs").scrollTop = document.getElementById("output-logs").scrollHeight;
 }
 
 var structure = {};
@@ -66,7 +79,7 @@ function exportFunction(){
   document.querySelector("#loading-btn").style.display = "block";
 }
 
-function downloadFunction(data){  
+function downloadFunction(data){ 
   var files = [];
   var filename = currentFile.name.replaceAll(".mcstructure", "");
   if(data.split("\n").length > 9000){
@@ -87,8 +100,10 @@ function downloadFunction(data){
   
   for(let downloadable of files){
     if(window.bridge && window.bridge.connected){
+      revealProgress('Downloading file to bridge. ...')
       exportFile(downloadable, downloadable.name, window.bridge.openedPath.replace("structures", "functions").replaceAll(".mcstructure", ".mcfunction"));
     } else {
+      revealProgress('Downloading file to your device...')
       exportFile(downloadable);
     }
   }
@@ -98,6 +113,9 @@ function downloadFunction(data){
 }
 
 function download(){
+  Array.from(document.getElementsByClassName("parameters-tab")).forEach((el) => {el.style.display = "none"})
+  Array.from(document.getElementsByClassName("logs-tab")).forEach((el) => {el.style.display = "block"})
+  
   exportFunction(
     document.getElementById("tiles").checked,
     document.getElementById("air").checked,
