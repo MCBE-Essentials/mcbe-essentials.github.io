@@ -48,7 +48,7 @@ var apps = {
         data: '<path fill="currentColor" d="M2,13H4V15H6V13H8V15H10V13H12V15H14V10L17,7V1H19L23,3L19,5V7L22,10V22H11V19A2,2 0 0,0 9,17A2,2 0 0,0 7,19V22H2V13M18,10C17.45,10 17,10.54 17,11.2V13H19V11.2C19,10.54 18.55,10 18,10Z" />'
       },
       link: "https://mcbe-essentials.github.io/structure-editor/",
-      tags: [
+      /*tags: [
         {
           title: "NEW",
           "//backgroundcolor": "#5e9bef",
@@ -58,7 +58,7 @@ var apps = {
             "!selected"
           ]
         }
-      ],
+      ],*/
       subapps: [
         /*{
           name: "Legacy Structure Editor",
@@ -137,20 +137,6 @@ var apps = {
       link: "https://mcbe-essentials.github.io/selector-generator/",   
       confirmUnload: true
     },
-
-    {
-      name: "Camera Movement Generator",
-      icon: {
-        class: {
-          main: "hidesmall svgicon", 
-          list: "svgiconlist"
-        },
-        //data: '<path fill="currentColor" d="M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z" />'
-        data: '<path fill="currentColor" d="M6.03 12.03L8.03 15.5L5.5 18.68L2 12.62L6.03 12.03M17 18V15.29C17.88 14.9 18.5 14.03 18.5 13C18.5 12.43 18.3 11.9 17.97 11.5L19.94 10.35C20.95 9.76 21.3 8.47 20.71 7.46L19.33 5.06C18.74 4.05 17.45 3.7 16.44 4.28L8.31 9C7.36 9.53 7.03 10.75 7.58 11.71L9.08 14.31C9.63 15.26 10.86 15.59 11.81 15.04L13.69 13.96C13.94 14.55 14.41 15.03 15 15.29V18C15 19.1 15.9 20 17 20H22V18H17Z" />'
-      },
-      link: "https://mcbe-essentials.github.io/camera-movement/",    
-      confirmUnload: false
-    },
     {
       name: "Tellraw Generator",
       icon: {
@@ -214,6 +200,20 @@ var apps = {
       link: "https://mcbe-essentials.github.io/world-generator/",
       confirmUnload: false,
       hideEmbedded: true
+    },
+    {
+      name: "Camera Movement Generator",
+      icon: {
+        class: {
+          main: "hidesmall svgicon", 
+          list: "svgiconlist"
+        },
+        //data: '<path fill="currentColor" d="M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z" />'
+        data: '<path fill="currentColor" d="M6.03 12.03L8.03 15.5L5.5 18.68L2 12.62L6.03 12.03M17 18V15.29C17.88 14.9 18.5 14.03 18.5 13C18.5 12.43 18.3 11.9 17.97 11.5L19.94 10.35C20.95 9.76 21.3 8.47 20.71 7.46L19.33 5.06C18.74 4.05 17.45 3.7 16.44 4.28L8.31 9C7.36 9.53 7.03 10.75 7.58 11.71L9.08 14.31C9.63 15.26 10.86 15.59 11.81 15.04L13.69 13.96C13.94 14.55 14.41 15.03 15 15.29V18C15 19.1 15.9 20 17 20H22V18H17Z" />'
+      },
+      link: "https://mcbe-essentials.github.io/camera-movement/",    
+      confirmUnload: false,
+      discontinued: true
     },
   ],
   Visualizers: [

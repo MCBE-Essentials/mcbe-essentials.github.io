@@ -339,6 +339,10 @@ function doEnchantments(itemdata){
   return output; //"Aqua Affinity I<br>Unbreaking III"
 }
 
-var enchantNames = null; (async function(){enchantNames = await fetch("/data/enchantments.json").then((result) => {return result.json()});})();
-
-var enchantNumerals = null; (async function(){enchantNumerals = await fetch("/data/numerals.json").then((result) => {return result.json()});})();
+var enchantNames = null; 
+var enchantNumerals = null;
+(async function(){
+  let general_data = await fetch("/data/general.json").then((result) => {return result.json()});
+  enchantNames = general_data.enchantments;
+  enchantNumerals = general_data.numerals;
+})();

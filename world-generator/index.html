@@ -77,7 +77,7 @@
                       <option value="0">ocean</option>
                       <option value="1">Loading biomes...</option>
                     </select><br>
-                    <label><input type="checkbox" oninput="flatVersioning(this.checked)"> Start at y level -64</label>
+                    <!--<label><input type="checkbox" oninput="flatVersioning(this.checked)"> Start at y level -64</label>-->
                   </div>
                 </td>
               </tr>
@@ -89,7 +89,7 @@
                       <option value="ocean">ocean</option>
                       <option value="ocean">Loading biomes...</option>
                     </select><br>
-                    <!--<label>World Seed: <input class="app-input" type="number" style="width: 250px;" placeholder="-6341454152401905754" oninput="changeInfWorldSeed(this.value)" id="inf-seed"></label><br>-->
+                    <label>World Seed: <input class="app-input" type="number" style="width: 250px;" placeholder="(leave blank for random)" oninput="changeInfSeed(this.value)" id="inf-seed"></label><br>
                   </div>
                 </td>
               </tr>
@@ -103,7 +103,10 @@
                       <label>Center X: <input type="number" class="app-input" placeholder="0" id="old-x" oninput="changeOldWorld()"></label><br>
                       <label>Center Z: <input type="number" class="app-input" placeholder="0" id="old-z" oninput="changeOldWorld()"></label><br>
                     </div>
-                    <!--<label>World Seed: <input class="app-input" type="number" style="width: 250px;" placeholder="-6341454152401905754" id="old-seed" oninput="changeOldWorld()"></label><br>-->
+                    <label>World Seed: <input class="app-input" type="number" style="width: 250px;" placeholder="(leave blank for random)" id="old-seed" oninput="changeOldWorld()"></label><br>
+                  </div>
+                  <div class="warningmsg" style="max-width: 410px;">
+                    This generation is no longer supported and very likely to break. Use it at your own risk!
                   </div>
                 </td>
               </tr>

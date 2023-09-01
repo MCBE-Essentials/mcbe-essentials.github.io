@@ -77,7 +77,7 @@
               </tr>
               <tr>
                 <td colspan="1" class="app-inner">
-                  <div class="app-inner-inner">
+                  <div class="app-inner-inner" id="container-details">
                     <b>Position:</b> <span id="container-position">~0 ~0 ~0</span><br>
                     <br>
                     <table class="itemgrid large" style="width: 290px;height:95px;text-align: center;margin-left:auto;margin-right:auto;" id="tilecontainer">
@@ -90,6 +90,13 @@
                     <button class="generate-button" style="font-size: 8pt;" onclick="if(confirm('Are you sure you want to proceed? This will generate a loot table based on the items in the chest that will always output the items above (not necessarily in that order).')){generateLootTable();}">
                       Generate Loot Table from contents
                     </button>-->
+                    <div class="generate-button gb-red" id="item-wipe" style="display:none;" onclick="wipeItems()">
+                      Wipe items
+                    </div>
+                  </div>
+                  <div class="app-inner-inner" id="brushable-details" style="display: none;">
+                    <b>Position:</b> <span id="brushable-position">~0 ~0 ~0</span><br>
+                    <b>Block Type:</b> <span id="brushable-type">minecraft:suspicious_sand</span>
                   </div>
                   <div class="app-inner-inner" style="margin-top: 6px;">
                     Loot Table Path:<br>

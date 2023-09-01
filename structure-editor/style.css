@@ -68,7 +68,7 @@
 
 .object-list {
   overflow-y: auto;
-  min-height: 150px;
+  min-height: 260px;
 }
 
 .file-stats {
@@ -461,6 +461,7 @@ table.trades-list tr td {
   }
   
   .object-list {
+    min-height: 150px;
     max-height: 400px;
   }
   
@@ -521,4 +522,15 @@ mcitem {
 
 mcitem.enchanted img {
   filter: drop-shadow(0px 0px 0px purple) drop-shadow(0px 0px 1px magenta) drop-shadow(0px 0px 1px purple);
+}
+
+.node-warning {
+  width: 72%;
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  font-size: max(min(1vw, 9pt), 6.5pt);
+  text-overflow: clip;
+  z-index: -1;
+  display: none;
 }

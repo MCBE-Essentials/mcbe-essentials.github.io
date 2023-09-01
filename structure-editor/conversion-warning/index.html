@@ -1,6 +1,4 @@
-<h1>
-  Structure Conversion Warning
-</h1>
+<h1>Structure Conversion Warning</h1>
 Bedrock Edition structure files are able to store different amounts of data than other types of files which we can convert to. This means that some data will likely be lost when converting to a format that will store less types of data than a .mcstructure file.
 
 <h2 id="function">MCFUNCTION Files</h2>
@@ -10,16 +8,20 @@ This means anything that is not possible with commands cannot work in the struct
 The following data will be lost:
 <ul>
   <li>Signs will not keep their text</li>
+  <li>Decorated pots will not keep their sherds</li>
   <li>Item frames, flower pots, jukeboxes and lecterns will not keep their contents</li>
   <li>Entities will not keep dialogue, trades, variants/skin-id or other special attributes.</li>
   <li>Certain block states such as door hinges may not be accurate</li>
   <li>Command, structure, jigsaw, spawner, ect blocks will not keep their data.</li>
   <li>Most item data such as custom name, lore, enchantments, durability and GiveNBT will be discarded.</li>
-  <li>Item entities will not be spawned (the only way to do this with functions is via /loot and there isn't a loot table for every item in the game)</li>
+  <li>Item entities will not be spawned</li>
+  <li>Banners won't keep their patterns, only their base color</li>
 </ul>
 
 <h2 id="nbt">NBT Files</h2>
 These files are saved as big-endian Java Edition structure files that can be loaded into the latest verison of Minecraft: Java Edition.<br>
 As this is demonstrative, experimental software, most things will not be properly converted.<br><br>
 
-As of right now, only the structure's blocks are converted to the Java edition format. Stay tuned for potential future updates to items, entities and tile entity data!
+Currently, only the structure's blocks are converted to the Java edition format. Stay tuned for potential future updates to items, entities and tile entity data!
+
+1.20+ features are not supported in this converter. 

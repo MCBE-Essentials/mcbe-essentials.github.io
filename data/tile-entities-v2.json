@@ -43,13 +43,23 @@
       "minecraft:brewing_stand"
     ]
   },
+  "BrushableBlock": {
+    "type": "brushable",
+    "blocks": [
+      "minecraft:suspicious_gravel",
+      "minecraft:suspicious_sand"
+    ]
+  },
+  "CalibratedSculkSensor": {
+    "display": false
+  },
   "Campfire": {
     "type": "campfire",
     "blocks": [
       "minecraft:campfire"
     ]
   },
-  "//Cauldron": {
+  "Cauldron": {
     "type": "cauldron"
   },
   "Chest": {
@@ -79,13 +89,16 @@
     "display": false
   },
   "Conduit": {
-    "type": "conduit",
-    "blocks": [
-      "minecraft:condiut"
-    ]
+    "display": false
   },
   "DaylightDetector": {
     "display": false
+  },
+  "DecoratedPot": {
+    "type": "decoratedpot",
+    "blocks": [
+      "minecraft:decorated_pot"
+    ]
   },
   "Dispenser": {
     "type": "container",
@@ -136,11 +149,22 @@
     ]
   },
   "HangingSign": {
-    "type": "sign",
+    "//type": "sign",
+    "type": [
+      {
+        "condition": "tileEntity.hasOwnProperty('FrontText')",
+        "value": "sign"
+      },
+      {
+        "condition": "true",
+        "value": "legacy-sign"
+      }
+    ],
     "blocks": [
       "minecraft:acacia_hanging_sign",
       "minecraft:bamboo_hanging_sign",
       "minecraft:birch_hanging_sign",
+      "minecraft:cherry_hanging_sign",
       "minecraft:crimson_hanging_sign",
       "minecraft:dark_oak_hanging_sign",
       "minecraft:jungle_hanging_sign",
@@ -223,11 +247,22 @@
     ]
   },
   "Sign": {
-    "type": "sign",
+    "//type": "sign",
+    "type": [
+      {
+        "condition": "tileEntity.hasOwnProperty('FrontText')",
+        "value": "sign"
+      },
+      {
+        "condition": "true",
+        "value": "legacy-sign"
+      }
+    ],
     "blocks": [
       "minecraft:acacia_standing_sign",
       "minecraft:bamboo_standing_sign",
       "minecraft:birch_standing_sign",
+      "minecraft:cherry_standing_sign",
       "minecraft:crimson_standing_sign",
       "minecraft:darkoak_standing_sign",
       "minecraft:jungle_standing_sign",
@@ -238,6 +273,7 @@
       "minecraft:acacia_wall_sign",
       "minecraft:bamboo_wall_sign",
       "minecraft:birch_wall_sign",
+      "minecraft:cherry_wall_sign",
       "minecraft:crimson_wall_sign",
       "minecraft:darkoak_wall_sign",
       "minecraft:jungle_wall_sign",

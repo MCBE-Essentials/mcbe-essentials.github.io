@@ -5,7 +5,8 @@ var importedData = '';
 
 //Create node editor
 let nodeEditor = new JSONEditor(document.querySelector("#node-editor"), {"mode": "tree"});
-nodeEditor.set({'hello': {'world': 'yt'}})
+let itemNodeEditor = new JSONEditor(document.querySelector("#item-node-editor"), {"mode": "tree"});
+nodeEditor.set({'hello': 'world'})
 
 let data = {
   identifiers: {
@@ -32,16 +33,25 @@ let data = {
     texturepaths: false,
     preview_texturedef: false,
     preview_texturepaths: false
+  },
+  armor_trims: {
+    patterns: false,
+    materials: false
   }
 };
 
 //Get data
 async function getData(){
-  let identifiers = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(response => {return response.json()})
+  //let old_identifiers = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(response => {return response.json()})
+  let blockidentifiers = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-blocks.json').then(response => {return response.json()})
+  let itemidentifiers = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-items.json').then(response => {return response.json()})
+  let entityidentifiers = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-entities.json').then(response => {return response.json()})
+  
   let tiles = await fetch('https://mcbe-essentials.glitch.me/data/tile-entities-v2.json').then(response => {return response.json()})
-  let potions = await fetch('https://mcbe-essentials.glitch.me/data/potion-types.json').then(response => {return response.json()})
+  /*let potions = await fetch('https://mcbe-essentials.glitch.me/data/potion-types.json').then(response => {return response.json()})
   let effects = await fetch('https://mcbe-essentials.glitch.me/data/effects-list.json').then(response => {return response.json()})
-  let enchantments = await fetch('https://mcbe-essentials.glitch.me/data/enchantments.json').then(response => {return response.json()})
+  let enchantments = await fetch('https://mcbe-essentials.glitch.me/data/enchantments.json').then(response => {return response.json()})*/
+  let general_data = await fetch('https://mcbe-essentials.glitch.me/data/general.json').then(response => {return response.json()})
   let allowedblocks = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.19.1/blockStates.json').then(response => {return response.json()}) //Returns an array of all the possible blocks in the game (every blockstate combination) as NBT objects.
   let blocksj2b = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.19.1/blocksJ2B.json').then(response => {return response.json()})
   let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.19.1/blocksB2J.json').then(response => {return response.json()})
@@ -50,17 +60,21 @@ async function getData(){
   let preview_texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/blocks.json').then(response => {return response.json()})
   let preview_texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(response => {return response.json()})
   
-  data.identifiers.block = identifiers.definitions.prefixed_block_identifiers.enum;
-  data.identifiers.item = identifiers.definitions.prefixed_item_identifiers.enum;
-  data.identifiers.entity = identifiers.definitions.prefixed_entity_identifiers.enum;
+  data.identifiers.block = blockidentifiers.data_items.map(item => item.name);
+  data.identifiers.item = itemidentifiers.data_items.map(item => item.name);
+  data.identifiers.entity = entityidentifiers.data_items.map(item => "minecraft:" + item.name);
   
   data.conversion.blocks.b2j = blocksb2j;
   data.conversion.blocks.j2b = blocksj2b;
   
   data.tiles = tiles;
-  data.potioneffects = potions;
+  /*data.potioneffects = potions;
   data.effects = effects;
-  data.enchantments = enchantments;
+  data.enchantments = enchantments;*/
+  data.potioneffects = general_data.potions.recipe_types;
+  data.effects = general_data.effects;
+  data.enchantments = general_data.enchantments;
+  data.armor_trims = general_data.armor_trims;
   
   data.allowedblocks = allowedblocks;
   
@@ -115,6 +129,17 @@ async function getData(){
   createDatalist(data.effects, document.getElementById("ids-effect"));
   createDatalist(Object.keys(data.enchantments), document.getElementById("ids-enchantment"));
   createDatalist(Object.keys(data.blockstates), document.getElementById("ids-blockstate"));
+  
+  createDatalist(data.armor_trims.patterns, document.getElementById("item-armor-trim-pattern"));
+  createDatalist(data.armor_trims.materials, document.getElementById("item-armor-trim-material"));
+  
+  document.getElementById("tentity-cauldron-potion").innerHTML = "";
+  for(let i = 0; i < data.potioneffects.length; i++){
+    let optionel = document.createElement("option");
+    optionel.value = i - 1;
+    optionel.innerHTML = data.potioneffects[i];
+    document.getElementById("tentity-cauldron-potion").appendChild(optionel);
+  }
   
   document.getElementById("upload-button-disabled").style.display = "none";
   document.getElementById("upload-button-enabled").style.display = "block";
@@ -245,6 +270,30 @@ function openItemEditor(){
   } else {
     document.getElementById("item-crossbow-tab").style.display = "none";
   }
+  
+  //Armor tab
+  if(tags.Trim || tags.customColor){
+    document.getElementById("item-armor-tab").style.display = "unset";
+    if(tags.Trim) {
+      document.getElementById("item-armor-trimgroup").style.display = "table-cell";
+      document.getElementById("item-armor-trim-pattern").value = tags.Trim.value.Pattern.value;
+      document.getElementById("item-armor-trim-material").value = tags.Trim.value.Material.value;
+    } else {
+      document.getElementById("item-armor-trimgroup").style.display = "none";
+    }
+    if(tags.customColor) {
+      document.getElementById("item-armor-leathergroup").style.display = "table-cell";
+      document.getElementById("item-armor-customcolor").value = datHandler.argb.intToHex(tags.customColor.value, true);
+    } else {
+      document.getElementById("item-armor-leathergroup").style.display = "none";
+    }
+    mcitems.init();
+  } else {
+    document.getElementById("item-armor-tab").style.display = "none";
+  }
+  
+  //Item node editor
+  itemNodeEditor.set(item);
 }
 
 function openBlockEditor(){
@@ -970,8 +1019,9 @@ function openTileEntityEditor(){
   
   
   let blockdef = data.tiles[tileEntity.id.value] || {type: false}
+  let blocktype = getBlockDefinitionType(blockdef.type, tileEntity);
   
-  switch(blockdef.type){
+  switch(blocktype){
     default: {
       break;
     }
@@ -987,13 +1037,41 @@ function openTileEntityEditor(){
       document.getElementById("tentity-commandblock-executeonfirsttick").checked = boolByte(tileEntity.ExecuteOnFirstTick.value);
       break;
     };
+    case 'legacy-sign': {
+      //Sign tab
+      document.getElementById("tentity-legacy-sign-text").value = tileEntity.Text.value;
+      document.getElementById("tentity-legacy-sign-ignorelighting").checked = (tileEntity.hasOwnProperty("IgnoreLighting") ? boolByte(tileEntity.IgnoreLighting.value) : false);
+      let tilbr = tileEntity.TextIgnoreLegacyBugResolved || {value: 0} //Might not exist if it's truly a legacy sign
+      document.getElementById("tentity-legacy-sign-textignorelegacybugresolved").checked = !boolByte(tilbr.value);
+      document.getElementById("tentity-legacy-sign-persistformatting").checked = (tileEntity.hasOwnProperty("PersistFormatting") ? boolByte(tileEntity.PersistFormatting.value) : true);
+      break;
+    }
     case 'sign': {
       //Sign tab
-      document.getElementById("tentity-sign-text").value = tileEntity.Text.value;
-      document.getElementById("tentity-sign-ignorelighting").checked = (tileEntity.hasOwnProperty("IgnoreLighting") ? boolByte(tileEntity.IgnoreLighting.value) : false);
-      let tilbr = tileEntity.TextIgnoreLegacyBugResolved || {value: 0} //Might not exist if it's truly a legacy sign
-      document.getElementById("tentity-sign-textignorelegacybugresolved").checked = !boolByte(tilbr.value);
-      document.getElementById("tentity-sign-persistformatting").checked = (tileEntity.hasOwnProperty("PersistFormatting") ? boolByte(tileEntity.PersistFormatting.value) : true);
+      let fronttext = tileEntity.FrontText.value;
+      let backtext = tileEntity.BackText.value;
+      
+      let frontcolor = datHandler.argb.intToHex(fronttext.SignTextColor.value, true);
+      document.getElementById("tentity-sign-front-text").value = fronttext.Text.value;
+      document.getElementById("tentity-sign-front-ignorelighting").checked = boolByte(fronttext.IgnoreLighting.value);
+      document.getElementById('tentity-sign-front-text').classList.toggle('glowing', boolByte(fronttext.IgnoreLighting.value))
+      document.getElementById("tentity-sign-front-persistformatting").checked = boolByte(fronttext.PersistFormatting.value);
+      document.getElementById("tentity-sign-front-color").value = frontcolor;
+      document.getElementById("tentity-sign-front-text").style.color = frontcolor;
+      
+      let backcolor = datHandler.argb.intToHex(backtext.SignTextColor.value, true);
+      document.getElementById("tentity-sign-back-text").value = backtext.Text.value;
+      document.getElementById("tentity-sign-back-ignorelighting").checked = boolByte(backtext.IgnoreLighting.value);
+      document.getElementById('tentity-sign-back-text').classList.toggle('glowing', boolByte(backtext.IgnoreLighting.value))
+      document.getElementById("tentity-sign-back-persistformatting").checked = boolByte(backtext.PersistFormatting.value);
+      document.getElementById("tentity-sign-back-color").value = backcolor;
+      document.getElementById("tentity-sign-back-text").style.color = backcolor;
+      
+      document.getElementById("tentity-sign-waxed").checked = boolByte(tileEntity.IsWaxed.value);
+      
+      //Figure out the wood type of the sign
+      getBlockDataOfBlockEntity(currentValidTile.index).name.value
+      
       break;
     }
     case 'container': {
@@ -1259,6 +1337,34 @@ function openTileEntityEditor(){
       break;
     }
     case 'cauldron': {
+      document.getElementById("tentity-cauldron-potion").value = tileEntity.PotionId.value;
+      document.getElementById("tentity-cauldron-potiontype").value = tileEntity.PotionType.value;
+      
+      if(tileEntity.hasOwnProperty("CustomColor")){
+        document.getElementById("tentity-cauldron-colorlabel").style.display = "unset";
+        document.getElementById("tentity-cauldron-color").value = datHandler.argb.intToHex(tileEntity.CustomColor.value, true);
+      } else {
+        document.getElementById("tentity-cauldron-colorlabel").style.display = "none";
+      }
+      break;
+    }
+    case 'decoratedpot': {
+      let sherds = tileEntity.sherds.value.value;
+      
+      document.getElementById("tentity-decoratedpot-sherd0").value = sherds[0];
+      document.getElementById("tentity-decoratedpot-sherd1").value = sherds[1];
+      document.getElementById("tentity-decoratedpot-sherd2").value = sherds[2];
+      document.getElementById("tentity-decoratedpot-sherd3").value = sherds[3];
+      break;
+    }
+    case 'brushable': {
+      document.getElementById("tentity-brushable-type").value = tileEntity.type.value;
+      
+      document.getElementById("tentity-brushable-brushcount").value = tileEntity.brush_count.value;
+      document.getElementById("tentity-brushable-brushdirection").value = tileEntity.brush_direction.value;
+      document.getElementById("tentity-brushable-loottable").value = tileEntity.LootTable.value;
+      document.getElementById("tentity-brushable-loottableseed").value = tileEntity.LootTableSeed.value;
+      
       break;
     }
   }
@@ -1289,6 +1395,9 @@ function closeEditors(){
   document.getElementById("tileentity-editor").style.display = "none";
   document.getElementById("block-editor").style.display = "none";
   document.getElementById("overlay").style.display = "none";
+  
+  //Hide the Item Editor's Node Editor warning
+  document.getElementById('item-node-warning').style.display='none';
   
   //Delete last entry of openededitors
   openedEditors.splice(openedEditors.length-1, 1);
@@ -1326,6 +1435,37 @@ function openEditor(){
       break;
     }
     case 'tentity-editor': {
+      //Apply correct tab configuration
+      let validtabs = editorentry.validtabs || [];
+      for(let tab of document.getElementById("tile-entity-tabs").getElementsByClassName("tab")){
+        if(validtabs.includes(tab.getAttribute("open"))){
+          tab.style.display = "inline-block"
+        } else {
+          tab.style.display = "none"
+        }
+      }
+
+      //Find the appropriate tab to switch to if the editor isn't open yet
+      if(document.getElementById("tileentity-editor").style.display == "none"){
+        //Hide the selected tab if it shouldn't be visible
+        let selectedtab = document.getElementById("tile-entity-tabs").querySelector(".selected");
+        if(selectedtab.style.display === "none"){
+          selectedtab.classList.toggle("selected", false)
+          document.querySelector(".group-tentity.visible").classList.toggle("visible", false)
+        }
+
+        //Switch to the visible non-overview tab
+        for(let potentialtab of document.getElementById("tile-entity-tabs").querySelectorAll(".tab")){
+          if(potentialtab.getAttribute("open") != "tentity-general" && potentialtab.style.display != "none"){
+            potentialtab.classList.toggle("selected", true);
+            document.getElementById(potentialtab.getAttribute("open")).classList.toggle("visible", true);
+            document.getElementById("tile-entity-tabs").children[0].classList.toggle("selected", false)
+            document.querySelector(".group-tentity#tentity-general").classList.toggle("visible", false)
+            break;
+          }
+        }
+      }
+      
       openTileEntityEditor();
       break;
     }
@@ -1480,36 +1620,9 @@ function openEditTile(domain){
   //Find which tabs are appropriate
   let validtabs = [
     "tentity-general",
-    "tentity-" + definition.type
+    "tentity-" + getBlockDefinitionType(definition.type, tileEntity)
   ]
-  for(let tab of document.getElementById("tile-entity-tabs").getElementsByClassName("tab")){
-    if(validtabs.includes(tab.getAttribute("open"))){
-      tab.style.display = "inline-block"
-    } else {
-      tab.style.display = "none"
-    }
-  }
-  
-  //Find the appropriate tab to switch to if the editor isn't open yet
-  if(document.getElementById("tileentity-editor").style.display == "none"){
-    //Hide the selected tab if it shouldn't be visible
-    let selectedtab = document.getElementById("tile-entity-tabs").querySelector(".selected");
-    if(selectedtab.style.display === "none"){
-      selectedtab.classList.toggle("selected", false)
-      document.querySelector(".group-tentity.visible").classList.toggle("visible", false)
-    }
-    
-    //Switch to the visible non-overview tab
-    for(let potentialtab of document.getElementById("tile-entity-tabs").querySelectorAll(".tab")){
-      if(potentialtab.getAttribute("open") != "tentity-general" && potentialtab.style.display != "none"){
-        potentialtab.classList.toggle("selected", true);
-        document.getElementById(potentialtab.getAttribute("open")).classList.toggle("visible", true);
-        document.getElementById("tile-entity-tabs").children[0].classList.toggle("selected", false)
-        document.querySelector(".group-tentity#tentity-general").classList.toggle("visible", false)
-        break;
-      }
-    }
-  }
+  editorentry.validtabs = validtabs;
   
   openEditor()
 }
@@ -1548,6 +1661,37 @@ function searchList(inputel, listid, query = false){
   }
 }
 
+function upgradeSign(){
+  saveTileEntity()
+  let tileEntity = currentValidTile.data;
+  tileEntity.FrontText = {type: 'compound', value: {
+    IgnoreLighting: JSON.parse(JSON.stringify(tileEntity.IgnoreLighting)),
+    PersistFormatting: JSON.parse(JSON.stringify(tileEntity.PersistFormatting)),
+    SignTextColor: JSON.parse(JSON.stringify(tileEntity.SignTextColor)),
+    Text: JSON.parse(JSON.stringify(tileEntity.Text)),
+    TextOwner: JSON.parse(JSON.stringify(tileEntity.TextOwner))
+  }};
+  
+  tileEntity.BackText = {type: 'compound', value: {
+    IgnoreLighting: nbt.byte(0),
+    PersistFormatting: nbt.byte(1),
+    SignTextColor: nbt.int(-16777216),
+    Text: nbt.string(''),
+    TextOwner: nbt.string('')
+  }};
+  
+  delete tileEntity.IgnoreLighting;
+  delete tileEntity.PersistFormatting;
+  delete tileEntity.SignTextColor;
+  delete tileEntity.Text;
+  delete tileEntity.TextOwner;
+  delete tileEntity.TextIgnoreLegacyBugResolved;
+  
+  tileEntity.IsWaxed = nbt.byte(1) //Legacy Signs are not editable so they should be waxed by default
+  
+  closeEditors()
+}
+
 function saveTileEntity(){  
   let tileEntity = currentValidTile.data;
   //Update values based off inputs
@@ -1575,8 +1719,9 @@ function saveTileEntity(){
   }
   
   let blockdef = data.tiles[tileEntity.id.value] || {type: false}
+  let blocktype = getBlockDefinitionType(blockdef.type, tileEntity)
   //Update other values based off blocktype and inputs
-  switch(blockdef.type){
+  switch(blocktype){
     default: {
       break;
     }
@@ -1592,15 +1737,39 @@ function saveTileEntity(){
       tileEntity.ExecuteOnFirstTick.value = boolByte(document.getElementById("tentity-commandblock-executeonfirsttick").checked);
       break;
     };
-    case 'sign': {
+    case 'legacy-sign': {
       //Sign tab
-      tileEntity.Text.value = document.getElementById("tentity-sign-text").value;
-      tileEntity.IgnoreLighting = {type: 'byte', value: boolByte(document.getElementById("tentity-sign-ignorelighting").checked)};
+      tileEntity.Text.value = document.getElementById("tentity-legacy-sign-text").value;
+      tileEntity.IgnoreLighting = {type: 'byte', value: boolByte(document.getElementById("tentity-legacy-sign-ignorelighting").checked)};
       tileEntity.TextIgnoreLegacyBugResolved = {
         type: "byte",
-        value: !boolByte(document.getElementById("tentity-sign-textignorelegacybugresolved").checked)
+        value: !boolByte(document.getElementById("tentity-legacy-sign-textignorelegacybugresolved").checked)
       };
-      tileEntity.PersistFormatting = {type: 'byte', value: boolByte(document.getElementById("tentity-sign-persistformatting").checked)};
+      tileEntity.PersistFormatting = {type: 'byte', value: boolByte(document.getElementById("tentity-legacy-sign-persistformatting").checked)};
+      break;
+    }
+    case 'sign': {
+      //Sign tab
+      let backtext = tileEntity.BackText.value;
+      
+      tileEntity.FrontText = {type: 'compound', value: {
+        IgnoreLighting: nbt.byte(boolByte(document.getElementById("tentity-sign-front-ignorelighting").checked)),
+        PersistFormatting: nbt.byte(boolByte(document.getElementById("tentity-sign-front-persistformatting").checked)),
+        SignTextColor: nbt.int(datHandler.argb.hexToInt(document.getElementById("tentity-sign-front-color").value, true)),
+        Text: nbt.string(document.getElementById("tentity-sign-front-text").value),
+        TextOwner: nbt.string('')
+      }};
+      
+      tileEntity.BackText = {type: 'compound', value: {
+        IgnoreLighting: nbt.byte(boolByte(document.getElementById("tentity-sign-back-ignorelighting").checked)),
+        PersistFormatting: nbt.byte(boolByte(document.getElementById("tentity-sign-back-persistformatting").checked)),
+        SignTextColor: nbt.int(datHandler.argb.hexToInt(document.getElementById("tentity-sign-back-color").value, true)),
+        Text: nbt.string(document.getElementById("tentity-sign-back-text").value),
+        TextOwner: nbt.string('')
+      }};
+      
+      tileEntity.IsWaxed = nbt.byte(boolByte(document.getElementById("tentity-sign-waxed").checked));
+      
       break;
     }
     case 'container': {
@@ -1750,6 +1919,34 @@ function saveTileEntity(){
       break;
     }
     case 'cauldron': {
+      tileEntity.PotionId = nbt.short(document.getElementById("tentity-cauldron-potion").value);
+      tileEntity.PotionType = nbt.short(document.getElementById("tentity-cauldron-potiontype").value);
+      
+      if(document.getElementById("tentity-cauldron-colorlabel").style.display === "unset"){
+        tileEntity.CustomColor = nbt.int(datHandler.argb.hexToInt(document.getElementById("tentity-cauldron-color").value, true))
+      } else {
+        delete tileEntity.CustomColor;
+      }
+      break;
+    }
+    case 'decoratedpot': {      
+      tileEntity.sherds = nbt.list(nbt.string([
+        document.getElementById("tentity-decoratedpot-sherd0").value,
+        document.getElementById("tentity-decoratedpot-sherd1").value,
+        document.getElementById("tentity-decoratedpot-sherd2").value,
+        document.getElementById("tentity-decoratedpot-sherd3").value
+      ]))
+      
+      break;
+    }
+    case 'brushable': {
+      tileEntity.type = nbt.string(document.getElementById("tentity-brushable-type").value);
+      
+      tileEntity.brush_count = nbt.int(parseFloat(document.getElementById("tentity-brushable-brushcount").value));
+      tileEntity.brush_direction = nbt.byte(parseFloat(document.getElementById("tentity-brushable-brushdirection").value));
+      
+      tileEntity.LootTable = nbt.string(document.getElementById("tentity-brushable-loottable").value);
+      tileEntity.LootTableSeed = nbt.int(parseFloat(document.getElementById("tentity-brushable-loottableseed").value));
       break;
     }
   }
@@ -1769,6 +1966,7 @@ function saveTileEntity(){
   }
   
   openTileEntityEditor()
+  generateTileEntitiesList() //Update list in case a sherd changed
 }
 
 function saveEntity(){  
@@ -1963,6 +2161,13 @@ function saveEntity(){
   openEntityEditor()
 }
 
+function removeItemTag(propertyname){
+  saveItem()
+  let item = currentItem;
+  delete item.tag.value[propertyname];
+  closeEditors()
+}
+
 function saveItem(){  
   let item = currentItem;
   
@@ -2123,6 +2328,31 @@ function saveItem(){
         "value": bookEditor.getData()
       }
     };
+  }
+  
+  //Armor trim
+  if(tags.Trim){
+    tags.Trim = {
+      "type": "compound",
+      "value": {
+        "Material": {
+          "type": "string",
+          "value": document.getElementById("item-armor-trim-material").value
+        },
+        "Pattern": {
+          "type": "string",
+          "value": document.getElementById("item-armor-trim-pattern").value
+        }
+      }
+    }
+  }
+  
+  //Leather color
+  if(tags.customColor){
+    tags.customColor = {
+      "type": "int",
+      "value": datHandler.argb.hexToInt(document.getElementById("item-armor-customcolor").value, true)
+    }
   }
   
   //Fix tags
@@ -2509,7 +2739,22 @@ function generateTileEntitiesList(){
       newlabel.classList = ["idlabel"];
       newlabel.setAttribute("index", entry.index);
       newlabel.setAttribute("onclick", "openEditTile('getValidTileEntities(getTileEntities(), "+entry.index+")')");
-      newlabel.innerHTML = identifier;
+      
+      newlabel.appendChild(document.createTextNode(identifier));
+      
+      if(entry.data.sherds){
+        newlabel.appendChild(document.createTextNode(" ("));
+        for(let sherdid of entry.data.sherds.value.value){
+          let itempreview = createItemElement({Name:nbt.string(sherdid),Count:nbt.int(1)});
+          itempreview.setAttribute("width", "16px");
+          itempreview.setAttribute("height", "16px");
+          itempreview.setAttribute("style", "vertical-align: middle; margin-right: 1px; font-size: 6pt;");
+          newlabel.appendChild(itempreview);
+
+          searchable.push(sherdid);
+        }
+        newlabel.appendChild(document.createTextNode(")"));
+      }
 
       document.getElementById("edit-tile-entities-list").appendChild(newlabel);
       
@@ -2522,12 +2767,19 @@ function generateTileEntitiesList(){
       if(entry.data.Text){
         searchable.push(entry.data.Text.value)
       }
+      if(entry.data.FrontText && entry.data.FrontText.value.Text){
+        searchable.push(entry.data.FrontText.value.Text.value)
+      }
+      if(entry.data.BackText && entry.data.BackText.value.Text){
+        searchable.push(entry.data.BackText.value.Text.value)
+      }
       if(data.tiles[identifier]){
-        searchable.push(data.tiles[identifier].type)
+        searchable.push(getBlockDefinitionType(data.tiles[identifier].type, entry.data))
       }
       newlabel.setAttribute("searchable", searchable.join(" "));
     }
   }
+  mcitems.init()
 }
 
 //Ability to download

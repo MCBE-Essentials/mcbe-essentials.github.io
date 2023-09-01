@@ -3,7 +3,7 @@
 async function fetchData() {
   //Get vanilla item data
 	mcitems.data.items = await fetch(
-		'https://unpkg.com/minecraft-textures@1.19.0/dist/textures/json/1.19.id.json'
+		'https://unpkg.com/minecraft-textures@1.20.0/dist/textures/json/1.20.id.json'
 	).then((response) => response.json())
   //Get identifier mapping data
   mcitems.data.mapping = await fetch(
@@ -369,8 +369,16 @@ var mcitems = {
       let tooltip = document.querySelector('.tooltip');
       if(!tooltip) return;
       if(tooltip.style.display != 'none'){
-        tooltip.style.left = e.pageX + 'px';
-        tooltip.style.top = e.pageY + 'px';
+        let tooltiprect = tooltip.getBoundingClientRect();
+        let bodyrect = document.getElementsByTagName("html")[0].getBoundingClientRect()
+        let x = e.pageX;
+        let y = e.pageY;
+        if(e.pageX + tooltiprect.width > bodyrect.width){
+          x = bodyrect.width - tooltiprect.width - 10;
+        }
+        
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
       }
     },
     show: function(element){

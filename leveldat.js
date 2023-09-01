@@ -65,5 +65,33 @@ const datHandler = {
   },
   longTagValue: function(long){
     return BigInt.asIntN(64, BigInt(long[0]) << 32n) | BigInt.asUintN(32, BigInt(long[1]))
+  },
+  argb: {
+    intToHex: function(int, excludeAlpha = false){
+      let a = 0xff & int >>> 24;
+      let r = 0xff & int >>> 16;
+      let g = 0xff & int >>> 8;
+      let b = 0xff & int;
+
+      function toZeroPadded(num){
+        let result = num.toString(16);
+        if(result.length == '1'){
+          result = '0' + result;
+        }
+        return result;
+      }
+
+      return '#' + toZeroPadded(r) + toZeroPadded(g) + toZeroPadded(b) + (!excludeAlpha ? toZeroPadded(a) : '');
+    },
+    hexToInt: function(hex, addAlpha){
+      hex = hex.replaceAll('#', '');
+      if(addAlpha) hex += 'ff';
+      let r = parseInt(hex.substring(0, 2), 16);
+      let g = parseInt(hex.substring(2, 4), 16);
+      let b = parseInt(hex.substring(4, 6), 16);
+      let a = parseInt(hex.substring(6, 8), 16);
+
+      return (a << 24) + (r << 16) + (g << 8) + (b << 0);
+    }
   }
 };

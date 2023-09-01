@@ -64,7 +64,7 @@
           <div class="app-inner app-tab-content group-structure visible" id="edit-upload">
             <h2>Welcome to Structure Editor!</h2>
             <p>
-              To get started, please upload a <code style="font-size:14pt">.mcstructure</code>, <code style="font-size:14pt">.nbt</code> or <code style="font-size:14pt">.json</code> file that was generated on this website.<br>
+              To get started, please upload a <code style="font-size:14pt">.mcstructure</code> file, <code style="font-size:14pt">.nbt</code> file or a MCBE Essentials-generated <code style="font-size:14pt">.json</code> structure file.<br>
               <span style="font-size:max(min(0.7vw, 9pt), 7pt);">
                 Your privacy is important to us! That's why none of your data on this website gets sent anywhere else; all of the magic happens client-side.
               </span>
@@ -163,7 +163,7 @@
                   <td class="app-node object-list-container" style="height: inherit">
                     <span>Entities</span><br>
                     <input placeholder="Search..." class="search-box" oninput="searchList(this, 'edit-entities-list')">
-                    <div class="app-inner-inner object-list" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
+                    <div class="app-inner-inner object-list" style="text-align: left; padding: 8px; height:calc(100% - 72px);">
                       <div style="height:100%;" id="edit-entities-list">
                       </div>
                     </div>
@@ -171,7 +171,7 @@
                   <td class="app-node object-list-container" style="height: inherit">
                     <span>Tile Entities</span><br>
                     <input placeholder="Search..." class="search-box" oninput="searchList(this, 'edit-tile-entities-list')">
-                    <div class="app-inner-inner object-list" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
+                    <div class="app-inner-inner object-list" style="text-align: left; padding: 8px; height:calc(100% - 72px);">
                       <div style="height:100%;" id="edit-tile-entities-list">
                       </div>
                     </div>
@@ -398,12 +398,13 @@
           <span class="tab" group="group-item" open="item-block" id="item-block-tab">Block</span>
           <span class="tab" group="group-item" open="item-mobbucket" id="item-mob-tab">Entity</span>
           <span class="tab" group="group-item" open="item-map" id="item-map-tab">Map</span>
-          <!--<span class="tab" group="group-item" open="item-leather">Leather Armor</span>-->
+          <span class="tab" group="group-item" open="item-armor" id="item-armor-tab">Armor</span>
           <!--<span class="tab" group="group-item" open="item-fireworks">Fireworks</span> Too complicated. Financial incentive would be required to pursue this and banner pattern editor.-->
           <span class="tab" group="group-item" open="item-book" id="item-book-tab">Book</span>
-          <!--<span class="tab" group="group-item" open="item-container">Container</span> Omitted due to being part of Block tab-->
+          <!--<span class="tab" group="group-item" open="item-container">Container</span> Omitted due to being part of Block tab. Would be re-added if bundles are a thing.-->
           <span class="tab" group="group-item" open="item-potion" id="item-potion-tab">Potion</span>
           <span class="tab" group="group-item" open="item-crossbow" id="item-crossbow-tab">Crossbow</span>
+          <span class="tab" group="group-item" open="item-node" id="item-node-tab" open-callback="document.getElementById('item-node-warning').style.display='unset'; snackbar('The Advanced Item Node Editor feature is experimental. Use it at your own risk!')" close-callback="document.getElementById('item-node-warning').style.display='none'">Node Editor</span>
         </div>
         <div class="app-inner app-tab-content group-item visible" id="item-general">
           <table class="app-page">
@@ -504,10 +505,40 @@
           <label>Name Index: <input type="number" class="app-input" placeholder="0" id="item-map-name"></label><br>
           <label>UUID: <input type="number" class="app-input" style="width:100%; max-width:200px;" placeholder="0000000000" id="item-map-uuid"></label><br>
           
-          Most map data (such as its display appearance) is stored in the world database. This means your map will not render properly unless imported into the same world it was exported from. 
+          Most map data (such as its display appearance) is stored in the world database. This means your map will not render properly unless the structure is imported into the same world it was exported from.
         </div>
-        <div class="app-inner app-tab-content group-item" id="item-leather">
-          You found a scrapped feature! Let me know on the discord server if you want leather armor added :)
+        <div class="app-inner app-tab-content group-item" id="item-armor">
+          <table class="app-page">
+              <tbody>
+                <tr class="app-row">
+                  <td class="app-node" style="height:inherit;" id="item-armor-leathergroup">
+                    <span>Leather Armor</span><br>
+                    <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
+                      <label><input type="color" id="item-armor-customcolor"> Dye Color</label><br><br>
+                      <button class="generate-button gb-red" onclick="removeItemTag('customColor')">
+                        Remove Dye
+                      </button>
+                    </div>
+                  </td>
+                  <td class="app-node" style="height:inherit;" id="item-armor-trimgroup">
+                    <span>Armor Trim</span><br>
+                    <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
+                      Trim Pattern: 
+                      <select class="app-input" style="width:unset; height: unset;" id="item-armor-trim-pattern">
+                        <option>(none)</option>
+                      </select><br>
+                      Trim Material: 
+                      <select class="app-input" style="width:unset; height: unset;" id="item-armor-trim-material">
+                        <option>(none)</option>
+                      </select><br>
+                      <button class="generate-button gb-red" onclick="removeItemTag('Trim')">
+                        Remove Trim
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
         </div>
         <!--<div class="app-inner app-tab-content group-item" id="item-fireworks">
           <label>Flight Duration: <input type="number" class="app-input" placeholder="1"></label><br>
@@ -571,8 +602,17 @@
           Charged Item:<br>
           <table class="itemgrid large"><tbody><tr><td id="item-crossbow-chargeditem" domain="currentItem.tag.value.chargedItem.value" onclick="openEditItem(this.getAttribute('domain'))"></td></tr></tbody></table>
         </div>
+        <div class="app-inner app-tab-content group-item" id="item-node">
+          <div id="item-node-editor" style="height: 500px; overflow: hidden; border-radius: 10px;"></div>
+          <div style="height:35px; position:relative;">
+            <div class="horizontal-select" style="text-align:center;" oninput="try{itemNodeEditor.setMode(this.getAttribute('value'))}catch(e){this.children[0].classList.toggle('selected', false);this.children[1].classList.toggle('selected', true);snackbar('The text editor contains invalid JSON. Fix it before switching to Node view.')}">
+              <div class="selected" value="tree">Node</div><div value="code">Text</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div style="height:35px; position: relative;">
+        <span class="node-warning" id="item-node-warning">Note: Saving the item while on this tab only applies the changes made above.</span>
         <div class="generate-button save-button" style="text-align:center;" onclick="saveItem()">
           Save
         </div>
@@ -846,13 +886,15 @@
           <span class="tab" group="group-tentity" open="tentity-banner">Banner</span>
           <span class="tab" group="group-tentity" open="tentity-beehive">Beehive</span>
           <span class="tab" group="group-tentity" open="tentity-brewing">Brewing Stand</span>
+          <span class="tab" group="group-tentity" open="tentity-brushable">Brushable</span>
           <span class="tab" group="group-tentity" open="tentity-campfire">Campfire</span>
           <span class="tab" group="group-tentity" open="tentity-cauldron">Cauldron</span>
           <span class="tab" group="group-tentity" open="tentity-commandblock">Command Block</span>
           <span class="tab" group="group-tentity" open="tentity-conduit">Conduit</span>
           <span class="tab" group="group-tentity" open="tentity-container">Container</span>
+          <span class="tab" group="group-tentity" open="tentity-decoratedpot">Decorated Pot</span>
           <span class="tab" group="group-tentity" open="tentity-endgateway">End Gateway</span>
-          <span class="tab" group="group-tentity" open="tentity-flowerpot">Flowerpot</span>
+          <span class="tab" group="group-tentity" open="tentity-flowerpot">Flower Pot</span>
           <span class="tab" group="group-tentity" open="tentity-furnace">Furnace</span>
           <span class="tab" group="group-tentity" open="tentity-hopper">Hopper</span>
           <span class="tab" group="group-tentity" open="tentity-itemframe">Item Frame</span>
@@ -861,6 +903,7 @@
           <span class="tab" group="group-tentity" open="tentity-spawner">Mob Spawner</span>
           <span class="tab" group="group-tentity" open="tentity-noteblock">Note Block</span>
           <span class="tab" group="group-tentity" open="tentity-netherreactor">Nether Reactor</span>
+          <span class="tab" group="group-tentity" open="tentity-legacy-sign">Sign</span>
           <span class="tab" group="group-tentity" open="tentity-sign">Sign</span>
           <span class="tab" group="group-tentity" open="tentity-structureblock">Structure Block</span>
         </div>
@@ -941,6 +984,20 @@
           </div>
           
         </div>
+        <div class="app-inner app-tab-content group-tentity" id="tentity-brushable">
+          Block<br>
+          <div class="app-inner-inner">
+            <label>Type: <input class="app-input" type="text" style="width: calc(100% - 10px); max-width: 450px;" placeholder="minecraft:suspicious_sand" id="tentity-brushable-type"></label><br>
+            <label>Brush Count: <input class="app-input" type="number" placeholder="0" id="tentity-brushable-brushcount"></label><br>
+            <label>Brush Direction: <input class="app-input" type="number" placeholder="0" id="tentity-brushable-brushdirection"></label>
+          </div>
+          <br>
+          Loot Table<br>
+          <div class="app-inner-inner">
+            Loot Table Path: <input class="app-input" style="width:calc(100% - 300px); min-width: 255px; height:20px;font-family:monospace;vertical-align: middle;" placeholder="loot_tables/entities/desert_pyramid_suspicious_sand.json" id="tentity-brushable-loottable"><br>
+            Loot Table Seed: <input class="app-input" type="number" style="width:150px;height:20px;" placeholder="0000000000" id="tentity-brushable-loottableseed"><br>
+          </div>
+        </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-campfire">
           <table>
             <thead>
@@ -1000,16 +1057,17 @@
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-cauldron">
           Potion ID: 
-          <select class="app-input" style="width:unset;height:unset;">
+          <select class="app-input" style="width:unset;height:unset;" id="tentity-cauldron-potion">
             <option value="-1">(no potion)</option>
           </select><br>
           Potion Type: 
-          <select class="app-input" style="width:unset;height:unset;">
+          <select class="app-input" style="width:unset;height:unset;" id="tentity-cauldron-potiontype">
             <option value="-1">(no potion)</option>
             <option value="0">Regular</option>
             <option value="1">Splash</option>
             <option value="2">Lingering</option>
-          </select>
+          </select><br>
+          <label id="tentity-cauldron-colorlabel"><input type="color" id="tentity-cauldron-color"> Water Color</label>
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-commandblock">
           <table style="width:100%;" class="app-page">
@@ -1056,6 +1114,39 @@
           
           <div class="app-inner-inner">
             <label><input type="checkbox" id="tentity-container-findable"> Findable on locator maps?</label>
+          </div>
+        </div>
+        <div class="app-inner app-tab-content group-tentity" id="tentity-decoratedpot">
+          Sherds<br>
+          <div class="app-inner-inner">
+            <input class="app-input" placeholder="minecraft:brick" style="width: calc(100% - 10px); height:unset;" id="tentity-decoratedpot-sherd0" list="sherds"><br>
+            <input class="app-input" placeholder="minecraft:brick" style="width: calc(100% - 10px); height:unset;" id="tentity-decoratedpot-sherd1" list="sherds"><br>
+            <input class="app-input" placeholder="minecraft:brick" style="width: calc(100% - 10px); height:unset;" id="tentity-decoratedpot-sherd2" list="sherds"><br>
+            <input class="app-input" placeholder="minecraft:brick" style="width: calc(100% - 10px); height:unset;" id="tentity-decoratedpot-sherd3" list="sherds">
+            
+            <datalist id="sherds">
+              <option value="minecraft:brick">minecraft:brick</option>
+              <option value="minecraft:angler_pottery_sherd">minecraft:angler_pottery_sherd</option>
+              <option value="minecraft:archer_pottery_sherd">minecraft:archer_pottery_sherd</option>
+              <option value="minecraft:arms_up_pottery_sherd">minecraft:arms_up_pottery_sherd</option>
+              <option value="minecraft:blade_pottery_sherd">minecraft:blade_pottery_sherd</option>
+              <option value="minecraft:brewer_pottery_sherd">minecraft:brewer_pottery_sherd</option>
+              <option value="minecraft:burn_pottery_sherd">minecraft:burn_pottery_sherd</option>
+              <option value="minecraft:danger_pottery_sherd">minecraft:danger_pottery_sherd</option>
+              <option value="minecraft:explorer_pottery_sherd">minecraft:explorer_pottery_sherd</option>
+              <option value="minecraft:friend_pottery_sherd">minecraft:friend_pottery_sherd</option>
+              <option value="minecraft:heart_pottery_sherd">minecraft:heart_pottery_sherd</option>
+              <option value="minecraft:heartbreak_pottery_sherd">minecraft:heartbreak_pottery_sherd</option>
+              <option value="minecraft:howl_pottery_sherd">minecraft:howl_pottery_sherd</option>
+              <option value="minecraft:miner_pottery_sherd">minecraft:miner_pottery_sherd</option>
+              <option value="minecraft:mourner_pottery_sherd">minecraft:mourner_pottery_sherd</option>
+              <option value="minecraft:plenty_pottery_sherd">minecraft:plenty_pottery_sherd</option>
+              <option value="minecraft:prize_pottery_sherd">minecraft:prize_pottery_sherd</option>
+              <option value="minecraft:sheaf_pottery_sherd">minecraft:sheaf_pottery_sherd</option>
+              <option value="minecraft:shelter_pottery_sherd">minecraft:shelter_pottery_sherd</option>
+              <option value="minecraft:skull_pottery_sherd">minecraft:skull_pottery_sherd</option>
+              <option value="minecraft:snort_pottery_sherd">minecraft:snort_pottery_sherd</option>
+            </datalist>
           </div>
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-endgateway">
@@ -1254,13 +1345,45 @@
           <label><input type="checkbox" id="tentity-netherreactor-hasfinished"> HasFinished</label><br>
           <label>Progress: <input type="number" placeholder="0" class="app-input" id="tentity-netherreactor-progress"></label>
         </div>
-        <div class="app-inner app-tab-content group-tentity" id="tentity-sign">
-          <textarea class="text-sign oak" rows="4" id="tentity-sign-text"></textarea><br>
-          <label><input type="checkbox" id="tentity-sign-ignorelighting"> Ignore Lighting (glow)</label><br>
-          <label><input type="checkbox" id="tentity-sign-textignorelegacybugresolved"> Legacy Sign</label><br>
-          <label><input type="checkbox" id="tentity-sign-persistformatting"> Persist Formatting</label><br><br>
+        <div class="app-inner app-tab-content group-tentity" id="tentity-legacy-sign">
+          <textarea class="text-sign oak" rows="4" id="tentity-legacy-sign-text"></textarea><br>
+          <label><input type="checkbox" id="tentity-legacy-sign-ignorelighting"> Ignore Lighting (glow)</label><br>
+          <label><input type="checkbox" id="tentity-legacy-sign-textignorelegacybugresolved"> TextIgnoreLegacyBugResolved</label><br>
+          <label><input type="checkbox" id="tentity-legacy-sign-persistformatting"> Persist Formatting</label><br><br>
           
-          Legacy Sign restores the default formatting colors and disables the glow outline (these can only naturally be created pre-v1.16.100).
+          TextIgnoreLegacyBugResolved restores the default formatting colors and disables the glow outline (these can only naturally be created pre-v1.16.100).
+          <button style="width:100%;" class="generate-button gb-blue" onclick="upgradeSign()">Upgrade to Double-Sided Sign</button>
+        </div>
+        <div class="app-inner app-tab-content group-tentity" id="tentity-sign">
+          <table style="width:100%" class="app-page">
+            <tbody>
+              <tr class="app-rpw">
+                <td class="app-node" style="text-align: center;">
+                  <span>Front</span>
+                  <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
+                    <textarea class="text-sign oak" rows="4" id="tentity-sign-front-text"></textarea><br>
+                    <label><input type="checkbox" id="tentity-sign-front-ignorelighting" oninput="document.getElementById('tentity-sign-front-text').classList.toggle('glowing', this.checked)"> Ignore Lighting (glow)</label><br>
+                    <label><input type="checkbox" id="tentity-sign-front-persistformatting"> Persist Formatting</label><br>
+                    <label><input type="color" id="tentity-sign-front-color" oninput="document.getElementById('tentity-sign-front-text').style.color = this.value"> Text Color</label>
+                  </div>
+                </td>
+                <td class="app-node" style="text-align: center;">
+                  <span>Back</span>
+                  <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
+                    <textarea class="text-sign oak" rows="4" id="tentity-sign-back-text"></textarea><br>
+                    <label><input type="checkbox" id="tentity-sign-back-ignorelighting" oninput="document.getElementById('tentity-sign-back-text').classList.toggle('glowing', this.checked)"> Ignore Lighting (glow)</label><br>
+                    <label><input type="checkbox" id="tentity-sign-back-persistformatting"> Persist Formatting</label><br>
+                    <label><input type="color" id="tentity-sign-back-color" oninput="document.getElementById('tentity-sign-back-text').style.color = this.value"> Text Color</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: center;">
+                  <label><input type="checkbox" id="tentity-sign-waxed"> Is Waxed?</label> (prevents sign from being edited)
+                </td>
+              </tr>
+            </tbody>
+          </table>         
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-structureblock">
           <table style="width:100%;" class="app-page">

@@ -1,8 +1,7 @@
 {
   "ocean": {
     "identifier": "ocean",
-    "numeric": 0,
-    "comment": "THIS FILE HAS BEEN DISCONTINUED. See the version at /data/biomes.json instead"
+    "numeric": 0
   },
   "plains": {
     "identifier": "plains",
