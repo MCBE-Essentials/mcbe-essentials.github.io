@@ -2,17 +2,27 @@ document.querySelectorAll(".tab").forEach((el) => {
   el.addEventListener("click", function(){
     let tabgroup = el.getAttribute("group") || 'group-base';
     
+    const wasAlreadyOpen = el.classList.contains("selected");
+    
     document.querySelectorAll(".tab").forEach((offel) => {
-      if(offel.getAttribute("group") === tabgroup)
-      offel.classList.toggle("selected", false)
+      let closeCallback = offel.getAttribute("close-callback") || false;
+      if(offel.getAttribute("group") === tabgroup && offel !== el){
+        if(offel.classList.contains("selected")){
+          if(closeCallback) eval(closeCallback)
+        }
+        offel.classList.toggle("selected", false)
+      }
     })
-    el.classList.toggle("selected", true);
+    
+    if(!wasAlreadyOpen) el.classList.toggle("selected", true);
     let pageToOpen = el.getAttribute("open") || false;
+    let openCallback = el.getAttribute("open-callback") || false;
     document.querySelectorAll('.' + tabgroup).forEach((offel) => {
       offel.classList.toggle("visible", false)
     })
     if(pageToOpen){
       document.getElementById(pageToOpen).classList.toggle("visible", true);
+      if(openCallback && !wasAlreadyOpen) eval(openCallback)
     }
   })
 })

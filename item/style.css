@@ -77,7 +77,8 @@ mcitem[identifier="null"]:hover, mcitem[identifier=""]:hover{
 }
 
 .tooltip {
-  position: fixed;
+  /*position: fixed;*/
+  position: absolute;
   top: 0;
   left: 0;
   background-color: #100010;

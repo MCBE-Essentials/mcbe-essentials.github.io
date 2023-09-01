@@ -63,7 +63,7 @@ var biomeData = false;
 async function fetchData(){
   var ids = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(data => data.json());
   //Using the dev domain so that list can be updated without updating site
-  var biomes = await fetch('https://mcbe-essentials.glitch.me/world-generator/biomes.json').then(data => data.json());
+  var biomes = await fetch('https://mcbe-essentials.glitch.me/data/biomes.json').then(data => data.json());
   identifiers = ids.definitions;
   biomeData = biomes;
   
@@ -250,7 +250,12 @@ function changeInfBiome(value){
 }
 
 function changeInfSeed(value){
-  if(leveldat.value.RandomSeed) delete leveldat.value.RandomSeed;
+  if(document.getElementById("inf-seed").value === "" || document.getElementById("inf-seed").value === "0"){
+    if(leveldat.value.RandomSeed) delete leveldat.value.RandomSeed
+  } else {
+    document.getElementById("inf-seed").value = Math.floor(parseFloat(document.getElementById("inf-seed").value));
+    leveldat.value.RandomSeed = nbt.long(datHandler.generateLongTag(BigInt(document.getElementById("inf-seed").value)));
+  }
 }
 
 function changeOldWorld(){
@@ -259,7 +264,12 @@ function changeOldWorld(){
   leveldat.value.LimitedWorldOriginX.value = parseFloat(document.getElementById("old-x").value);
   leveldat.value.LimitedWorldOriginZ.value = parseFloat(document.getElementById("old-z").value);
   
-  if(leveldat.value.RandomSeed) delete leveldat.value.RandomSeed
+  if(document.getElementById("old-seed").value === "" || document.getElementById("old-seed").value === "0"){
+    if(leveldat.value.RandomSeed) delete leveldat.value.RandomSeed
+  } else {
+    document.getElementById("old-seed").value = Math.floor(parseFloat(document.getElementById("old-seed").value));
+    leveldat.value.RandomSeed = nbt.long(datHandler.generateLongTag(BigInt(document.getElementById("old-seed").value)));
+  }
 }
 
 function flatVersioning(bool){

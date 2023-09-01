@@ -15,4 +15,5 @@
 
 .idlabel.selected {
   border: 1px solid white;
+  padding: 4px 3px;
 }

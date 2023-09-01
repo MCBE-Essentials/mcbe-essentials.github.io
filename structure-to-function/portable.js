@@ -334,7 +334,7 @@ async function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepSt
       }
       
       if(entityRotation){
-        output.push("execute @e[type="+entities[i].identifier.value+",x=~"+coords[0]+",y=~"+coords[1]+",z=~"+coords[2]+",r=1,c=1] ~~~ /tp @s ~ ~ ~ " + entities[i].Rotation.value.value.join(" "));
+        output.push("execute as @e[type="+entities[i].identifier.value+",x=~"+coords[0]+",y=~"+coords[1]+",z=~"+coords[2]+",r=1,c=1] at @s run tp @s ~ ~ ~ " + entities[i].Rotation.value.value.join(" "));
       }
       
       postMessage({type: 'progress', message: 'Finished converting entity ('+ (i+1) +'/'+ entities.length +')'})
@@ -398,14 +398,14 @@ function parseStates(data){
     var value = data[states[i]].value;
     var statetype = data[states[i]].type;
     if(statetype == "int"){
-      outputList.push('"'+state+'":'+value);
+      outputList.push('"'+state+'"='+value);
     } else if(statetype == "byte") {
-      outputList.push('"'+state+'":'+ (value == 1 ? true : false));
+      outputList.push('"'+state+'"='+ (value == 1 ? true : false));
     } else {
-      outputList.push('"'+state+'":"'+value+'"');
+      outputList.push('"'+state+'"="'+value+'"');
     }
   }
-  output = " [" + outputList.join() + "]";
+  output = "[" + outputList.join() + "]";
   return output;
 }
 

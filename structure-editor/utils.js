@@ -344,7 +344,13 @@ function getTopTexture(blockid){
     "jigsaw": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/jigsaw_front.png",
     "daylight_detector_inverted": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/daylight_detector_inverted_top.png",
     "campfire": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/campfire.png",
-    "soul_campfire": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/soul_campfire.png"
+    "soul_campfire": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/soul_campfire.png",
+    "bamboo_hanging_sign": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/bamboo_planks.png",
+    "bamboo_standing_sign": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/bamboo_planks.png",
+    "bamboo_wall_sign": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/bamboo_planks.png",
+    "decorated_pot": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/decorated_pot_side.png",
+    "suspicious_sand": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_sand_0.png",
+    "suspicious_gravel": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_gravel_0.png",
   };
   
   if(Object.keys(blockmapping).includes(blockid)){
@@ -366,6 +372,7 @@ function getTopTexture(blockid){
     if(typeof selectedtextures != 'string' && !selectedtextures.hasOwnProperty("up")) console.log(definition)
     let texturename = (typeof selectedtextures == 'string' ? selectedtextures : selectedtextures.up)
 
+    /*
     let texturepaths = texlist.texture_data[texturename].textures;
     let partialpath = "";
     if(typeof texturepaths === 'string'){
@@ -376,8 +383,36 @@ function getTopTexture(blockid){
       } else {
         partialpath = texturepaths[0].path;
       }    
+    }*/
+    let partialpath = "";
+    if(texlist.texture_data[texturename]){
+      let texturepaths = texlist.texture_data[texturename].textures;
+    
+      if(typeof texturepaths === 'string'){
+        partialpath = texturepaths;
+      } else {
+        if(typeof texturepaths[0] === 'string'){
+          partialpath = texturepaths[0];
+        } else {
+          partialpath = texturepaths[0].path;
+        }    
+      }
+    } else {
+      partialpath = 'textures/blocks/' + texturename; //Last resort for attempting to find texture
     }
 
     return "https://github.com/Mojang/bedrock-samples/raw/"+ branch +"/resource_pack/"+ partialpath +".png"
+  }
+}
+
+function getBlockDefinitionType(value, tileEntity = {}){
+  if(value.constructor === Array){
+    for(let potentialblocktype of value){
+      if(eval(potentialblocktype.condition)){
+        return potentialblocktype.value;
+      }
+    }
+  } else {
+    return value;
   }
 }
