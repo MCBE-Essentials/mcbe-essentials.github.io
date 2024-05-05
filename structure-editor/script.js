@@ -52,13 +52,13 @@ async function getData(){
   let effects = await fetch('https://mcbe-essentials.glitch.me/data/effects-list.json').then(response => {return response.json()})
   let enchantments = await fetch('https://mcbe-essentials.glitch.me/data/enchantments.json').then(response => {return response.json()})*/
   let general_data = await fetch('https://mcbe-essentials.glitch.me/data/general.json').then(response => {return response.json()})
-  let allowedblocks = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.19.1/blockStates.json').then(response => {return response.json()}) //Returns an array of all the possible blocks in the game (every blockstate combination) as NBT objects.
-  let blocksj2b = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.19.1/blocksJ2B.json').then(response => {return response.json()})
-  let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.19.1/blocksB2J.json').then(response => {return response.json()})
+  let allowedblocks = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.20.0/blockStates.json').then(response => {return response.json()}) //Returns an array of all the possible blocks in the game (every blockstate combination) as NBT objects.
+  let blocksj2b = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.20.0/blocksJ2B.json').then(response => {return response.json()})
+  let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.20.0/blocksB2J.json').then(response => {return response.json()})
   let texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/blocks.json').then(response => {return response.json()})
-  let texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(response => {return response.json()})
+  let texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
   let preview_texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/blocks.json').then(response => {return response.json()})
-  let preview_texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(response => {return response.json()})
+  let preview_texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
   
   data.identifiers.block = blockidentifiers.data_items.map(item => item.name);
   data.identifiers.item = itemidentifiers.data_items.map(item => item.name);
