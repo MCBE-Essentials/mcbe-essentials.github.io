@@ -41,5 +41,9 @@
   "strong_turtle_master",
   "slow_falling",
   "long_slow_falling",
-  "strong_slowness"
+  "strong_slowness",
+  "wind_charged",
+  "weaving",
+  "oozing",
+  "infested",
 ]

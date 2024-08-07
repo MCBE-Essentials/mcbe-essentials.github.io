@@ -111,7 +111,7 @@
                   <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
                     <buttongroup>
                       <button class="generate-button gb-blue" style="border-radius: 10px 10px 0px 0px" onclick="openWith('loot-tabler/')">Loot Tabler</button>
-                      <button class="generate-button gb-blue" style="border-radius: 0px" onclick="alert('This app may be added in a future update as an expansion to Structure Editor to modify trade tables in villagers. Let us know on Discord if you want this feature!')">Trade Tabler</button>
+                      <!--<button class="generate-button gb-blue" style="border-radius: 0px" onclick="alert('This app may be added in a future update as an expansion to Structure Editor to modify trade tables in villagers. Let us know on Discord if you want this feature!')">Trade Tabler</button>-->
                       <!--<button class="generate-button gb-blue" style="border-radius: 0px" onclick="openWith('/structure-to-function/')">Structure to Function</button>-->
                       <button class="generate-button gb-blue" style="border-radius: 0px 0px 10px 10px" onclick="openWith('legacy/')">Legacy Structure Editor</button>
                     </buttongroup>
@@ -927,7 +927,7 @@
         <div class="app-inner app-tab-content group-tentity" id="tentity-banner">
           <label><input type="checkbox" id="tentity-banner-type"> Is ominous?</label><br>
           <label>Base Color: <input type="number" class="app-input" placeholder="15" id="tentity-banner-base"></label> <a href="https://minecraft.fandom.com/wiki/Banner#Item" target="_blank" style="font-size: 8pt;">Values</a><br><br>
-          If you would like to see a pattern editor, suggest it over on our Discord server.
+          <!--If you would like to see a pattern editor, suggest it over on our Discord server.-->
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-beehive">
           <label><input type="checkbox" id="tentity-beehive-shouldspawnbees"> Should spawn bees?</label><br>
@@ -1157,44 +1157,8 @@
             <input type="number" class="app-input" placeholder="Z" id="tentity-endgateway-exitportal-z"><br>
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-flowerpot">
-          <label>Block: 
-            <input type="text" class="app-input" style="width:180px;font-family: monospace;" placeholder="minecraft:red_flower" list="flowerblocks"  id="tentity-flowerpot-name">
-          </label><br>
-          <label>Flower Type:
-            <input type="text" class="app-input" style="width:180px;" placeholder="coming soon!" list="flowers" disabled id="tentity-flowerpot-type">
-          </label>
           
-          <datalist id="flowers">
-            <option value="allium">allium</option>
-            <option value="cornflower">cornflower</option>
-            <option value="houstonia">houstonia</option>
-            <option value="lily_of_the_valley">lily_of_the_valley</option>
-            <option value="orchid">orchid</option>
-            <option value="oxeye">oxeye</option>
-            <option value="poppy">poppy</option>
-            <option value="tulip_orange">tulip_orange</option>
-            <option value="tulip_pink">tulip_pink</option>
-            <option value="tulip_red">tulip_red</option>
-            <option value="tulip_white">tulip_white</option>
-          </datalist>
-          <datalist id="flowerblocks">
-            <option value="minecraft:red_flower">minecraft:red_flower</option>
-            <option value="minecraft:yellow_flower">minecraft:yellow_flower</option>
-            <option value="minecraft:sapling">minecraft:sapling</option>
-            <option value="minecraft:red_mushroom">minecraft:red_mushroom</option>
-            <option value="minecraft:brown_mushroom">minecraft:brown_mushroom</option>
-            <option value="minecraft:tallgrass">minecraft:tallgrass</option>
-            <option value="minecraft:deadbush">minecraft:deadbush</option>
-            <option value="minecraft:cactus">minecraft:cactus</option>
-            <option value="minecraft:bamboo">minecraft:bamboo</option>
-            <option value="minecraft:azalea">minecraft:azalea</option>
-            <option value="minecraft:flowering_azalea">minecraft:flowering_azalea</option>
-            <option value="minecraft:crimson_fungus">minecraft:crimson_fungus</option>
-            <option value="minecraft:warped_fungus">minecraft:warped_fungus</option>
-            <option value="minecraft:crimson_roots">minecraft:crimson_roots</option>
-            <option value="minecraft:warped_roots">minecraft:warped_roots</option>
-            <option value="minecraft:mangrove_propagule">minecraft:mangrove_propagule</option>
-          </datalist>
+          <button style="width:100%;" class="generate-button gb-blue" onclick="openEditBlock('currentValidTile.data.PlantBlock.value')">Edit Flower Block</button>
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-furnace">
           <label>Fuel Burn: <input class="app-input" placeholder="0" type="number" id="tentity-furnace-burntime"> / <input class="app-input" placeholder="0" type="number" id="tentity-furnace-burnduration"></label><br>
