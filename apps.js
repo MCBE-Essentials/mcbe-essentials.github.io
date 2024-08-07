@@ -201,7 +201,7 @@ var apps = {
       confirmUnload: false,
       hideEmbedded: true
     },
-    {
+    /*{
       name: "Camera Movement Generator",
       icon: {
         class: {
@@ -214,7 +214,7 @@ var apps = {
       link: "https://mcbe-essentials.github.io/camera-movement/",    
       confirmUnload: false,
       discontinued: true
-    },
+    },*/
   ],
   Visualizers: [
     {
@@ -243,7 +243,7 @@ var apps = {
       confirmUnload: false,
       beta: true
     },
-    {
+    /*{
       name: "Server Log to Graph",
       icon: {
         class: {
@@ -256,7 +256,7 @@ var apps = {
       confirmUnload: false,
       hideEmbedded: true,
       discontinued: true
-    }
+    }*/
   ],
   Converters: [
     {

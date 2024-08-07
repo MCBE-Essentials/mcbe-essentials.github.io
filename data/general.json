@@ -16,7 +16,9 @@
       "snout",
       "rib",
       "eye",
-      "spire"
+      "spire",
+      "bolt",
+      "flow"
     ],
     "materials": [
       "netherite",
@@ -108,7 +110,13 @@
     "slow_falling",
     "bad_omen",
     "village_hero",
-    "darkness"
+    "darkness",
+    "trial_omen",
+    "wind_charged",
+    "weaving",
+    "oozing",
+    "infested",
+    "raid_omen"
   ],
   "numerals": [
     "0",
@@ -127,8 +135,10 @@
     "aqua_affinity": {"numeric": 8, "name":"Aqua Affinity", "maxLevel": 1, "treasure":false, "gear": true},
     "bane_of_arthropods": {"numeric": 11, "name":"Bane of Arthropods", "maxLevel": 5, "treasure":false, "gear": false},
     "binding": {"numeric": 27, "name":"Curse of Binding", "maxLevel": 1, "treasure":true, "gear": true, "curse": true},
+    "breach": {"numeric": 40, "name":"Breach", "maxLevel": 4, "treasure":false, "gear": true, "curse": false},
     "blast_protection": {"numeric": 3, "name":"Blast Protection", "maxLevel": 4, "treasure":false, "gear": true},
     "channeling": {"numeric": 32, "name":"Channeling", "maxLevel": 1, "treasure":false, "gear": false},
+    "density": {"numeric": 39, "name":"Density", "maxLevel": 5, "treasure":false, "gear": true, "curse": false},
     "depth_strider": {"numeric": 7, "name":"Depth Strider", "maxLevel": 3, "treasure":false, "gear": false},
     "efficiency": {"numeric": 15, "name":"Efficiency", "maxLevel": 5, "treasure":false, "gear": false},
     "feather_falling": {"numeric": 2, "name":"Feather Falling", "maxLevel": 4, "treasure":false, "gear": false},
@@ -161,6 +171,7 @@
     "swift_sneak": {"numeric": 37, "name":"Swift Sneak", "maxLevel": 3, "treasure":true, "gear": false, "villagerExempt": true},
     "thorns": {"numeric": 5, "name":"Thorns", "maxLevel": 3, "treasure":false, "gear": false},
     "unbreaking": {"numeric": 17, "name":"Unbreaking", "maxLevel": 3, "treasure":false, "gear": false},
-    "vanishing": {"numeric": 28, "name":"Curse of Vanishing", "maxLevel": 1, "treasure":true, "gear": true, "curse": true}
+    "vanishing": {"numeric": 28, "name":"Curse of Vanishing", "maxLevel": 1, "treasure":true, "gear": true, "curse": true},
+    "wind_burst": {"numeric": 38, "name":"Wind Burst", "maxLevel": 3, "treasure":true, "gear": true, "curse": false, "villagerExempt": true}
   }
 }
