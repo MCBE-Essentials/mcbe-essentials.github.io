@@ -1,6 +1,6 @@
 function getDynamicBlockIdentifier(blkobject){
   //Clone the blockobject so any operations don't affect it
-  blockobject = JSON.parse(JSON.stringify(blkobject));
+  let blockobject = JSON.parse(JSON.stringify(blkobject));
   
   let baseidentifier = "minecraft:air";
   let stateslist = {

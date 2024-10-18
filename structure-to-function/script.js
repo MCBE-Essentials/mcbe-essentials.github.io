@@ -7,6 +7,8 @@ worker.onmessage = (e) => {
     revealProgress(e.data.message)
   } else if(e.data.type == 'result'){
     downloadFunction(e.data.data)
+  } else if(e.data.type) {
+    revealError(e.data.message);
   } else {
     console.log('Invalid message from Worker: ', e);
   }
@@ -14,6 +16,14 @@ worker.onmessage = (e) => {
 
 function revealProgress(message){
   console.log(message)
+  
+  document.getElementById("output-logs").value += message + "\n";
+  document.getElementById("output-logs").scrollTop = document.getElementById("output-logs").scrollHeight;
+}
+
+function revealError(message){
+  console.error(message)
+  console.trace(message)
   
   document.getElementById("output-logs").value += message + "\n";
   document.getElementById("output-logs").scrollTop = document.getElementById("output-logs").scrollHeight;

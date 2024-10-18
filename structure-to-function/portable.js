@@ -15,7 +15,7 @@ onmessage = async function(e) {
     );
   } catch(err) {
     postMessage({type: 'progress', message: 'ERROR: An error has occured in conversion. Please send a screenshot of the following message along with your structure file to ReBrainerTV on the MCBE Essentials discord server (link in sidebar).'});
-    postMessage({type: 'progress', message: 'ERROR: ' + err});
+    postMessage({type: 'error', message: err});
   }
   postMessage({type: 'result', data: result});
 }
@@ -198,7 +198,8 @@ async function convertTiles(indicies_index, placeAir, size, keepStates){
     if(currentShape.length == 1){
       //There's only one tile in the shape, so use /setblock
       if(tilePalette != -1){
-        var id = palette[tilePalette].name.value;
+        let paletteEntry = palette[tilePalette] || {"name": {"type": "string", "value": "minecraft:air"}, "states": {"value": ""}};
+        var id = paletteEntry.name.value;
         var states = parseStates(palette[tilePalette].states.value);
         var coords = [currentShape[0].x, currentShape[0].y, currentShape[0].z];
         //Some blocks should not be placed by commands (top half of doors, ect). These must be filtered out.
@@ -229,12 +230,13 @@ async function convertTiles(indicies_index, placeAir, size, keepStates){
       
       //Create the command from these measurments
       if(tilePalette != -1){
-        var id = palette[tilePalette].name.value;
-        var states = parseStates(palette[tilePalette].states.value);
+        let paletteEntry = palette[tilePalette] || {"name": {"type": "string", "value": "minecraft:air"}, "states": {"value": ""}};
+        var id = paletteEntry.name.value;
+        var states = parseStates(paletteEntry.states.value);
         var xyz1 = [lowX, lowY, lowZ];
         var xyz2 = [hiX, hiY, hiZ];
         //Some blocks should not be placed by commands (top half of doors, ect). These must be filtered out.
-        if(whitelistStates(palette[tilePalette].states.value)){
+        if(whitelistStates(paletteEntry.states.value)){
           //Ignore placing the block if it is air and air should be filtered out
           if(placeAir || (!placeAir && id != "minecraft:air")){
             commands.push("fill " + getRelativeCoords(xyz1) + " " + getRelativeCoords(xyz2) + " " + id + (keepStates ? states : ""));
