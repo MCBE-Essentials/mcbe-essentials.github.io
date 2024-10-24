@@ -289,7 +289,7 @@ function getLowestEntry(list, size){
 async function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, tileContainerItems, includeEntities, entityRotation, entityEquiptment, structureoverride = false){
   if(structureoverride) tempstructure = structureoverride;
   
-  var output = ["#Generated with ReBrainer's Structure to Function Converter at https://mcbe-essentials.glitch.me/structure-to-function/ on " + new Date()];
+  var output = ["#Generated with ReBrainer's Structure to Function Converter at https://mcbe-essentials.github.io/structure-to-function/ on " + new Date()];
   var size = tempstructure.value.size.value.value;
   var structure_world_origin = tempstructure.value.structure_world_origin.value.value;  
   

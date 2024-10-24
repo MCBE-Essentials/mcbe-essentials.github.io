@@ -63,7 +63,7 @@ var biomeData = false;
 async function fetchData(){
   var ids = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(data => data.json());
   //Using the dev domain so that list can be updated without updating site
-  var biomes = await fetch('https://mcbe-essentials.glitch.me/data/biomes.json').then(data => data.json());
+  var biomes = await fetch('https://mcbe-essentials.github.io/data/biomes.json').then(data => data.json());
   identifiers = ids.definitions;
   biomeData = biomes;
   

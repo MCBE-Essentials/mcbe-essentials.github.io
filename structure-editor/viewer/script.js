@@ -2,7 +2,7 @@
 var textureDef;
 var textureNames;
 var textures = {
-  chest: "https://mcbe-essentials.glitch.me/assets/chest_top.png",
+  chest: "https://mcbe-essentials.github.io/assets/chest_top.png",
   light_block: "https://upload.wikimedia.org/wikipedia/commons/4/48/BLANK_ICON.png"
 };
 var texturePrefix = "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/";

@@ -78,7 +78,7 @@ function exportUrl(edita) {
   }
   var encodedLog = btoa(area.value);
   var returnLog =
-    "http://mcbe-essentials.glitch.me/loopr/?mode=" +
+    "http://mcbe-essentials.github.io/loopr/?mode=" +
     mode +
     "&encoded=true&command=" +
     encodedLog +

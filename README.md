@@ -57,6 +57,6 @@ _List coming soon!_
 
 The stable release is available at [https://mcbe-essentials.github.io](https://mcbe-essentials.github.io)
 
-The nightly build is available at [https://mcbe-essentials.glitch.me](https://mcbe-essentials.glitch.me) but is only accesible if you have entered dev mode on the site. Features on the nightly build may not fully work.
+The nightly build has been discontinued when the active development of this project shut down.
 
 \ ゜ o ゜)ノ

@@ -13,7 +13,7 @@ function init(){
 function encodeLog(){
   var area = document.getElementById("area");
   var encodedLog = btoa(area.value);
-  var returnLog = "http://mcbe-essentials.glitch.me/log-to-graph/?encoded=true&log=" + encodedLog;
+  var returnLog = "http://mcbe-essentials.github.io/log-to-graph/?encoded=true&log=" + encodedLog;
   area.value = returnLog;
   alert("Your server log has been encoded. Check the text box that you pasted your log in originally. It's a URL now (clickable link). Paste that into your browser and press Enter to see the graph. You may want to use a URL shortening service if you intend on sharing your graph with others.");
   return returnLog;

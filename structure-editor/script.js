@@ -47,11 +47,11 @@ async function getData(){
   let itemidentifiers = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-items.json').then(response => {return response.json()})
   let entityidentifiers = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-entities.json').then(response => {return response.json()})
   
-  let tiles = await fetch('https://mcbe-essentials.glitch.me/data/tile-entities-v2.json').then(response => {return response.json()})
-  /*let potions = await fetch('https://mcbe-essentials.glitch.me/data/potion-types.json').then(response => {return response.json()})
-  let effects = await fetch('https://mcbe-essentials.glitch.me/data/effects-list.json').then(response => {return response.json()})
-  let enchantments = await fetch('https://mcbe-essentials.glitch.me/data/enchantments.json').then(response => {return response.json()})*/
-  let general_data = await fetch('https://mcbe-essentials.glitch.me/data/general.json').then(response => {return response.json()})
+  let tiles = await fetch('https://mcbe-essentials.github.io/data/tile-entities-v2.json').then(response => {return response.json()})
+  /*let potions = await fetch('https://mcbe-essentials.github.io/data/potion-types.json').then(response => {return response.json()})
+  let effects = await fetch('https://mcbe-essentials.github.io/data/effects-list.json').then(response => {return response.json()})
+  let enchantments = await fetch('https://mcbe-essentials.github.io/data/enchantments.json').then(response => {return response.json()})*/
+  let general_data = await fetch('https://mcbe-essentials.github.io/data/general.json').then(response => {return response.json()})
   let allowedblocks = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.21.0/blockStates.json').then(response => {return response.json()}) //Returns an array of all the possible blocks in the game (every blockstate combination) as NBT objects.
   let blocksj2b = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.21.0/blocksJ2B.json').then(response => {return response.json()})
   let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.21.0/blocksB2J.json').then(response => {return response.json()})

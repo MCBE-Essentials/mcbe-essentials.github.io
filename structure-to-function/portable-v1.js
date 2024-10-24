@@ -248,7 +248,7 @@ function getLowestEntry(list, size){
 }
 
 async function structureToFunction(includeBlocks, placeAir, keepWaterlog, keepStates, tileContainerItems, includeEntities, entityRotation, entityEquiptment, structure = window.structure){
-  var output = ["#Generated with ReBrainer's Structure Editor at https://mcbe-essentials.glitch.me/structure-editor/ on " + new Date()];
+  var output = ["#Generated with ReBrainer's Structure Editor at https://mcbe-essentials.github.io/structure-editor/ on " + new Date()];
   var size = structure.value.size.value.value;
   var structure_world_origin = structure.value.structure_world_origin.value.value;  
   //Entities

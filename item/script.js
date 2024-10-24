@@ -7,7 +7,7 @@ async function fetchData() {
 	).then((response) => response.json())
   //Get identifier mapping data
   mcitems.data.mapping = await fetch(
-		'https://mcbe-essentials.glitch.me/item/data/mapping.json'
+		'https://mcbe-essentials.github.io/item/data/mapping.json'
 	).then((response) => response.json())
   
 	mcitems.init()
