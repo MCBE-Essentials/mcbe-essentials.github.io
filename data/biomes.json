@@ -342,5 +342,9 @@
   "cherry_grove": {
     "identifier": "cherry_grove",
     "numeric": 192
+  },
+  "pale_garden": {
+    "identifier": "pale_garden",
+    "numeric": 193
   }
 }
