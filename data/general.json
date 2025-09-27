@@ -30,7 +30,8 @@
       "emerald",
       "amethyst",
       "diamond",
-      "redstone"
+      "redstone",
+      "resin"
     ]
   },
   "potions": {
@@ -77,7 +78,11 @@
       "strong_turtle_master",
       "slow_falling",
       "long_slow_falling",
-      "strong_slowness"
+      "strong_slowness",
+      "wind_charging",
+      "weaving",
+      "oozing",
+      "infestation"
     ]
   },
   "effects": [
