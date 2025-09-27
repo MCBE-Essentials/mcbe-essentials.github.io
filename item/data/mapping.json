@@ -28,6 +28,7 @@
 "minecraft:web": "minecraft:cobweb",
   "minecraft:deadbush": "minecraft:dead_bush",
   "minecraft:light_block": "minecraft:light",
+  "minecraft:lodestone_compass": "minecraft:compass",
   "minecraft:small_dripleaf_block": "minecraft:small_dripleaf",
   "minecraft:acacia_standing_sign": "minecraft:acacia_sign",
   "minecraft:acacia_wall_sign": "minecraft:acacia_sign",
