@@ -25,7 +25,9 @@
   "minecraft:wooden_slab": "minecraft:oak_slab",
   "minecraft:snow": "minecraft:snow_block",
   "minecraft:snow_layer": "minecraft:snow",
-
+"minecraft:web": "minecraft:cobweb",
+  "minecraft:deadbush": "minecraft:dead_bush",
+  "minecraft:light_block": "minecraft:light",
   "minecraft:small_dripleaf_block": "minecraft:small_dripleaf",
   "minecraft:acacia_standing_sign": "minecraft:acacia_sign",
   "minecraft:acacia_wall_sign": "minecraft:acacia_sign",
