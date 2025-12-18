@@ -36,6 +36,7 @@
   },
   "potions": {
     "recipe_types": [
+      "none",
       "water",
       "mundane",
       "long_mundane",
