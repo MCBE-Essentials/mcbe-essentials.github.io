@@ -333,5 +333,11 @@
     "blocks": [
       "minecraft:structure_block"
     ]
+  },
+  "TrialSpawner": {
+    "type": "tspawner",
+    "blocks": [
+      "minecraft:trial_spawner"
+    ]
   }
 }
