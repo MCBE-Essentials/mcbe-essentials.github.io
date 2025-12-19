@@ -62,6 +62,12 @@
   "Cauldron": {
     "type": "cauldron"
   },
+  "Crafter": {
+    "type": "crafter",
+    "blocks": [
+      "minecraft:crafter"
+    ]
+  },
   "Chest": {
     "type": "container",
     "slots": 27,
