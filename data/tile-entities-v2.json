@@ -258,7 +258,7 @@
     "display": false
   },
   "Shelf": {
-  "type": "shelf",
+  "type": "shelf1",
   "blocks": [
     "minecraft:acacia_shelf",
       "minecraft:bamboo_shelf",
