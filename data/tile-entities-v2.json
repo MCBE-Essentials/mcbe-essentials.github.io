@@ -257,6 +257,22 @@
   "PistonArm": {
     "display": false
   },
+  "Shelf": {
+  "type": "shelf",
+  "blocks": [
+    "minecraft:acacia_shelf",
+      "minecraft:bamboo_shelf",
+      "minecraft:birch_shelf",
+      "minecraft:cherry_shelf",
+      "minecraft:crimson_shelf",
+      "minecraft:dark_oak_shelf",
+      "minecraft:jungle_shelf",
+      "minecraft:mangrove_shelf",
+      "minecraft:oak_shelf",
+      "minecraft:spruce_shelf",
+      "minecraft:warped_shelf"
+  ]
+  },
   "ShulkerBox": {
     "type": "container",
     "slots": 27,
