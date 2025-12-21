@@ -339,5 +339,11 @@
     "blocks": [
       "minecraft:trial_spawner"
     ]
-  }
+  },
+  "Vault": {
+    "type": "vault",
+    "blocks": [
+      "minecraft:vault"
+    ]
+  } 
 }
