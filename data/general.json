@@ -29,12 +29,13 @@
     "minecraft:diamond_leggings",
     "minecraft:diamond_boots",
     "minecraft:netherite_helmet",
-    "minecraft:nethetite_chestplate",
+    "minecraft:netherite_chestplate",
     "minecraft:netherite_leggings",
     "minecraft:netherite_boots"
   ],
   "armor_trims": {
     "patterns": [
+      "none",
       "sentry",
       "vex",
       "wild",
@@ -55,6 +56,7 @@
       "flow"
     ],
     "materials": [
+      "none",
       "netherite",
       "quartz",
       "lapis",
