@@ -8,6 +8,7 @@
     "minecraft:wolf_armor"
   ],
   "trimmable_armors": [
+    "minecraft:turtle_helmet",
     "minecraft:leather_helmet",
     "minecraft:leather_chestplate",
     "minecraft:leather_leggings",
