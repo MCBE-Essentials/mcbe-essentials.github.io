@@ -30,24 +30,10 @@ async function fetchData(){
 
 function doIdentifiers(){
   let realIds = identifiers.definitions.prefixed_item_identifiers.enum;
-  let container = document.getElementById("items");
-  container.innerHTML = "";
-
+  document.getElementById("items").innerHTML = "";
   for(var i = 0; i < realIds.length; i++){
-    let id = realIds[i];
-    if(id.startsWith("minecraft:element_")) continue;
-
-    // Verifica se esse ID tem múltiplas variações no mapping
-    let mappedData = mcitems.data.mapping[id];
-
-    if(Array.isArray(mappedData)){
-      // Se for um array (como poções, lãs, corantes), cria todos
-      for(let d = 0; d < mappedData.length; d++){
-        container.innerHTML += `<mcitem identifier="${id}" damage="${d}" count="1"></mcitem>`;
-      }
-    } else {
-      // Se não for array, cria apenas o item normal
-      container.innerHTML += `<mcitem identifier="${id}" count="1"></mcitem>`;
+    if(!realIds[i].startsWith("minecraft:element_")){
+      document.getElementById("items").innerHTML += '<mcitem identifier="'+ realIds[i] +'" count="3"></mcitem>';
     }
   }
   mcitems.init();
