@@ -1,4 +1,12 @@
 {
+// list of items for some special behaviors
+  "dyeable_items": [
+    "minecraft:leather_helmet",
+    "minecraft:leather_chestplate",
+    "minecraft:leather_leggings",
+    "minecraft:leather_boots",
+    "minecraft:leather_horse_armor"
+  ],
   "armor_trims": {
     "patterns": [
       "sentry",
