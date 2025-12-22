@@ -77,8 +77,7 @@
     ]
   },
   "ChiseledBookshelf": {
-    "type": "container",
-    "slots": 6,
+    "type": "chiseledbookshelf",
     "blocks": [
       "minecraft:chiseled_bookshelf"
     ]
