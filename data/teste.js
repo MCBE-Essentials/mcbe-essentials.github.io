@@ -142,25 +142,23 @@ const potionSelect = document.getElementById("item-potion-effect-input"); // Voc
 cauldronSelect.innerHTML = "";
 if(potionSelect) potionSelect.innerHTML = ""; // Limpa se o elemento existir
 
+// Dentro do getData(), procure o loop de potioneffects
 for(let i = 0; i < data.potioneffects.length; i++){
-    let effectName = data.potioneffects[i];
+    let optionel = document.createElement("option");
+    optionel.value = i - 1; // Para o caldeirão, none é -1
+    optionel.innerHTML = data.potioneffects[i];
+    document.getElementById("tentity-cauldron-potion").appendChild(optionel);
 
-    // Lógica do Caldeirão (Mantém como está)
-    let optionCauldron = document.createElement("option");
-    optionCauldron.value = i - 1;
-    optionCauldron.innerHTML = effectName;
-    cauldronSelect.appendChild(optionCauldron);
-
-    // Lógica da Poção (Item): Pula o "none"
-    if(effectName.toLowerCase() !== "none" && potionSelect){
-        let optionPotion = document.createElement("option");
-        // Se effectName é "water" (índice 1), o valor será 0 (Damage correto da Water Bottle)
-        optionPotion.value = i - 1; 
-        optionPotion.innerHTML = effectName;
-        potionSelect.appendChild(optionPotion);
+    // ADICIONE ISTO PARA A ABA DE POÇÕES (ITEM)
+    if (data.potioneffects[i].toLowerCase() !== "none") {
+        let potionOpt = document.createElement("option");
+        // Se a lista é [none, water], quando i=1 (water), value será 0.
+        // Isso bate com a sua tabela: Water = Damage 0.
+        potionOpt.value = i - 1; 
+        potionOpt.innerHTML = data.potioneffects[i];
+        document.getElementById("item-potion-effect-input").appendChild(potionOpt);
     }
 }
-  
   document.getElementById("upload-button-disabled").style.display = "none";
   document.getElementById("upload-button-enabled").style.display = "block";
   //nodeEditor.set(data)
@@ -263,29 +261,21 @@ function openItemEditor(){
     document.getElementById("item-map-tab").style.display = "none";
   }
   
-  // Potion tab logic
-// Potion IDs permitidos
-const POTION_IDS = ["minecraft:potion", "minecraft:splash_potion", "minecraft:lingering_potion"];
+  const POTION_IDS = ["minecraft:potion", "minecraft:splash_potion", "minecraft:lingering_potion"];
 
-// Dentro da lógica onde você abre a aba de propriedades:
-if (POTION_IDS.includes(identifier) || tags.wasJustBrewed) {
+// Potion tab
+// Verifica se é um dos IDs de poção OU se já tem a tag NBT
+if(POTION_IDS.includes(identifier) || tags.wasJustBrewed){
     document.getElementById("item-potion-tab").style.display = "unset";
-
-    // Pega o damage atual (Ex: se for 0, é Water Bottle no Bedrock)
-    const currentDmg = parseInt(el.getAttribute("damage")) || 0;
     
-    // IMPORTANTE: Como sua lista tem 'none' no 0 e 'water' no 1,
-    // e o Bedrock diz que 0 é Water, vamos ajustar a exibição:
-    let effectName = data.potioneffects[currentDmg];
-    
-    // Se o damage for 0, o sistema pegaria "none". Vamos forçar mostrar "water".
-    if (currentDmg === 0) effectName = "water";
+    // Sincroniza o select com o DAMAGE atual do <mcitem>
+    // Se o item não tem damage, o padrão é 0 (Water)
+    let currentDmg = el.getAttribute("damage") || 0;
+    document.getElementById("item-potion-effect-input").value = currentDmg;
 
-    document.getElementById("item-potion-effect-input").value = effectName;
-
-    // Sincroniza o checkbox do wasJustBrewed
-    document.getElementById("item-potion-wasjustbrewed").checked = tags.wasJustBrewed ? boolByte(tags.wasJustBrewed.value) : false;
-
+    if(tags.wasJustBrewed) {
+        document.getElementById("item-potion-wasjustbrewed").checked = boolByte(tags.wasJustBrewed.value);
+    }
 } else {
     document.getElementById("item-potion-tab").style.display = "none";
 }
@@ -2948,26 +2938,19 @@ function saveItem(){
   }
   
   //Potion tab
-  // Na parte do código que salva as alterações da aba de poção:
-const selectedEffect = document.getElementById("item-potion-effect-input").value;
-
-// Encontra o índice na sua lista original
-let realIndex = data.potioneffects.indexOf(selectedEffect);
-
-// Ajuste de segurança: Se o usuário escolheu 'water' (que na sua lista é 1) 
-// mas a tabela diz que Water é 0, ou se ele escolheu algo que não existe:
-if (selectedEffect === "water") {
-    realIndex = 0; 
+  // Na sua função de salvar/atualizar o item:
+if(POTION_IDS.includes(identifier)){
+    let selectedValue = document.getElementById("item-potion-effect-input").value;
+    el.setAttribute("damage", selectedValue); // Salva o 0, 1, 2... no atributo damage
+    
+    // Atualiza o NBT
+    tags.wasJustBrewed = {
+        type: 'byte', 
+        value: boolByte(document.getElementById("item-potion-wasjustbrewed").checked)
+    };
+    
+    mcitems.init(); // Recarrega a imagem para mostrar a cor certa
 }
-
-// Salva o damage no elemento
-el.setAttribute("damage", realIndex);
-
-// Salva a tag NBT
-tags.wasJustBrewed = {
-    type: 'byte', 
-    value: boolByte(document.getElementById("item-potion-wasjustbrewed").checked)
-};
   
   //Book tab
   if(tags.pages){
