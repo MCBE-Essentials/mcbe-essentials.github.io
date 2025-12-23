@@ -135,27 +135,31 @@ async function getData(){
   createDatalist(data.armor_trims.patterns, document.getElementById("item-armor-trim-pattern"));
   createDatalist(data.armor_trims.materials, document.getElementById("item-armor-trim-material"));
   
-  document.getElementById("tentity-cauldron-potion").innerHTML = "";
-  for(let i = 0; i < data.potioneffects.length; i++){
-    let optionel = document.createElement("option");
-    optionel.value = i - 1;
-    optionel.innerHTML = data.potioneffects[i];
-    document.getElementById("tentity-cauldron-potion").appendChild(optionel);
-  }
-// Dentro do getData(), após carregar o data.potions.recipe_types
-const potionSelect = document.getElementById("item-potion-effect-input");
-potionSelect.innerHTML = "";
+  // Procure este loop no seu getData() e adicione a parte do potionSelect
+const cauldronSelect = document.getElementById("tentity-cauldron-potion");
+const potionSelect = document.getElementById("item-potion-effect-input"); // Você precisa criar este ID no HTML
 
-data.potions.recipe_types.forEach((effectName, i) => {
-    // Pula o "none" (índice 0) para a UI da poção
-    if (effectName.toLowerCase() !== "none") {
-        let opt = document.createElement("option");
-        // O value será o index - 1 (Ex: water é index 1, vira value 0)
-        opt.value = i - 1; 
-        opt.innerHTML = effectName;
-        potionSelect.appendChild(opt);
+cauldronSelect.innerHTML = "";
+if(potionSelect) potionSelect.innerHTML = ""; // Limpa se o elemento existir
+
+for(let i = 0; i < data.potioneffects.length; i++){
+    let effectName = data.potioneffects[i];
+
+    // Lógica do Caldeirão (Mantém como está)
+    let optionCauldron = document.createElement("option");
+    optionCauldron.value = i - 1;
+    optionCauldron.innerHTML = effectName;
+    cauldronSelect.appendChild(optionCauldron);
+
+    // Lógica da Poção (Item): Pula o "none"
+    if(effectName.toLowerCase() !== "none" && potionSelect){
+        let optionPotion = document.createElement("option");
+        // Se effectName é "water" (índice 1), o valor será 0 (Damage correto da Water Bottle)
+        optionPotion.value = i - 1; 
+        optionPotion.innerHTML = effectName;
+        potionSelect.appendChild(optionPotion);
     }
-});
+}
   
   document.getElementById("upload-button-disabled").style.display = "none";
   document.getElementById("upload-button-enabled").style.display = "block";
