@@ -159,7 +159,8 @@
     "weaving",
     "oozing",
     "infested",
-    "raid_omen"
+    "raid_omen",
+    "breath_of_the_nautilus"
   ],
   "numerals": [
     "0",
@@ -196,6 +197,7 @@
     "looting": {"numeric": 14, "name":"Looting", "maxLevel": 3, "treasure":false, "gear": false},
     "loyalty": {"numeric": 31, "name":"Loyalty", "maxLevel": 3, "treasure":false, "gear": false},
     "luck_of_the_sea": {"numeric": 23, "name":"Luck of the Sea", "maxLevel": 3, "treasure":false, "gear": false},
+    "lunge": {"numeric": 41, "name":""Lunge", "maxLevel": 3, "treasure":false, "gear": false},
     "lure": {"numeric": 24, "name":"Lure", "maxLevel": 3, "treasure":false, "gear": false},
     "mending": {"numeric": 26, "name":"Mending", "maxLevel": 1, "treasure":true, "gear": false},
     "multishot": {"numeric": 33, "name":"Multishot", "maxLevel": 1, "treasure":false, "gear": false},
