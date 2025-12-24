@@ -80,8 +80,22 @@
     "gus": "Guster"
   },
   "banner_colors": [
-    "White", "Orange", "Magenta", "Light Blue", "Yellow", "Lime", "Pink", "Gray", 
-    "Silver", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black"
+    "White", 
+    "Orange", 
+    "Magenta", 
+    "Light Blue", 
+    "Yellow", 
+    "Lime",
+    "Pink",
+    "Gray",
+    "Silver",
+    "Cyan",
+    "Purple",
+    "Blue", 
+    "Brown",
+    "Green",
+    "Red", 
+    "Black"
   ],
   "armor_trims": {
     "patterns": [
