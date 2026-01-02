@@ -396,12 +396,13 @@
         <div class="app-tabs" id="item-tabs">
           <span class="tab selected" group="group-item" open="item-general">Overview</span>
           <span class="tab" group="group-item" open="item-block" id="item-block-tab">Block</span>
+          <span class="tab" group="group-item" open="item-banner" id="item-banner-tab">Banner</span>
           <span class="tab" group="group-item" open="item-mobbucket" id="item-mob-tab">Entity</span>
           <span class="tab" group="group-item" open="item-map" id="item-map-tab">Map</span>
           <span class="tab" group="group-item" open="item-armor" id="item-armor-tab">Armor</span>
-          <!--<span class="tab" group="group-item" open="item-fireworks">Fireworks</span> Too complicated. Financial incentive would be required to pursue this and banner pattern editor.-->
+          <span class="tab" group="group-item" open="item-fireworks" id="item-fireworks-tab">Fireworks</span> <!-- Too complicated. Financial incentive would be required to pursue this and banner pattern editor.-->
           <span class="tab" group="group-item" open="item-book" id="item-book-tab">Book</span>
-          <!--<span class="tab" group="group-item" open="item-container">Container</span> Omitted due to being part of Block tab. Would be re-added if bundles are a thing.-->
+          <span class="tab" group="group-item" open="item-bundle" id="item-bundle-tab">Bundle</span> <!-- Omitted due to being part of Block tab. Would be re-added if bundles are a thing.-->
           <span class="tab" group="group-item" open="item-potion" id="item-potion-tab">Potion</span>
           <span class="tab" group="group-item" open="item-crossbow" id="item-crossbow-tab">Crossbow</span>
           <span class="tab" group="group-item" open="item-node" id="item-node-tab" open-callback="document.getElementById('item-node-warning').style.display='unset'; snackbar('The Advanced Item Node Editor feature is experimental. Use it at your own risk!')" close-callback="document.getElementById('item-node-warning').style.display='none'">Node Editor</span>
@@ -476,7 +477,7 @@
           <span>
             Block States
             <span style="font-size: 8pt;">
-             (<a href="https://learn.microsoft.com/en-us/minecraft/creator/reference/content/addonsreference/examples/addonblocks#blockstates" target="_blank">Values</a>)
+             (<a href="https://learn.microsoft.com/en-us/minecraft/creator/reference/content/blockreference/examples/blockstateandtraitlistings?view=minecraft-bedrock-stable" target="_blank">Values</a>)
             </span>
           </span><br>
           <div class="app-inner-inner hide-scrollbar" style="overflow-x: scroll; max-height: 250px; overflow-y: auto;">
@@ -496,6 +497,85 @@
           </div><br>
           <button style="width:100%;" class="generate-button gb-blue" onclick="openPseudoTile()" id="item-block-openastile">Edit as Tile Entity</button>
         </div>
+        <div class="app-inner app-tab-content group-item" id="item-banner">
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        
+        <div style="flex: 1;">
+            <label><input type="checkbox" id="item-banner-type"> Is ominous?</label><br>
+            
+            <label>Base Color: 
+    <select class="app-input" id="item-banner-base" style="width: 100px;"></select>
+    
+    <select class="app-input" id="item-shield-base" style="width: 100px; display: none;"></select>
+</label>
+            <br><br>
+            
+            <span>Patterns</span><br>
+            <div class="app-inner-inner" style="text-align: left; padding: 8px;">
+                <div class="effects-list" id="item-banner-patterns-list" style="height:150px; overflow-y:auto;">
+                </div>
+                <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png" 
+                     id="item-btn-add-pattern" class="minibutton" onclick="addBannerPatternRow()" style="vertical-align:middle;">
+                <span id="item-ominous-warning" style="display: none; font-size: 8pt; color: #ffaa00; vertical-align: middle;">
+                    (Unavailable in Ominous mode)
+                </span>     	
+                <span style="font-size: 8pt;">Pattern ID, Color</span>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <span style="font-size: 9pt; display: block; margin-bottom: 5px;">Preview</span>
+            <div class="banner-preview-box">
+                <div id="item-view-base" class="banner-layer"></div>
+                <div id="item-view-layers"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="app-inner app-tab-content group-item" id="item-fireworks">
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 5px;">
+        
+        <div id="firework-flight-section" style="padding: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">
+            <label style="font-size: 11px; color: #ccc;">
+                Flight Duration (0-3): 
+                <input type="number" class="app-input" id="item-firework-flight" style="width: 50px; height: 24px; margin-left: 5px;" min="0" max="3">
+            </label>
+        </div>
+
+        <div class="app-inner-inner" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 4px;">
+            <span style="font-size: 11px; font-weight: bold; color: #fff; display: block; margin-bottom: 8px;">Explosions / Stars</span>
+            
+            <div id="item-firework-explosions-list" style="max-height: 250px; overflow-y: auto;">
+                </div>
+
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 8px;">
+                <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png" 
+                     id="item-btn-add-explosion" 
+                     onclick="window.addFireworkExplosionRow()" 
+                     style="width: 20px; height: 20px; cursor: pointer; image-rendering: pixelated;">
+                <span style="font-size: 10px; color: #888;">Add Explosion Effect</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="item-bundle" class="app-inner app-tab-content group-item">
+    <div class="field-group">
+        <div class="field-label">Bundle Content (64 Slots)</div>
+        <div class="app-inner-inner" style="display: inline-block; width: fit-content; padding: 10px; border-radius: 8px; background-color: rgba(0,0,0,0.1);">
+            <table class="itemgrid large" id="item-bundle-slots-table" style="margin: 0 auto;">
+                <tbody id="item-bundle-slots-tbody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="field-group">
+        <div class="field-label">Bundle Weight</div>
+        <input type="number" id="item-bundle-weight" style="width: 100%;" oninput="currentItem.tag.value.bundle_weight.value = Number(this.value)">
+    </div>
+</div>
         <div class="app-inner app-tab-content group-item" id="item-mobbucket">
           <label><input type="checkbox" checked id="item-mobbucket-useattributes"> Use attributes to display bucket name?</label><br><br>
           <button style="width:100%;" class="generate-button gb-blue" onclick="openEditEntity('currentItem.tag.value')">Edit as Entity</button>
@@ -512,14 +592,24 @@
               <tbody>
                 <tr class="app-row">
                   <td class="app-node" style="height:inherit;" id="item-armor-leathergroup">
-                    <span>Leather Armor</span><br>
-                    <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
-                      <label><input type="color" id="item-armor-customcolor"> Dye Color</label><br><br>
-                      <button class="generate-button gb-red" onclick="removeItemTag('customColor')">
-                        Remove Dye
-                      </button>
-                    </div>
-                  </td>
+  <span>Dyeable Armor</span><br>
+  <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
+    
+    <div id="item-armor-color-add" style="display:none;">
+      <button class="generate-button" onclick="addItemTag('customColor')">
+        Add Color
+      </button>
+    </div>
+
+    <div id="item-armor-color-controls" style="display:none;">
+      <label><input type="color" id="item-armor-customcolor"> Dye Color</label><br><br>
+      <button class="generate-button gb-red" onclick="removeItemTag('customColor')">
+        Remove Dye
+      </button>
+    </div>
+
+  </div>
+</td>
                   <td class="app-node" style="height:inherit;" id="item-armor-trimgroup">
                     <span>Armor Trim</span><br>
                     <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
@@ -594,10 +684,16 @@
             </table>
           </div>
         </div>
-        <div class="app-inner app-tab-content group-item" id="item-potion">
-          <label><input type="checkbox" checked id="item-potion-wasjustbrewed"> Was just brewed?</label><br>
-          Looking for the potion color/effect/strength? Bedrock potion effects are stored in data values (available in the Overview tab), not NBT data. <a href="https://minecraft.fandom.com/wiki/Potion#Metadata" target="_blank">Here</a>'s a list of applicable values.
-        </div>
+     <div class="app-inner app-tab-content group-item" id="item-potion">
+    Effect: 
+    <select class="app-input" style="width:unset;height:unset;" id="item-potion-effect-input">
+        </select><br>
+
+    <label><input type="checkbox" checked id="item-potion-wasjustbrewed"> Was just brewed?</label><br>
+    
+    <small id="item-potion-warning" style="opacity:0.7">Looking for the potion color/effect/strength? Bedrock potion effects are stored in data values, (available in the Overview tab) therefore, only predefined values are allowed; see more <a href="https://minecraft.wiki/w/Potion#Metadata" target="_blank">here</a>.</small>
+    <small id="item-arrow-warning" style="opacity:0.7">Looking for the arrow color/effect/strength? Bedrock arrow effects are stored in data values, (available in the Overview tab) therefore, only predefined values are allowed; see more <a href="https://minecraft.wiki/w/Arrow#Metadata" target="_blank">here</a>.</small>
+</div>
         <div class="app-inner app-tab-content group-item" id="item-crossbow">
           Charged Item:<br>
           <table class="itemgrid large"><tbody><tr><td id="item-crossbow-chargeditem" domain="currentItem.tag.value.chargedItem.value" onclick="openEditItem(this.getAttribute('domain'))"></td></tr></tbody></table>
@@ -889,9 +985,13 @@
           <span class="tab" group="group-tentity" open="tentity-brushable">Brushable</span>
           <span class="tab" group="group-tentity" open="tentity-campfire">Campfire</span>
           <span class="tab" group="group-tentity" open="tentity-cauldron">Cauldron</span>
+          <span class="tab" group="group-tentity" open="tentity-crafter">Crafter</span>
+          <span class="tab" group="group-tentity" open="tentity-chiseledbookshelf">Chiseled Bookshelf</span>
           <span class="tab" group="group-tentity" open="tentity-commandblock">Command Block</span>
           <span class="tab" group="group-tentity" open="tentity-conduit">Conduit</span>
           <span class="tab" group="group-tentity" open="tentity-container">Container</span>
+          <span class="tab" group="group-tentity" open="tentity-coppergolemstatue">Copper Golem Statue</span>
+          <span class="tab" group="group-tentity" open="tentity-shelfblock">Shelf</span>
           <span class="tab" group="group-tentity" open="tentity-decoratedpot">Decorated Pot</span>
           <span class="tab" group="group-tentity" open="tentity-endgateway">End Gateway</span>
           <span class="tab" group="group-tentity" open="tentity-flowerpot">Flower Pot</span>
@@ -906,6 +1006,8 @@
           <span class="tab" group="group-tentity" open="tentity-legacy-sign">Sign</span>
           <span class="tab" group="group-tentity" open="tentity-sign">Sign</span>
           <span class="tab" group="group-tentity" open="tentity-structureblock">Structure Block</span>
+          <span class="tab" group="group-tentity" open="tentity-tspawner">Trial Spawner</span>
+          <span class="tab" group="group-tentity" open="tentity-vault">Vault</span>
         </div>
         
         <div class="app-inner app-tab-content group-tentity visible" id="tentity-general">
@@ -925,10 +1027,39 @@
           Oops, looks like dynamically editing this tile entity isn't supported by Structure Editor. Try editing it in the <a href="javascript:void(0)" onclick="closeAllEditors(); document.getElementById('edit-node-tab').click()">Node Editor</a>.
         </div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-banner">
-          <label><input type="checkbox" id="tentity-banner-type"> Is ominous?</label><br>
-          <label>Base Color: <input type="number" class="app-input" placeholder="15" id="tentity-banner-base"></label> <a href="https://minecraft.fandom.com/wiki/Banner#Item" target="_blank" style="font-size: 8pt;">Values</a><br><br>
-          <!--If you would like to see a pattern editor, suggest it over on our Discord server.-->
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        
+        <div style="flex: 1;">
+            <label><input type="checkbox" id="tentity-banner-type"> Is ominous?</label><br>
+            
+            <label>Base Color: 
+                <select class="app-input" id="tentity-banner-base" style="width: 100px;"></select>
+            </label>
+            <br><br>
+            
+            <span>Patterns</span><br>
+            <div class="app-inner-inner" style="text-align: left; padding: 8px;">
+                <div class="effects-list" id="tentity-banner-patterns-list" style="height:150px; overflow-y:auto;">
+                </div>
+                <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png" 
+                     id="btn-add-pattern" class="minibutton" onclick="addBannerPatternRow()" style="vertical-align:middle;">
+                <span id="ominous-warning" style="display: none; font-size: 8pt; color: #ffaa00; vertical-align: middle;">
+    (Unavailable in Ominous mode)
+</span>     	
+                <span id="btn-add-pattern" style="font-size: 8pt;">Pattern ID, Color</span>
+            </div>
         </div>
+
+        <div style="text-align: center;">
+            <span style="font-size: 9pt; display: block; margin-bottom: 5px;">Preview</span>
+            <div class="banner-preview-box">
+                <div id="view-base" class="banner-layer"></div>
+                <div id="view-layers"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-beehive">
           <label><input type="checkbox" id="tentity-beehive-shouldspawnbees"> Should spawn bees?</label><br>
           Occupants: <br>
@@ -1069,6 +1200,83 @@
           </select><br>
           <label id="tentity-cauldron-colorlabel"><input type="color" id="tentity-cauldron-color"> Water Color</label>
         </div>
+        <div class="app-inner app-tab-content group-tentity" id="tentity-crafter">
+  <div class="app-inner-inner" style="text-align: center;">
+  <p>Disabled Slots (Check to block):</p>
+    
+    <div class="crafter-block-grid" style="
+      display: grid; 
+      grid-template-columns: repeat(3, 22px); 
+      gap: 3px; 
+      margin: 10px auto 20px auto; 
+      justify-content: center;
+      background: #333; 
+      padding: 8px; 
+      width: fit-content; 
+      border-radius: 4px;
+    ">
+      <input type="checkbox" id="crafter-slot-0" title="Slot 0">
+      <input type="checkbox" id="crafter-slot-1" title="Slot 1">
+      <input type="checkbox" id="crafter-slot-2" title="Slot 2">
+      <input type="checkbox" id="crafter-slot-3" title="Slot 3">
+      <input type="checkbox" id="crafter-slot-4" title="Slot 4">
+      <input type="checkbox" id="crafter-slot-5" title="Slot 5">
+      <input type="checkbox" id="crafter-slot-6" title="Slot 6">
+      <input type="checkbox" id="crafter-slot-7" title="Slot 7">
+      <input type="checkbox" id="crafter-slot-8" title="Slot 8">
+    </div>
+  </div>
+
+  <div class="app-inner-inner">
+    <p style="text-align: center;">Item Slots:</p>
+    <table class="itemgrid large" id="tentity-crafter-items" style="margin: 0 auto;">
+      <tbody>
+        <tr>
+          <td domain="currentValidTile.data.Items.value.value[0]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+          <td domain="currentValidTile.data.Items.value.value[1]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+          <td domain="currentValidTile.data.Items.value.value[2]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+        </tr>
+        <tr>
+          <td domain="currentValidTile.data.Items.value.value[3]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+          <td domain="currentValidTile.data.Items.value.value[4]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+          <td domain="currentValidTile.data.Items.value.value[5]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+        </tr>
+        <tr>
+          <td domain="currentValidTile.data.Items.value.value[6]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+          <td domain="currentValidTile.data.Items.value.value[7]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+          <td domain="currentValidTile.data.Items.value.value[8]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="app-inner app-tab-content group-tentity" id="tentity-chiseledbookshelf">
+  <table style="width:100%">
+    <tbody>
+      <tr>
+        <td style="text-align:center; padding:5px 0; vertical-align: top;">
+          
+          <div class="app-inner-inner" style="display: inline-block; width: fit-content; padding: 20px; border-radius: 8px;">
+            <table class="itemgrid large" id="tentity-chiseledbookshelf-slot" style="margin: 0 auto;">
+              <tbody>
+                <tr>
+                  <td domain="currentValidTile.data.Items.value.value[0]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                  <td domain="currentValidTile.data.Items.value.value[1]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                  <td domain="currentValidTile.data.Items.value.value[2]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                </tr>
+                <tr>
+                  <td domain="currentValidTile.data.Items.value.value[3]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                  <td domain="currentValidTile.data.Items.value.value[4]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                  <td domain="currentValidTile.data.Items.value.value[5]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-commandblock">
           <table style="width:100%;" class="app-page">
             <tbody>
@@ -1116,7 +1324,31 @@
             <label><input type="checkbox" id="tentity-container-findable"> Findable on locator maps?</label>
           </div>
         </div>
+        <div class="app-inner app-tab-content group-tentity" id="tentity-coppergolemstatue">
+  <label>Statue Pose:</label>
+  <select class="app-input" id="tentity-coppergolemstatue-pose" style="width: 100%;">
+    <option value="0">Standing (0)</option>
+    <option value="1">Sitting (1)</option>
+    <option value="2">Running (2)</option>
+    <option value="3">Star (3)</option>
+  </select>
+  
+  <br><br>
+  
+  <label>Actor Identifier:</label>
+  <input type="text" class="app-input" id="tentity-coppergolemstatue-actorid" placeholder="minecraft:copper_golem" style="width: calc(100% - 10px);">
+  
+  <p style="font-size: 0.8em; color: #888;">Note: The default entity is minecraft:copper_golem</p>
+</div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-decoratedpot">
+          Item Inside:<br>
+  <table class="itemgrid large">
+    <tbody>
+      <tr>
+        <td domain="currentValidTile.data.item.value" onclick="openEditItem(this.getAttribute('domain'))" id="tentity-decoratedpot-item"></td>
+      </tr>
+    </tbody>
+  </table>
           Sherds<br>
           <div class="app-inner-inner">
             <input class="app-input" placeholder="minecraft:brick" style="width: calc(100% - 10px); height:unset;" id="tentity-decoratedpot-sherd0" list="sherds"><br>
@@ -1349,6 +1581,194 @@
             </tbody>
           </table>         
         </div>
+        <div class="app-inner app-tab-content group-tentity" id="tentity-shelfblock">
+        Items:<br>
+          <div class="app-inner-inner">
+            <table class="itemgrid large" id="tentity-shelfblock-items">
+              <tbody>
+                <tr>
+                  <td domain="currentValidTile.data.Items.value.value[0]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                  <td domain="currentValidTile.data.Items.value.value[1]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                  <td domain="currentValidTile.data.Items.value.value[2]" onclick="openEditItem(this.getAttribute('domain'))"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+</div>
+<div class="app-inner app-tab-content group-tentity" id="tentity-tspawner">
+  <table style="width:100%;" class="app-page">
+    <tbody>
+      
+      <tr class="app-row">
+        <td class="app-node" colspan="2">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 5px;">
+            <span style="font-weight: bold;">Spawn Potentials (Possible Mobs)</span>
+            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" 
+                 style="width: 20px; height: 20px; cursor: pointer; image-rendering: pixelated;" 
+                 onclick="addTrialMobRow()">
+          </div>
+          <div class="app-inner-inner trial-section-normal" id="mob-container-normal"></div>
+          <div class="app-inner-inner trial-section-ominous" id="mob-container-ominous" style="display:none;"></div>
+          
+          <div class="app-inner-inner" style="margin-top: 5px;">
+            <label>Required Player Range: 
+              <input type="number" class="app-input" id="tentity-tspawner-player-range" style="width: 60px;" placeholder="14">
+            </label>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="app-node" colspan="2">
+          <div class="app-inner-inner" style="background: rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px;">
+            <label>Mode to Edit:</label> 
+            <select class="app-input" id="tentity-tspawner-mode-selector" style="width: auto; height: 25px;">
+              <option value="normal_config">Normal Config</option>
+              <option value="ominous_config">Ominous Config</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="app-node">
+          <span>Mob Spawning Rules</span><br>
+          <div class="app-inner-inner"> 
+            
+            <div style="margin-bottom: 8px;">
+              <label style="display: block; font-size: 11px; color: #ccc;">Total Mobs (Base + Extra):</label>
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <input type="number" class="app-input trial-section-normal" id="tentity-tspawner-total-n" style="width: 50px;" placeholder="6">
+                <input type="number" class="app-input trial-section-ominous" id="tentity-tspawner-total-o" style="width: 50px; display:none" placeholder="6">
+                
+                <span title="Added per extra player" style="color: #888; font-size: 14px;">+👤</span>
+                
+                <input type="number" class="app-input trial-section-normal" id="tentity-tspawner-total-extra-n" style="width: 45px;" placeholder="2">
+                <input type="number" class="app-input trial-section-ominous" id="tentity-tspawner-total-extra-o" style="width: 45px; display:none" placeholder="2">
+              </div>
+            </div>
+
+            <div style="margin-bottom: 8px;">
+              <label style="display: block; font-size: 11px; color: #ccc;">Simultaneous (Base + Extra):</label>
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <input type="number" class="app-input trial-section-normal" id="tentity-tspawner-sim-n" style="width: 50px;" placeholder="2">
+                <input type="number" class="app-input trial-section-ominous" id="tentity-tspawner-sim-o" style="width: 50px; display:none" placeholder="2">
+                
+                <span title="Added per extra player" style="color: #888; font-size: 14px;">+👤</span>
+                
+                <input type="number" class="app-input trial-section-normal" id="tentity-tspawner-sim-extra-n" style="width: 45px;" placeholder="1">
+                <input type="number" class="app-input trial-section-ominous" id="tentity-tspawner-sim-extra-o" style="width: 45px; display:none" placeholder="1">
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <label style= "color: #ccc;">Spawn Range: <br>
+                <input type="number" class="app-input trial-section-normal" id="tentity-tspawner-range-n" style="width: 50px;" placeholder="4">
+                <input type="number" class="app-input trial-section-ominous" id="tentity-tspawner-range-o" style="width: 50px; display:none" placeholder="4">
+              </label>
+              <label style= "color: #ccc;">Ticks Spacing: <br>
+                <input type="number" class="app-input trial-section-normal" id="tentity-tspawner-ticks-n" style="width: 50px;" placeholder="20">
+                <input type="number" class="app-input trial-section-ominous" id="tentity-tspawner-ticks-o" style="width: 50px; display:none" placeholder="20">
+              </label>
+            </div>
+          </div>
+        </td>
+
+        <td class="app-node">
+          <span>Timing & Event</span><br>
+          <div class="app-inner-inner"> 
+            <label style= "color: #ccc;">Cooldown Ticks (Wait Time):<br> 
+              <input type="number" class="app-input trial-section-normal" id="tentity-tspawner-cooldown-n" style="width: 100%; margin-top:4px;" placeholder="36000">
+              <input type="number" class="app-input trial-section-ominous" id="tentity-tspawner-cooldown-o" style="width: 100%; margin-top:4px; display:none;" placeholder="36000">
+            </label>
+            
+            <hr style="border: 0; border-top: 1px solid #444; margin: 8px 0;">
+            
+            <label style="color: #ffaa00; font-size: 11px;">Ominous Event Drop (Projectiles):</label>
+            <input type="text" class="app-input" id="tentity-tspawner-ominous-drop" style="width: 100%; border-color: #554400; font-size: 11px;" placeholder="loot_tables/spawners/trial_chamber/items_to_drop_when_ominous.json">
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="app-node" colspan="2">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 5px;">
+            <span>Reward Loot Tables (Eject List)</span>
+            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" 
+                 style="width: 20px; height: 20px; cursor: pointer;" 
+                 onclick="addTrialLootRow()">
+          </div>
+          <div class="app-inner-inner trial-section-normal" id="loot-container-normal"></div>
+          <div class="app-inner-inner trial-section-ominous" id="loot-container-ominous" style="display:none;"></div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+<div class="app-inner app-tab-content group-tentity" id="tentity-vault">
+  <table style="width:100%;" class="app-page">
+    <tbody>
+      <tr class="app-row">
+        <td class="app-node" colspan="2">
+          <span>Loot Configuration</span><br>
+          <div class="app-inner-inner">
+            <label>Reward Loot Table:</label><br>
+            <input class="app-input" style="width:98%; margin-bottom: 8px;" placeholder="loot_tables/chests/trial_chambers/reward.json" id="tentity-vault-loot-table">
+            
+            <label>Display Loot Table (Optional):</label><br>
+            <input class="app-input" style="width:98%;" placeholder="Optional: visual items rotation" id="tentity-vault-display-loot">
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="app-node" style="width:55%;">
+          <span>Activation Settings</span><br>
+          <div class="app-inner-inner">
+            <label>Activation Range:</label><br>
+            <input type="number" step="0.1" class="app-input" placeholder="4.0" id="tentity-vault-act-range"><br>
+            
+            <label>Deactivation Range:</label><br>
+            <input type="number" step="0.1" class="app-input" placeholder="4.5" id="tentity-vault-deact-range">
+          </div>
+        </td>
+        <td class="app-node" style="width:55%;">
+  <span>Required Key Item</span><br>
+  <div class="app-inner-inner" style="display:flex; justify-content:center; align-items:center; flex-direction:column; min-height:100px;">
+    <table class="itemgrid large" id="tentity-vault-key-slot-container">
+      <tbody>
+        <tr>
+          <td domain="currentValidTile.data.config.value.key_item.value" onclick="openEditItem(this.getAttribute('domain'))" id="tentity-vault-key-item"></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:10px; color:#aaa; margin-top:5px">Click to edit key</p>
+  </div>
+</td>
+      </tr>
+
+      <tr>
+        <td class="app-node" colspan="2">
+  <span>Vault Maintenance</span><br>
+  <div class="app-inner-inner">
+    <p style="font-size:12px; color:#ccc; margin-bottom:10px;">
+      Resetting the rewarded players list allows players who already opened this vault to loot it again.
+    </p>
+    
+    <p style="font-size:13px; color:#00ffaa; font-weight:bold; margin-bottom:10px; text-align:center;">
+      Players who looted: <span id="tentity-vault-player-count">0</span>
+    </p>
+
+    <div class="generate-button gb-red" style="width:100%; text-align:center; border-radius:4px; padding:8px 0; cursor:pointer;" id="tentity-vault-reset-players">
+      Reset Rewarded Players List
+    </div>
+  </div>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
         <div class="app-inner app-tab-content group-tentity" id="tentity-structureblock">
           <table style="width:100%;" class="app-page">
             <tbody>
@@ -1436,4 +1856,5 @@
     <datalist id="ids-effect"></datalist>
     <datalist id="ids-blockstate"></datalist>
   </body>
+</html>
 </html>
