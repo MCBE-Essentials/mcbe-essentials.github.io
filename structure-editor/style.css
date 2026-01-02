@@ -534,3 +534,47 @@ mcitem.enchanted img {
   z-index: -1;
   display: none;
 }
+
+.banner-preview-box {
+    position: relative;
+    width: 46px; 
+    height: 83px;
+    background-color: #000;
+    image-rendering: pixelated;
+    overflow: hidden;
+    border: 2px solid #555;
+    background-image: url('https://mcbe-essentials.github.io/data/banner_patterns/base.png');
+    background-size: 290%;
+    background-position: -2px -3px;
+}
+
+.banner-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-size: 290.9%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 0px -2px;
+    mask-size: 290.9%;
+    mask-repeat: no-repeat;
+    mask-position: 0px -2px;
+}
+
+.banner-layer-shield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    -webkit-mask-size: 650% 330%;
+    mask-size: 650% 330%;
+
+    -webkit-mask-position: -10px -10px;
+    mask-position: -10px -10px;
+
+    -webkit-mask-repeat: no-repeat;
+    image-rendering: pixelated;
+}
