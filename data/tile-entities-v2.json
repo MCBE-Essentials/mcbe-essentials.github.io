@@ -62,17 +62,33 @@
   "Cauldron": {
     "type": "cauldron"
   },
+  "Crafter": {
+    "type": "crafter",
+    "blocks": [
+      "minecraft:crafter"
+    ]
+  },
+  "CreakingHeart": {
+    "display": false
+  },
   "Chest": {
     "type": "container",
     "slots": 27,
     "blocks": [
       "minecraft:chest",
-      "minecraft:trapped_chest"
+      "minecraft:trapped_chest",
+      "minecraft:copper_chest",
+      "minecraft:exposed_copper_chest",
+      "minecraft:weathered_copper_chest",
+      "minecraft:oxidized_copper_chest",
+      "minecraft:waxed_copper_chest",
+      "minecraft:waxed_exposed_copper_chest",
+      "minecraft:waxed_weathered_copper_chest",
+      "minecraft:waxed_oxidized_copper_chest"
     ]
   },
   "ChiseledBookshelf": {
-    "type": "container",
-    "slots": 6,
+    "type": "chiseledbookshelf",
     "blocks": [
       "minecraft:chiseled_bookshelf"
     ]
@@ -90,6 +106,19 @@
   },
   "Conduit": {
     "display": false
+  },
+  "CopperGolemStatue": {
+  "type": "coppergolemstatue",
+  "blocks": [
+    "minecraft:copper_golem_statue",
+    "minecraft:exposed_copper_golem_statue",
+    "minecraft:weathered_copper_golem_statue",
+    "minecraft:oxidized_copper_golem_statue",
+    "minecraft:waxed_copper_golem_statue",
+    "minecraft:waxed_exposed_copper_golem_statue",
+    "minecraft:waxed_weathered_copper_golem_statue",
+    "minecraft:waxed_oxidized_copper_golem_statue"
+  ]
   },
   "DaylightDetector": {
     "display": false
@@ -238,6 +267,22 @@
   "PistonArm": {
     "display": false
   },
+  "Shelf": {
+  "type": "shelfblock",
+  "blocks": [
+    "minecraft:acacia_shelf",
+      "minecraft:bamboo_shelf",
+      "minecraft:birch_shelf",
+      "minecraft:cherry_shelf",
+      "minecraft:crimson_shelf",
+      "minecraft:dark_oak_shelf",
+      "minecraft:jungle_shelf",
+      "minecraft:mangrove_shelf",
+      "minecraft:oak_shelf",
+      "minecraft:spruce_shelf",
+      "minecraft:warped_shelf"
+  ]
+  },
   "ShulkerBox": {
     "type": "container",
     "slots": 27,
@@ -298,5 +343,17 @@
     "blocks": [
       "minecraft:structure_block"
     ]
-  }
+  },
+  "TrialSpawner": {
+    "type": "tspawner",
+    "blocks": [
+      "minecraft:trial_spawner"
+    ]
+  },
+  "Vault": {
+    "type": "vault",
+    "blocks": [
+      "minecraft:vault"
+    ]
+  } 
 }
