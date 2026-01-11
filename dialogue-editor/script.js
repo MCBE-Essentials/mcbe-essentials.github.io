@@ -138,7 +138,7 @@ function openScene(scenedata){
   }
   
   //Render buttons
-  var buttonplus = '<img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142">';
+  var buttonplus = '<img src="/assets/icons/color_plus.png">';
   var buttons = scenedata.buttons;
   //Create button elements
   document.getElementById("buttons").children[0].innerHTML = "";

@@ -233,11 +233,11 @@ function analyzeLog(log){
     var el = document.createElement("div");
     var name = logdata.players[i].name;
     if(filedata.permissions){
-      var addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/permissions_member_star.png?v=1640636000793'>";
+      var addon = "<img src='/assets/icons/permissions_member_star.png'>";
       for(var a = 0; a < filedata.permissions.length; a++){
         if(filedata.permissions[a].xuid == logdata.players[i].xuid){
           if(filedata.permissions[a].permission == "operator"){
-            addon = "<img src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fop.png?v=1617471878244'>";
+            addon = "<img src='/assets/icons/op.png'>";
           }
         }
       }
@@ -245,12 +245,12 @@ function analyzeLog(log){
     }
     
     if(filedata.whitelist){
-      var addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/friend_glyph_desaturated.png?v=1640636148423' height='10'>";
+      var addon = "<img src='/assets/icons/friend_glyph_desaturated.png' height='10'>";
       for(var a = 0; a < filedata.whitelist.length; a++){
         if(filedata.whitelist[a].xuid == logdata.players[i].xuid){
-          addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/Friend2.png?v=1640636105523'>";
+          addon = "<img src='/assets/icons/Friend2.png'>";
           if(filedata.whitelist[a].ignoresPlayerLimit){
-            addon = "<img src='https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5/FriendsIcon.png?v=1640636103384'>";
+            addon = "<img src='/assets/icons/FriendsIcon.png'>";
           }
         }
       }

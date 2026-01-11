@@ -428,7 +428,7 @@ function selectPack(el){
   
   var foldertype = (packtype == "bps" ? "behavior_packs" : "resource_packs");
   
-  //LOADING IMAGE document.getElementById("pack-icon").src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbook.png?v=1619285887129";
+  //LOADING IMAGE document.getElementById("pack-icon").src = "/assets/icons/book.png";
   
   if(masterzip.file(foldertype + "/" + currentPack.metadata.folder + "/pack_icon.png") == null){
     //No pack icon
@@ -761,7 +761,7 @@ function confirmWipeData(){
     
     var blankdatazip = new JSZip();
     
-    fetch('https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/blank_worlddata.zip').then((result) => {
+    fetch('/assets/worlds/blank_worlddata.zip').then((result) => {
       blankdatazip.loadAsync(result.blob()).then(function(){
         for(let bfname of Object.keys(blankdatazip.files)){
           blankdatazip.file(bfname).async('blob').then((blankdatafile) => {

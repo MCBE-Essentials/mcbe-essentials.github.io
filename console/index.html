@@ -2,10 +2,9 @@
 <html>
   <head>
     <title>Console</title>
-    <script src="script.js" defer></script>
+    <script src="./script.js" defer></script>
   </head>
   <body>
-    <button onclick="window.opener.location.href = window.opener.location.href.replace('glitch.me', 'github.io'); window.close();">View Stable</button><br>
     <button onclick="window.opener.reloadCSS();">Reload Stylesheets</button><br>
     <button onclick="window.opener.getData();">Reload Identifier Data</button><br>
     <button onclick="window.opener.location.reload(); window.setTimeout(refreshStylesheets, 3000)">Refresh Page</button>
@@ -13,11 +12,11 @@
     <br>
     <select oninput="importPresetFile(this)">
       <option value="#">(Import a file to the program)</option>
-      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/StructureEditorCompleteFeatureTest.mcstructure?v=1652565689289">StructureEditorCompleteFeatureTest</option>
-      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/bobby.mcstructure">StructureEditorBobby</option>
-      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/1.20%20test.mcstructure">1.20 Test</option>
-      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Complete1.20FeatureTest.mcstructure?v=1668663999326">Complete1.20FeatureTest</option>
-      <option value="https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Complete121Test.mcstructure?v=1722909099763">Complete1.21FeatureTest</option>
+      <option value="/assets/structures/StructureEditorCompleteFeatureTest.mcstructure">StructureEditorCompleteFeatureTest</option>
+      <option value="/assets/structures/bobby.mcstructure">StructureEditorBobby</option>
+      <option value="/assets/structures/1.20%20test.mcstructure">1.20 Test</option>
+      <option value="/assets/structures/Complete1.20FeatureTest.mcstructure">Complete1.20FeatureTest</option>
+      <option value="/assets/structures/Complete121Test.mcstructure">Complete1.21FeatureTest</option>
     </select>
     <br><br>
     <details open style="user-select: none;">

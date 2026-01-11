@@ -7,14 +7,14 @@
     <meta name="theme-color" content="#26203a" />
     <link
       rel="icon"
-      href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+      href="/assets/bcse.png"
     />
     
     <title>MCBE Essentials</title>
 
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="/item/style.css">
     <link rel="stylesheet" href="/item/grid.css">
     <link rel="stylesheet" href="https://unpkg.com/jsoneditor@9.9.2/dist/jsoneditor.min.css">
@@ -23,7 +23,7 @@
     <script src="/apps.js" defer></script>
     <script src="/pnbt.js"></script>
     <script src="/leveldat.js"></script>
-    <script src="script.js" defer></script>
+    <script src="./script.js" defer></script>
     <script src="/filesaver.js" defer></script>
     <script src="/js/datahandler.js" defer></script>
     
@@ -36,13 +36,13 @@
   </head>
   <body onload="loaded()">
     <div id="head" class="header">
-      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+      <img src="/assets/bcse.png" class="imgicon">
       <span class="imgicontext">MCBE Essentials</span>
     </div>
     <div id="body" class="main-content">
       <div id="left" class="main-left">
         <br>
-        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" style="image-rendering: pixelated;" class="leftimg">
+        <img src="/assets/bcse.png" style="image-rendering: pixelated;" class="leftimg">
         <h2 style="margin-left:15px; margin-right: 15px;" class="lefttitle">MCBE Essentials</h2>
         <div class="left-inner">
           Loading sidebar...
@@ -83,7 +83,7 @@
                 <div class="app-inner" style="height:calc(100% - 53px);">
                   <div class="app-inner-inner" style="width:calc(100%-10px);height:200px;overflow-y:auto;" id="tile-list">
                   </div>
-                  <div id="tile-demo" style="" class="tile-editor-type">
+                  <div id="tile-demo"  class="tile-editor-type">
                     Please select a tile<br>entity from the list<br>to edit it
                   </div>
                   <div id="tile-container" style="display:none;" class="tile-editor-type">
@@ -328,11 +328,11 @@
     </div>
     
     <div class="menu-button2"
-         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
-         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+         onmouseover="this.children[0].src='/assets/icons/elipses.png'"
+         onmouseleave="this.children[0].src='/assets/icons/permissions_custom_dots.png'"
          onclick="toggleMenu(this)"
          >
-      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
+      <img src="/assets/icons/permissions_custom_dots.png" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
     </div>
   </body>
 </html>

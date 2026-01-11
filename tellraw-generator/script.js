@@ -9,13 +9,27 @@ var colors = {
   "7": "#aaaaaa",
   "8": "#555555",
   "9": "#5555ff",
+
   "a": "#55ff55",
   "b": "#55ffff",
   "c": "#ff5555",
   "d": "#ff55ff",
   "e": "#ffff55",
   "f": "#ffffff",
+
   "g": "#ddd605",
+
+  "h": "#e3d4d1",
+  "i": "#cecaca",
+  "j": "#443a3b",
+  "m": "#971607",
+  "n": "#b4684d",
+  "p": "#deb12d",
+  "q": "#119f36",
+  "s": "#2cbaa8",
+  "t": "#21497B",
+  "u": "#9a5cc6",
+  "v": "#eb7114"
 };
 
 var currentScore, currentSelector, currentTranslation;

@@ -63,7 +63,7 @@ var biomeData = false;
 async function fetchData(){
   var ids = await fetch('https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/schema/general/vanilla/identifiers.json').then(data => data.json());
   //Using the dev domain so that list can be updated without updating site
-  var biomes = await fetch('https://mcbe-essentials.github.io/data/biomes.json').then(data => data.json());
+  var biomes = await fetch('/data/biomes.json').then(data => data.json());
   identifiers = ids.definitions;
   biomeData = biomes;
   
@@ -71,9 +71,9 @@ async function fetchData(){
 }
 
 var worldfiles = {
-  flat: "https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Superflat%20Template.mcworld",
-  infinite: "https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Infinite%20Single%20Biome%20Template.mcworld",
-  old: "https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/Old%20World%20Template.mcworld?v=1655059676533"
+  flat: "/assets/worlds/Superflat%20Template.mcworld",
+  infinite: "/assets/worlds/Infinite%20Single%20Biome%20Template.mcworld",
+  old: "/assets/worlds/Old%20World%20Template.mcworld"
 };
 
 async function fetchWorld(type){
@@ -181,8 +181,8 @@ function renderLayer(identifier, count, layerIndex){
   layer.appendChild(text);
   layer.appendChild(countInput);
     var buttons = document.createElement("div");
-    buttons.style="display:inline-block; cursor: pointer; margin-left: 10px; margin-right: 10px;";
-    buttons.innerHTML = ' <img src="https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton" onclick="duplicateLayer('+layerIndex+')"> <img src="https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton" onclick="deleteLayer('+layerIndex+')"> <img src="https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveLayer('+layerIndex+', 1)" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton"> <img src="https://cdn.glitch.me/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Farrow_down_small.png?v=1616861430478" onclick="moveLayer('+layerIndex+', -1)" class="minibutton">';
+    buttons.style = "display: inline-block; cursor: pointer; margin-left: 10px; margin-right: 10px;";
+    buttons.innerHTML = ' <img src="/assets/icons/copy.png" class="minibutton" onclick="duplicateLayer('+layerIndex+')"> <img src="/assets/icons/icon_trash.png" class="minibutton" onclick="deleteLayer('+layerIndex+')"> <img src="/assets/icons/arrow_down_small.png" onclick="moveLayer('+layerIndex+', 1)" style="-webkit-transform: scaleY(-1); transform: scaleY(-1);" class="minibutton"> <img src="/assets/icons/arrow_down_small.png" onclick="moveLayer('+layerIndex+', -1)" class="minibutton">';
   layer.appendChild(buttons);
   
   document.getElementById("layers-list").appendChild(layer);

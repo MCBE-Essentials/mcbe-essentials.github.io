@@ -351,6 +351,7 @@ function getTopTexture(blockid){
     "decorated_pot": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/decorated_pot_side.png",
     "suspicious_sand": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_sand_0.png",
     "suspicious_gravel": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_gravel_0.png",
+    "grass_block": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/grass_carried.png"
   };
   
   if(Object.keys(blockmapping).includes(blockid)){

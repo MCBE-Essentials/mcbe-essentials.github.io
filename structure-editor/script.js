@@ -47,11 +47,11 @@ async function getData(){
   let itemidentifiers = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-items.json').then(response => {return response.json()})
   let entityidentifiers = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/metadata/vanilladata_modules/mojang-entities.json').then(response => {return response.json()})
   
-  let tiles = await fetch('https://mcbe-essentials.github.io/data/tile-entities-v2.json').then(response => {return response.json()})
-  /*let potions = await fetch('https://mcbe-essentials.github.io/data/potion-types.json').then(response => {return response.json()})
-  let effects = await fetch('https://mcbe-essentials.github.io/data/effects-list.json').then(response => {return response.json()})
-  let enchantments = await fetch('https://mcbe-essentials.github.io/data/enchantments.json').then(response => {return response.json()})*/
-  let general_data = await fetch('https://mcbe-essentials.github.io/data/general.json').then(response => {return response.json()})
+  let tiles = await fetch('/data/tile-entities-v2.json').then(response => {return response.json()})
+  /*let potions = await fetch('/data/potion-types.json').then(response => {return response.json()})
+  let effects = await fetch('/data/effects-list.json').then(response => {return response.json()})
+  let enchantments = await fetch('/data/enchantments.json').then(response => {return response.json()})*/
+  let general_data = await fetch('/data/general.json').then(response => {return response.json()})
   let allowedblocks = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.21.111/blockStates.json').then(response => {return response.json()}) //Returns an array of all the possible blocks in the game (every blockstate combination) as NBT objects.
   let blocksj2b = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.21.111/blocksJ2B.json').then(response => {return response.json()})
   let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.21.111/blocksB2J.json').then(response => {return response.json()})
@@ -336,7 +336,7 @@ if (previewContainer) {
         
         viewBase.style.webkitMaskImage = "none";
         viewBase.style.backgroundColor = "transparent";
-        viewBase.style.backgroundImage = `url('https://mcbe-essentials.github.io/data/${folder}/illager.png')`;
+        viewBase.style.backgroundImage = `url('/data/${folder}/illager.png')`;
         
         if (isShield) {
             viewBase.style.backgroundSize = "650% 330%"; 
@@ -357,7 +357,7 @@ if (previewContainer) {
         
         viewBase.style.backgroundImage = "none";
         viewBase.style.backgroundColor = bannerColorsHex[baseColorIdx] || "#000";
-        const urlBase = `https://mcbe-essentials.github.io/data/${folder}/base.png`;
+        const urlBase = `/data/${folder}/base.png`;
         viewBase.style.webkitMaskImage = `url(${urlBase})`;
         
         if (isShield) {
@@ -376,7 +376,7 @@ if (previewContainer) {
                 if (pSel && cSel && pSel.value !== "none") {
                     const layer = document.createElement("div");
                     layer.style.backgroundColor = bannerColorsHex[cSel.value];
-                    const url = `https://mcbe-essentials.github.io/data/${folder}/${pSel.value}.png`;
+                    const url = `/data/${folder}/${pSel.value}.png`;
                     layer.style.webkitMaskImage = `url(${url})`;
                     
                     if (isShield) {
@@ -404,7 +404,7 @@ function addBannerPatternRow(pattern = 'none', color = 0) {
     let div = document.createElement("div");
     div.style.marginBottom = "8px";
     div.innerHTML = `
-        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png" 
+        <img src="/assets/icons/icon_trash.png" 
              class="minibutton" style="vertical-align:middle;" 
              onclick="this.parentElement.remove(); updateBannerPreview();">
         <select class="app-input p-sel" style="width:140px; vertical-align:middle;"></select>
@@ -579,7 +579,7 @@ try {
 
     // Trash can logic: It doesn't appear in Star and it doesn't appear if it's the only item in the Rocket.
     const canDelete = !isStarItem;
-        const iconTrash = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211";
+        const iconTrash = "/assets/icons/icon_trash.png";
     const trashBtn = canDelete ? `<img src="${typeof iconTrash !== 'undefined' ? iconTrash : ''}" 
         style="width: 14px; height: 14px; cursor: pointer; opacity: 0.6;" 
         onclick="if(document.querySelectorAll('.explosion-row').length > 1){ this.parentElement.parentElement.remove(); } else { snackbar('The fireworks need at least one explosion!'); }">` : '';
@@ -1124,7 +1124,7 @@ function selectPaletteEntryElement(myel){
   myel.classList.toggle("selected", true)
 }
 
-function createPaletteEntryElement(validpalettedata = {"name":"minecraft:air[]","image":"https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/0fa3c5fa-4760-4f85-babe-45b343605f9a.image.png","imageid":0,"data":{"name":{"type":"string","value":"minecraft:air"},"states":{"type":"compound","value":{}},"version":{"type":"int","value":17879555}}}, domain){
+function createPaletteEntryElement(validpalettedata = {"name":"minecraft:air[]","image":"/assets/empty.png","imageid":0,"data":{"name":{"type":"string","value":"minecraft:air"},"states":{"type":"compound","value":{}},"version":{"type":"int","value":17879555}}}, domain){
   let container = document.createElement("div");
   container.classList = ["app-inner-inner idlabel"];
   let image = createBlockPreview(validpalettedata.image, validpalettedata.imageid)
@@ -1141,7 +1141,7 @@ function createPaletteEntryElement(validpalettedata = {"name":"minecraft:air[]",
   
   let optionsbutton = document.createElement("img");
   optionsbutton.classList = ["minibutton"]
-  optionsbutton.src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_setting.png";
+  optionsbutton.src = "/assets/icons/icon_setting.png";
   optionsbutton.onclick = function(){
     openEditBlock("getValidPalette(getPalette())["+ domain +"].data")
   }
@@ -1149,7 +1149,7 @@ function createPaletteEntryElement(validpalettedata = {"name":"minecraft:air[]",
   
   let trashbutton = document.createElement("img");
   trashbutton.classList = ["minibutton"]
-  trashbutton.src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png";
+  trashbutton.src = "/assets/icons/icon_trash.png";
   trashbutton.onclick = function(){
     getPalette().splice(domain, 1)
     //TODO: filter through all placed blocks and change previous instances to structure void, and -1 from each that are greater than the deleted entry
@@ -1172,7 +1172,7 @@ function createEffectItem(effectdata = {"Ambient":{"type":"byte","value":0},"Amp
     
   let effecttrash = document.createElement("img")
   effecttrash.classList = ["minibutton"];
-  effecttrash.src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png";
+  effecttrash.src = "/assets/icons/icon_trash.png";
   effecttrash.style = "height:100%";
   effecttrash.onclick = function(){
     this.parentNode.parentNode.removeChild(this.parentNode);
@@ -1223,7 +1223,7 @@ function createEnchantmentItem(enchantdata = {"id": {"type": "short","value": -1
     
   let enchanttrash = document.createElement("img")
   enchanttrash.classList = ["minibutton"];
-  enchanttrash.src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png";
+  enchanttrash.src = "/assets/icons/icon_trash.png";
   enchanttrash.style = "height:100%";
   enchanttrash.onclick = function(){
     this.parentNode.parentNode.removeChild(this.parentNode);
@@ -1301,7 +1301,7 @@ function createNPCActionElement(actiondata = {"button_name":"","data":[{"cmd_lin
   
   let trashbtn = document.createElement("img")
   trashbtn.classList = ["minibutton"];
-  trashbtn.src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png";
+  trashbtn.src = "/assets/icons/icon_trash.png";
   trashbtn.style = "height:100%";
   trashbtn.onclick = function(){
     this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
@@ -1366,7 +1366,7 @@ function createBlockstateEntry(statedata = {name: "", data: {type: "string", val
   
   let trashbtn = document.createElement("img")
   trashbtn.classList = ["minibutton"];
-  trashbtn.src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png";
+  trashbtn.src = "/assets/icons/icon_trash.png";
   trashbtn.style = "height:100%";
   trashbtn.onclick = function(){
     this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
@@ -1462,7 +1462,7 @@ function createBeehiveEntity(entitydata = {identifier: 'minecraft:bee', ticksrem
   
   let trashbtn = document.createElement("img")
   trashbtn.classList = ["minibutton"];
-  trashbtn.src = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png";
+  trashbtn.src = "/assets/icons/icon_trash.png";
   trashbtn.style = "height:100%";
   trashbtn.onclick = function(){
     this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
@@ -2126,7 +2126,7 @@ case 'vault': {
 }
 case 'tspawner': {
     const selector = document.getElementById('tentity-tspawner-mode-selector');
-    const iconTrash = "https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211";
+    const iconTrash = "/assets/icons/icon_trash.png";
 
     // --- 1. INTERFACE FUNCTIONS ---
 

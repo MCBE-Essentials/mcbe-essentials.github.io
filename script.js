@@ -9,7 +9,7 @@ if(document.getElementById("left")){
 if(document.getElementById("head")){
   fetch('/navtop.html').then((response) => response.text()).then((data) => {
     document.getElementById("head").innerHTML = data;
-    if(location.hostname == "mcbe-essentials.glitch.me"){ 
+    if(window.localStorage.getItem("isDev") == 'true'){ 
       document.getElementById("head").innerHTML += "<span class='devviewstable' onclick='openDevWindow()'>Dev Tools</span>";
     }
   });
@@ -21,16 +21,6 @@ window.bridge = {
 };
 
 //General code
-if(window.location.href.includes("glitch.me") && window.localStorage.isDev != "true"){
-  //Go to stable if "isDev" isn't specified in the localstorage.
-  window.location.href = window.location.href.replace("glitch.me", "github.io");
-}
-
-if(window.location.host == "mcbe-essentials.glitch.me"){
-  //Development mode quirks
-  document.title = "[DEV BUILD] MCBE Essentials";
-  //document.getElementById("head").innerHTML += "<span style='margin-left:12px;' class='devviewstable' onclick='window.location.href = window.location.href.replace(\"glitch.me\", \"github.io\");'>View Stable Page</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span><span class='devviewstable' onclick='reloadCSS();'>Reload Styleshets</span>";
-}
 
 var devWindow;
 function openDevWindow(){
@@ -41,8 +31,8 @@ function openDevWindow(){
   };
 }
 
-if(location.protocol != "https:"){
-window.location.href= (window.location.href).replaceAll("http:", "https:")
+if(location.protocol != "https:" && location.hostname != '127.0.0.1'){
+  window.location.href= (window.location.href).replaceAll("http:", "https:")
 }
 
 if(location.href[location.href.length-1] != "/" && location.pathname != "/loopr/" && !location.href.endsWith(".html")){
@@ -104,20 +94,12 @@ function loadApp(path, elem, category){
   elem.innerHTML += svg;
   
   var link = path.link;
-  if(location.host == "mcbe-essentials.glitch.me"){
-    link = link.replaceAll("github.io", "glitch.me");
-    if(path.subapps){
-      for(var a = 0; a < path.subapps.length; a++){
-        path.subapps[a].link = path.subapps[a].link.replaceAll("github.io", "glitch.me");
-      }
-    }
-  }
   
   if(path.hideEmbedded){
     elem.classList.toggle("hide-embedded", true)
   }
   
-  if(window.location.href == link){
+  if(window.location.pathname == link){
     elem.setAttribute("class", "app-label selected");
     document.title = path.name + " - MCBE Essentials";
     document.getElementById(category).parentNode.open = true;

@@ -266,7 +266,7 @@ html {
   padding: 5px 5px;
   font-family: Minecraftia;
   text-indent: 5px;
-  background-image: url(https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2FmagnifyingGlass.png?v=1617471794543);
+  background-image: url(/assets/icons/magnifyingGlass.png);
   background-repeat: no-repeat;
   background-size: 22px;
   image-rendering: pixelated;
@@ -1008,20 +1008,20 @@ h1 {
 
 @font-face {
   font-family: MinecraftTen;
-  src: url(https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/MinecraftTen.woff?v=1650256421035);
+  src: url(/assets/fonts/MinecraftTen.woff);
 }
 
 @font-face {
   font-family: MinecraftSeven;
-  src: url(https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/MinecraftSeven.woff?v=1650256421129);
+  src: url(/assets/fonts/MinecraftSeven.woff);
 }
 
 @font-face {
   font-family: MinecraftFive;
-  src: url(https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/MinecraftFive-Bold.woff);
+  src: url(/assets/fonts/MinecraftFive-Bold.woff);
 }
 
 @font-face {
   font-family: Minecraftia;
-  src: url(https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/minecraftia.ttf?v=1654807722958);
+  src: url(/assets/fonts/minecraftia.ttf);
 }

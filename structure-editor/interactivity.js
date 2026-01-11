@@ -120,7 +120,7 @@ function renderPaintEditor(layer = 0){
       let paletteEntry = getValidPalette(getPalette())[blockslist[blockindex]] || 
           {
             name: '[void]', 
-            image: 'https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/0fa3c5fa-4760-4f85-babe-45b343605f9a.image.png',
+            image: '/assets/empty.png',
             imageid: -1
           }
       //let identifier = paletteEntry ? paletteEntry.data.name.value : 'minecraft:air'
@@ -134,7 +134,7 @@ function renderPaintEditor(layer = 0){
           let belowPaletteEntry = getValidPalette(getPalette())[blockslist[belowindex]] || 
             {
               name: '[void]', 
-              image: 'https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/0fa3c5fa-4760-4f85-babe-45b343605f9a.image.png',
+              image: '/assets/empty.png',
               imageid: -1
             }
           prev = createBlockPreview(belowPaletteEntry.image, 0);
@@ -171,7 +171,7 @@ function renderPaintEditor(layer = 0){
           let newEntry = getValidPalette(getPalette())[paletteindex] || 
           {
             name: '[void]', 
-            image: 'https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/0fa3c5fa-4760-4f85-babe-45b343605f9a.image.png',
+            image: '/assets/empty.png',
             imageid: -1
           };
           

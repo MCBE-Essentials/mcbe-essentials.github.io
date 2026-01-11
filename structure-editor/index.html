@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#26203a" />
     <link
       rel="icon"
-      href="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382"
+      href="/assets/bcse.png"
     />
     
     <title>MCBE Essentials</title>
@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/item/style.css">
     <link rel="stylesheet" href="/item/grid.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 
     <!-- import the webpage's javascript file -->
     <script src="/apps.js" defer></script>
@@ -31,17 +31,17 @@
     <script src="/leveldat.js" defer></script>
     <script src="/jszip.js" defer></script>
     <script src="utils.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="./script.js" defer></script>
     <script src="/filesaver.js" defer></script>
     <script src="/js/datahandler.js" defer></script>
     <script src="https://unpkg.com/jsoneditor@9.6.0/dist/jsoneditor.min.js"></script>
     <script src="/item/script.js"></script>
   </head>
-  <body style="">
+  <body>
     <input id="dataFileInput" type="file" readertype="arraybuffer/text" accept=".mcstructure,.json,.nbt" style="display:none;">
     
     <div id="head" class="header">
-        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fbcse.png?v=1617477950382" class="imgicon">
+        <img src="/assets/bcse.png" class="imgicon">
       <span class="imgicontext">MCBE Essentials</span>
     </div>
     <div id="body" class="main-content">
@@ -459,12 +459,12 @@
                     <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
                       <div class="effects-list" id="item-general-enchantments" style="height:215px;">
                         <div>
-                          <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton" style="height:100%">
+                          <img src="/assets/icons/icon_trash.png" class="minibutton" style="height:100%">
                           <input class="app-input" placeholder="sharpness" style="width: unset;"> *
                           <input class="app-input" type="number" placeholder="5">
                         </div>
                       </div>
-                      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="document.getElementById('item-general-enchantments').appendChild(createEnchantmentItem())" style="vertical-align:middle;">
+                      <img src="/assets/icons/color_plus.png" class="minibutton" onclick="document.getElementById('item-general-enchantments').appendChild(createEnchantmentItem())" style="vertical-align:middle;">
                         <span style="font-size: 8pt;">Enchantment ID, Level</span>
                     </div>
                   </td>
@@ -484,7 +484,7 @@
             <table style="border-spacing: 2px;" class="npc-actions">
               <thead>
                 <tr>
-                  <th style="width:20px;"><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="document.getElementById('item-block-states').appendChild(createBlockstateEntry())"></th>
+                  <th style="width:20px;"><img src="/assets/icons/color_plus.png" class="minibutton" onclick="document.getElementById('item-block-states').appendChild(createBlockstateEntry())"></th>
                   <th style="width:195px">Name</th>
                   <th style="width:110px">Type</th>
                   <th style="width:195px">Value</th>
@@ -514,7 +514,7 @@
             <div class="app-inner-inner" style="text-align: left; padding: 8px;">
                 <div class="effects-list" id="item-banner-patterns-list" style="height:150px; overflow-y:auto;">
                 </div>
-                <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png" 
+                <img src="/assets/icons/color_plus.png" 
                      id="item-btn-add-pattern" class="minibutton" onclick="addBannerPatternRow()" style="vertical-align:middle;">
                 <span id="item-ominous-warning" style="display: none; font-size: 8pt; color: #ffaa00; vertical-align: middle;">
                     (Unavailable in Ominous mode)
@@ -550,7 +550,7 @@
                 </div>
 
             <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 8px;">
-                <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png" 
+                <img src="/assets/icons/color_plus.png" 
                      id="item-btn-add-explosion" 
                      onclick="window.addFireworkExplosionRow()" 
                      style="width: 20px; height: 20px; cursor: pointer; image-rendering: pixelated;">
@@ -666,16 +666,16 @@
                   <td></td>
                   <td>
                     <img src="https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/book_shiftleft_default.png" class="minibutton book-minibutton" onclick="bookEditor.moveBack(bookEditor.currentPage)">
-                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="bookEditor.addPage(bookEditor.currentPage)">
-                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png" class="minibutton" onclick="bookEditor.deletePage(bookEditor.currentPage)">
-                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton" onclick="bookEditor.duplicatePage(bookEditor.currentPage)">
+                    <img src="/assets/icons/color_plus.png" class="minibutton" onclick="bookEditor.addPage(bookEditor.currentPage)">
+                    <img src="/assets/icons/icon_trash.png" class="minibutton" onclick="bookEditor.deletePage(bookEditor.currentPage)">
+                    <img src="/assets/icons/copy.png" class="minibutton" onclick="bookEditor.duplicatePage(bookEditor.currentPage)">
                     <img src="https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/book_shiftright_default.png" class="minibutton book-minibutton" onclick="bookEditor.moveForward(bookEditor.currentPage)">
                   </td>
                   <td>
                     <img src="https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/book_shiftleft_default.png" class="minibutton book-minibutton" onclick="bookEditor.moveBack(bookEditor.currentPage + 1)">
-                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="bookEditor.addPage(bookEditor.currentPage + 1)">
-                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png" class="minibutton" onclick="bookEditor.deletePage(bookEditor.currentPage + 1)">
-                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcopy.png?v=1617471081488" class="minibutton" onclick="bookEditor.duplicatePage(bookEditor.currentPage + 1)">
+                    <img src="/assets/icons/color_plus.png" class="minibutton" onclick="bookEditor.addPage(bookEditor.currentPage + 1)">
+                    <img src="/assets/icons/icon_trash.png" class="minibutton" onclick="bookEditor.deletePage(bookEditor.currentPage + 1)">
+                    <img src="/assets/icons/copy.png" class="minibutton" onclick="bookEditor.duplicatePage(bookEditor.currentPage + 1)">
                     <img src="https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/ui/book_shiftright_default.png" class="minibutton book-minibutton" onclick="bookEditor.moveForward(bookEditor.currentPage + 1)">
                   </td>
                   <td></td>
@@ -731,7 +731,7 @@
             <table style="border-spacing: 2px;" class="npc-actions">
               <thead>
                 <tr>
-                  <th style="width:20px;"><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="document.getElementById('block-states').appendChild(createBlockstateEntry())"></th>
+                  <th style="width:20px;"><img src="/assets/icons/color_plus.png" class="minibutton" onclick="document.getElementById('block-states').appendChild(createBlockstateEntry())"></th>
                   <th style="width:195px">Name</th>
                   <th style="width:110px">Type</th>
                   <th style="width:195px">Value</th>
@@ -798,14 +798,14 @@
                   <div class="app-inner-inner" style="text-align: left; padding: 8px; height:calc(100% - 40px);">
                     <div class="effects-list" id="entity-general-effects">
                       <div>
-                        <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" class="minibutton" style="height:100%">
+                        <img src="/assets/icons/icon_trash.png" class="minibutton" style="height:100%">
                         <input class="app-input" placeholder="minecraft:effect" style="width: unset;">
                         <input class="app-input" type="number" placeholder="*">
                         <input class="app-input" type="number" placeholder="ticks">
                         <label>Particles: <input type="checkbox" checked></label>
                       </div>
                     </div>
-                    <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="document.getElementById('entity-general-effects').appendChild(createEffectItem())">
+                    <img src="/assets/icons/color_plus.png" class="minibutton" onclick="document.getElementById('entity-general-effects').appendChild(createEffectItem())">
                     <span style="font-size: 8pt;">Effect, Strength, Duration Remaining (in ticks), Show Particles?</span>
                   </div>
                 </td>
@@ -872,7 +872,7 @@
           <table class="trades-list">
             <thead>
               <tr>
-                <th rowspan="2"><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton"></th>
+                <th rowspan="2"><img src="/assets/icons/color_plus.png" class="minibutton"></th>
                 <th colspan="2">Wants 1</th>
                 <th colspan="2">Wants 2</th>
                 <th>Gives</th>
@@ -893,7 +893,7 @@
             <tbody>
               <tr class="app-inner-inner">
                 <td>
-                  <img class="minibutton" src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png" style="height: 100%;">
+                  <img class="minibutton" src="/assets/icons/icon_trash.png" style="height: 100%;">
                 </td>
                 <td>
                   <table class="itemgrid large"><tbody><tr><td></td></tr></tbody></table>
@@ -939,7 +939,7 @@
             <table class="npc-actions">
               <thead>
                 <tr>
-                  <th><img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="document.getElementById('entity-dialogue-actions').appendChild(createNPCActionElement())"></th>
+                  <th><img src="/assets/icons/color_plus.png" class="minibutton" onclick="document.getElementById('entity-dialogue-actions').appendChild(createNPCActionElement())"></th>
                   <th>Mode</th>
                   <th>Commands</th>
                   <th>Label</th>
@@ -1041,7 +1041,7 @@
             <div class="app-inner-inner" style="text-align: left; padding: 8px;">
                 <div class="effects-list" id="tentity-banner-patterns-list" style="height:150px; overflow-y:auto;">
                 </div>
-                <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png" 
+                <img src="/assets/icons/color_plus.png" 
                      id="btn-add-pattern" class="minibutton" onclick="addBannerPatternRow()" style="vertical-align:middle;">
                 <span id="ominous-warning" style="display: none; font-size: 8pt; color: #ffaa00; vertical-align: middle;">
     (Unavailable in Ominous mode)
@@ -1068,7 +1068,7 @@
               <thead>
                 <tr>
                   <th>
-                    <!--<img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" class="minibutton" onclick="document.getElementById('tentity-beehive-occupants').appendChild(createBeehiveEntity())">-->
+                    <!--<img src="/assets/icons/color_plus.png" class="minibutton" onclick="document.getElementById('tentity-beehive-occupants').appendChild(createBeehiveEntity())">-->
                   </th>
                   <th style="width:325px;">Entity</th>
                   <th>Ticks Remaining</th>
@@ -1077,7 +1077,7 @@
               <tbody id="tentity-beehive-occupants">
                 <tr>
                   <td>
-                    <img class="minibutton" src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png" style="height: 100%;">
+                    <img class="minibutton" src="/assets/icons/icon_trash.png" style="height: 100%;">
                   </td>
                   <td>
                     <span class="idlabel">minecraft:entity_identifier</span>
@@ -1603,7 +1603,7 @@
         <td class="app-node" colspan="2">
           <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 5px;">
             <span style="font-weight: bold;">Spawn Potentials (Possible Mobs)</span>
-            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" 
+            <img src="/assets/icons/color_plus.png" 
                  style="width: 20px; height: 20px; cursor: pointer; image-rendering: pixelated;" 
                  onclick="addTrialMobRow()">
           </div>
@@ -1694,7 +1694,7 @@
         <td class="app-node" colspan="2">
           <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 5px;">
             <span>Reward Loot Tables (Eject List)</span>
-            <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fcolor_plus.png?v=1617471105142" 
+            <img src="/assets/icons/color_plus.png" 
                  style="width: 20px; height: 20px; cursor: pointer;" 
                  onclick="addTrialLootRow()">
           </div>
@@ -1843,11 +1843,11 @@
     </div>
     
     <div class="menu-button2"
-         onmouseover="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Felipses.png?v=1617471332712'"
-         onmouseleave="this.children[0].src='https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740'"
+         onmouseover="this.children[0].src='/assets/icons/elipses.png'"
+         onmouseleave="this.children[0].src='/assets/icons/permissions_custom_dots.png'"
          onclick="toggleMenu(this)"
          >
-      <img src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Fpermissions_custom_dots.png?v=1617471900740" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
+      <img src="/assets/icons/permissions_custom_dots.png" style="margin: 20px 8px;width:28px;image-rendering:pixelated;">
     </div>
     <datalist id="ids-entity"></datalist>
     <datalist id="ids-item"></datalist>

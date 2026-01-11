@@ -60,8 +60,8 @@ function updateItem(index, el){
 }
 
 function createRow(texture, identifier, namevalue, index){
-  return '<tr><td colspan="1" class="app-inner"><img src="'+ texture +'" class="customimg" onabort="abort(this)"></td><td colspan="1" class="app-inner">'+identifier+'</td><td colspan="1" class="app-inner"><input value="'+ namevalue +'" class="app-input" oninput="updateItem('+index+', this)"></td><td colspan="1" class="app-inner"><img class="deleteimg" src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" ondrag="return false;" onclick="del('+index+')"></td></tr>';
-  //'<tr><td colspan="1" class="app-inner"><img src="'+ texture +'" class="customimg"></td><td colspan="1" class="app-inner"><input value="'+ identifier +'" class="app-input" oninput="updateItem('+index+')"></td><td colspan="1" class="app-inner"><input value="'+ namevalue +'" class="app-input" oninput="updateItem('+index+')"></td><td colspan="1" class="app-inner"><img class="deleteimg" src="https://cdn.glitch.com/17ff8eee-9239-4ba0-8a5c-9263261550b5%2Ficon_trash.png?v=1616555108211" ondrag="return false;" onclick="del('+ index +')"></td></tr>';
+  return '<tr><td colspan="1" class="app-inner"><img src="'+ texture +'" class="customimg" onabort="abort(this)"></td><td colspan="1" class="app-inner">'+identifier+'</td><td colspan="1" class="app-inner"><input value="'+ namevalue +'" class="app-input" oninput="updateItem('+index+', this)"></td><td colspan="1" class="app-inner"><img class="deleteimg" src="/assets/icons/icon_trash.png" ondrag="return false;" onclick="del('+index+')"></td></tr>';
+  //'<tr><td colspan="1" class="app-inner"><img src="'+ texture +'" class="customimg"></td><td colspan="1" class="app-inner"><input value="'+ identifier +'" class="app-input" oninput="updateItem('+index+')"></td><td colspan="1" class="app-inner"><input value="'+ namevalue +'" class="app-input" oninput="updateItem('+index+')"></td><td colspan="1" class="app-inner"><img class="deleteimg" src="/assets/icons/icon_trash.png" ondrag="return false;" onclick="del('+ index +')"></td></tr>';
 }
 
 

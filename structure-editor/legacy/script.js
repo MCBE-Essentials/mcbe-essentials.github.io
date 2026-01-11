@@ -1,6 +1,6 @@
 const nbt = require('prismarine-nbt');
 const { Buffer } = require('buffer');
- // fetch('https://cdn.glitch.global/17ff8eee-9239-4ba0-8a5c-9263261550b5/bobby.mcstructure?v=1642358868820').then(resp => resp.arrayBuffer())
+ // fetch('/assets/structures/bobby.mcstructure').then(resp => resp.arrayBuffer())
  //   .then(buf => nbt.parse(Buffer.from(buf))).then(console.log)
 
 var importedData = false;
