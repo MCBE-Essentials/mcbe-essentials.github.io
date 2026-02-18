@@ -3,7 +3,7 @@
 async function fetchData() {
   //Get vanilla item data
 	mcitems.data.items = await fetch(
-		'https://unpkg.com/minecraft-textures@1.21.9/dist/textures/json/1.21.9.id.json'
+		'https://unpkg.com/minecraft-textures@1.21.11/dist/textures/json/1.21.11.id.json'
 	).then((response) => response.json())
   //Get identifier mapping data
   mcitems.data.mapping = await fetch(
@@ -197,6 +197,12 @@ var mcitems = {
 			'minecraft:iron_sword': 250,
 			'minecraft:diamond_sword': 1561,
 			'minecraft:netherite_sword': 2031,
+			'minecraft:wooden_spear': 59,
+			'minecraft:stone_spear': 131,
+			'minecraft:copper_spear': 190,
+			'minecraft:iron_spear': 250,
+			'minecraft:diamond_spear': 1561,
+			'minecraft:netherite_spear': 2031,
 
 			'minecraft:fishing_rod': 384,
 			'minecraft:flint_and_steel': 64,
