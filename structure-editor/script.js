@@ -1269,24 +1269,40 @@ function createItemElement(itemdata){
   if(!itemdata.Name) return document.createElement("empty");
   if(itemdata.Count && itemdata.Count.value < 1) return document.createElement("empty");
   
-  let name = itemdata.Name.value;
+  let baseName = itemdata.Name.value;  // ex: "minecraft:potion"
   let count = itemdata.Count.value;
   let tags = (itemdata.hasOwnProperty("tag") ? itemdata.tag.value : {});
-  let damage = (tags.Damage ? itemdata.Damage.value : false);
-  let enchanted = tags.hasOwnProperty("ench"); //TODO: list enchantment data
-  //TODO: item custom names, ect.
+  
+  let rootDamage = itemdata.Damage ? itemdata.Damage.value : 0;          // data/metadata (o que queremos usar!)
+  let durabilityDamage = (tags.Damage ? tags.Damage.value : 0);         // durabilidade gasta
+  
+  let enchanted = tags.hasOwnProperty("ench");
+  
+  // Se houver rootDamage >0, "injeta" no identifier como :data
+  let finalIdentifier = baseName;
+  if (rootDamage > 0) {
+    finalIdentifier += ":" + rootDamage;  // vira "minecraft:potion:5"
+  }
   
   let itemelement = document.createElement("mcitem");
-  itemelement.setAttribute("identifier", name);
+  itemelement.setAttribute("identifier", finalIdentifier);  // ← agora usa o com data!
   itemelement.setAttribute("count", count);
+  
+  // Barra de durabilidade (já separada, como antes)
+  if (durabilityDamage > 0) {
+    itemelement.setAttribute("damage", durabilityDamage);
+  }
+  
+  // Opcional: se quiser manter rootDamage separado pra debug/futuro
+  if (rootDamage > 0) {
+    itemelement.setAttribute("data", rootDamage);
+  }
+  
   itemelement.setAttribute("width", "27px");
   itemelement.setAttribute("height", "27px");
-  itemelement.classList = ["nohover hovertooltip"];
-  itemelement.classList.toggle("enchanted", enchanted)
+  itemelement.classList.add("nohover", "hovertooltip");
+  itemelement.classList.toggle("enchanted", enchanted);
   itemelement.style.fontSize = "9pt";
-  if(damage){
-    itemelement.setAttribute("damage", damage);
-  }
   
   return itemelement;
 }
@@ -1953,6 +1969,8 @@ function openTileEntityEditor(){
         // Uses the same function as the Item Frame to create the visual icon.
         document.getElementById("tentity-decoratedpot-item").appendChild(createItemElement(tileEntity.item.value));
     }
+    document.getElementById("tentity-decoratedpot-loottable").value = currentValidTile.data.hasOwnProperty("LootTable") ? currentValidTile.data.LootTable.value : "";
+    document.getElementById("tentity-decoratedpot-loottableseed").value = currentValidTile.data.hasOwnProperty("LootTableSeed") ? currentValidTile.data.LootTableSeed.value : "";
     
     // If there is any logic to Sherds (shards), it continues here...
     
@@ -2837,7 +2855,24 @@ function saveTileEntity(){
       }
       break;
     }
-    case 'decoratedpot': {      
+    case 'decoratedpot': {
+    	if(document.getElementById("tentity-decoratedpot-loottable").value != ""){
+        currentValidTile.data.LootTable = {
+          "type": "string",
+          "value": document.getElementById("tentity-decoratedpot-loottable").value
+        }
+      } else {
+        delete currentValidTile.data.LootTable;
+      }
+      
+      if(document.getElementById("tentity-decoratedpot-loottable").value != ""){
+        currentValidTile.data.LootTableSeed = {
+          "type": "int",
+          "value": parseFloat(document.getElementById("tentity-decoratedpot-loottableseed").value)
+        }
+      } else {
+        delete currentValidTile.data.LootTableSeed;
+      }
       tileEntity.sherds = nbt.list(nbt.string([
         document.getElementById("tentity-decoratedpot-sherd0").value,
         document.getElementById("tentity-decoratedpot-sherd1").value,
