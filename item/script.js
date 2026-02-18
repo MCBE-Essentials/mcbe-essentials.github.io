@@ -204,6 +204,8 @@ var mcitems = {
 			'minecraft:diamond_spear': 1561,
 			'minecraft:netherite_spear': 2031,
 
+			'minecraft:brush': 64,
+            'minecraft:mace': 500,
 			'minecraft:fishing_rod': 384,
 			'minecraft:flint_and_steel': 64,
 			'minecraft:carrot_on_a_stick': 25,
@@ -212,7 +214,7 @@ var mcitems = {
 			'minecraft:bow': 384,
 			'minecraft:trident': 250,
 			'minecraft:elytra': 432,
-			'minecraft:crossbow': 464,
+			'minecraft:crossbow': 465,
 			'minecraft:warped_fungus_on_a_stick': 100,
 		},
 	},
