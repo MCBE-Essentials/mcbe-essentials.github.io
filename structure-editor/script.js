@@ -1269,31 +1269,30 @@ function createItemElement(itemdata){
   if(!itemdata.Name) return document.createElement("empty");
   if(itemdata.Count && itemdata.Count.value < 1) return document.createElement("empty");
   
-  let baseName = itemdata.Name.value;  // ex: "minecraft:potion"
+  let baseName = itemdata.Name.value; 
   let count = itemdata.Count.value;
   let tags = (itemdata.hasOwnProperty("tag") ? itemdata.tag.value : {});
   
-  let rootDamage = itemdata.Damage ? itemdata.Damage.value : 0;          // data/metadata (o que queremos usar!)
-  let durabilityDamage = (tags.Damage ? tags.Damage.value : 0);         // durabilidade gasta
+  let rootDamage = itemdata.Damage ? itemdata.Damage.value : 0;          // data/metadata
+  let durabilityDamage = (tags.Damage ? tags.Damage.value : 0);         // durability
   
   let enchanted = tags.hasOwnProperty("ench");
   
-  // Se houver rootDamage >0, "injeta" no identifier como :data
+  // If rootDamage >0, "inject" it into the identifier as :data
   let finalIdentifier = baseName;
   if (rootDamage > 0) {
-    finalIdentifier += ":" + rootDamage;  // vira "minecraft:potion:5"
+    finalIdentifier += ":" + rootDamage;  // turn into "minecraft:potion:5"
   }
   
   let itemelement = document.createElement("mcitem");
-  itemelement.setAttribute("identifier", finalIdentifier);  // ← agora usa o com data!
+  itemelement.setAttribute("identifier", finalIdentifier); 
   itemelement.setAttribute("count", count);
   
-  // Barra de durabilidade (já separada, como antes)
+  // Durability bar
   if (durabilityDamage > 0) {
     itemelement.setAttribute("damage", durabilityDamage);
   }
   
-  // Opcional: se quiser manter rootDamage separado pra debug/futuro
   if (rootDamage > 0) {
     itemelement.setAttribute("data", rootDamage);
   }
