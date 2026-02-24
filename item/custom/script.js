@@ -14,9 +14,10 @@
   var customItemsData = JSON.parse(window.localStorage.customItems);
   document.getElementById("displays").innerHTML = "";
   for(var i = 0; i < Object.keys(customItemsData).length; i++){
-    var entry = customItemsData[Object.keys(customItemsData)[i]];
-    document.getElementById("displays").innerHTML += createRow(entry.texture, Object.keys(customItemsData)[i], entry.readable, i);
-  }
+  var key = Object.keys(customItemsData)[i];
+  var entry = customItemsData[key];
+  document.getElementById("displays").innerHTML += createRow(entry.texture, key, entry.readable, i, entry.durability);
+}
   if(Object.keys(customItemsData).length == 0){
     document.getElementById("displays").innerHTML = "<tr><td colspan='4' class='app-inner' style='border-radius:10px;'><i>No uploaded items yet.</i></td></tr>";
   }
@@ -41,7 +42,8 @@
     }
     customItemsData[identifier] = {
       readable: "My Custom Item",
-      texture: dataurl
+      texture: dataurl,
+      durability: 0
     };
     window.localStorage.customItems = JSON.stringify(customItemsData);
     location.reload();
@@ -53,15 +55,28 @@
     location.reload();
   }
 
-function updateItem(index, el){
-  var entry = customItemsData[Object.keys(customItemsData)[index]];
-  entry.readable = el.value;
-  window.localStorage.customItems = JSON.stringify(customItemsData);
+function createRow(texture, identifier, namevalue, index, durability){
+  return '<tr>' +
+    '<td class="app-inner"><img src="'+ texture +'" class="customimg" onabort="abort(this)"></td>' +
+    '<td class="app-inner">'+identifier+'</td>' +
+    '<td class="app-inner"><input value="'+ namevalue +'" class="app-input" oninput="updateItem('+index+', this, \'readable\')"></td>' +
+    // NEW NUMERICAL FIELD FOR DURABILITY
+    '<td class="app-inner"><input type="number" value="'+ (durability || 0) +'" class="app-input" style="width:70px" oninput="updateItem('+index+', this, \'durability\')"></td>' +
+    '<td class="app-inner"><img class="deleteimg" src="/assets/icons/icon_trash.png" ondrag="return false;" onclick="del('+index+')"></td>' +
+  '</tr>';
 }
 
-function createRow(texture, identifier, namevalue, index){
-  return '<tr><td colspan="1" class="app-inner"><img src="'+ texture +'" class="customimg" onabort="abort(this)"></td><td colspan="1" class="app-inner">'+identifier+'</td><td colspan="1" class="app-inner"><input value="'+ namevalue +'" class="app-input" oninput="updateItem('+index+', this)"></td><td colspan="1" class="app-inner"><img class="deleteimg" src="/assets/icons/icon_trash.png" ondrag="return false;" onclick="del('+index+')"></td></tr>';
-  //'<tr><td colspan="1" class="app-inner"><img src="'+ texture +'" class="customimg"></td><td colspan="1" class="app-inner"><input value="'+ identifier +'" class="app-input" oninput="updateItem('+index+')"></td><td colspan="1" class="app-inner"><input value="'+ namevalue +'" class="app-input" oninput="updateItem('+index+')"></td><td colspan="1" class="app-inner"><img class="deleteimg" src="/assets/icons/icon_trash.png" ondrag="return false;" onclick="del('+ index +')"></td></tr>';
+function updateItem(index, el, field){
+  var keys = Object.keys(customItemsData);
+  var entry = customItemsData[keys[index]];
+  
+  if(field === 'durability') {
+    entry.durability = parseInt(el.value) || 0;
+  } else {
+    entry.readable = el.value;
+  }
+  
+  window.localStorage.customItems = JSON.stringify(customItemsData);
 }
 
 
