@@ -156,6 +156,7 @@ function openWorldSettings(){
   }
   document.getElementById("ws-name").value = leveldat.value.LevelName.value;
   document.getElementById("ws-seed").innerHTML = leveldat.value.RandomSeed.value.valueOf().toString();
+  document.getElementById("ws-hradcore").checked = (leveldat.value.IsHardcore.value == 0 ? false : true);
   document.getElementById("ws-difficulty").value = leveldat.value.Difficulty.value;
   document.getElementById("ws-gametype").value = leveldat.value.GameType.value;
   document.getElementById("ws-generator").value = leveldat.value.Generator.value;
@@ -187,18 +188,27 @@ function openWorldGamerules(){
   document.getElementById("wg-drowningdamage").checked = leveldat.value.drowningdamage.value;
   document.getElementById("wg-falldamage").checked = leveldat.value.falldamage.value;
   document.getElementById("wg-firedamage").checked = leveldat.value.firedamage.value;
+  document.getElementById("wg-freezedamage").checked = leveldat.value.freezedamage.value;
   //freezedamage
   document.getElementById("wg-forcegamemode").checked = leveldat.value.ForceGameType.value;
   document.getElementById("wg-funclimit").value = leveldat.value.functioncommandlimit.value;
   document.getElementById("wg-keepinventory").checked = leveldat.value.keepinventory.value;
   document.getElementById("wg-mobgriefing").checked = leveldat.value.mobgriefing.value;
   document.getElementById("wg-naturalregen").checked = leveldat.value.naturalregeneration.value;
+  document.getElementById("wg-projectbreakblock").checked = leveldat.value.projectilescanbreakblocks.value;
+  document.getElementById("wg-pvp").checked = leveldat.value.pvp.value;
   document.getElementById("wg-randomtick").value = leveldat.value.randomtickspeed.value;
+  document.getElementById("wg-recipeunlock").checked = leveldat.value.recipesunlock.value;
+  document.getElementById("wg-recipetoast").checked = leveldat.value.showrecipemessages.value;
   document.getElementById("wg-sendcommandfeedback").checked = leveldat.value.sendcommandfeedback.value;
   document.getElementById("wg-showcoordiantes").checked = leveldat.value.showcoordinates.value;
+  document.getElementById("wg-showdaysplayde").checked = leveldat.value.showdaysplayed.value;
   document.getElementById("wg-showdeathmessages").checked = leveldat.value.showdeathmessages.value;
   document.getElementById("wg-tntexplodes").checked = leveldat.value.tntexplodes.value;
+  document.getElementById("wg-tntexplodesdecay").checked = leveldat.value.tntexplosiondropdecay.value;
+  document.getElementById("wg-respawnblocksexplodes").checked = leveldat.value.respawnblocksexplode.value;
   document.getElementById("wg-spawnradius").value = leveldat.value.spawnradius.value;
+  document.getElementById("wg-playerssleepingpercentage").value = leveldat.value.playerssleepingpercentage.value;
   document.getElementById("wg-chainlimit").value = leveldat.value.maxcommandchainlength.value;
 }
   
@@ -253,8 +263,11 @@ function openWorldMisc(){
   document.getElementById("wm-multiplayer").checked = leveldat.value.MultiplayerGame.value;
   document.getElementById("wm-multiplayervisible").checked = leveldat.value.MultiplayerGameIntent.value;
   document.getElementById("wm-visibility").value = leveldat.value.XBLBroadcastIntent.value;
+  document.getElementById("wm-deftpermission").value = leveldat.value.permissionsLevel.value;
+  document.getElementById("wm-playerpermission").value = leveldat.value.playerPermissionsLevel.value;
   document.getElementById("wm-lanbroadcase").checked = leveldat.value.LANBroadcast.value;
   document.getElementById("wm-lanvisible").checked = leveldat.value.LANBroadcastIntent.value;
+  document.getElementById("wm-locatorbar").checked = leveldat.value.locatorbar.value;
 }
 
 function updateWorldSettings() {
@@ -263,6 +276,7 @@ function updateWorldSettings() {
   //Update levelname.txt
   masterzip.file("levelname.txt", document.getElementById("ws-name").value);
   //leveldat.value.RandomSeed.value[1] = parseFloat(document.getElementById("ws-seed").value);
+  leveldat.value.IsHardcore.value = (document.getElementById("ws-hradcore").checked == true ? 1 : 0);
   leveldat.value.Difficulty.value = parseFloat(document.getElementById("ws-difficulty").value);
   leveldat.value.GameType.value = parseFloat(document.getElementById("ws-gametype").value);
   leveldat.value.Generator.value = parseFloat(document.getElementById("ws-generator").value);
@@ -270,7 +284,7 @@ function updateWorldSettings() {
   leveldat.value.SpawnX.value = parseFloat(document.getElementById("ws-spawnx").value);
   leveldat.value.SpawnY.value = parseFloat(document.getElementById("ws-spawny").value);
   leveldat.value.SpawnZ.value = parseFloat(document.getElementById("ws-spawnz").value);
-  leveldat.value.spawnMobs.valvue = (document.getElementById("ws-spawnmobs").checked == true ? 1 : 0);
+  leveldat.value.spawnMobs.value = (document.getElementById("ws-spawnmobs").checked == true ? 1 : 0);
   leveldat.value.bonusChestEnabled.value = (document.getElementById("ws-bonuschest").checked == true ? 1 : 0);
   leveldat.value.bonusChestSpawned.value = (document.getElementById("ws-bonuschestspawned").checked == true ? 1 : 0);
   
@@ -294,18 +308,27 @@ function updateGamerules(){
   leveldat.value.drowningdamage.value = (document.getElementById("wg-drowningdamage").checked == true ? 1 : 0);
   leveldat.value.falldamage.value = (document.getElementById("wg-falldamage").checked == true ? 1 : 0);
   leveldat.value.firedamage.value = (document.getElementById("wg-firedamage").checked == true ? 1 : 0);
+  leveldat.value.freezedamage.value = (document.getElementById("wg-freezedamage").checked == true ? 1 : 0);
   //freezedamage
   leveldat.value.ForceGameType.value = (document.getElementById("wg-forcegamemode").checked == true ? 1 : 0);
   leveldat.value.functioncommandlimit.value = parseFloat(document.getElementById("wg-funclimit").value);
   leveldat.value.keepinventory.value = (document.getElementById("wg-keepinventory").checked == true ? 1 : 0);
   leveldat.value.mobgriefing.value = (document.getElementById("wg-mobgriefing").checked == true ? 1 : 0);
   leveldat.value.naturalregeneration.value = (document.getElementById("wg-naturalregen").checked == true ? 1 : 0);
+  leveldat.value.projectilescanbreakblocks.value = (document.getElementById("wg-projectbreakblock").checked == true ? 1 : 0);
+  leveldat.value.pvp.value = (document.getElementById("wg-pvp").checked == true ? 1 : 0);
   leveldat.value.randomtickspeed.value = parseFloat(document.getElementById("wg-randomtick").value);
+  leveldat.value.recipesunlock.value = (document.getElementById("wg-recipeunlock").checked == true ? 1 : 0);
+  leveldat.value.showrecipemessages.value = (document.getElementById("wg-recipetoast").checked == true ? 1 : 0);
   leveldat.value.sendcommandfeedback.value = (document.getElementById("wg-sendcommandfeedback").checked == true ? 1 : 0);
   leveldat.value.showcoordinates.value = (document.getElementById("wg-showcoordiantes").checked == true ? 1 : 0);
+  leveldat.value.showdaysplayed.value = (document.getElementById("wg-showdaysplayde").checked == true ? 1 : 0);
   leveldat.value.showdeathmessages.value = (document.getElementById("wg-showdeathmessages").checked == true ? 1 : 0);
   leveldat.value.tntexplodes.value = (document.getElementById("wg-tntexplodes").checked == true ? 1 : 0);
+  leveldat.value.tntexplosiondropdecay.value = (document.getElementById("wg-tntexplodesdecay").checked == true ? 1 : 0);
+  leveldat.value.respawnblocksexplode.value = (document.getElementById("wg-respawnblocksexplodes").checked == true ? 1 : 0);
   leveldat.value.spawnradius.value = parseFloat(document.getElementById("wg-spawnradius").value);
+  leveldat.value.playerssleepingpercentage.value = parseFloat(document.getElementById("wg-playerssleepingpercentage").value);
   leveldat.value.maxcommandchainlength.value = parseFloat(document.getElementById("wg-chainlimit").value);
   
   //Update level.dat inside zip file
@@ -359,8 +382,11 @@ function updateWorldMisc() {
   leveldat.value.MultiplayerGame.value = (document.getElementById("wm-multiplayer").checked == true ? 1 : 0);
   leveldat.value.MultiplayerGameIntent.value = (document.getElementById("wm-multiplayervisible").checked == true ? 1 : 0);
   leveldat.value.XBLBroadcastIntent.value = parseFloat(document.getElementById("wm-visibility").value);
+  leveldat.value.permissionsLevel.value = parseFloat(document.getElementById("wm-deftpermission").value);
+  leveldat.value.playerPermissionsLevel.value = parseFloat(document.getElementById("wm-playerpermission").value);
   leveldat.value.LANBroadcast.value = (document.getElementById("wm-lanbroadcase").checked == true ? 1 : 0);
   leveldat.value.LANBroadcastIntent.value = (document.getElementById("wm-lanvisible").checked == true ? 1 : 0);
+  leveldat.value.locatorbar.value = (document.getElementById("wm-locatorbar").checked == true ? 1 : 0);
   
   //Update level.dat inside zip file
   updateLevelDat();
@@ -484,133 +510,116 @@ function movePack(mode){
   masterzip.file("world_resource_packs.json", JSON.stringify(wrp, null, 3));
 }
 
-function doPacks(){
+async function doPacks() {
   document.getElementById("pack-list").innerHTML = "";
-  mdata = {
-    bplist: [],
-    rplist: [],
-    bps: [],
-    rps: []
-  };
+  mdata = { bplist: [], rplist: [], bps: [], rps: [] };
   packslist = [];
-  
-  if(masterzip.folder(/behavior_packs/)){
-    for(var i = 0; i < Object.keys(masterzip.files).length; i++){
-      var fiq = masterzip.files[Object.keys(masterzip.files)[i]];
-      if(fiq.name.startsWith("behavior_packs") && !fiq.dir){
-        //It's a file within the behavior packs directory
-        if(fiq.name.includes("/manifest.json")){
-          //It's a manifest.json file.
-          const fiqName = fiq.name;
-          getFile(fiq.name).then(function(result){
-            result = JSON.parse(result);
-            if(mdata.bps.filter(e => e.header.uuid === result.header.uuid).length == 0){
-              if(!result.metadata) result.metadata = {};
-              result.metadata.folder = fiqName.split("/")[1];
-              mdata.bps.push(result);
-            } else {
-              alert("Multiple behavior packs with the same UUID were found. Only the first example will show up in the editor.");
-            }
 
-          })
-        }
-        /*if(fiq.name.includes("/en_US.lang")){
-          //It's a language file, make sure the contents don't include "pack.name"
-          getFile(fiq.name).then(function(result){
-            result = parseLanguage(result);
-            if(Object.keys(result).includes('pack.name')){
-              mdata.bps[mdata.bps.length-1].header.name.replaceAll("pack.name", result["pack.name"]);
+  const manifestPromises = [];
+  // Usamos um Set para garantir que cada caminho de arquivo seja processado uma única vez
+  const processedPaths = new Set();
+
+  // 1. Coleta de Manifests (Melhorada para evitar duplicatas de pastas)
+  Object.keys(masterzip.files).forEach(path => {
+    const fiq = masterzip.files[path];
+    
+    // Critérios: 
+    // - Não pode ser diretório
+    // - Tem que terminar exatamente com /manifest.json
+    // - Tem que estar dentro das pastas corretas
+    if (!fiq.dir && path.endsWith("/manifest.json") && !processedPaths.has(path)) {
+      
+      if (path.startsWith("behavior_packs/")) {
+        processedPaths.add(path);
+        manifestPromises.push(
+          getFile(path).then(result => {
+            const resJson = JSON.parse(result);
+            if (!mdata.bps.some(e => e.header.uuid === resJson.header.uuid)) {
+              if (!resJson.metadata) resJson.metadata = {};
+              resJson.metadata.folder = path.split("/")[1];
+              mdata.bps.push(resJson);
             }
           })
-        }*/
+        );
+      } else if (path.startsWith("resource_packs/")) {
+        processedPaths.add(path);
+        manifestPromises.push(
+          getFile(path).then(result => {
+            const resJson = JSON.parse(result);
+            if (!mdata.rps.some(e => e.header.uuid === resJson.header.uuid)) {
+              if (!resJson.metadata) resJson.metadata = {};
+              resJson.metadata.folder = path.split("/")[1];
+              mdata.rps.push(resJson);
+            }
+          })
+        );
       }
     }
-  }
-  
-  if(masterzip.folder(/resource_packs/)){
-    for(var i = 0; i < Object.keys(masterzip.files).length; i++){
-      var fiq = masterzip.files[Object.keys(masterzip.files)[i]];
-      if(fiq.name.startsWith("resource_packs") && !fiq.dir){
-        //It's a file within the resource packs directory
-        if(fiq.name.includes("/manifest.json")){
-          //It's a manifest.json file.
-          const fiqName = fiq.name;
-          getFile(fiq.name).then(function(result){
-            result = JSON.parse(result);
-            if(mdata.rps.filter(e => e.header.uuid === result.header.uuid).length == 0){
-              if(!result.metadata) result.metadata = {};
-              result.metadata.folder = fiqName.split("/")[1];
-              mdata.rps.push(result);
-            } else {
-              alert("Multiple resource packs with the same UUID were found. Only the first example will show up in the editor.");
-            }
-          })
+  });
+
+  await Promise.all(manifestPromises);
+
+  // 2. Processar world_behavior_packs.json
+  try {
+    const bplistData = await getFile("world_behavior_packs.json");
+    if (bplistData) {
+      const bplist = JSON.parse(bplistData);
+      mdata.bplist = bplist;
+      // Usamos um Set local para não repetir o mesmo pack visualmente na lista
+      const addedUUIDs = new Set(); 
+
+      bplist.forEach(item => {
+        const match = mdata.bps.find(bp => 
+          bp.header.uuid == item.pack_id && 
+          unifyVersion(bp.header.version) == unifyVersion(item.version)
+        );
+        if (match && !addedUUIDs.has(match.header.uuid)) {
+          addedUUIDs.add(match.header.uuid);
+          packslist.push({
+            type: 'bp',
+            uuid: match.header.uuid,
+            version: match.header.version,
+            name: match.header.name,
+            display: match.header.name || match.metadata.folder
+          });
         }
-        /*if(fiq.name.includes("/en_US.lang")){
-          //It's a language file, make sure the contents don't include "pack.name"
-          getFile(fiq.name).then(function(result){
-            result = parseLanguage(result);
-            if(Object.keys(result).includes('pack.name')){
-              mdata.rps[mdata.rps.length-1].header.name.replaceAll("pack.name", result["pack.name"]);
-            }
-          })
-        }*/
-      }
+      });
     }
-  }
-  
-  if(getFile("world_behavior_packs.json")){
-    getFile("world_behavior_packs.json").then(
-      function(bplist){
-        bplist = JSON.parse(bplist);
-        mdata.bplist = bplist;
-        for(var i = 0; i < bplist.length; i++){
-          var uuid = bplist[i].pack_id;
-          var version = bplist[i].version;
-          for(var a = 0; a < mdata.bps.length; a++){
-            if(mdata.bps[a].header.uuid == uuid && unifyVersion(mdata.bps[a].header.version) == unifyVersion(version)){
-              packslist.push(
-                {
-                  type: 'bp',
-                  uuid: mdata.bps[a].header.uuid,
-                  version: mdata.bps[a].header.version,
-                  name: mdata.bps[a].header.name,
-                  display: mdata.bps[a].metadata.folder
-                }
-              );
-              packsList(packslist);
-            }
-          }
+  } catch (e) {}
+
+  // 3. Processar world_resource_packs.json
+  try {
+    const rplistData = await getFile("world_resource_packs.json");
+    if (rplistData) {
+      const rplist = JSON.parse(rplistData);
+      mdata.rplist = rplist;
+      const addedUUIDs = new Set();
+
+      rplist.forEach(item => {
+        const match = mdata.rps.find(rp => 
+          rp.header.uuid == item.pack_id && 
+          unifyVersion(rp.header.version) == unifyVersion(item.version)
+        );
+        if (match && !addedUUIDs.has(match.header.uuid)) {
+          addedUUIDs.add(match.header.uuid);
+          packslist.push({
+            type: 'rp',
+            uuid: match.header.uuid,
+            name: match.header.name,
+            version: match.header.version,
+            display: match.header.name || match.metadata.folder
+          });
         }
-      }
-    )
-  }
-  
-  if(getFile("world_resource_packs.json")){
-    getFile("world_resource_packs.json").then(
-      function(rplist){
-        rplist = JSON.parse(rplist);
-        mdata.rplist = rplist;
-        for(var i = 0; i < rplist.length; i++){
-          var uuid = rplist[i].pack_id;
-          var version = rplist[i].version;
-          for(var a = 0; a < mdata.rps.length; a++){
-            if(mdata.rps[a].header.uuid == uuid && unifyVersion(mdata.rps[a].header.version) == unifyVersion(version)){
-              packslist.push(
-                {
-                  type: 'rp',
-                  uuid: mdata.rps[a].header.uuid,
-                  name: mdata.rps[a].header.name,
-                  version: mdata.rps[a].header.version,
-                  display: mdata.rps[a].metadata.folder
-                }
-              );
-              packsList(packslist);
-            }
-          }
-        }
-      }
-    )
+      });
+    }
+  } catch (e) {}
+
+  // 4. Renderiza a lista FINAL
+  if (packslist.length > 0) {
+    packsList(packslist);
+  } else {
+    // SE A LISTA ESTIVER VAZIA, VOLTA A MENSAGEM ORIGINAL
+    document.getElementById("pack-list").innerHTML = "Packs will show up here<br>with their directory's name.";
   }
 }
 
@@ -662,76 +671,224 @@ function parseLanguage(language){
   return outputLanguage;
 }
 
-function updateManifest(){
+function updateManifest() {
+  const newName = document.getElementById("pack-title").value;
+  
+  // 1. Atualiza as versões no objeto atual
   currentPack.header.version = updateVersion(currentPack.header.version, document.getElementById("pack-version").value);
   currentPack.header.min_engine_version = updateVersion(currentPack.header.min_engine_version, document.getElementById("pack-me-version").value);
   
-  currentPack.header.name = document.getElementById("pack-title").value;
+  // 2. Atualiza Nome e Descrição
+  currentPack.header.name = newName;
   currentPack.header.description = document.getElementById("pack-desc").value;
   
-  var packtype = (currentPack.modules[0].type == "data" ? "behavior_packs" : "resource_packs");
+  // 3. Determina a pasta correta (BP ou RP)
+  const moduleType = currentPack.modules[0].type;
+  let packtype = "";
+
+  // Inclui 'data', 'script' e 'javascript' como Behavior Packs
+  if (moduleType === "data" || moduleType === "script") {
+    packtype = "behavior_packs";
+  } else {
+    packtype = "resource_packs";
+  }
+
+  // 4. Salva o arquivo dentro do ZIP
   var fileManifest = JSON.parse(JSON.stringify(currentPack));
-  delete fileManifest.metadata.folder;
-  masterzip.file(packtype + "/" + currentPack.metadata.folder + "/manifest.json", JSON.stringify(fileManifest, null, 3));
+  const folderName = currentPack.metadata.folder; // Nome da pasta original salva no upload
+  delete fileManifest.metadata; // Limpa metadados do site antes de salvar no ZIP
+
+  const finalPath = packtype + "/" + folderName + "/manifest.json";
+  masterzip.file(finalPath, JSON.stringify(fileManifest, null, 3));
+
+  // 5. Sincroniza visualmente com a lista lateral (Packslist)
+  for (var i = 0; i < packslist.length; i++) {
+    if (packslist[i].uuid === currentPack.header.uuid) {
+      packslist[i].name = newName;
+      packslist[i].display = newName;
+      break;
+    }
+  }
+
+  // 6. Atualiza a UI
+  packsList(packslist);
+  
+  // Mantém o destaque visual (seleção) no pack editado
+  const items = document.getElementsByClassName("idlabel");
+  for (let item of items) {
+    if (item.getAttribute("uuid") === currentPack.header.uuid) {
+      item.classList.add("selected");
+    }
+  }
+
+  console.log("Salvo com sucesso em: " + finalPath);
 }
 
-function processUplPack(zip){
-  var filenames = Object.keys(zip.files);
-  if(!filenames.includes("manifest.json")){
-    alert("Uploaded pack does not include a manifest.json file."); return;
-  }
-  if(!filenames.includes("pack_icon.png")){
-    alert("Uploaded pack does not include a pack_icon.png file."); return;
-  }
+// --- VARIÁVEIS GLOBAIS ---
+const usedPackNames = {
+  resource_packs: new Map(),
+  behavior_packs: new Map()
+};
+
+const packQueue = {
+  resource_packs: [],
+  behavior_packs: []
+};
+
+// --- PROCESSAMENTO DE UPLOAD ---
+function processUplPack(zip) {
+  const manifestsFound = [];
+  // Filtra manifestos reais, ignorando duplicatas de caminhos
+  const paths = Object.keys(zip.files);
   
-  zip.file("manifest.json").async("text").then(function(manifestResult){
-    manifestResult = JSON.parse(manifestResult);
-    if(manifestResult.modules[0].type == "resources"){
-      addUplPack(manifestResult.header.name, "resource_packs", zip, manifestResult);
-    } else if(manifestResult.modules[0].type == "data") {
-      addUplPack(manifestResult.header.name, "behavior_packs", zip, manifestResult);
-    } else {
-      alert("Unrecognized pack type.");
+  paths.forEach(path => {
+    if (zip.files[path].dir) return;
+    const parts = path.split('/');
+    // Aceita manifest na raiz ou em subpastas de 1 nível (padrão mcaddon)
+    if (parts.length <= 2 && parts[parts.length - 1] === "manifest.json") {
+      manifestsFound.push(path);
+    }
+  });
+
+  if (manifestsFound.length === 0) {
+    alert("Nenhum manifest.json encontrado.");
+    return;
+  }
+
+  let processedCount = 0;
+
+  manifestsFound.forEach(function(manifestPath) {
+    const packFolder = manifestPath.includes('/') 
+      ? manifestPath.substring(0, manifestPath.lastIndexOf('/') + 1) 
+      : '';
+
+    const iconPath = packFolder + "pack_icon.png";
+
+    // Verifica ícone antes de processar
+    if (!zip.files[iconPath]) {
+      alert(`Pack em "${packFolder || 'raiz'}" ignorado: falta pack_icon.png`);
+      processedCount++;
+      if (processedCount === manifestsFound.length) finalizeWorldFiles();
       return;
     }
+
+    zip.file(manifestPath).async("text").then(function(manifestText) {
+      let manifest;
+      try {
+        manifest = JSON.parse(manifestText);
+      } catch (e) {
+        console.error("Erro ao ler manifest:", manifestPath);
+        processedCount++;
+        return;
+      }
+
+      const moduleType = manifest?.modules?.[0]?.type;
+      let targetFolder;
+
+      if (moduleType === "resources") {
+        targetFolder = "resource_packs";
+      } else if (moduleType === "data" || moduleType === "script") {
+        targetFolder = "behavior_packs";
+      }
+
+      if (targetFolder) {
+        addUplPack(manifest.header.name, targetFolder, zip, manifest, packFolder);
+      }
+
+      processedCount++;
+      // Gatilho único para salvar os arquivos e atualizar a UI
+      if (processedCount === manifestsFound.length) {
+        // Delay de 500ms garante que as gravações físicas dos arquivos terminaram
+        setTimeout(finalizeWorldFiles, 500);
+      }
+
+    }).catch(err => {
+      processedCount++;
+      if (processedCount === manifestsFound.length) finalizeWorldFiles();
+    });
+  });
+
+  // Mensagem movida para o final do fluxo para não sobrepor o carregamento
+  if (manifestsFound.length > 1) {
+    console.log(`${manifestsFound.length} packs detectados no arquivo.`);
+  }
+}
+
+// --- ADICIONAR PACK AO ZIP MESTRE ---
+function addUplPack(name, type, zip, manifest, packFolder = '') {
+  let baseName = (manifest?.header?.name || "Pack_Sem_Nome").trim().replace(/[^a-zA-Z0-9-_. ]/g, '_');
+  const nameMap = usedPackNames[type] || new Map();
+  let counter = (nameMap.get(baseName) || 0) + 1;
+  nameMap.set(baseName, counter);
+
+  let safePackName = counter > 1 ? `${baseName} (${counter})` : baseName;
+  const packBasePath = type + "/" + safePackName + "/";
+
+  // Adiciona dados na fila de escrita do JSON
+  packQueue[type].push({
+    pack_id: manifest.header.uuid.toString(),
+    version: manifest.header.version || [1, 0, 0]
+  });
+
+  // Copia os arquivos de forma assíncrona
+  Object.keys(zip.files).filter(f => f.startsWith(packFolder)).forEach(myFileName => {
+    var file = zip.file(myFileName);
+    if (!file || file.dir) return;
+
+    var relativePath = packFolder ? myFileName.substring(packFolder.length) : myFileName;
+    var targetPath = packBasePath + relativePath;
+
+    if (myFileName.match(/\.(png|jpg|jpeg)$/i)) {
+      file.async("base64").then(res => masterzip.file(targetPath, res, {base64: true}));
+    } else {
+      file.async("text").then(res => masterzip.file(targetPath, res));
+    }
   });
 }
 
-function addUplPack(name, type, zip, manifest){
-  var filenames = Object.keys(zip.files);
-  var path = type + "/" + name + "/";
-  //Merge old zip with master zip (project)
-  for(var i = 0; i < filenames.length; i++){
-    if(zip.file(filenames[i])){
-      const myFileName = filenames[i];
-      if(filenames[i].endsWith(".png")){
-        zip.file(filenames[i]).async("base64").then(function(fileresult){
-          fileresult = fileresult.toString();
-          masterzip.file(path + myFileName, fileresult, {base64: true});
-        })
-      } else {
-        zip.file(filenames[i]).async("text").then(function(fileresult){
-          fileresult = fileresult.toString();
-          masterzip.file(path + myFileName, fileresult);
-        })
-      }
+// --- FINALIZAÇÃO E ATUALIZAÇÃO DA INTERFACE ---
+function finalizeWorldFiles() {
+  const types = ["resource_packs", "behavior_packs"];
+  let tasksFinished = 0;
+
+  types.forEach(type => {
+    const worldFile = "world_" + type + ".json";
+    const queue = packQueue[type];
+
+    if (queue.length === 0) {
+      tasksFinished++;
+      if (tasksFinished === 2 && typeof doPacks === "function") doPacks();
+      return;
     }
-  }
-  
-  //Add pack to world_*_packs.json
-  masterzip.file("world_" + type + ".json").async("text").then(function(r){
-    r = JSON.parse(r);
-    r.push(
-      {
-        pack_id: manifest.header.uuid.toString(),
-        version: JSON.parse(JSON.stringify(manifest.header.version))
+
+    masterzip.file(worldFile).async("text").then(content => {
+      let existingPacks = [];
+      try { existingPacks = JSON.parse(content); } catch (e) {}
+
+      // Combina listas evitando IDs duplicados
+      const combined = [...existingPacks];
+      queue.forEach(np => {
+        if (!combined.some(ep => ep.pack_id === np.pack_id)) {
+          combined.push(np);
+        }
+      });
+
+      masterzip.file(worldFile, JSON.stringify(combined, null, 3));
+      packQueue[type] = []; // Limpa a fila após salvar
+      
+      tasksFinished++;
+      // Só chama doPacks quando AMBOS os tipos (BP e RP) terminarem de processar o JSON
+      if (tasksFinished === 2 && typeof doPacks === "function") {
+        doPacks();
       }
-    );
-    
-    masterzip.file("world_" + type + ".json", JSON.stringify(r));
-    doPacks();
+    }).catch(() => {
+      // Caso o arquivo não exista no zip mestre
+      masterzip.file(worldFile, JSON.stringify(queue, null, 3));
+      packQueue[type] = [];
+      tasksFinished++;
+      if (tasksFinished === 2 && typeof doPacks === "function") doPacks();
+    });
   });
-  //console.log(masterzip);
 }
 
 function deletePack(){
@@ -794,7 +951,7 @@ function deleteWT(){
   if(confirm("Are you sure you want to turn off World Template mode? This will make your project export as a .mcworld file and it will delete the attached manifest.json file.")){
     document.getElementById("add-wt").style.display = "inline-block";
     document.getElementById("wt-settings").style.display = "none";
-    document.getElementById("downloadworldbutton").innerHTML = "Download World";
+    document.getElementById("downloadworldbutton").innerHTML = "Download World File";
     masterzip.remove("manifest.json");
   }
 }
