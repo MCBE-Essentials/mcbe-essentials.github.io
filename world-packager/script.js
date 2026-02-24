@@ -516,17 +516,17 @@ async function doPacks() {
   packslist = [];
 
   const manifestPromises = [];
-  // Usamos um Set para garantir que cada caminho de arquivo seja processado uma única vez
+  // We use a Set to ensure that each file path is processed only once. 
   const processedPaths = new Set();
 
-  // 1. Coleta de Manifests (Melhorada para evitar duplicatas de pastas)
+  // 1. Manifest Collection (Improved to prevent duplicate folders) 
   Object.keys(masterzip.files).forEach(path => {
     const fiq = masterzip.files[path];
     
-    // Critérios: 
-    // - Não pode ser diretório
-    // - Tem que terminar exatamente com /manifest.json
-    // - Tem que estar dentro das pastas corretas
+    // Criteria: 
+    // - It cannot be a directory.
+    // - It has to end exactly with /manifest.json
+    // - It needs to be in the correct folders.
     if (!fiq.dir && path.endsWith("/manifest.json") && !processedPaths.has(path)) {
       
       if (path.startsWith("behavior_packs/")) {
@@ -559,13 +559,13 @@ async function doPacks() {
 
   await Promise.all(manifestPromises);
 
-  // 2. Processar world_behavior_packs.json
+  // 2. Process world_behavior_packs.json 
   try {
     const bplistData = await getFile("world_behavior_packs.json");
     if (bplistData) {
       const bplist = JSON.parse(bplistData);
       mdata.bplist = bplist;
-      // Usamos um Set local para não repetir o mesmo pack visualmente na lista
+      // We use a local Set to avoid visually repeating the same pack in the list. 
       const addedUUIDs = new Set(); 
 
       bplist.forEach(item => {
@@ -587,7 +587,7 @@ async function doPacks() {
     }
   } catch (e) {}
 
-  // 3. Processar world_resource_packs.json
+  // 3. Process world_resource_packs.json
   try {
     const rplistData = await getFile("world_resource_packs.json");
     if (rplistData) {
@@ -614,11 +614,11 @@ async function doPacks() {
     }
   } catch (e) {}
 
-  // 4. Renderiza a lista FINAL
+  // 4. Render the FINAL list
   if (packslist.length > 0) {
     packsList(packslist);
   } else {
-    // SE A LISTA ESTIVER VAZIA, VOLTA A MENSAGEM ORIGINAL
+    // If the list is empty, the original message will be returned.
     document.getElementById("pack-list").innerHTML = "Packs will show up here<br>with their directory's name.";
   }
 }
@@ -674,34 +674,34 @@ function parseLanguage(language){
 function updateManifest() {
   const newName = document.getElementById("pack-title").value;
   
-  // 1. Atualiza as versões no objeto atual
+  // 1. Updates the versions in the current object.
   currentPack.header.version = updateVersion(currentPack.header.version, document.getElementById("pack-version").value);
   currentPack.header.min_engine_version = updateVersion(currentPack.header.min_engine_version, document.getElementById("pack-me-version").value);
   
-  // 2. Atualiza Nome e Descrição
+  // 2. Update Name and Description
   currentPack.header.name = newName;
   currentPack.header.description = document.getElementById("pack-desc").value;
   
-  // 3. Determina a pasta correta (BP ou RP)
+  // 3. Determine the correct folder (BP or RP)
   const moduleType = currentPack.modules[0].type;
   let packtype = "";
 
-  // Inclui 'data', 'script' e 'javascript' como Behavior Packs
+  // Includes 'data', and 'script' as Behavior Packs. 
   if (moduleType === "data" || moduleType === "script") {
     packtype = "behavior_packs";
   } else {
     packtype = "resource_packs";
   }
 
-  // 4. Salva o arquivo dentro do ZIP
+  // 4. Save the file inside the ZIP.
   var fileManifest = JSON.parse(JSON.stringify(currentPack));
-  const folderName = currentPack.metadata.folder; // Nome da pasta original salva no upload
-  delete fileManifest.metadata; // Limpa metadados do site antes de salvar no ZIP
+  const folderName = currentPack.metadata.folder; // Name of the original folder saved during upload.
+  delete fileManifest.metadata; // Clear website metadata before saving to ZIP file. 
 
   const finalPath = packtype + "/" + folderName + "/manifest.json";
   masterzip.file(finalPath, JSON.stringify(fileManifest, null, 3));
 
-  // 5. Sincroniza visualmente com a lista lateral (Packslist)
+  // 5. Visually synchronizes with the sidebar (Packslist) 
   for (var i = 0; i < packslist.length; i++) {
     if (packslist[i].uuid === currentPack.header.uuid) {
       packslist[i].name = newName;
@@ -710,10 +710,10 @@ function updateManifest() {
     }
   }
 
-  // 6. Atualiza a UI
+  // 6. Update the UI
   packsList(packslist);
   
-  // Mantém o destaque visual (seleção) no pack editado
+  // Maintains visual prominence (selection) in the edited pack.
   const items = document.getElementsByClassName("idlabel");
   for (let item of items) {
     if (item.getAttribute("uuid") === currentPack.header.uuid) {
@@ -721,10 +721,10 @@ function updateManifest() {
     }
   }
 
-  console.log("Salvo com sucesso em: " + finalPath);
+  console.log("Successfully saved in: " + finalPath);
 }
 
-// --- VARIÁVEIS GLOBAIS ---
+// --- GLOBAL VARIABLES ---
 const usedPackNames = {
   resource_packs: new Map(),
   behavior_packs: new Map()
@@ -735,16 +735,16 @@ const packQueue = {
   behavior_packs: []
 };
 
-// --- PROCESSAMENTO DE UPLOAD ---
+// --- UPLOAD PROCESSING  ---
 function processUplPack(zip) {
   const manifestsFound = [];
-  // Filtra manifestos reais, ignorando duplicatas de caminhos
+  // Filters genuine manifests, ignoring duplicate paths.
   const paths = Object.keys(zip.files);
   
   paths.forEach(path => {
     if (zip.files[path].dir) return;
     const parts = path.split('/');
-    // Aceita manifest na raiz ou em subpastas de 1 nível (padrão mcaddon)
+    // Accepts manifest files in the root directory or in single-level subfolders (McCaddon standard).
     if (parts.length <= 2 && parts[parts.length - 1] === "manifest.json") {
       manifestsFound.push(path);
     }
@@ -764,7 +764,7 @@ function processUplPack(zip) {
 
     const iconPath = packFolder + "pack_icon.png";
 
-    // Verifica ícone antes de processar
+    // Check the icon before processing.
     if (!zip.files[iconPath]) {
       alert(`Pack em "${packFolder || 'raiz'}" ignorado: falta pack_icon.png`);
       processedCount++;
@@ -796,9 +796,9 @@ function processUplPack(zip) {
       }
 
       processedCount++;
-      // Gatilho único para salvar os arquivos e atualizar a UI
+      // Single trigger to save files and update the UI.
       if (processedCount === manifestsFound.length) {
-        // Delay de 500ms garante que as gravações físicas dos arquivos terminaram
+        // A 500ms delay ensures that the physical recording of the files has finished.
         setTimeout(finalizeWorldFiles, 500);
       }
 
@@ -807,16 +807,15 @@ function processUplPack(zip) {
       if (processedCount === manifestsFound.length) finalizeWorldFiles();
     });
   });
-
-  // Mensagem movida para o final do fluxo para não sobrepor o carregamento
+  
   if (manifestsFound.length > 1) {
-    console.log(`${manifestsFound.length} packs detectados no arquivo.`);
+    console.log(`${manifestsFound.length} packs detected in the file.`);
   }
 }
 
-// --- ADICIONAR PACK AO ZIP MESTRE ---
+// --- ADD PACK TO MASTER ZIP ---
 function addUplPack(name, type, zip, manifest, packFolder = '') {
-  let baseName = (manifest?.header?.name || "Pack_Sem_Nome").trim().replace(/[^a-zA-Z0-9-_. ]/g, '_');
+  let baseName = (manifest?.header?.name || "Pack_Without_Name").trim().replace(/[^a-zA-Z0-9-_. ]/g, '_');
   const nameMap = usedPackNames[type] || new Map();
   let counter = (nameMap.get(baseName) || 0) + 1;
   nameMap.set(baseName, counter);
@@ -824,13 +823,13 @@ function addUplPack(name, type, zip, manifest, packFolder = '') {
   let safePackName = counter > 1 ? `${baseName} (${counter})` : baseName;
   const packBasePath = type + "/" + safePackName + "/";
 
-  // Adiciona dados na fila de escrita do JSON
+  // Adds data to the JSON write queue.
   packQueue[type].push({
     pack_id: manifest.header.uuid.toString(),
     version: manifest.header.version || [1, 0, 0]
   });
 
-  // Copia os arquivos de forma assíncrona
+  // Copy the files asynchronously.
   Object.keys(zip.files).filter(f => f.startsWith(packFolder)).forEach(myFileName => {
     var file = zip.file(myFileName);
     if (!file || file.dir) return;
@@ -846,7 +845,7 @@ function addUplPack(name, type, zip, manifest, packFolder = '') {
   });
 }
 
-// --- FINALIZAÇÃO E ATUALIZAÇÃO DA INTERFACE ---
+// --- FINALIZATION AND UPDATING OF THE INTERFACE ---
 function finalizeWorldFiles() {
   const types = ["resource_packs", "behavior_packs"];
   let tasksFinished = 0;
@@ -865,7 +864,7 @@ function finalizeWorldFiles() {
       let existingPacks = [];
       try { existingPacks = JSON.parse(content); } catch (e) {}
 
-      // Combina listas evitando IDs duplicados
+      // Combine lists, avoiding duplicate IDs.
       const combined = [...existingPacks];
       queue.forEach(np => {
         if (!combined.some(ep => ep.pack_id === np.pack_id)) {
@@ -874,15 +873,15 @@ function finalizeWorldFiles() {
       });
 
       masterzip.file(worldFile, JSON.stringify(combined, null, 3));
-      packQueue[type] = []; // Limpa a fila após salvar
+      packQueue[type] = []; // Clear the queue after saving.
       
       tasksFinished++;
-      // Só chama doPacks quando AMBOS os tipos (BP e RP) terminarem de processar o JSON
+      // Only call doPacks when BOTH types (BP and RP) have finished processing the JSON. 
       if (tasksFinished === 2 && typeof doPacks === "function") {
         doPacks();
       }
     }).catch(() => {
-      // Caso o arquivo não exista no zip mestre
+      // If the file does not exist in the master zip file 
       masterzip.file(worldFile, JSON.stringify(queue, null, 3));
       packQueue[type] = [];
       tasksFinished++;
