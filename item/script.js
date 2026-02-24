@@ -3,7 +3,7 @@
 async function fetchData() {
   //Get vanilla item data
 	mcitems.data.items = await fetch(
-		'https://cdn.jsdelivr.net/npm/minecraft-textures@1.21.11/dist/textures/json/1.21.11.id.json'
+		'https://unpkg.com/minecraft-textures@1.21.11/dist/textures/json/1.21.11.id.json'
 	).then((response) => response.json())
   //Get identifier mapping data
   mcitems.data.mapping = await fetch(
