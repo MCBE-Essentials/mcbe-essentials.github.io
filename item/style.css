@@ -99,6 +99,27 @@ mcitem[identifier="null"]:hover, mcitem[identifier=""]:hover{
   text-shadow: 0.125em 0.125em 0 #3f3f3f;
 }
 
+.tooltip .mc-obfuscated {
+  text-decoration: line-through !important;
+  text-decoration-color: currentColor !important;
+  
+  text-shadow: 5px 5px 0px currentColor !important;
+  
+  letter-spacing: -1.5px;
+  
+  display: inline-block;
+  white-space: pre;
+}
+.mc-bold { font-weight: bold; }
+.mc-italic { font-style: italic; }
+
+.tooltip-description {
+    display: block;
+    color: lightgray;
+    line-height: 1.4;
+    padding: 2px 0;
+}
+
 .tooltip-identifier {
   font-size: 0.75em;
   color: darkgray;
