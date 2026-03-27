@@ -1269,24 +1269,65 @@ function createItemElement(itemdata){
   if(!itemdata.Name) return document.createElement("empty");
   if(itemdata.Count && itemdata.Count.value < 1) return document.createElement("empty");
   
-  let name = itemdata.Name.value;
+  let baseName = itemdata.Name.value; 
   let count = itemdata.Count.value;
   let tags = (itemdata.hasOwnProperty("tag") ? itemdata.tag.value : {});
-  let damage = (tags.Damage ? itemdata.Damage.value : false);
-  let enchanted = tags.hasOwnProperty("ench"); //TODO: list enchantment data
-  //TODO: item custom names, ect.
+  let customName = null;
+  if (tags.display && tags.display.value.Name) {
+    customName = tags.display.value.Name.value;
+  }
+  
+  let rootDamage = itemdata.Damage ? itemdata.Damage.value : 0;          // data/metadata
+  let durabilityDamage = (tags.Damage ? tags.Damage.value : 0);         // durability
+  
+  let enchanted = tags.hasOwnProperty("ench");
+  
+  let enchantments = [];
+  if (tags.ench && tags.ench.value && tags.ench.value.value) {
+    let list = tags.ench.value.value; // Here we get the actual array []
+    
+    if (Array.isArray(list)) {
+      enchantments = list.map(enc => {
+        return {
+          id: enc.id.value,    // id: 1
+          level: enc.lvl.value // lvl: 3
+        };
+      });
+    }
+  }
+  
+  // If rootDamage >0, "inject" it into the identifier as :data
+  let finalIdentifier = baseName;
+  if (rootDamage > 0) {
+    finalIdentifier += ":" + rootDamage;  // turn into "minecraft:potion:5"
+  }
   
   let itemelement = document.createElement("mcitem");
-  itemelement.setAttribute("identifier", name);
+  itemelement.setAttribute("identifier", finalIdentifier); 
   itemelement.setAttribute("count", count);
+  
+  if (customName) {
+    itemelement.setAttribute("custom-name", customName);
+  }
+  
+  // Durability bar
+  if (durabilityDamage > 0) {
+    itemelement.setAttribute("damage", durabilityDamage);
+  }
+  
+  if (rootDamage > 0) {
+    itemelement.setAttribute("data", rootDamage);
+  }
+  
+  if (enchantments.length > 0) {
+  itemelement.setAttribute("enchantments", JSON.stringify(enchantments));
+}
+  
   itemelement.setAttribute("width", "27px");
   itemelement.setAttribute("height", "27px");
-  itemelement.classList = ["nohover hovertooltip"];
-  itemelement.classList.toggle("enchanted", enchanted)
+  itemelement.classList.add("nohover", "hovertooltip");
+  itemelement.classList.toggle("enchanted", enchanted);
   itemelement.style.fontSize = "9pt";
-  if(damage){
-    itemelement.setAttribute("damage", damage);
-  }
   
   return itemelement;
 }
@@ -1953,6 +1994,8 @@ function openTileEntityEditor(){
         // Uses the same function as the Item Frame to create the visual icon.
         document.getElementById("tentity-decoratedpot-item").appendChild(createItemElement(tileEntity.item.value));
     }
+    document.getElementById("tentity-decoratedpot-loottable").value = currentValidTile.data.hasOwnProperty("LootTable") ? currentValidTile.data.LootTable.value : "";
+    document.getElementById("tentity-decoratedpot-loottableseed").value = currentValidTile.data.hasOwnProperty("LootTableSeed") ? currentValidTile.data.LootTableSeed.value : "";
     
     // If there is any logic to Sherds (shards), it continues here...
     
@@ -2155,7 +2198,7 @@ case 'tspawner': {
             <div style="display: flex; align-items: center; gap: 5px;">
                 <span style="font-size: 10px; color: #ccc;">Equip:</span>
                 <input type="text" class="app-input mob-equip" value="${equip}" style="width: 100%; font-size: 11px; height: 22px; border-style: dashed; border-color: #444;" 
-                       oninput="this.parentElement.nextElementSibling.style.display = this.value.trim() !== '' ? 'grid' : 'none';">
+                       placeholder="loot_tables/equipment/trial_chamber_iron.json" oninput="this.parentElement.nextElementSibling.style.display = this.value.trim() !== '' ? 'grid' : 'none';">
             </div>
             
             <div class="drop-chances-container" style="display: ${displayStyle}; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px;">
@@ -2837,7 +2880,24 @@ function saveTileEntity(){
       }
       break;
     }
-    case 'decoratedpot': {      
+    case 'decoratedpot': {
+    	if(document.getElementById("tentity-decoratedpot-loottable").value != ""){
+        currentValidTile.data.LootTable = {
+          "type": "string",
+          "value": document.getElementById("tentity-decoratedpot-loottable").value
+        }
+      } else {
+        delete currentValidTile.data.LootTable;
+      }
+      
+      if(document.getElementById("tentity-decoratedpot-loottable").value != ""){
+        currentValidTile.data.LootTableSeed = {
+          "type": "int",
+          "value": parseFloat(document.getElementById("tentity-decoratedpot-loottableseed").value)
+        }
+      } else {
+        delete currentValidTile.data.LootTableSeed;
+      }
       tileEntity.sherds = nbt.list(nbt.string([
         document.getElementById("tentity-decoratedpot-sherd0").value,
         document.getElementById("tentity-decoratedpot-sherd1").value,
@@ -3445,32 +3505,31 @@ if (document.getElementById("item-banner-tab") && document.getElementById("item-
     const isOminous = document.getElementById("item-banner-type").checked;
     const bannerBaseSelect = document.getElementById("item-banner-base");
 
-    // 1. Salva a Cor Base
+    // 1. Save the Base Color
     if (isShield) {
-        // No Escudo: Salva no NBT (tag.Base) usando o valor do select comum
+        // In the Shield: Saves to NBT (tag.Base) using the common select value.
         if (bannerBaseSelect) {
             tags.Base = { type: 'int', value: parseInt(bannerBaseSelect.value) };
         }
-        // Escudo não usa Type 1
+        // The shield does not use Type 1.
         tags.Type = { type: 'int', value: 0 };
     } else {
-        // No Banner: Salva o Type (Ominous)
+        // In the Banner: Saves Type (Ominous) 
         tags.Type = { type: 'int', value: isOminous ? 1 : 0 };
-        // A cor base (Damage) já é controlada pelo listener que você corrigiu
     }
 
     const patternsArray = [];
 
-    // 2. Lógica dos PATTERNS (Desenhos)
+    // 2. Logic of PATTERNS
     if (isShield && isOminous) {
-        // No Escudo, "Ominous" é o padrão "ill" (Cor 15)
+        // In the Shield, "Ominous" is the pattern "ill" (Color 15)
         patternsArray.push({
             Pattern: { type: 'string', value: "ill" },
             Color: { type: 'int', value: 15 }
         });
     } 
     
-    // Se não for Ominous, processa a lista de patterns normalmente
+    // If it's not Ominous, it processes the pattern list normally. 
     if (!isOminous) {
         const patternList = document.getElementById("item-banner-patterns-list");
         if (patternList) {
@@ -3489,7 +3548,7 @@ if (document.getElementById("item-banner-tab") && document.getElementById("item-
         }
     }
 
-    // 3. Salva a tag Patterns final
+    // 3. Save the final Patterns tag.
     tags.Patterns = {
         type: 'list',
         value: {
@@ -3537,7 +3596,7 @@ if (document.getElementById("item-fireworks-tab") && document.getElementById("it
     const rows = document.querySelectorAll('.explosion-row');
     const explosionsArray = [];
 
-    // 1. Coleta os dados de todas as explosões na interface
+    // 1. Collects data from all explosions on the interface. 
     rows.forEach(row => {
         const type = row.querySelector('.fw-type');
         const color = row.querySelector('.fw-color');
@@ -3557,12 +3616,12 @@ if (document.getElementById("item-fireworks-tab") && document.getElementById("it
         }
     });
 
-    // 2. Grava conforme o tipo de item (Rocket ou Star)
+    // 2. Record according to the item type (Rocket or Star)
     if (isRocket) {
         const flightInput = document.getElementById("item-firework-flight");
         const flightVal = flightInput ? parseInt(flightInput.value) : 1;
 
-        // No Foguete, tudo vai dentro da tag 'Fireworks'
+        // In Firework, everything goes under the 'Fireworks' tag. 
         tags.Fireworks = {
             type: "compound",
             value: {
@@ -3576,18 +3635,16 @@ if (document.getElementById("item-fireworks-tab") && document.getElementById("it
                 }
             }
         };
-        // Limpeza: remove a tag de estrela caso exista
         delete tags.FireworksItem;
 
     } else if (isStar) {
-        // Na Estrela, usa 'FireworksItem' e pega apenas a primeira explosão da lista
+        // In star, use 'FireworksItem' and pick only the first explosion from the list.
         if (explosionsArray.length > 0) {
             tags.FireworksItem = {
                 type: "compound",
                 value: explosionsArray[0].value
             };
         }
-        // Limpeza: remove a tag de foguete caso exista
         delete tags.Fireworks;
     }
 }
@@ -3595,12 +3652,12 @@ if (document.getElementById("item-fireworks-tab") && document.getElementById("it
   // Armor trim
 const isTrimmable = data.trimmable_armors.includes(item.Name.value);
 
-// Verifica se é uma armadura da lista ou se já possui a tag (custom/addons)
+// Check if it's an armor item from the list or if it already has the tag (custom/addons).
 if (isTrimmable || tags.Trim) {
     const selectedMaterial = document.getElementById("item-armor-trim-material").value;
     const selectedPattern = document.getElementById("item-armor-trim-pattern").value;
 
-    // Só grava se ambos forem diferentes de "none"
+    // It only records if both are different from "none". 
     if (selectedMaterial !== "none" && selectedPattern !== "none") {
         tags.Trim = {
             "type": "compound",
@@ -3616,7 +3673,7 @@ if (isTrimmable || tags.Trim) {
             }
         };
     } else {
-        // Se o usuário selecionou "none", removemos a tag Trim para limpar o NBT
+        // If the user selected "none", remove the Trim tag to clear the NBT.
         if (tags.Trim) {
             delete tags.Trim;
         }

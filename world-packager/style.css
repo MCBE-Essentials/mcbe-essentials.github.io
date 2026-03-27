@@ -90,20 +90,42 @@
   display: none;
 }
 
+/* Solves the problem of the compressed/small editor */
+.tier-editor {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+}
+
 @media only screen and (max-width: 920px) {  
+  .tier-editor {
+    width: 95vw; /* Expands sideways on mobile */ 
+  }
+
   .worldsettings-inner {
     column-count: unset;
     column-gap: unset;
+    max-height: 65vh; /* Set the height for the scroll to work. */
+    overflow-y: auto;  /* Enables vertical scrolling. */
   }
 
   .gamerules-inner {
     column-count: unset;
     column-gap: unset;
+    max-height: 65vh; /* Set the height for the scroll to work.  */
+    overflow-y: auto;  /* Enables vertical scrolling. */
   }
   
-  .worldsettings-inner .idlabel2 {
+  .worldsettings-inner .idlabel2, 
+  .gamerules-inner .idlabel2 {
     border-radius: 10px;
     white-space: unset;
+    display: flex; /* Improves alignment on mobile. */
+    justify-content: space-between;
+    padding: 8px 10px; /* Increase the volume slightly for the touch. */
+    margin-bottom: 4px;
   }
   
   .mobilewarning {
@@ -117,13 +139,13 @@
     display: block;
     width: 100%;
     border-radius: 10px 10px 0px 0px;
-    padding: 0;
+    padding: 10px 0; /* Padding adicionado para não ficar achatado */
   }
   
   .upload-pack {
     display: block;
     width: 100%;
     border-radius: 0px 0px 10px 10px;
-    padding: 5px 0px;
+    padding: 10px 0px; /* Padding adicionado para não ficar achatado */
   }
 }
