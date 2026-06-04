@@ -1636,8 +1636,15 @@ function openTileEntityEditor(){
     document.getElementById("tentity-general-pos-y").innerHTML = tileEntity.y.value;
     document.getElementById("tentity-general-pos-z").innerHTML = tileEntity.z.value;
     //TODO: calculate relative position as well
-
-    document.getElementById("tentity-general-ismovable").checked = boolByte(tileEntity.isMovable.value);
+    
+    const movableBlock = document.getElementById("tentity-general-ismovable-block");
+    
+    if (tileEntity.isMovable !== undefined) {
+        movableBlock.style.display = "block";
+        document.getElementById("tentity-general-ismovable").checked = boolByte(tileEntity.isMovable.value);
+    } else {
+        movableBlock.style.display = "none";
+    }
     document.getElementById("tentity-general-customname").value = currentValidTile.data.hasOwnProperty("CustomName") ? currentValidTile.data.CustomName.value : "";
   }
   
@@ -2619,7 +2626,9 @@ function saveTileEntity(){
   
   //Overview tab
   if(tileEntity.x && tileEntity.y && tileEntity.z){
-    tileEntity.isMovable.value = boolByte(document.getElementById("tentity-general-ismovable").checked);
+    if (tileEntity.isMovable !== undefined) {
+        tileEntity.isMovable.value = boolByte(document.getElementById("tentity-general-ismovable").checked);
+    }
     if(document.getElementById("tentity-general-customname").value != ""){
       currentValidTile.data.CustomName = {
         "type": "string",
