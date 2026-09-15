@@ -57,17 +57,21 @@ function getEntities(structuredata){
   return false;
 }
 
-function getBlockDataOfBlockEntity(index){
-  //This function returns the palette data of the block at a block entity's position.
+function getBlockDataOfBlockEntity(index) {
   let output = false;
   try {
-    let paletteind = structure.value.structure.value.block_indices.value.value[0].value[index];
-    output = structure.value.structure.value.palette.value.default.value.block_palette.value.value[paletteind];
+    let layer0 = structure.value.structure.value.block_indices.value.value[0];
+    // Acesso híbrido ao array da camada 0
+    let blockArray = layer0.type !== undefined ? layer0.value : layer0;
+    
+    let paletteind = blockArray[index];
+    let palette = structure.value.structure.value.palette.value.default.value.block_palette.value.value;
+    
+    output = palette[paletteind];
   } catch(e) {
-    throw e;
-    return false;
+    // Falha silenciosa é melhor aqui para não travar a renderização da entidade
+    console.warn("Could not get block data for entity at index", index, e);
   }
-
   return output;
 }
 
@@ -305,13 +309,13 @@ function getValidPalette(palette){
   return output;
 }
 
-function getBlockList(layer = 0){
-  let blocksheader = structure.value.structure.value.block_indices.value.value[layer]
-  if(blocksheader.type != "end"){
-    return blocksheader.value
-  } else {
-    return false;
+function getBlockList(layer = 0) {
+  let blocksheader = structure.value.structure.value.block_indices.value.value[layer];
+  if (!blocksheader || blocksheader.type === "end") {
+    return [];
   }
+  // Se tiver 'type', é V1 (desce um nível). Se não, é V2 (já é o array).
+  return blocksheader.type !== undefined ? blocksheader.value : blocksheader;
 }
 
 function findPaletteIndex(name, states = false){
@@ -351,7 +355,8 @@ function getTopTexture(blockid){
     "decorated_pot": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/decorated_pot_side.png",
     "suspicious_sand": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_sand_0.png",
     "suspicious_gravel": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_gravel_0.png",
-    "grass_block": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/grass_carried.png"
+    "grass_block": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/grass_carried.png",
+    "oak_leaves": "https://minecraft.wiki/images/BlockSprite_oak-leaves.png"
   };
   
   if(Object.keys(blockmapping).includes(blockid)){
