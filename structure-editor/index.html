@@ -229,9 +229,18 @@
                     </div>
                   </td>
                   <td class="app-node object-list-container paint-container">
-                    <span style="height: 32px; display: inline-block;">Paint Editor</span><br>
-                    <div class="app-inner-inner" style="text-align: left; padding: 8px;">
-                      <div style="height:100%;">
+  <span style="height: 32px; display: inline-block; vertical-align: middle;">Paint Editor</span>
+
+<!-- TOGGLE SWITCH REAL -->
+<label class="toggle-switch" style="margin-left: 10px; vertical-align: middle; cursor: pointer;">
+  <input type="checkbox" id="layer2-toggle" onchange="toggleEditMode()">
+  <span class="slider"></span>
+</label>
+<span id="toggle-label" style="margin-left: 8px; font-size: 12px; font-weight: bold; vertical-align: middle;">Layer 1</span>
+  <br>
+  	
+    <div class="structure-download-warning warningmsg" id="layer2-warning" style="display: none; white-space: normal !important; word-wrap: break-word; max-width: 100%; margin-bottom: 8px; line-height: 1.4;">Layer 2 only supports non-colliding blocks (water, lava, plants, etc.). Blocks with collision may cause bugs in-game.
+</div>
                         <div>
                           <div class="paint-editor-container hide-scrollbar" id="paint-editor-container">
                             <div>

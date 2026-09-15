@@ -103,101 +103,200 @@ function openWith(url, str = structure){
 }
 
 var currentPaintLayer = 0;
+var editingWaterlogLayer = false;
 
-function renderPaintEditor(layer = 0){
+function toggleEditMode() {
+  // Reads the REAL state of the visual checkbox.
+  const checkbox = document.getElementById("layer2-toggle");
+  const label = document.getElementById("toggle-label");
+  const warningMsg = document.getElementById("layer2-warning");
+
+  if (!checkbox) return;
+
+  // Synchronizes the global variable with the toggle's visual state.
+  editingWaterlogLayer = checkbox.checked;
+
+  if (editingWaterlogLayer) {
+    label.innerText = "Layer 2";
+    label.style.color = "#4a90e2";
+    if (warningMsg) warningMsg.style.display = "block"; // Display the warning.
+  } else {
+    label.innerText = "Layer 1";
+    label.style.color = ""; // Returns to default text color.
+    if (warningMsg) warningMsg.style.display = "none"; // Hide the warning.
+  }
+
+  // Forces re-rendering to update visual overlays immediately.
+  renderPaintEditor(currentPaintLayer);
+}
+
+function renderPaintEditor(layer = 0) {
   let editor = document.getElementById("paint-editor");
-  editor.innerHTML = ""
+  editor.innerHTML = "";
   let dimensions = structure.value.size.value.value;
-  let blockslist = getBlockList()
   
-  let fragment = new DocumentFragment()
+  // 1. Hybrid Logic V1/V2 (Reads reliably regardless of version)
+  const layersRaw = structure.value.structure.value.block_indices.value.value;
+  const isV1 = layersRaw.length > 0 && layersRaw[0].type !== undefined;
   
-  for(let z = 0; z < dimensions[2]; z++){
+  const getLayerArray = (idx) => {
+    if (!layersRaw[idx] || layersRaw[idx].type === "end") return null;
+    return isV1 ? layersRaw[idx].value : layersRaw[idx];
+  };
+
+  const mainLayer = getLayerArray(0);  // Layer 1: Main Blocks
+  const waterLayer = getLayerArray(1); // Layer 2: Secondary (waterlog, flower, etc.)
+
+  let fragment = new DocumentFragment();
+
+  for (let z = 0; z < dimensions[2]; z++) {
     let row = document.createElement("tr");
-    for(let x = 0; x < dimensions[0]; x++){
+    for (let x = 0; x < dimensions[0]; x++) {
       let cell = document.createElement("td");
+      cell.style.position = "relative"; // Required for the overlay to function.
+
       let blockindex = getStructureBlockIndex(dimensions, [x, layer, z]);
-      let paletteEntry = getValidPalette(getPalette())[blockslist[blockindex]] || 
-          {
-            name: '[void]', 
-            image: '/assets/empty.png',
-            imageid: -1
-          }
-      //let identifier = paletteEntry ? paletteEntry.data.name.value : 'minecraft:air'
-      
-      function createPrev(paletteEntry){
+
+      // Get the block from the main layer.
+      let mainPaletteIdx = mainLayer ? mainLayer[blockindex] : -1;
+      let paletteEntry = (mainPaletteIdx !== -1 && getValidPalette(getPalette())[mainPaletteIdx])
+        ? getValidPalette(getPalette())[mainPaletteIdx]
+        : { name: '[void]', image: '/assets/empty.png', imageid: -1 };
+
+      function createPrev(pEntry, pIndex) {
         let prev = false;
-        if(paletteEntry.name === 'minecraft:air[]'){
-          //Get preview of block below
-          let belowlayer = ((layer-1) >= 0 ? (layer-1) : 0);
+        if (pEntry.name === 'minecraft:air[]' || pEntry.name === 'minecraft:air') {
+          let belowlayer = ((layer - 1) >= 0 ? (layer - 1) : 0);
           let belowindex = getStructureBlockIndex(dimensions, [x, belowlayer, z]);
-          let belowPaletteEntry = getValidPalette(getPalette())[blockslist[belowindex]] || 
-            {
-              name: '[void]', 
-              image: '/assets/empty.png',
-              imageid: -1
-            }
+          let belowPaletteIdx = mainLayer ? mainLayer[belowindex] : -1;
+          let belowPaletteEntry = (belowPaletteIdx !== -1 && getValidPalette(getPalette())[belowPaletteIdx])
+            ? getValidPalette(getPalette())[belowPaletteIdx]
+            : { name: '[void]', image: '/assets/empty.png', imageid: -1 };
           prev = createBlockPreview(belowPaletteEntry.image, 0);
           prev.classList.toggle("below-layer", true);
         } else {
-          prev = createBlockPreview(paletteEntry.image, paletteEntry.imageid)
+          prev = createBlockPreview(pEntry.image, pEntry.imageid);
         }
-        
-        prev.title = paletteEntry.name + "@" + getStructureBlockCoords(dimensions, blockindex).join(",");
+
+        prev.title = pEntry.name + "@" + getStructureBlockCoords(dimensions, [x, layer, z]).join(",");
         prev.style.width = "100%";
-        prev.setAttribute("index", blockindex);
-        prev.onclick = function(){
+        prev.style.height = "100%";
+        prev.setAttribute("index", pIndex);
+        
+        prev.onclick = function () {
           let selblockindex = parseFloat(this.getAttribute("index"));
           let selectedpaletteelement = document.querySelector(".palette-list > div > div.selected");
-          if(selectedpaletteelement.hasAttribute("pickblock")){
-            let pickedindex = blockslist[selblockindex];
-            
-            for(let potentialelm of document.querySelectorAll(".palette-list > div > div")){
-              if(parseFloat(potentialelm.getAttribute("index")) === pickedindex){
+          
+          // Decide which layer to edit based on the toggle.
+          let targetLayer = editingWaterlogLayer ? waterLayer : mainLayer;
+          
+          if (selectedpaletteelement.hasAttribute("pickblock")) {
+            let pickedindex = targetLayer ? targetLayer[selblockindex] : -1;
+            for (let potentialelm of document.querySelectorAll(".palette-list > div > div")) {
+              if (parseFloat(potentialelm.getAttribute("index")) === pickedindex) {
                 selectPaletteEntryElement(potentialelm);
-                potentialelm.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                potentialelm.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
                 break;
-              } 
+              }
             }
-            
             return;
-          } else if(!selectedpaletteelement.hasAttribute("index")){
+          } else if (!selectedpaletteelement.hasAttribute("index")) {
             return;
-          } 
+          }
+          
           let paletteindex = parseFloat(selectedpaletteelement.getAttribute("index"));
+          
+          // Apply the change to the correct layer (Layer 1 or Layer 2).
+          if (targetLayer) {
+            targetLayer[selblockindex] = paletteindex;
+          }
 
-          blockslist[selblockindex] = paletteindex;
+          let newEntry = getValidPalette(getPalette())[paletteindex] || { name: '[void]', image: '/assets/empty.png', imageid: -1 };
           
-          let newEntry = getValidPalette(getPalette())[paletteindex] || 
-          {
-            name: '[void]', 
-            image: '/assets/empty.png',
-            imageid: -1
-          };
-          
-          this.parentNode.appendChild(createPrev(newEntry))
-          this.parentNode.removeChild(this);
-        }
-        prev.onmouseover = function(){
-          document.getElementById("paint-editor-pos").innerHTML = getStructureBlockCoords(dimensions, parseFloat(this.getAttribute("index"))).join(", ");
-        }
-        
+          // Re-renders the visual
+          if (editingWaterlogLayer) {
+            // If you are editing Layer 2, only the overlay will be updated.
+            let overlayPreview = createBlockPreview(newEntry.image, newEntry.imageid);
+            overlayPreview.style.position = "absolute";
+            overlayPreview.style.top = "0";
+            overlayPreview.style.left = "0";
+            overlayPreview.style.width = "100%";
+            overlayPreview.style.height = "100%";
+            
+            // Cut in half (Shows the BOTTOM half) 
+            overlayPreview.style.clipPath = "inset(50% 0 0 0)";
+            
+            overlayPreview.style.opacity = "0.9";
+            overlayPreview.style.pointerEvents = "auto";
+            overlayPreview.setAttribute("index", selblockindex);
+            
+            let oldOverlay = this.parentNode.querySelector('[style*="position: absolute"]');
+            if (oldOverlay) oldOverlay.remove();
+            this.parentNode.appendChild(overlayPreview);
+          } else {
+            // If you are editing Layer 1, replace the base block normally.
+            this.parentNode.appendChild(createPrev(newEntry, selblockindex));
+            this.parentNode.removeChild(this);
+          }
+        };
+
+        prev.onmouseover = function () {
+          document.getElementById("paint-editor-pos").innerHTML = getStructureBlockCoords(dimensions, [x, layer, z]).join(", ");
+        };
+
         return prev;
       }
-      
-      let preview = createPrev(paletteEntry);
-      
-      //cell.setAttribute("index", blockindex);
-      cell.appendChild(preview)
-      row.appendChild(cell)
+
+      // Renders the main block (Layer 1)
+      let preview = createPrev(paletteEntry, blockindex);
+      cell.appendChild(preview);
+
+      //  Render the Layer 2 visual overlay (if it exists).
+      if (waterLayer) {
+        let waterPaletteIdx = waterLayer[blockindex];
+        
+        if (waterPaletteIdx !== -1) {
+          let waterEntry = getValidPalette(getPalette())[waterPaletteIdx];
+          
+          if (waterEntry && waterEntry.name !== 'minecraft:air' && waterEntry.name !== 'minecraft:air[]') {
+            // It only creates the overlay if one doesn't already exist.
+            if (!cell.querySelector('[style*="position: absolute"]')) {
+              let waterPreview = createBlockPreview(waterEntry.image, waterEntry.imageid);
+              waterPreview.style.position = "absolute";
+              waterPreview.style.top = "0";
+              waterPreview.style.left = "0";
+              waterPreview.style.width = "100%";
+              waterPreview.style.height = "100%";
+              
+              // Cut in half for the initial overlay.
+              waterPreview.style.clipPath = "inset(50% 0 0 0)"; 
+              
+              waterPreview.style.opacity = "0.9";
+              waterPreview.style.pointerEvents = editingWaterlogLayer ? "auto" : "none";
+              waterPreview.setAttribute("index", blockindex);
+              
+              // Rotate only the number, if it exists. 
+              let numberLabel = waterPreview.querySelector("span");
+              if (numberLabel) {
+                numberLabel.style.display = "inline-block";
+                numberLabel.style.transform = "rotate(90deg)";
+              }
+              
+              cell.appendChild(waterPreview);
+            }
+          }
+        }
+      }
+
+      row.appendChild(cell);
     }
-    fragment.appendChild(row)
+    fragment.appendChild(row);
   }
-  
+
   document.getElementById("paint-current-page").innerHTML = layer + 1;
   document.getElementById("paint-total-pages").innerHTML = dimensions[1];
   
-  editor.append(fragment)
+  editor.append(fragment);
 }
 
 function renderPaletteEntries(){
