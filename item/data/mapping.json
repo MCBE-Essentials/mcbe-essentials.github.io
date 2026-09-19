@@ -153,23 +153,30 @@
     "minecraft:orange_banner",
     "minecraft:white_banner"
   ],
+  
   "minecraft:bed": [
-    "minecraft:white_bed",
-    "minecraft:orange_bed",
-    "minecraft:magenta_bed",
-    "minecraft:light_blue_bed",
-    "minecraft:yellow_bed",
-    "minecraft:lime_bed",
-    "minecraft:pink_bed",
-    "minecraft:gray_bed",
-    "minecraft:light_gray_bed",
-    "minecraft:cyan_bed",
-    "minecraft:purple_bed",
-    "minecraft:blue_bed",
-    "minecraft:brown_bed",
-    "minecraft:green_bed",
-    "minecraft:red_bed",
-    "minecraft:black_bed"
+    {"readable": "White Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_white.png"},
+    {"readable": "Orange Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_orange.png"},
+    {"readable": "Magenta Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_magenta.png"},
+    {"readable": "Light Blue Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_light_blue.png"},
+    {"readable": "Yellow Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_yellow.png"},
+    {"readable": "Lime Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_lime.png"},
+    {"readable": "Pink Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_pink.png"},
+    {"readable": "Gray Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_gray.png"},
+    {"readable": "Light Gray Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_silver.png"},
+    {"readable": "Cyan Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_cyan.png"},
+    {"readable": "Purple Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_purple.png"},
+    {"readable": "Blue Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_blue.png"},
+    {"readable": "Brown Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_brown.png"},
+    {"readable": "Green Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_green.png"},
+    {"readable": "Red Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_red.png"},
+    {"readable": "Black Bed", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/bed_black.png"}
+  ],
+  "minecraft:straw_bed": [
+    {
+      "readable": "Straw Bed",
+      "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/straw_bed.png"
+    }
   ],
   "minecraft:concrete": [
     "minecraft:white_concrete",
@@ -223,23 +230,41 @@
   {"description": "§cNausea (0:07)"}
   ],
   
-  "minecraft:filled_map": [
-  {"readable": "Map", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/map_filled.png"},
-  {},
-  {"readable": "Locator Map" },
-  {"readable": "Ocean Explorer Map", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/map_monument.png"},
-  {"readable": "Woodland Explorer Map", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/map_mansion.png"},
-  {"readable": "Treasure Map", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/map_nautilus.png"},
+  "minecraft:empty_map": [
+  "minecraft:map",
+  "minecraft:map",
+  {"readable": "Empty Locator Map"}
+],
+
+"minecraft:filled_map": [
+  "minecraft:filled_map",
+  "minecraft:filled_map",
+  {"readable": "Locator Map"},
+  "minecraft:ocean_monument_map",
+  "minecraft:woodland_mansion_map",
+  "minecraft:buried_treasure_map",
   {"readable": "Locked Map", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/map_locked.png"},
-  {"readable": "Snowy Village Map" },
-  {"readable": "Taiga Village Map" },
-  {"readable": "Plains Village Map" },
-  {"readable": "Savanna Village Map" },
-  {"readable": "Desert Village Map" },
-  {"readable": "Jungle Village Map" },
-  {"readable": "Swamp Village Map" },
-  {"readable": "Trial Explorer Map", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/map_trial_chambers.png"}
-  ],
+  "minecraft:snowy_village_map",
+  "minecraft:taiga_village_map",
+  "minecraft:plains_village_map",
+  "minecraft:savanna_village_map",
+  "minecraft:desert_village_map",
+  "minecraft:jungle_pyramid_map",
+  "minecraft:swamp_hut_map",
+  "minecraft:buried_trial_chambers_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:abandoned_camp_map",
+  "minecraft:buried_ancient_city_map",
+  "minecraft:buried_mineshaft_map",
+  "minecraft:desert_pyramid_map",
+  "minecraft:warm_ocean_ruins_map"
+],
   "minecraft:arrow": [
     "minecraft:arrow",
     "minecraft:tipped_arrow",
@@ -559,4 +584,4 @@
     "minecraft:stripped_dark_oak_wood"
   ],
   "slabs": ""
-}
+    }

@@ -206,6 +206,35 @@ function renderPaintEditor(layer = 0) {
           
           let paletteindex = parseFloat(selectedpaletteelement.getAttribute("index"));
           
+          
+  
+  
+  // ============================================================
+  //  Create Layer 2 on demand (V2)
+  // ============================================================
+  if (editingWaterlogLayer && !targetLayer) {
+    const dimensions = structure.value.size.value.value;
+    const totalBlocks = dimensions[0] * dimensions[1] * dimensions[2];
+    
+    if (!isV1) {
+      // Format V2: creates the direct array filled with -1
+      structure.value.structure.value.block_indices.value.value[1] = 
+        new Array(totalBlocks).fill(-1);
+      
+      // Reload the reference for the edit to work.
+      targetLayer = structure.value.structure.value.block_indices.value.value[1];
+      console.warn("[WYPNT-DEV] Layer 2 criada sob demanda (V2) com", totalBlocks, "slots.");
+    } else {
+      // Format V1: creates in nested format (for safety, although V1 always has Layer 2)
+      structure.value.structure.value.block_indices.value.value[1] = {
+        type: "list",
+        value: { type: "int", value: new Array(totalBlocks).fill(-1) }
+      };
+      targetLayer = structure.value.structure.value.block_indices.value.value[1].value;
+      console.warn("[DEV] Layer 2 created on demand (V1) with", totalBlocks, "slots.");
+    }
+  }
+  
           // Apply the change to the correct layer (Layer 1 or Layer 2).
           if (targetLayer) {
             targetLayer[selblockindex] = paletteindex;

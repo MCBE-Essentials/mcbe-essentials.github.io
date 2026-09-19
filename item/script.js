@@ -2,9 +2,25 @@
 //<minecraft-item identifier="minecraft:diamond_sword" count="2"></mcitem>
 async function fetchData() {
   //Get vanilla item data
-	mcitems.data.items = await fetch(
-		'https://unpkg.com/minecraft-textures@26.3.0/dist/textures/json/26.3.id.json'
-	).then((response) => response.json())
+	const index = await fetch(
+  'https://unpkg.com/minecraft-textures/manifest/index.json'
+).then((response) => response.json());
+
+const packageVersion = index.packageVersion; // ex: "26.3.0"
+const version = index.latestVersion;         // ex: "26.3"
+
+const data = await fetch(
+  `https://unpkg.com/minecraft-textures@${packageVersion}/manifest/${version}.id.json`
+).then((response) => response.json());
+
+const assetBase = `https://unpkg.com/minecraft-textures@${packageVersion}/assets/`;
+
+// Transform "56fc1ea6ebad771e.png" into a complete URL.
+for (const id in data.items) {
+  data.items[id].texture = assetBase + data.items[id].texture;
+}
+
+mcitems.data.items = data;
   //Get identifier mapping data
   mcitems.data.mapping = await fetch(
 		'/item/data/mapping.json'
