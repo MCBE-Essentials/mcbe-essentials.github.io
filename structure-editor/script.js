@@ -3908,10 +3908,15 @@ function parseImportedData(file){
     structure = JSON.parse(importedData);
     attemptLaunch(file);
   } else {
-    nbt.parse(Buffer.from(importedData)).then(function(data){
+    nbt.parse(Buffer.from(importedData)).then(async function(data){
       structure = data.parsed;
       unparsedStructure = data.metadata.buffer;
       //console.log(data);
+
+      if(StructureCompression.isCompressed(structure) && !(await StructureCompression.decompressStructure(structure))){
+        snackbar('This structure uses an unknown compression type.');
+        return;
+      }
 
       if(structure.value.entities){
         console.log(structure)
@@ -4160,10 +4165,10 @@ function download(){
     if(!parameters.air){
       //Find the palette entry for air
       let airpaletteindex = findPaletteIndex('minecraft:air');
-      if(airpaletteindex && newstructure.value.structure.value.block_indices.value.value[0].type !== "end"){
+      if(airpaletteindex !== false){
         //structure.value.default.value.block_palette.value.value[airpaletteindex];
         //Clear air blocks in the non-waterlog layer
-        let blockslist = newstructure.value.structure.value.block_indices.value.value[0].value;
+        let blockslist = getBlockList(0);
         for(let i = 0; i < blockslist.length; i++){
           if(blockslist[i] === airpaletteindex){
             blockslist[i] = -1;
@@ -4172,16 +4177,12 @@ function download(){
       }
     }
     if(!parameters.waterlog){
-      //Find the palette entry for air
-      if(newstructure.value.structure.value.block_indices.value.value[1].type !== "end"){
-        //Replace waterlog palette with an array of -1 exactly equal to the index[0] array
-        let blockslist = newstructure.value.structure.value.block_indices.value.value[0].value;
-        newstructure.value.structure.value.block_indices.value.value[1].value = [];
-        let waterlogslist = newstructure.value.structure.value.block_indices.value.value[1].value;
-        for(let i = 0; i < blockslist.length; i++){
-          waterlogslist.push(-1);
-        }
-      }
+      //Replace waterlog layer with an array of -1 exactly equal in length to the main layer
+      let layers = newstructure.value.structure.value.block_indices.value.value;
+      let emptyWaterlogs = new Array(getBlockList(0).length).fill(-1);
+      if(layers[1] && layers[1].type !== undefined && layers[1].type !== "end") layers[1].value = emptyWaterlogs;
+      //V2 layers are plain arrays. A missing V2 waterlog layer needs no change
+      if(Array.isArray(layers[1])) layers[1] = emptyWaterlogs;
     }
     if(!parameters.blockstates){
       //Check if palette exists
@@ -4249,7 +4250,9 @@ function download(){
       break;
     }
     case 'mcstructure': {
-      exportFile(new File([nbt.writeUncompressed(newstructure, 'little')], filenameprefix+'.mcstructure'), filenameprefix+'.mcstructure');
+      StructureCompression.writeStructure(newstructure).then(function(bytes){
+        exportFile(new File([bytes], filenameprefix+'.mcstructure'), filenameprefix+'.mcstructure');
+      });
       break;
     }
     case 'nbt': {
@@ -4275,9 +4278,10 @@ function download(){
     case 'mcpack': {
       let packzip = new JSZip();
       packzip.file('manifest.json', JSON.stringify({"format_version":2,"header":{"name":"My .mcstructure pack","description":"Generated with Structure Editor at https://mcbe-essentials.github.io","uuid":generateUUID(),"version":[1,0,0],"min_engine_version":[1,18,0]},"modules":[{"type":"data","description":"Generated with Structure Editor at https://mcbe-essentials.github.io","uuid":generateUUID(),"version":[1,0,0]}]}))
-      packzip.file('structures/' + filenameprefix + '.mcstructure', nbt.writeUncompressed(newstructure, 'little'));
-      
-      packzip.generateAsync({type:"blob"})
+      StructureCompression.writeStructure(newstructure).then(function(bytes){
+        packzip.file('structures/' + filenameprefix + '.mcstructure', bytes);
+        return packzip.generateAsync({type:"blob"});
+      })
       .then(function(content) {
         exportFile(content, filenameprefix + '.mcpack');
       });

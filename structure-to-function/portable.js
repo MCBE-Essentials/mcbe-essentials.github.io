@@ -54,7 +54,9 @@ function getFunctionEntityCoords([worldX, worldY, worldZ], [x, y, z]){
 
 async function convertTiles(indicies_index, placeAir, size, keepStates){
   var commands = [];
-  var blockIdentifiers = tempstructure.value.structure.value.block_indices.value.value[indicies_index].value;
+  //V1 layers are list tags. V2 layers are plain arrays. A missing layer has no blocks
+  var layer = tempstructure.value.structure.value.block_indices.value.value[indicies_index];
+  var blockIdentifiers = !layer || layer.type === "end" ? [] : (Array.isArray(layer) ? layer : layer.value);
   var palette = tempstructure.value.structure.value.palette.value.default.value.block_palette.value.value;
   
   var unsortedTiles = [];

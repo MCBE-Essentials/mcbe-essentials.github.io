@@ -229,26 +229,23 @@ function bedrockToJava(bedrockstructure){
     }
   }
   
-  let oldBlocksHeader = structure.value.structure.value.block_indices.value.value[0];
+  let oldblockslist = getBlockList(0);
   let newblockslist = [];
-  if(oldBlocksHeader.type !== "end"){
-    let oldblockslist = oldBlocksHeader.value;
-    for(var i = 0; i < oldblockslist.length; i++){
-      let entry = {
-        "pos": {
-          "type": "list",
-          "value": {
-            "type": "int",
-            "value": getStructureBlockCoords(size, i)
-          }
-        },
-        "state": {
+  for(var i = 0; i < oldblockslist.length; i++){
+    let entry = {
+      "pos": {
+        "type": "list",
+        "value": {
           "type": "int",
-          "value": oldblockslist[i]
+          "value": getStructureBlockCoords(size, i)
         }
-      };
-      if(oldblockslist[i] != -1) newblockslist.push(entry)
-    }
+      },
+      "state": {
+        "type": "int",
+        "value": oldblockslist[i]
+      }
+    };
+    if(oldblockslist[i] != -1) newblockslist.push(entry)
   }
   
   var newStructure = {

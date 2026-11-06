@@ -61,10 +61,15 @@ function parseImportedData(file){
     document.getElementById("upload").style.display = "none";
     document.getElementById("download").style.display = "table-row";
   } else {
-    nbt.parse(Buffer.from(importedData)).then(function(data){
+    nbt.parse(Buffer.from(importedData)).then(async function(data){
       structure = data.parsed;
       unparsedStructure = data.metadata.buffer;
       //console.log(data);
+
+      if(StructureCompression.isCompressed(structure) && !(await StructureCompression.decompressStructure(structure))){
+        snackbar('This structure uses an unknown compression type.');
+        return;
+      }
 
       document.getElementById("upload").style.display = "none";
       document.getElementById("download").style.display = "table-row";
