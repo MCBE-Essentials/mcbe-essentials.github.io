@@ -75,6 +75,8 @@ function exportFile(file, name, custombridgepath){
       })
     });
   } else {
+    //Some browsers add ".txt" to files without a type. Give them a generic binary type so the extension is kept
+    if(!file.type) file = new File([file], name || file.name, {type: "application/octet-stream"});
     //Downloads the file using the FileSaver API.
     saveAs(file, name);
   }
