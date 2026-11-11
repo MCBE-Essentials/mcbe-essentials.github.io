@@ -1,4 +1,35 @@
 /**
+ * Sanitizes NBT data to ensure all byte values are valid (-128 to 127).
+ */
+function sanitizeNBT(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+
+  if (obj.type === 'byteArray' && Array.isArray(obj.value)) {
+    obj.value = obj.value.map(v => {
+      if (v === undefined || v === null || isNaN(v)) return 0;
+      let n = Number(v);
+      if (n > 127) n = n - 256;
+      if (n < -128) n = -128;
+      return n;
+    });
+    return obj;
+  }
+
+  if (obj.type === 'byte' && (obj.value === undefined || obj.value === null || isNaN(obj.value))) {
+    obj.value = 0;
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) obj[i] = sanitizeNBT(obj[i]);
+  } else {
+    for (const key of Object.keys(obj)) obj[key] = sanitizeNBT(obj[key]);
+  }
+
+  return obj;
+}
+
+/**
  * Reads and writes the compressed "structure" tag of format version 2 .mcstructure files.
  */
 class StructureCompression {
@@ -55,7 +86,8 @@ class StructureCompression {
   static async writeStructure(rootTag) {
     if (rootTag.value.compression?.value !== this.zlibCompressionType) return nbt.writeUncompressed(rootTag, 'little');
 
-    let structureBytes = nbt.writeUncompressed({ type: 'compound', name: '', value: rootTag.value.structure.value }, 'little');
+    let cleanValue = sanitizeNBT(structuredClone(rootTag.value.structure.value));
+    let structureBytes = nbt.writeUncompressed({ type: 'compound', name: '', value: cleanValue }, 'little');
     let compressedBytes = await this.transformBytes(structureBytes, new CompressionStream(this.zlibStreamFormat));
     let compressedRootTag = {
       type: rootTag.type,
