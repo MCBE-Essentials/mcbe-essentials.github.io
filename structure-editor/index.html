@@ -120,34 +120,52 @@
                 </td>
                 <td class="app-node hide-embedded" style="height:inherit;">
                   <span>Convert to...</span><br>
-                  <div class="app-inner-inner" style="text-align: left; padding: 8px;">
-                    <buttongroup>
-                      <button class="generate-button gb-blue" style="border-radius: 10px 10px 0px 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'json#loot-table'; checkDownloadParameters()">
-                        <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
-    <path fill="currentColor" d="M12,2A9,9 0 0,0 3,11C3,14.03 4.53,16.82 7,18.47V22H9V19H11V22H13V19H15V22H17V18.46C19.47,16.81 21,14 21,11A9,9 0 0,0 12,2M8,11A2,2 0 0,1 10,13A2,2 0 0,1 8,15A2,2 0 0,1 6,13A2,2 0 0,1 8,11M16,11A2,2 0 0,1 18,13A2,2 0 0,1 16,15A2,2 0 0,1 14,13A2,2 0 0,1 16,11M12,14L13.5,17H10.5L12,14Z" />
-</svg>
-                        <span style="vertical-align:middle;">Loot Table</span>
-                      </button>
-                      <button class="generate-button gb-blue" style="border-radius: 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'nbt'; checkDownloadParameters()">
-                        <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
-                          <path fill="currentColor" d="M16.5,6.08C16.5,6.08 9.66,7.79 12.94,11.56C13.91,12.67 12.69,13.67 12.69,13.67C12.69,13.67 15.14,12.42 14,10.82C12.94,9.35 12.14,8.62 16.5,6.08M12.03,7.28C16.08,4.08 14,2 14,2C14.84,5.3 11.04,6.3 9.67,8.36C8.73,9.76 10.13,11.27 12,13C11.29,11.3 8.78,9.84 12.03,7.28M9.37,17.47C6.29,18.33 11.25,20.1 15.16,18.43C14.78,18.28 14.41,18.1 14.06,17.89C12.7,18.2 11.3,18.26 9.92,18.07C8.61,17.91 9.37,17.47 9.37,17.47M14.69,15.79C12.94,16.17 11.13,16.26 9.35,16.05C8.04,15.92 8.9,15.28 8.9,15.28C5.5,16.41 10.78,17.68 15.5,16.3C15.21,16.19 14.93,16 14.69,15.79M18.11,19.09C18.11,19.09 18.68,19.56 17.5,19.92C15.22,20.6 8.07,20.81 6.09,19.95C5.38,19.64 6.72,19.21 7.14,19.12C7.37,19.06 7.6,19.04 7.83,19.04C7.04,18.5 2.7,20.14 5.64,20.6C13.61,21.9 20.18,20 18.11,19.09M15.37,14.23C15.66,14.04 15.97,13.88 16.29,13.74C16.29,13.74 14.78,14 13.27,14.14C11.67,14.3 10.06,14.32 8.46,14.2C6.11,13.89 9.75,13 9.75,13C8.65,13 7.57,13.26 6.59,13.75C4.54,14.75 11.69,15.2 15.37,14.23M16.27,16.65C16.25,16.69 16.23,16.72 16.19,16.75C21.2,15.44 19.36,12.11 16.96,12.94C16.83,13 16.72,13.08 16.65,13.19C16.79,13.14 16.93,13.1 17.08,13.07C18.28,12.83 20,14.7 16.27,16.65M16.4,21.26C13.39,21.78 10.31,21.82 7.28,21.4C7.28,21.4 7.74,21.78 10.09,21.93C13.69,22.16 19.22,21.8 19.35,20.1C19.38,20.11 19.12,20.75 16.4,21.26Z" />
-                        </svg>
-                        <span style="vertical-align:middle;">Java Structure</span>
-                      </button>
-                      <button class="generate-button gb-blue" style="border-radius: 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'mcfunction'; checkDownloadParameters()">
-                        <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
-                          <path fill="currentColor" d="M7,5H21V7H7V5M7,13V11H21V13H7M4,4.5A1.5,1.5 0 0,1 5.5,6A1.5,1.5 0 0,1 4,7.5A1.5,1.5 0 0,1 2.5,6A1.5,1.5 0 0,1 4,4.5M4,10.5A1.5,1.5 0 0,1 5.5,12A1.5,1.5 0 0,1 4,13.5A1.5,1.5 0 0,1 2.5,12A1.5,1.5 0 0,1 4,10.5M7,19V17H21V19H7M4,16.5A1.5,1.5 0 0,1 5.5,18A1.5,1.5 0 0,1 4,19.5A1.5,1.5 0 0,1 2.5,18A1.5,1.5 0 0,1 4,16.5Z" />
-                        </svg>
-                        <span style="vertical-align:middle;">Function</span>
-                      </button>
-                      <button class="generate-button gb-blue" style="border-radius: 0px 0px 10px 10px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'mcpack'; checkDownloadParameters()">
-                        <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
-                            <path fill="currentColor" d="M20 6H12L10 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V8C22 6.9 21.1 6 20 6M20 18H16V16H14V18H4V8H14V10H16V8H20V18M16 12V10H18V12H16M14 12H16V14H14V12M18 16H16V14H18V16Z" />
-                          </svg>
-                        <span style="vertical-align:middle;">Behavior Pack</span>
-                      </button>
-                    </buttongroup>
-                  </div>
+<div class="app-inner-inner" style="text-align: left; padding: 8px;">
+  <buttongroup>
+    <button id="btn-upgrade-v2" 
+            onclick="upgradeStructureToV2()"
+            class="generate-button gb-blue"
+            style="border-radius: 10px 10px 0px 0px; text-align: left; display: none;">
+      <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+        <path fill="currentColor" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
+      </svg>
+      <span style="vertical-align:middle;">Structure to V2</span>
+    </button>
+    <button id="btn-downgrade-v1" 
+            onclick="downgradeStructureToV1()" 
+            class="generate-button gb-blue"
+            style="border-radius: 10px 10px 0px 0px; text-align: left; display: none;">
+      <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+        <path fill="currentColor" d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" />
+      </svg>
+      <span style="vertical-align:middle;">Structure to V1</span>
+    </button>
+    <button class="generate-button gb-blue" style="border-radius: 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'json#loot-table'; checkDownloadParameters()">
+      <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+        <path fill="currentColor" d="M12,2A9,9 0 0,0 3,11C3,14.03 4.53,16.82 7,18.47V22H9V19H11V22H13V19H15V22H17V18.46C19.47,16.81 21,14 21,11A9,9 0 0,0 12,2M8,11A2,2 0 0,1 10,13A2,2 0 0,1 8,15A2,2 0 0,1 6,13A2,2 0 0,1 8,11M16,11A2,2 0 0,1 18,13A2,2 0 0,1 16,15A2,2 0 0,1 14,13A2,2 0 0,1 16,11M12,14L13.5,17H10.5L12,14Z" />
+      </svg>
+      <span style="vertical-align:middle;">Loot Table</span>
+    </button>
+    <button class="generate-button gb-blue" style="border-radius: 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'nbt'; checkDownloadParameters()">
+      <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+        <path fill="currentColor" d="M16.5,6.08C16.5,6.08 9.66,7.79 12.94,11.56C13.91,12.67 12.69,13.67 12.69,13.67C12.69,13.67 15.14,12.42 14,10.82C12.94,9.35 12.14,8.62 16.5,6.08M12.03,7.28C16.08,4.08 14,2 14,2C14.84,5.3 11.04,6.3 9.67,8.36C8.73,9.76 10.13,11.27 12,13C11.29,11.3 8.78,9.84 12.03,7.28M9.37,17.47C6.29,18.33 11.25,20.1 15.16,18.43C14.78,18.28 14.41,18.1 14.06,17.89C12.7,18.2 11.3,18.26 9.92,18.07C8.61,17.91 9.37,17.47 9.37,17.47M14.69,15.79C12.94,16.17 11.13,16.26 9.35,16.05C8.04,15.92 8.9,15.28 8.9,15.28C5.5,16.41 10.78,17.68 15.5,16.3C15.21,16.19 14.93,16 14.69,15.79M18.11,19.09C18.11,19.09 18.68,19.56 17.5,19.92C15.22,20.6 8.07,20.81 6.09,19.95C5.38,19.64 6.72,19.21 7.14,19.12C7.37,19.06 7.6,19.04 7.83,19.04C7.04,18.5 2.7,20.14 5.64,20.6C13.61,21.9 20.18,20 18.11,19.09M15.37,14.23C15.66,14.04 15.97,13.88 16.29,13.74C16.29,13.74 14.78,14 13.27,14.14C11.67,14.3 10.06,14.32 8.46,14.2C6.11,13.89 9.75,13 9.75,13C8.65,13 7.57,13.26 6.59,13.75C4.54,14.75 11.69,15.2 15.37,14.23M16.27,16.65C16.25,16.69 16.23,16.72 16.19,16.75C21.2,15.44 19.36,12.11 16.96,12.94C16.83,13 16.72,13.08 16.65,13.19C16.79,13.14 16.93,13.1 17.08,13.07C18.28,12.83 20,14.7 16.27,16.65M16.4,21.26C13.39,21.78 10.31,21.82 7.28,21.4C7.28,21.4 7.74,21.78 10.09,21.93C13.69,22.16 19.22,21.8 19.35,20.1C19.38,20.11 19.12,20.75 16.4,21.26Z" />
+      </svg>
+      <span style="vertical-align:middle;">Java Structure</span>
+    </button>
+    <button class="generate-button gb-blue" style="border-radius: 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'mcfunction'; checkDownloadParameters()">
+      <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+        <path fill="currentColor" d="M7,5H21V7H7V5M7,13V11H21V13H7M4,4.5A1.5,1.5 0 0,1 5.5,6A1.5,1.5 0 0,1 4,7.5A1.5,1.5 0 0,1 2.5,6A1.5,1.5 0 0,1 4,4.5M4,10.5A1.5,1.5 0 0,1 5.5,12A1.5,1.5 0 0,1 4,13.5A1.5,1.5 0 0,1 2.5,12A1.5,1.5 0 0,1 4,10.5M7,19V17H21V19H7M4,16.5A1.5,1.5 0 0,1 5.5,18A1.5,1.5 0 0,1 4,19.5A1.5,1.5 0 0,1 2.5,18A1.5,1.5 0 0,1 4,16.5Z" />
+      </svg>
+      <span style="vertical-align:middle;">Function</span>
+    </button>
+    <button class="generate-button gb-blue" style="border-radius: 0px 0px 10px 10px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'mcpack'; checkDownloadParameters()">
+      <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+        <path fill="currentColor" d="M20 6H12L10 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V8C22 6.9 21.1 6 20 6M20 18H16V16H14V18H4V8H14V10H16V8H20V18M16 12V10H18V12H16M14 12H16V14H14V12M18 16H16V14H18V16Z" />
+      </svg>
+      <span style="vertical-align:middle;">Behavior Pack</span>
+    </button>
+  </buttongroup>
+</div>
                 </td>
               </tr>
             </table>
@@ -343,6 +361,7 @@
             <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-entities" checked> Include entities</label><br>
             <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-entityrot" checked> Keep entity rotation</label><br>
             <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-entityloot" checked> Include advanced entity data (equipment, inventory, trades, dialogue, ect)</label><br>
+            <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-compress" onchange="onCompressionToggle(this)"> Compress structure (zlib)</label><br>
             
             Please note: The above parameters only affect top-level tiles and entities, meaning tiles/entities within items will not be affected.
             <br>
