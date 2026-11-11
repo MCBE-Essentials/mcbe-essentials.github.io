@@ -90,10 +90,24 @@ if(document.getElementById("dataFileInput")){
   if(projectInputElement.hasAttribute("readertype")){
     readertype = projectInputElement.getAttribute("readertype");
   }
-  
+
+  //File extensions the app accepts, such as ".mcstructure"
+  const acceptedExtensions = (projectInputElement.getAttribute("accept") || "").split(",").map(type => type.trim().toLowerCase()).filter(type => type.startsWith("."));
+
+  //iOS greys out files with extensions it does not know, such as .mcstructure. Let iOS and iPadOS users pick any file and check the extension below instead
+  if(/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)){
+    projectInputElement.removeAttribute("accept");
+  }
+
   //Add the event listener to the input element
   projectInputElement.addEventListener("change", function(){
-    importFile(this.files[0], 'importedData', readertype, parseImportedData);
+    let file = this.files[0];
+    if(acceptedExtensions.length > 0 && !acceptedExtensions.some(extension => file.name.toLowerCase().endsWith(extension))){
+      snackbar("Please upload a " + acceptedExtensions.join(", ") + " file.");
+      this.value = "";
+      return;
+    }
+    importFile(file, 'importedData', readertype, parseImportedData);
   });
 }
 

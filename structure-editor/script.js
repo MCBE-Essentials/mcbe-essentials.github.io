@@ -3924,6 +3924,9 @@ function parseImportedData(file){
       }
       
       attemptLaunch(file);
+    }).catch(function(error){
+      console.error(error);
+      snackbar('This file could not be read as a structure.');
     });
   }
 }
@@ -4116,7 +4119,7 @@ function structureToEditor(file = false){
     document.getElementById("file-info-name").innerHTML = file.name;
     document.getElementById("file-info-type").innerHTML = (file.name.endsWith('.mcstructure') ? "Bedrock Structure" : (file.name.endsWith('.nbt') ? "Java Structure" : (file.name.endsWith('.json') ? "JSON Structure" : (file.name.endsWith('#importedfile') ? "Developer Test File" : "Unknown"))));
     document.getElementById("file-info-size").innerHTML = (Math.ceil(file.size / 100) / 10) + "KB";
-    document.getElementById("file-info-date").innerHTML = file.lastModifiedDate.toDateString();
+    document.getElementById("file-info-date").innerHTML = new Date(file.lastModified).toDateString();
   }
   
   document.getElementById("file-stats-entities").innerHTML = (getEntities() ? getEntities.length : 0);
