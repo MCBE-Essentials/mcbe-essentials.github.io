@@ -4343,22 +4343,15 @@ function download(){
     'filetype': document.getElementById("structure-download-filetype").value
   };
   
-  //Shallow-copy the structure data 
-  let newstructure = Object.assign({}, structure);
+  //Deep-copy the structure data so the filters below do not change the loaded structure
+  let newstructure = structuredClone(structure);
   
   // Separate pieces off the cloned data according to the parameters
   if(!parameters.tiles){
     newstructure.value.structure.value.palette = {"type": "compound","value": {}};
-    newstructure.value.structure.value.block_indicies = {
-      "type": "list",
-      "value": {
-        "type": "list",
-        "value": [
-          { "type": "end", "value": [] },
-          { "type": "end", "value": [] }
-        ]
-      }
-    };
+    //Set every block to void. This keeps the V1 or V2 layer format valid
+    getBlockList(0, newstructure).fill(-1);
+    getBlockList(1, newstructure).fill(-1);
   } else {
     if(!parameters.air){
       //Find the palette entry for air
@@ -4366,7 +4359,7 @@ function download(){
       if(airpaletteindex !== false){
         //structure.value.default.value.block_palette.value.value[airpaletteindex];
         //Clear air blocks in the non-waterlog layer
-        let blockslist = getBlockList(0);
+        let blockslist = getBlockList(0, newstructure);
         for(let i = 0; i < blockslist.length; i++){
           if(blockslist[i] === airpaletteindex){
             blockslist[i] = -1;
@@ -4375,19 +4368,15 @@ function download(){
       }
     }
     if(!parameters.waterlog){
-      //Replace waterlog layer with an array of -1 exactly equal in length to the main layer
-      let layers = newstructure.value.structure.value.block_indices.value.value;
-      let emptyWaterlogs = new Array(getBlockList(0).length).fill(-1);
-      if(layers[1] && layers[1].type !== undefined && layers[1].type !== "end") layers[1].value = emptyWaterlogs;
-      //V2 layers are plain arrays. A missing V2 waterlog layer needs no change
-      if(Array.isArray(layers[1])) layers[1] = emptyWaterlogs;
+      //Clear the waterlog layer. A missing V2 waterlog layer needs no change
+      getBlockList(1, newstructure).fill(-1);
     }
     if(!parameters.blockstates){
       //Check if palette exists
       if(newstructure.value.structure.value.palette.value.hasOwnProperty("default")){
         let palette = newstructure.value.structure.value.palette.value.default.value.block_palette.value.value;
         for(let entry of palette){
-          entry.states = {};
+          entry.states = {"type": "compound", "value": {}};
         }
       }
     }
