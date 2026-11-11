@@ -56,7 +56,7 @@ async function getData(){
   let blocksj2b = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.26.30/blocksJ2B.json').then(response => {return response.json()})
   let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.26.30/blocksB2J.json').then(response => {return response.json()})
   let texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/blocks.json').then(response => {return response.json()})
-  let texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
+  let texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/terrain_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
   let preview_texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/blocks.json').then(response => {return response.json()})
   let preview_texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
   
@@ -3928,6 +3928,176 @@ function parseImportedData(file){
   }
 }
 
+function updateCompressionUI() {
+    const compressCheckbox = document.getElementById("structure-download-compress");
+    const upgradeBtn = document.getElementById("btn-upgrade-v2");
+    const downgradeBtn = document.getElementById("btn-downgrade-v1");
+    
+    if (!compressCheckbox) return;
+    
+    const formatVersion = structure.value?.format_version?.value ?? 1;
+    
+    if (formatVersion === 1) {
+        // V1: Compression disabled, upgrade button visible.
+        compressCheckbox.disabled = true;
+        compressCheckbox.title = "Compression requires format_version 2 or higher";
+        if (upgradeBtn) upgradeBtn.style.display = "inline-block";
+        if (downgradeBtn) downgradeBtn.style.display = "none";
+    } else {
+        // V2+: Compression enabled, downgrade button visible.
+        compressCheckbox.disabled = false;
+        compressCheckbox.title = "";
+        if (upgradeBtn) upgradeBtn.style.display = "none";
+        if (downgradeBtn) downgradeBtn.style.display = "inline-block";
+    }
+}
+
+function upgradeStructureToV2() {
+    const formatVersion = structure.value?.format_version?.value ?? 1;
+    
+    if (formatVersion >= 2) {
+        snackbar("This structure is already version 2 or higher!");
+        return;
+    }
+    
+    const v2Warning = "⚠️ COMPATIBILITY WARNING ⚠️\n\n" +
+        "Converting to version 2 will make this structure compatible only with:\n" +
+        "• Minecraft Bedrock 1.26.50 or higher\n\n" +
+        "Older versions (1.26.40 or lower) will not be able to load this file.\n\n" +
+        "Do you want to continue anyway?";
+    
+    if (!confirm(v2Warning)) return;
+    
+    try {
+        // 1. Update format_version
+        structure.value.format_version = { type: 'int', value: 2 };
+        
+        // 2. Add compression tag (default: 0 = uncompressed)
+        if (!structure.value.compression) {
+            structure.value.compression = { type: 'int', value: 0 };
+        }
+        
+        // 3. Convert block_indices from V1 format to V2 format
+        if (structure.value.structure?.value?.block_indices) {
+            const v1Indices = structure.value.structure.value.block_indices;
+            
+            // V1 format: list > list > int
+            if (v1Indices.type === 'list' && 
+                v1Indices.value?.type === 'list' && 
+                Array.isArray(v1Indices.value.value)) {
+                
+                // Extract the arrays from V1 format
+                const layer1 = v1Indices.value.value[0]?.value || [];
+                const layer2 = v1Indices.value.value[1]?.value || [];
+                
+                // Check if layer 2 has any waterlog (non -1 values)
+                const hasWaterlog = layer2.some(v => v !== -1);
+                
+                // Convert to V2 format: list > intArray
+                const v2Value = [layer1];
+                if (hasWaterlog) {
+                    v2Value.push(layer2);
+                }
+                
+                structure.value.structure.value.block_indices = {
+                    type: 'list',
+                    value: {
+                        type: 'intArray',
+                        value: v2Value
+                    }
+                };
+            }
+        }
+        
+        // 4. Update UI
+        nodeEditor.set(structure);
+updateCompressionUI();
+
+// Re-renders the paint so that closures use the new block_indices (without Layer 2)
+if (typeof renderPaintEditor === "function") {
+  renderPaintEditor(typeof currentPaintLayer !== "undefined" ? currentPaintLayer : 0);
+}
+
+snackbar("Structure successfully converted to version 2!");
+console.log("Structure upgraded to V2");
+    } catch (err) {
+        console.error("Error converting to V2:", err);
+        alert("Error converting structure:\n" + err.message);
+    }
+}
+
+function downgradeStructureToV1() {
+    const formatVersion = structure.value?.format_version?.value ?? 1;
+    
+    if (formatVersion <= 1) {
+        snackbar("This structure is already version 1!");
+        return;
+    }
+    
+    // Warn if compressed
+    if (structure.value.compression?.value === 1) {
+        const compressWarning = "⚠️ WARNING ⚠️\n\n" +
+            "This structure is compressed. Converting to V1 will automatically remove the compression.\n\n" +
+            "Do you want to continue?";
+        if (!confirm(compressWarning)) return;
+    }
+    
+    try {
+        // 1. Ensure decompressed
+        const compressCheckbox = document.getElementById("structure-download-compress");
+        if (compressCheckbox) compressCheckbox.checked = false;
+        
+        // 2. Update format_version
+        structure.value.format_version = { type: 'int', value: 1 };
+        
+        // 3. Remove compression tag
+        delete structure.value.compression;
+        
+        // 4. Convert block_indices from V2 format to V1 format
+        if (structure.value.structure?.value?.block_indices) {
+            const v2Indices = structure.value.structure.value.block_indices;
+            
+            // V2 format: list > intArray
+            if (v2Indices.type === 'list' && 
+                v2Indices.value?.type === 'intArray' && 
+                Array.isArray(v2Indices.value.value)) {
+                
+                const layer1 = v2Indices.value.value[0] || [];
+                const layer2 = v2Indices.value.value[1] || [];
+                
+                // If layer 2 doesn't exist or is empty, fill with -1
+                const hasLayer2 = layer2.length > 0;
+                const v1Layer2 = hasLayer2 ? layer2 : layer1.map(() => -1);
+                
+                // Convert to V1 format: list > list > int
+                structure.value.structure.value.block_indices = {
+                    type: 'list',
+                    value: {
+                        type: 'list',
+                        value: [
+                            { type: 'int', value: layer1 },
+                            { type: 'int', value: v1Layer2 }
+                        ]
+                    }
+                };
+            }
+        }
+        
+        // 5. Update UI
+        nodeEditor.set(structure);
+        updateCompressionUI();
+        if (typeof renderPaintEditor === "function") {
+  renderPaintEditor(typeof currentPaintLayer !== "undefined" ? currentPaintLayer : 0);
+}
+        
+        snackbar("Structure successfully converted to version 1!");
+        console.log("Structure downgraded to V1");
+    } catch (err) {
+        console.error("Error converting to V1:", err);
+        alert("Error converting structure:\n" + err.message);
+    }
+}
+
 function structureToEditor(file = false){
   structuresize = structure.value.size.value.value;
   
@@ -3961,7 +4131,35 @@ function structureToEditor(file = false){
   //Blocks tab
   prepareBlocksTab()
   
+  // Defines the initial state of the checkbox ONLY when the file is loaded.
+    const compressCheckbox = document.getElementById("structure-download-compress");
+    if (compressCheckbox) {
+        const formatVersion = structure.value?.format_version?.value ?? 1;
+        const wasCompressed = structure.value?.compression?.value === 1;
+        
+        // Defines the initial state based on the file.
+        compressCheckbox.checked = wasCompressed; 
+        compressCheckbox.disabled = (formatVersion === 1);
+        compressCheckbox.title = (formatVersion === 1) ? "Compression requires format_version 2 or higher" : "";
+    }
+    
+    // Updates the visibility of the version buttons.
+    updateCompressionUI();
+  
   nodeEditor.set(structure)
+}
+
+function onCompressionToggle(checkbox) {
+  if (checkbox.checked) {
+    const warning = "⚠️ COMPATIBILITY WARNING ⚠️\n\n" +
+      "Structure compression is only supported in Minecraft Bedrock 1.26.60 or higher.\n\n" +
+      "Older versions will not be able to read this file.\n\n" +
+      "Do you want to continue anyway?";
+    
+    if (!confirm(warning)) {
+      checkbox.checked = false;
+    }
+  }
 }
 
 function prepareBlocksTab(){
@@ -4250,11 +4448,29 @@ function download(){
       break;
     }
     case 'mcstructure': {
-      StructureCompression.writeStructure(newstructure).then(function(bytes){
-        exportFile(new File([bytes], filenameprefix+'.mcstructure'), filenameprefix+'.mcstructure');
-      });
-      break;
+  let toSave = structuredClone(newstructure);
+  const formatVersion = toSave.value.format_version?.value ?? 1;
+  const checkbox = document.getElementById("structure-download-compress");
+  const shouldCompress = checkbox?.checked && formatVersion >= 2;
+
+  if (shouldCompress) {
+    toSave.value.compression = { type: 'int', value: 1 };
+    if (!toSave.value.format_version || toSave.value.format_version.value < 2) {
+      toSave.value.format_version = { type: 'int', value: 2 };
     }
+  } else {
+    if (toSave.value.compression) {
+      toSave.value.compression.value = 0;
+    } else if (formatVersion >= 2) {
+      toSave.value.compression = { type: 'int', value: 0 };
+    }
+  }
+
+  StructureCompression.writeStructure(toSave).then(function(bytes) {
+    exportFile(new File([bytes], filenameprefix + '.mcstructure'), filenameprefix + '.mcstructure');
+  });
+  break;
+}
     case 'nbt': {
       exportFile(
         new File(
