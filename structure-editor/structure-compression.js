@@ -1,29 +1,25 @@
 /**
- * Sanitizes NBT data to ensure all byte values are valid (-128 to 127).
+ * Wraps a number into the signed byte range (-128 to 127). Missing or invalid values become 0.
+ */
+function toSignedByte(value) {
+  let n = ((Math.trunc(Number(value)) || 0) % 256 + 256) % 256;
+  return n > 127 ? n - 256 : n;
+}
+
+/**
+ * Makes all byte and byte array values valid signed bytes. Also covers lists of bytes.
+ *
+ * @param obj - The NBT tag. It is changed in place.
+ *
+ * @returns The same tag.
  */
 function sanitizeNBT(obj) {
   if (!obj || typeof obj !== 'object') return obj;
 
-  if (obj.type === 'byteArray' && Array.isArray(obj.value)) {
-    obj.value = obj.value.map(v => {
-      if (v === undefined || v === null || isNaN(v)) return 0;
-      let n = Number(v);
-      if (n > 127) n = n - 256;
-      if (n < -128) n = -128;
-      return n;
-    });
-    return obj;
-  }
-
-  if (obj.type === 'byte' && (obj.value === undefined || obj.value === null || isNaN(obj.value))) {
-    obj.value = 0;
-    return obj;
-  }
-
-  if (Array.isArray(obj)) {
-    for (let i = 0; i < obj.length; i++) obj[i] = sanitizeNBT(obj[i]);
+  if (obj.type === 'byte' || obj.type === 'byteArray') {
+    obj.value = Array.isArray(obj.value) ? obj.value.map(toSignedByte) : toSignedByte(obj.value);
   } else {
-    for (const key of Object.keys(obj)) obj[key] = sanitizeNBT(obj[key]);
+    for (const key of Object.keys(obj)) sanitizeNBT(obj[key]);
   }
 
   return obj;
@@ -84,10 +80,10 @@ class StructureCompression {
    * @returns The bytes of the .mcstructure file.
    */
   static async writeStructure(rootTag) {
+    rootTag = sanitizeNBT(structuredClone(rootTag));
     if (rootTag.value.compression?.value !== this.zlibCompressionType) return nbt.writeUncompressed(rootTag, 'little');
 
-    let cleanValue = sanitizeNBT(structuredClone(rootTag.value.structure.value));
-    let structureBytes = nbt.writeUncompressed({ type: 'compound', name: '', value: cleanValue }, 'little');
+    let structureBytes = nbt.writeUncompressed({ type: 'compound', name: '', value: rootTag.value.structure.value }, 'little');
     let compressedBytes = await this.transformBytes(structureBytes, new CompressionStream(this.zlibStreamFormat));
     let compressedRootTag = {
       type: rootTag.type,

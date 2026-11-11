@@ -3931,178 +3931,57 @@ function parseImportedData(file){
   }
 }
 
+//Oldest game version that loads format version 2 structures, compressed or not
+const V2_MIN_GAME_VERSION = "1.26.60";
+
+//Syncs the compress checkbox and the version buttons with the loaded structure
 function updateCompressionUI() {
-    const compressCheckbox = document.getElementById("structure-download-compress");
-    const upgradeBtn = document.getElementById("btn-upgrade-v2");
-    const downgradeBtn = document.getElementById("btn-downgrade-v1");
-    
-    if (!compressCheckbox) return;
-    
-    const formatVersion = structure.value?.format_version?.value ?? 1;
-    
-    if (formatVersion === 1) {
-        // V1: Compression disabled, upgrade button visible.
-        compressCheckbox.disabled = true;
-        compressCheckbox.title = "Compression requires format_version 2 or higher";
-        if (upgradeBtn) upgradeBtn.style.display = "inline-block";
-        if (downgradeBtn) downgradeBtn.style.display = "none";
-    } else {
-        // V2+: Compression enabled, downgrade button visible.
-        compressCheckbox.disabled = false;
-        compressCheckbox.title = "";
-        if (upgradeBtn) upgradeBtn.style.display = "none";
-        if (downgradeBtn) downgradeBtn.style.display = "inline-block";
-    }
+  let isV1 = (structure.value.format_version?.value ?? 1) < 2;
+  let compressCheckbox = document.getElementById("structure-download-compress");
+  compressCheckbox.checked = structure.value.compression?.value === StructureCompression.zlibCompressionType;
+  compressCheckbox.disabled = isV1;
+  compressCheckbox.title = isV1 ? "Compression requires format_version 2 or higher" : "";
+  let compressWarning = document.getElementById("structure-download-warning-compress");
+  compressWarning.innerText = "Compressed structures only load in Minecraft Bedrock " + V2_MIN_GAME_VERSION + " or higher.";
+  compressWarning.style.display = compressCheckbox.checked ? "" : "none";
+  document.getElementById("btn-upgrade-v2").style.display = isV1 ? "" : "none";
+  document.getElementById("btn-downgrade-v1").style.display = isV1 ? "none" : "";
 }
 
-function upgradeStructureToV2() {
-    const formatVersion = structure.value?.format_version?.value ?? 1;
-    
-    if (formatVersion >= 2) {
-        snackbar("This structure is already version 2 or higher!");
-        return;
-    }
-    
-    const v2Warning = "⚠️ COMPATIBILITY WARNING ⚠️\n\n" +
-        "Converting to version 2 will make this structure compatible only with:\n" +
-        "• Minecraft Bedrock 1.26.50 or higher\n\n" +
-        "Older versions (1.26.40 or lower) will not be able to load this file.\n\n" +
-        "Do you want to continue anyway?";
-    
-    if (!confirm(v2Warning)) return;
-    
-    try {
-        // 1. Update format_version
-        structure.value.format_version = { type: 'int', value: 2 };
-        
-        // 2. Add compression tag (default: 0 = uncompressed)
-        if (!structure.value.compression) {
-            structure.value.compression = { type: 'int', value: 0 };
-        }
-        
-        // 3. Convert block_indices from V1 format to V2 format
-        if (structure.value.structure?.value?.block_indices) {
-            const v1Indices = structure.value.structure.value.block_indices;
-            
-            // V1 format: list > list > int
-            if (v1Indices.type === 'list' && 
-                v1Indices.value?.type === 'list' && 
-                Array.isArray(v1Indices.value.value)) {
-                
-                // Extract the arrays from V1 format
-                const layer1 = v1Indices.value.value[0]?.value || [];
-                const layer2 = v1Indices.value.value[1]?.value || [];
-                
-                // Check if layer 2 has any waterlog (non -1 values)
-                const hasWaterlog = layer2.some(v => v !== -1);
-                
-                // Convert to V2 format: list > intArray
-                const v2Value = [layer1];
-                if (hasWaterlog) {
-                    v2Value.push(layer2);
-                }
-                
-                structure.value.structure.value.block_indices = {
-                    type: 'list',
-                    value: {
-                        type: 'intArray',
-                        value: v2Value
-                    }
-                };
-            }
-        }
-        
-        // 4. Update UI
-        nodeEditor.set(structure);
-updateCompressionUI();
+//True once the user accepted the version 2 warning for the loaded structure. Loading a new structure resets it
+let v2WarningAccepted = false;
 
-// Re-renders the paint so that closures use the new block_indices (without Layer 2)
-if (typeof renderPaintEditor === "function") {
-  renderPaintEditor(typeof currentPaintLayer !== "undefined" ? currentPaintLayer : 0);
-}
+//Converts the block indices between V1 (list of int lists) and V2 (list of int arrays)
+function convertStructureVersion(version) {
+  if (version === 2 && !v2WarningAccepted) {
+    if (!confirm("Version 2 structures only load in Minecraft Bedrock " + V2_MIN_GAME_VERSION + " or higher. Continue?")) return;
+    v2WarningAccepted = true;
+  }
+  if (version === 1 && structure.value.compression?.value === StructureCompression.zlibCompressionType && !confirm("Version 1 structures cannot be compressed. Compression will be removed. Continue?")) return;
 
-snackbar("Structure successfully converted to version 2!");
-console.log("Structure upgraded to V2");
-    } catch (err) {
-        console.error("Error converting to V2:", err);
-        alert("Error converting structure:\n" + err.message);
-    }
-}
+  let mainLayer = getBlockList(0);
+  let waterlogLayer = getBlockList(1);
+  let indices = structure.value.structure.value.block_indices;
+  structure.value.format_version = { type: 'int', value: version };
+  if (version === 2) {
+    structure.value.compression = { type: 'int', value: 0 };
+    //V2 leaves out an empty waterlog layer
+    indices.value = { type: 'intArray', value: waterlogLayer.some(v => v !== -1) ? [mainLayer, waterlogLayer] : [mainLayer] };
+  } else {
+    delete structure.value.compression;
+    //V1 always has a waterlog layer with the same length as the main layer
+    if (waterlogLayer.length === 0) waterlogLayer = mainLayer.map(() => -1);
+    indices.value = { type: 'list', value: [mainLayer, waterlogLayer].map(layer => ({ type: 'int', value: layer })) };
+  }
 
-function downgradeStructureToV1() {
-    const formatVersion = structure.value?.format_version?.value ?? 1;
-    
-    if (formatVersion <= 1) {
-        snackbar("This structure is already version 1!");
-        return;
-    }
-    
-    // Warn if compressed
-    if (structure.value.compression?.value === 1) {
-        const compressWarning = "⚠️ WARNING ⚠️\n\n" +
-            "This structure is compressed. Converting to V1 will automatically remove the compression.\n\n" +
-            "Do you want to continue?";
-        if (!confirm(compressWarning)) return;
-    }
-    
-    try {
-        // 1. Ensure decompressed
-        const compressCheckbox = document.getElementById("structure-download-compress");
-        if (compressCheckbox) compressCheckbox.checked = false;
-        
-        // 2. Update format_version
-        structure.value.format_version = { type: 'int', value: 1 };
-        
-        // 3. Remove compression tag
-        delete structure.value.compression;
-        
-        // 4. Convert block_indices from V2 format to V1 format
-        if (structure.value.structure?.value?.block_indices) {
-            const v2Indices = structure.value.structure.value.block_indices;
-            
-            // V2 format: list > intArray
-            if (v2Indices.type === 'list' && 
-                v2Indices.value?.type === 'intArray' && 
-                Array.isArray(v2Indices.value.value)) {
-                
-                const layer1 = v2Indices.value.value[0] || [];
-                const layer2 = v2Indices.value.value[1] || [];
-                
-                // If layer 2 doesn't exist or is empty, fill with -1
-                const hasLayer2 = layer2.length > 0;
-                const v1Layer2 = hasLayer2 ? layer2 : layer1.map(() => -1);
-                
-                // Convert to V1 format: list > list > int
-                structure.value.structure.value.block_indices = {
-                    type: 'list',
-                    value: {
-                        type: 'list',
-                        value: [
-                            { type: 'int', value: layer1 },
-                            { type: 'int', value: v1Layer2 }
-                        ]
-                    }
-                };
-            }
-        }
-        
-        // 5. Update UI
-        nodeEditor.set(structure);
-        updateCompressionUI();
-        if (typeof renderPaintEditor === "function") {
-  renderPaintEditor(typeof currentPaintLayer !== "undefined" ? currentPaintLayer : 0);
-}
-        
-        snackbar("Structure successfully converted to version 1!");
-        console.log("Structure downgraded to V1");
-    } catch (err) {
-        console.error("Error converting to V1:", err);
-        alert("Error converting structure:\n" + err.message);
-    }
+  //No redraw needed. The blocks do not change, the paint editor reads the layers on click and the Node Editor tab reloads when opened
+  updateCompressionUI();
+  snackbar("Structure converted to version " + version + ".");
 }
 
 function structureToEditor(file = false){
   structuresize = structure.value.size.value.value;
+  v2WarningAccepted = false;
   
   //Unlock editor options
   if(document.getElementById("upload-tab").style.display != "none"){
@@ -4133,36 +4012,15 @@ function structureToEditor(file = false){
   
   //Blocks tab
   prepareBlocksTab()
-  
-  // Defines the initial state of the checkbox ONLY when the file is loaded.
-    const compressCheckbox = document.getElementById("structure-download-compress");
-    if (compressCheckbox) {
-        const formatVersion = structure.value?.format_version?.value ?? 1;
-        const wasCompressed = structure.value?.compression?.value === 1;
-        
-        // Defines the initial state based on the file.
-        compressCheckbox.checked = wasCompressed; 
-        compressCheckbox.disabled = (formatVersion === 1);
-        compressCheckbox.title = (formatVersion === 1) ? "Compression requires format_version 2 or higher" : "";
-    }
-    
-    // Updates the visibility of the version buttons.
-    updateCompressionUI();
-  
+  updateCompressionUI();
+
   nodeEditor.set(structure)
 }
 
+//The "compression" tag of the structure is the only source of truth. Every export reads it
 function onCompressionToggle(checkbox) {
-  if (checkbox.checked) {
-    const warning = "⚠️ COMPATIBILITY WARNING ⚠️\n\n" +
-      "Structure compression is only supported in Minecraft Bedrock 1.26.60 or higher.\n\n" +
-      "Older versions will not be able to read this file.\n\n" +
-      "Do you want to continue anyway?";
-    
-    if (!confirm(warning)) {
-      checkbox.checked = false;
-    }
-  }
+  structure.value.compression = { type: 'int', value: checkbox.checked ? StructureCompression.zlibCompressionType : 0 };
+  updateCompressionUI();
 }
 
 function prepareBlocksTab(){
@@ -4440,29 +4298,11 @@ function download(){
       break;
     }
     case 'mcstructure': {
-  let toSave = structuredClone(newstructure);
-  const formatVersion = toSave.value.format_version?.value ?? 1;
-  const checkbox = document.getElementById("structure-download-compress");
-  const shouldCompress = checkbox?.checked && formatVersion >= 2;
-
-  if (shouldCompress) {
-    toSave.value.compression = { type: 'int', value: 1 };
-    if (!toSave.value.format_version || toSave.value.format_version.value < 2) {
-      toSave.value.format_version = { type: 'int', value: 2 };
+      StructureCompression.writeStructure(newstructure).then(function(bytes){
+        exportFile(new File([bytes], filenameprefix+'.mcstructure'), filenameprefix+'.mcstructure');
+      });
+      break;
     }
-  } else {
-    if (toSave.value.compression) {
-      toSave.value.compression.value = 0;
-    } else if (formatVersion >= 2) {
-      toSave.value.compression = { type: 'int', value: 0 };
-    }
-  }
-
-  StructureCompression.writeStructure(toSave).then(function(bytes) {
-    exportFile(new File([bytes], filenameprefix + '.mcstructure'), filenameprefix + '.mcstructure');
-  });
-  break;
-}
     case 'nbt': {
       exportFile(
         new File(
