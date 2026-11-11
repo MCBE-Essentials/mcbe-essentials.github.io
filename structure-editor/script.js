@@ -3932,7 +3932,7 @@ function parseImportedData(file){
 }
 
 //Oldest game version that loads format version 2 structures, compressed or not
-const V2_MIN_GAME_VERSION = "1.26.60";
+const V2_MIN_GAME_VERSION = "1.26.50";
 
 //Syncs the compress checkbox and the version buttons with the loaded structure
 function updateCompressionUI() {
