@@ -187,9 +187,10 @@ function renderPaintEditor(layer = 0) {
           let selblockindex = parseFloat(this.getAttribute("index"));
           let selectedpaletteelement = document.querySelector(".palette-list > div > div.selected");
           
-          // Decide which layer to edit based on the toggle.
-          let targetLayer = editingWaterlogLayer ? waterLayer : mainLayer;
-          
+          // Decide which layer to edit based on the toggle. Read it now, because a version conversion can replace the layer arrays after rendering
+          let targetLayer = getBlockList(editingWaterlogLayer ? 1 : 0);
+          if (targetLayer.length === 0) targetLayer = null;
+
           if (selectedpaletteelement.hasAttribute("pickblock")) {
             let pickedindex = targetLayer ? targetLayer[selblockindex] : -1;
             for (let potentialelm of document.querySelectorAll(".palette-list > div > div")) {
@@ -216,7 +217,7 @@ function renderPaintEditor(layer = 0) {
     const dimensions = structure.value.size.value.value;
     const totalBlocks = dimensions[0] * dimensions[1] * dimensions[2];
     
-    if (!isV1) {
+    if ((structure.value.format_version?.value ?? 1) >= 2) {
       // Format V2: creates the direct array filled with -1
       structure.value.structure.value.block_indices.value.value[1] = 
         new Array(totalBlocks).fill(-1);

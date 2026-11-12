@@ -309,8 +309,8 @@ function getValidPalette(palette){
   return output;
 }
 
-function getBlockList(layer = 0) {
-  let blocksheader = structure.value.structure.value.block_indices.value.value[layer];
+function getBlockList(layer = 0, rootTag = structure) {
+  let blocksheader = rootTag.value.structure.value.block_indices.value.value[layer];
   if (!blocksheader || blocksheader.type === "end") {
     return [];
   }

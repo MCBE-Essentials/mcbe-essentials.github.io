@@ -31,6 +31,7 @@
     <script src="/leveldat.js" defer></script>
     <script src="/jszip.js" defer></script>
     <script src="utils.js" defer></script>
+    <script src="structure-compression.js" defer></script>
     <script src="./script.js" defer></script>
     <script src="/filesaver.js" defer></script>
     <script src="/js/datahandler.js" defer></script>
@@ -121,7 +122,19 @@
                   <span>Convert to...</span><br>
                   <div class="app-inner-inner" style="text-align: left; padding: 8px;">
                     <buttongroup>
-                      <button class="generate-button gb-blue" style="border-radius: 10px 10px 0px 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'json#loot-table'; checkDownloadParameters()">
+                      <button id="btn-upgrade-v2" class="generate-button gb-blue" style="border-radius: 10px 10px 0px 0px; text-align: left; display: none;" onclick="convertStructureVersion(2)">
+                        <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+                          <path fill="currentColor" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
+                        </svg>
+                        <span style="vertical-align:middle;">Structure to V2</span>
+                      </button>
+                      <button id="btn-downgrade-v1" class="generate-button gb-blue" style="border-radius: 10px 10px 0px 0px; text-align: left; display: none;" onclick="convertStructureVersion(1)">
+                        <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
+                          <path fill="currentColor" d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" />
+                        </svg>
+                        <span style="vertical-align:middle;">Structure to V1</span>
+                      </button>
+                      <button class="generate-button gb-blue" style="border-radius: 0px; text-align: left;" onclick="document.getElementById('edit-download-tab').click(); document.getElementById('structure-download-filetype').value = 'json#loot-table'; checkDownloadParameters()">
                         <svg style="height:25px;vertical-align:middle;" viewbox="0 0 24 24">
     <path fill="currentColor" d="M12,2A9,9 0 0,0 3,11C3,14.03 4.53,16.82 7,18.47V22H9V19H11V22H13V19H15V22H17V18.46C19.47,16.81 21,14 21,11A9,9 0 0,0 12,2M8,11A2,2 0 0,1 10,13A2,2 0 0,1 8,15A2,2 0 0,1 6,13A2,2 0 0,1 8,11M16,11A2,2 0 0,1 18,13A2,2 0 0,1 16,15A2,2 0 0,1 14,13A2,2 0 0,1 16,11M12,14L13.5,17H10.5L12,14Z" />
 </svg>
@@ -342,6 +355,7 @@
             <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-entities" checked> Include entities</label><br>
             <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-entityrot" checked> Keep entity rotation</label><br>
             <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-entityloot" checked> Include advanced entity data (equipment, inventory, trades, dialogue, ect)</label><br>
+            <label><input oninput="checkDownloadParameters()" type="checkbox" id="structure-download-compress" onchange="onCompressionToggle(this)"> Compress structure (zlib)</label><br>
             
             Please note: The above parameters only affect top-level tiles and entities, meaning tiles/entities within items will not be affected.
             <br>
@@ -385,6 +399,7 @@
             <div id="structure-download-warning-mcpack" class="structure-download-warning warningmsg" style="display:none;">
               This is the same as exporting as a .mcstructure file, except it comes packaged in a behavior pack for easy add-on importing.
             </div>
+            <div id="structure-download-warning-compress" class="warningmsg" style="display:none;"></div>
           </div>
         </div>
         <p class="description" style="padding: 0px 25px;">

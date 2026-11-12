@@ -32,10 +32,15 @@ function parseImportedData(file){
     structure = JSON.parse(importedData);
     structureToEditor(file);
   } else {
-    nbt.parse(Buffer.from(importedData)).then(function(data){
+    nbt.parse(Buffer.from(importedData)).then(async function(data){
       structure = data.parsed;
       unparsedStructure = data.metadata.buffer;
       //console.log(data);
+
+      if(StructureCompression.isCompressed(structure) && !(await StructureCompression.decompressStructure(structure))){
+        snackbar('This structure uses an unknown compression type.');
+        return;
+      }
 
       if(structure.value.entities){
         alert("Unfortunately, this app currently doesn't support Java edition structure files."); return;
@@ -241,7 +246,9 @@ for(var i = 0; i < 27; i++){
 }
 
 function downloadStructure(){
-  exportFile(new File([nbt.writeUncompressed(structure, 'little')], "export.mcstructure"), filename);
+  StructureCompression.writeStructure(structure).then(function(bytes){
+    exportFile(new File([bytes], "export.mcstructure"), filename);
+  });
 }
 
 function createTable(container){

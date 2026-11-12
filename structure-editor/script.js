@@ -3908,10 +3908,15 @@ function parseImportedData(file){
     structure = JSON.parse(importedData);
     attemptLaunch(file);
   } else {
-    nbt.parse(Buffer.from(importedData)).then(function(data){
+    nbt.parse(Buffer.from(importedData)).then(async function(data){
       structure = data.parsed;
       unparsedStructure = data.metadata.buffer;
       //console.log(data);
+
+      if(StructureCompression.isCompressed(structure) && !(await StructureCompression.decompressStructure(structure))){
+        snackbar('This structure uses an unknown compression type.');
+        return;
+      }
 
       if(structure.value.entities){
         console.log(structure)
@@ -3919,12 +3924,64 @@ function parseImportedData(file){
       }
       
       attemptLaunch(file);
+    }).catch(function(error){
+      console.error(error);
+      snackbar('This file could not be read as a structure.');
     });
   }
 }
 
+//Oldest game version that loads format version 2 structures, compressed or not
+const V2_MIN_GAME_VERSION = "1.26.50";
+
+//Syncs the compress checkbox and the version buttons with the loaded structure
+function updateCompressionUI() {
+  let isV1 = (structure.value.format_version?.value ?? 1) < 2;
+  let compressCheckbox = document.getElementById("structure-download-compress");
+  compressCheckbox.checked = structure.value.compression?.value === StructureCompression.zlibCompressionType;
+  compressCheckbox.disabled = isV1;
+  compressCheckbox.title = isV1 ? "Compression requires format_version 2 or higher" : "";
+  let compressWarning = document.getElementById("structure-download-warning-compress");
+  compressWarning.innerText = "Compressed structures only load in Minecraft Bedrock " + V2_MIN_GAME_VERSION + " or higher.";
+  compressWarning.style.display = compressCheckbox.checked ? "" : "none";
+  document.getElementById("btn-upgrade-v2").style.display = isV1 ? "" : "none";
+  document.getElementById("btn-downgrade-v1").style.display = isV1 ? "none" : "";
+}
+
+//True once the user accepted the version 2 warning for the loaded structure. Loading a new structure resets it
+let v2WarningAccepted = false;
+
+//Converts the block indices between V1 (list of int lists) and V2 (list of int arrays)
+function convertStructureVersion(version) {
+  if (version === 2 && !v2WarningAccepted) {
+    if (!confirm("Version 2 structures only load in Minecraft Bedrock " + V2_MIN_GAME_VERSION + " or higher. Continue?")) return;
+    v2WarningAccepted = true;
+  }
+  if (version === 1 && structure.value.compression?.value === StructureCompression.zlibCompressionType && !confirm("Version 1 structures cannot be compressed. Compression will be removed. Continue?")) return;
+
+  let mainLayer = getBlockList(0);
+  let waterlogLayer = getBlockList(1);
+  let indices = structure.value.structure.value.block_indices;
+  structure.value.format_version = { type: 'int', value: version };
+  if (version === 2) {
+    structure.value.compression = { type: 'int', value: 0 };
+    //V2 leaves out an empty waterlog layer
+    indices.value = { type: 'intArray', value: waterlogLayer.some(v => v !== -1) ? [mainLayer, waterlogLayer] : [mainLayer] };
+  } else {
+    delete structure.value.compression;
+    //V1 always has a waterlog layer with the same length as the main layer
+    if (waterlogLayer.length === 0) waterlogLayer = mainLayer.map(() => -1);
+    indices.value = { type: 'list', value: [mainLayer, waterlogLayer].map(layer => ({ type: 'int', value: layer })) };
+  }
+
+  //No redraw needed. The blocks do not change, the paint editor reads the layers on click and the Node Editor tab reloads when opened
+  updateCompressionUI();
+  snackbar("Structure converted to version " + version + ".");
+}
+
 function structureToEditor(file = false){
   structuresize = structure.value.size.value.value;
+  v2WarningAccepted = false;
   
   //Unlock editor options
   if(document.getElementById("upload-tab").style.display != "none"){
@@ -3941,7 +3998,7 @@ function structureToEditor(file = false){
     document.getElementById("file-info-name").innerHTML = file.name;
     document.getElementById("file-info-type").innerHTML = (file.name.endsWith('.mcstructure') ? "Bedrock Structure" : (file.name.endsWith('.nbt') ? "Java Structure" : (file.name.endsWith('.json') ? "JSON Structure" : (file.name.endsWith('#importedfile') ? "Developer Test File" : "Unknown"))));
     document.getElementById("file-info-size").innerHTML = (Math.ceil(file.size / 100) / 10) + "KB";
-    document.getElementById("file-info-date").innerHTML = file.lastModifiedDate.toDateString();
+    document.getElementById("file-info-date").innerHTML = new Date(file.lastModified).toDateString();
   }
   
   document.getElementById("file-stats-entities").innerHTML = (getEntities() ? getEntities.length : 0);
@@ -3955,8 +4012,15 @@ function structureToEditor(file = false){
   
   //Blocks tab
   prepareBlocksTab()
-  
+  updateCompressionUI();
+
   nodeEditor.set(structure)
+}
+
+//The "compression" tag of the structure is the only source of truth. Every export reads it
+function onCompressionToggle(checkbox) {
+  structure.value.compression = { type: 'int', value: checkbox.checked ? StructureCompression.zlibCompressionType : 0 };
+  updateCompressionUI();
 }
 
 function prepareBlocksTab(){
@@ -4140,30 +4204,23 @@ function download(){
     'filetype': document.getElementById("structure-download-filetype").value
   };
   
-  //Shallow-copy the structure data 
-  let newstructure = Object.assign({}, structure);
+  //Deep-copy the structure data so the filters below do not change the loaded structure
+  let newstructure = structuredClone(structure);
   
   // Separate pieces off the cloned data according to the parameters
   if(!parameters.tiles){
     newstructure.value.structure.value.palette = {"type": "compound","value": {}};
-    newstructure.value.structure.value.block_indicies = {
-      "type": "list",
-      "value": {
-        "type": "list",
-        "value": [
-          { "type": "end", "value": [] },
-          { "type": "end", "value": [] }
-        ]
-      }
-    };
+    //Set every block to void. This keeps the V1 or V2 layer format valid
+    getBlockList(0, newstructure).fill(-1);
+    getBlockList(1, newstructure).fill(-1);
   } else {
     if(!parameters.air){
       //Find the palette entry for air
       let airpaletteindex = findPaletteIndex('minecraft:air');
-      if(airpaletteindex && newstructure.value.structure.value.block_indices.value.value[0].type !== "end"){
+      if(airpaletteindex !== false){
         //structure.value.default.value.block_palette.value.value[airpaletteindex];
         //Clear air blocks in the non-waterlog layer
-        let blockslist = newstructure.value.structure.value.block_indices.value.value[0].value;
+        let blockslist = getBlockList(0, newstructure);
         for(let i = 0; i < blockslist.length; i++){
           if(blockslist[i] === airpaletteindex){
             blockslist[i] = -1;
@@ -4172,23 +4229,15 @@ function download(){
       }
     }
     if(!parameters.waterlog){
-      //Find the palette entry for air
-      if(newstructure.value.structure.value.block_indices.value.value[1].type !== "end"){
-        //Replace waterlog palette with an array of -1 exactly equal to the index[0] array
-        let blockslist = newstructure.value.structure.value.block_indices.value.value[0].value;
-        newstructure.value.structure.value.block_indices.value.value[1].value = [];
-        let waterlogslist = newstructure.value.structure.value.block_indices.value.value[1].value;
-        for(let i = 0; i < blockslist.length; i++){
-          waterlogslist.push(-1);
-        }
-      }
+      //Clear the waterlog layer. A missing V2 waterlog layer needs no change
+      getBlockList(1, newstructure).fill(-1);
     }
     if(!parameters.blockstates){
       //Check if palette exists
       if(newstructure.value.structure.value.palette.value.hasOwnProperty("default")){
         let palette = newstructure.value.structure.value.palette.value.default.value.block_palette.value.value;
         for(let entry of palette){
-          entry.states = {};
+          entry.states = {"type": "compound", "value": {}};
         }
       }
     }
@@ -4249,7 +4298,9 @@ function download(){
       break;
     }
     case 'mcstructure': {
-      exportFile(new File([nbt.writeUncompressed(newstructure, 'little')], filenameprefix+'.mcstructure'), filenameprefix+'.mcstructure');
+      StructureCompression.writeStructure(newstructure).then(function(bytes){
+        exportFile(new File([bytes], filenameprefix+'.mcstructure'), filenameprefix+'.mcstructure');
+      });
       break;
     }
     case 'nbt': {
@@ -4275,9 +4326,10 @@ function download(){
     case 'mcpack': {
       let packzip = new JSZip();
       packzip.file('manifest.json', JSON.stringify({"format_version":2,"header":{"name":"My .mcstructure pack","description":"Generated with Structure Editor at https://mcbe-essentials.github.io","uuid":generateUUID(),"version":[1,0,0],"min_engine_version":[1,18,0]},"modules":[{"type":"data","description":"Generated with Structure Editor at https://mcbe-essentials.github.io","uuid":generateUUID(),"version":[1,0,0]}]}))
-      packzip.file('structures/' + filenameprefix + '.mcstructure', nbt.writeUncompressed(newstructure, 'little'));
-      
-      packzip.generateAsync({type:"blob"})
+      StructureCompression.writeStructure(newstructure).then(function(bytes){
+        packzip.file('structures/' + filenameprefix + '.mcstructure', bytes);
+        return packzip.generateAsync({type:"blob"});
+      })
       .then(function(content) {
         exportFile(content, filenameprefix + '.mcpack');
       });
