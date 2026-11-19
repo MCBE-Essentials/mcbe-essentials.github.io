@@ -52,7 +52,7 @@ async function getData(){
   let effects = await fetch('/data/effects-list.json').then(response => {return response.json()})
   let enchantments = await fetch('/data/enchantments.json').then(response => {return response.json()})*/
   let general_data = await fetch('/data/general.json').then(response => {return response.json()})
-  let allowedblocks = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.26.30/blockStates.json').then(response => {return response.json()}) //Returns an array of all the possible blocks in the game (every blockstate combination) as NBT objects.
+  let allowedblocks = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.26.60/blockStates.json').then(response => {return response.json()}) //Returns an array of all the possible blocks in the game (every blockstate combination) as NBT objects.
   let blocksj2b = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.26.30/blocksJ2B.json').then(response => {return response.json()})
   let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.26.30/blocksB2J.json').then(response => {return response.json()})
   let texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/blocks.json').then(response => {return response.json()})
