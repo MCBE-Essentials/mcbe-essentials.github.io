@@ -313,7 +313,8 @@
     {"readable": "Arrow of Wind Charging", "description": "§cWind Charged (0:22)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/tipped_arrow_windCharged.png"},
     {"readable": "Arrow of Weaving", "description": "§cWeaving (0:22)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/tipped_arrow_weaving.png"},
     {"readable": "Arrow of Oozing", "description": "§cOozing (0:22)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/tipped_arrow_oozing.png"},
-    {"readable": "Arrow of Infestation", "description": "§cInfested (0:22)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/tipped_arrow_infested.png"}
+    {"readable": "Arrow of Infestation", "description": "§cInfested (0:22)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/tipped_arrow_infested.png"},
+    {"readable": "Arrow of Freezing", "description": "§cFreezing (0:05)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/tipped_arrow_freezing.png"}
 ],
   "minecraft:coral_block": [
     "minecraft:tube_coral_block",
@@ -427,7 +428,8 @@
     {"readable": "Potion of Wind Charging", "description": "§cWind Charged (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_windCharged.png"},
     {"readable": "Potion of Weaving", "description": "§cWeaving (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_weaving.png"},
     {"readable": "Potion of Oozing", "description": "§cOozing (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_oozing.png"},
-    {"readable": "Potion of Infestation", "description": "§cInfested (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_infested.png"}
+    {"readable": "Potion of Infestation", "description": "§cInfested (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_infested.png"},
+    {"readable": "Potion of Freezing", "description": "§cFreezing (0:45)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_freezing.png"}
   ],
   "minecraft:splash_potion": [
     {"readable": "Splash Water Bottle", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_splash.png"},
@@ -476,7 +478,8 @@
     {"readable": "Splash Potion of Wind Charging", "description": "§cWind Charged (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_splash_windCharged.png"},
     {"readable": "Splash Potion of Weaving", "description": "§cWeaving (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_splash_weaving.png"},
     {"readable": "Splash Potion of Oozing", "description": "§cOozing (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_splash_oozing.png"},
-    {"readable": "Splash Potion of Infestation", "description": "§cInfested (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_splash_infested.png"}
+    {"readable": "Splash Potion of Infestation", "description": "§cInfested (3:00)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_splash_infested.png"},
+    {"readable": "Splash Potion of Freezing", "description": "§cFreezing (0:45)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_splash_freezing.png"}
 ],
   "minecraft:lingering_potion": [
     {"readable": "Lingering Water Bottle", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_lingering.png"},
@@ -525,7 +528,8 @@
     {"readable": "Lingering Potion of Wind Charging", "description": "§cWind Charged (0:45)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_lingering_windCharged.png"},
     {"readable": "Lingering Potion of Weaving", "description": "§cWeaving (0:45)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_lingering_weaving.png"},
     {"readable": "Lingering Potion of Oozing", "description": "§cOozing (0:45)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_lingering_oozing.png"},
-    {"readable": "Lingering Potion of Infestation", "description": "§cInfested (0:45)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_lingering_infested.png"}
+    {"readable": "Lingering Potion of Infestation", "description": "§cInfested (0:45)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_lingering_infested.png"},
+    {"readable": "Lingering Potion of Freezing", "description": "§cFreezing (0:11)", "texture": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/potion_bottle_lingering_freezing.png"}
 ],
   "minecraft:goat_horn": [
     "minecraft:goat_horn",
@@ -584,4 +588,4 @@
     "minecraft:stripped_dark_oak_wood"
   ],
   "slabs": ""
-    }
+}
