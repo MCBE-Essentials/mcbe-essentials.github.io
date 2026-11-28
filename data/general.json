@@ -183,7 +183,8 @@
       "wind_charging",
       "weaving",
       "oozing",
-      "infestation"
+      "infestation",
+      "freezing"
     ]
   },
   "effects": [
@@ -223,7 +224,8 @@
     "oozing",
     "infested",
     "raid_omen",
-    "breath_of_the_nautilus"
+    "breath_of_the_nautilus",
+    "freezing"
   ],
   "numerals": [
     "0",
