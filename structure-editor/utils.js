@@ -334,6 +334,206 @@ function findPaletteIndex(name, states = false){
   return false;
 }
 
+const tgaConversionCache = new Map();
+
+function decodeTGA(arrayBuffer) {
+  const bytes = new Uint8Array(arrayBuffer);
+  const view = new DataView(arrayBuffer);
+
+  if (bytes.length < 18) {
+    throw new Error("Invalid TGA header");
+  }
+
+  const idLength = bytes[0];
+  const colorMapType = bytes[1];
+  const imageType = bytes[2];
+
+  const width = view.getUint16(12, true);
+  const height = view.getUint16(14, true);
+  const pixelDepth = bytes[16];
+  const descriptor = bytes[17];
+
+  if (colorMapType !== 0) {
+    throw new Error("Color-mapped TGA is not supported");
+  }
+
+  if (![2, 3, 10, 11].includes(imageType)) {
+    throw new Error("Unsupported TGA image type");
+  }
+
+  const grayscale = imageType === 3 || imageType === 11;
+  const rle = imageType === 10 || imageType === 11;
+
+  if (
+    width === 0 ||
+    height === 0 ||
+    (grayscale && pixelDepth !== 8) ||
+    (!grayscale && pixelDepth !== 24 && pixelDepth !== 32)
+  ) {
+    throw new Error("Unsupported TGA dimensions or pixel depth");
+  }
+
+  const bytesPerPixel = pixelDepth / 8;
+  let offset = 18 + idLength;
+
+  const output = new Uint8ClampedArray(width * height * 4);
+
+  const topOrigin = (descriptor & 0x20) !== 0;
+  const rightOrigin = (descriptor & 0x10) !== 0;
+
+  let pixelIndex = 0;
+  const totalPixels = width * height;
+
+  function readPixel() {
+    if (offset + bytesPerPixel > bytes.length) {
+      throw new Error("Unexpected end of TGA data");
+    }
+
+    let pixel;
+
+    if (grayscale) {
+      const gray = bytes[offset];
+      pixel = [gray, gray, gray, 255];
+    } else {
+      pixel = [
+        bytes[offset + 2],
+        bytes[offset + 1],
+        bytes[offset],
+        bytesPerPixel === 4 ? bytes[offset + 3] : 255
+      ];
+    }
+
+    offset += bytesPerPixel;
+    return pixel;
+  }
+
+  function writePixel(pixel) {
+    const fileX = pixelIndex % width;
+    const fileY = Math.floor(pixelIndex / width);
+
+    const x = rightOrigin ? width - 1 - fileX : fileX;
+    const y = topOrigin ? fileY : height - 1 - fileY;
+
+    const destination = (y * width + x) * 4;
+
+    output[destination] = pixel[0];
+    output[destination + 1] = pixel[1];
+    output[destination + 2] = pixel[2];
+    output[destination + 3] = pixel[3];
+
+    pixelIndex++;
+  }
+
+  if (!rle) {
+    while (pixelIndex < totalPixels) {
+      writePixel(readPixel());
+    }
+  } else {
+    while (pixelIndex < totalPixels) {
+      if (offset >= bytes.length) {
+        throw new Error("Unexpected end of TGA RLE data");
+      }
+
+      const packet = bytes[offset++];
+      const count = (packet & 0x7F) + 1;
+
+      if (pixelIndex + count > totalPixels) {
+        throw new Error("Invalid TGA RLE packet");
+      }
+
+      if (packet & 0x80) {
+        const pixel = readPixel();
+
+        for (let i = 0; i < count; i++) {
+          writePixel(pixel);
+        }
+      } else {
+        for (let i = 0; i < count; i++) {
+          writePixel(readPixel());
+        }
+      }
+    }
+  }
+
+  return {
+    width,
+    height,
+    data: output
+  };
+}
+
+async function convertTGAtoDataURL(tgaUrl) {
+  if (tgaConversionCache.has(tgaUrl)) {
+    return tgaConversionCache.get(tgaUrl);
+  }
+
+  const conversion = (async () => {
+    const response = await fetch(tgaUrl);
+
+    if (!response.ok) {
+      throw new Error("Could not download TGA: " + response.status);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const tga = decodeTGA(arrayBuffer);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = tga.width;
+    canvas.height = tga.height;
+
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+      throw new Error("Could not create canvas context");
+    }
+
+    const imageData = context.createImageData(tga.width, tga.height);
+    imageData.data.set(tga.data);
+
+    context.putImageData(imageData, 0, 0);
+
+    return canvas.toDataURL("image/png");
+  })();
+
+  tgaConversionCache.set(tgaUrl, conversion);
+
+  try {
+    return await conversion;
+  } catch (error) {
+    tgaConversionCache.delete(tgaUrl);
+    throw error;
+  }
+}
+
+function getTGAUrlFromPNG(pngUrl) {
+  try {
+    const url = new URL(pngUrl, document.baseURI);
+
+    if (url.hostname !== "github.com") {
+      return null;
+    }
+
+    const match = url.pathname.match(
+      /^\/Mojang\/bedrock-samples\/raw\/([^/]+)\/resource_pack\/(.+)\.png$/i
+    );
+
+    if (!match) {
+      return null;
+    }
+
+    return (
+      "https://raw.githubusercontent.com/Mojang/bedrock-samples/" +
+      match[1] +
+      "/resource_pack/" +
+      match[2] +
+      ".tga"
+    );
+  } catch (error) {
+    return null;
+  }
+}
+
+
 function getTopTexture(blockid){
   if(blockid.startsWith("minecraft:")) blockid = blockid.replace("minecraft:", "")
   
@@ -342,21 +542,16 @@ function getTopTexture(blockid){
     "chain_command_block": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/chain_command_block_front_mipmap.png",
     "repeating_command_block": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/repeating_command_block_front_mipmap.png",
     "flower_pot": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/flower_pot.png",
-    "bell": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/villagebell.png",
     "cauldron": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/cauldron.png",
     "lava_cauldron": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/cauldron.png",
     "jigsaw": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/jigsaw_front.png",
     "daylight_detector_inverted": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/daylight_detector_inverted_top.png",
     "campfire": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/campfire.png",
     "soul_campfire": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/items/soul_campfire.png",
-    "bamboo_hanging_sign": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/bamboo_planks.png",
-    "bamboo_standing_sign": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/bamboo_planks.png",
-    "bamboo_wall_sign": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/bamboo_planks.png",
     "decorated_pot": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/decorated_pot_side.png",
-    "suspicious_sand": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_sand_0.png",
-    "suspicious_gravel": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/suspicious_gravel_0.png",
     "grass_block": "https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/blocks/grass_carried.png",
-    "oak_leaves": "https://minecraft.wiki/images/BlockSprite_oak-leaves.png"
+    "air": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAYAAACAvzbMAAACg0lEQVR4nO3BgQAAAADDoPlTX+EAVQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwG/GFwABESYOUAAAAABJRU5ErkJggg==",
+    "shelf_mushroom": "https://minecraft.wiki/images/Invicon_Shelf_Mushroom.png"
   };
   
   if(Object.keys(blockmapping).includes(blockid)){
@@ -364,21 +559,22 @@ function getTopTexture(blockid){
   } else {
     let searchablelist = data.rendering.texturedef;
     let texlist = data.rendering.texturepaths;
+    let itemtexlist = data.rendering.itemtexturepaths;
     let branch = "main"
     if(!Object.keys(searchablelist).includes(blockid)){
       //Try seaching through preview data instead
       searchablelist = data.rendering.preview_texturedef;
       texlist = data.rendering.preview_texturepaths;
+      itemtexlist = data.rendering.preview_itemtexturepaths;
       branch = "preview"
     }
-    if(!Object.keys(searchablelist).includes(blockid)) return 'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/misc/missing_texture.png';
+    /* if(!Object.keys(searchablelist).includes(blockid)) return 'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/misc/missing_texture.png';
     let definition = data.rendering.texturedef[blockid] || {"sound": "gravel","textures": "missing"};
     if(!definition.textures && !definition.carried_textures) return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAYAAACAvzbMAAACg0lEQVR4nO3BgQAAAADDoPlTX+EAVQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwG/GFwABESYOUAAAAABJRU5ErkJggg=='
     let selectedtextures = definition.carried_textures || definition.textures;
     if(typeof selectedtextures != 'string' && !selectedtextures.hasOwnProperty("up")) console.log(definition)
     let texturename = (typeof selectedtextures == 'string' ? selectedtextures : selectedtextures.up)
-
-    /*
+    
     let texturepaths = texlist.texture_data[texturename].textures;
     let partialpath = "";
     if(typeof texturepaths === 'string'){
@@ -390,22 +586,122 @@ function getTopTexture(blockid){
         partialpath = texturepaths[0].path;
       }    
     }*/
-    let partialpath = "";
-    if(texlist.texture_data[texturename]){
-      let texturepaths = texlist.texture_data[texturename].textures;
     
-      if(typeof texturepaths === 'string'){
-        partialpath = texturepaths;
-      } else {
-        if(typeof texturepaths[0] === 'string'){
-          partialpath = texturepaths[0];
-        } else {
-          partialpath = texturepaths[0].path;
-        }    
+let definition = searchablelist[blockid] || {};
+
+let selectedtextures = definition.carried_textures || definition.textures;
+let partialpath = "";
+let fallbackpath = "";
+
+function getTexturePath(texturedata, textureName) {
+  let texturepaths = texturedata.textures;
+
+  if(typeof texturepaths === 'string'){
+    return texturepaths;
+  } else {
+    // Door texture selection
+    if(textureName === "door_lower" || textureName === "door_upper"){
+      const doorIndexes = {
+        "wooden_door": 0,
+        "spruce_door": 1,
+        "birch_door": 2,
+        "jungle_door": 3,
+        "acacia_door": 4,
+        "dark_oak_door": 5,
+        "iron_door": 6
+      };
+
+      const index = doorIndexes[blockid.replace(/^minecraft:/, "")];
+
+      if(index !== undefined){
+        return texturepaths[index];
       }
-    } else {
-      partialpath = 'textures/blocks/' + texturename; //Last resort for attempting to find texture
     }
+
+    if(typeof texturepaths[0] === 'string'){
+      return texturepaths[0];
+    } else {
+      return texturepaths[0].path;
+    }
+  }
+}
+
+// First, try the texture defined in blocks.json.
+if(selectedtextures){
+  if(typeof selectedtextures != 'string' && !selectedtextures.hasOwnProperty("up")) console.log(definition);
+
+  let texturename = (typeof selectedtextures == 'string' ? selectedtextures : selectedtextures.up);
+
+  if(texlist.texture_data[texturename]){
+    partialpath = getTexturePath(texlist.texture_data[texturename], texturename);
+  } else {
+    fallbackpath = 'textures/blocks/' + texturename;
+  }
+}
+
+let itemTextureName = null;
+
+// Normal signs
+if(blockid === "standing_sign" || blockid === "wall_sign"){
+  itemTextureName = "sign";
+} else {
+  const signMatch = blockid.match(/^(oak|birch|acacia|darkoak|jungle|spruce|crimson|warped)_(standing|wall)_sign$/);
+
+  if(signMatch){
+    if(signMatch[1] === "crimson"){
+      itemTextureName = "crimson_sign_item";
+    } else if(signMatch[1] === "warped"){
+      itemTextureName = "warped_sign_item";
+    } else {
+      itemTextureName = "sign_" + signMatch[1];
+    }
+  } else {
+    const hangingMatch = blockid.match(/^(.+)_hanging_sign$/);
+
+    if(hangingMatch){
+      let woodType = hangingMatch[1];
+
+      if(woodType === "dark_oak"){
+        woodType = "darkoak";
+      }
+
+      itemTextureName = "sign_" + woodType + "_hanging";
+  
+    } else {
+      const normalMatch = blockid.match(/^(.+?)_(standing|wall)_sign$/);
+
+      if(normalMatch){
+        itemTextureName = normalMatch[1] + "_sign";
+      }
+    }
+  }
+}
+
+// Prefer item texture for signs.
+if(itemTextureName && searchablelist[blockid] && itemtexlist.texture_data[itemTextureName]){
+  partialpath = getTexturePath(itemtexlist.texture_data[itemTextureName]);
+}
+
+// If no texture was found, try the block identifier in terrain_texture.json.
+if(!partialpath && texlist.texture_data[blockid]){
+  partialpath = getTexturePath(texlist.texture_data[blockid]);
+}
+
+// If still not found, try item_texture.json.
+if(!partialpath && searchablelist[blockid] && itemtexlist.texture_data[blockid]){
+  partialpath = getTexturePath(itemtexlist.texture_data[blockid]);
+}
+
+// Preserve the original texture path fallback.
+if(!partialpath && fallbackpath){
+  partialpath = fallbackpath;
+}
+
+// If nothing was found, use the missing texture.
+if(!partialpath){
+  return 'https://github.com/Mojang/bedrock-samples/raw/main/resource_pack/textures/misc/missing_texture.png';
+}
+
 
     return "https://github.com/Mojang/bedrock-samples/raw/"+ branch +"/resource_pack/"+ partialpath +".png"
   }
