@@ -346,5 +346,17 @@
   "pale_garden": {
     "identifier": "pale_garden",
     "numeric": 193
+  },
+  "sulfur_caves": {
+    "identifier": "sulfur_caves",
+    "numeric": 194
+  },
+  "dappled_forest": {
+    "identifier": "dappled_forest",
+    "numeric": 195
+  },
+  "ice_caves": {
+    "identifier": "ice_caves",
+    "numeric": 196
   }
 }
