@@ -57,8 +57,10 @@ async function getData(){
   let blocksb2j = await fetch('https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.26.30/blocksB2J.json').then(response => {return response.json()})
   let texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/blocks.json').then(response => {return response.json()})
   let texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/terrain_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
+  let itemtexturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/item_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
   let preview_texturedef = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/blocks.json').then(response => {return response.json()})
   let preview_texturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/terrain_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
+  let preview_itemtexturepaths = await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/preview/resource_pack/textures/item_texture.json').then(async response => {return await response.text().then((str) => JSON.parse(sterilizeJSON(str)))})
   
   data.identifiers.block = blockidentifiers.data_items.map(item => item.name);
   data.identifiers.item = itemidentifiers.data_items.map(item => item.name);
@@ -85,6 +87,8 @@ async function getData(){
   data.rendering.texturepaths = texturepaths;
   data.rendering.preview_texturedef = preview_texturedef;
   data.rendering.preview_texturepaths = preview_texturepaths;
+  data.rendering.itemtexturepaths = itemtexturepaths;
+  data.rendering.preview_itemtexturepaths = preview_itemtexturepaths;
   
   //Numeric enchantments
   data.numeric_enchantments = {};
@@ -1098,23 +1102,46 @@ function openPseudoTile(){
   openEditTile(pseudotile)
 }
 
-function createBlockPreview(src, number = false){
+
+function createBlockPreview(src, number = false) {
   let container = document.createElement("div");
   container.classList = ["image-preview"];
+
   let image = document.createElement("img");
+
+  image.onerror = async function () {
+    // Prevent repeated fallback attempts for the same image.
+    if (this.dataset.tgaFallbackAttempted) return;
+
+    this.dataset.tgaFallbackAttempted = "true";
+
+    const tgaUrl = getTGAUrlFromPNG(src);
+
+    if (!tgaUrl) return;
+
+    try {
+      const convertedImage = await convertTGAtoDataURL(tgaUrl);
+      this.src = convertedImage;
+    } catch (error) {
+      console.warn("Could not load TGA texture:", tgaUrl, error);
+    }
+  };
+
   image.src = src;
-  image.classList = ["block-preview"]
+  image.classList = ["block-preview"];
   image.draggable = false;
+
   container.appendChild(image);
-  
-  if(number){
+
+  if (number) {
     let label = document.createElement("span");
     label.innerHTML = number;
     container.appendChild(label);
   }
-  
+
   return container;
 }
+
 
 function selectPaletteEntryElement(myel){
   Array.from(document.querySelectorAll(".palette-list > div > div")).forEach((el) => {
